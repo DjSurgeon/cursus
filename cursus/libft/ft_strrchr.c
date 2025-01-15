@@ -6,11 +6,11 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:10:13 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/14 16:28:45 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:47:58 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include <unistd.h>
 
 size_t ft_strlen(const char *s);
 char *ft_strrchr(const char *s, int c);
@@ -28,19 +28,16 @@ size_t ft_strlen(const char *s)
 
 char *ft_strrchr(const char *s, int c)
 {
-    size_t size;
+    size_t i;
 
-    size = ft_strlen(s);
-    while (size >= 0)
+    i = ft_strlen(s);
+    while (i >= 0)
     {
-        if (s[size] == c)
+        if (s[i] == (char)c)
         {
-            return (s);
+            return ((char *)&s[i]);
         }
-        else
-        {
-            return (NULL);
-        }
-        size--;
+        i--;
     }
+    return (NULL);
 }
