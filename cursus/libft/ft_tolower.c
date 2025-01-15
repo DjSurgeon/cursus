@@ -6,21 +6,16 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:15:21 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/13 23:30:34 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:16:42 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_tolower(int c);
-
-int ft_tolower(int c)
+int ft_tolower (int c)
 {
-    if ( c >= 65 && c <= 90)
+    if (c >= 'A' && c <= 'Z')
     {
         c += 32;
         return (c);
     }
-    else
-    {
-        return (c);
-    }
+    return (c);
 }
