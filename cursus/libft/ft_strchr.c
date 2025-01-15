@@ -6,27 +6,25 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:46:29 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/15 16:44:14 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/16 00:14:27 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-char *ft_strchr(const char *s, int c);
-
 char *ft_strchr(const char *s, int c)
 {
-    size_t i;
-        
-    i = 0;
-    
-    while (s[i] != '\0')
+    while (*s != '\0')
     {
-        if (s[i] == c)
+        if (*s == c)
         {
-            return ((char *)&s[i]);
+            return ((char *)s);
         }
         s++;
+    }
+    if (c == '\0')
+    {
+        return ((char *)s);
     }
     return (NULL);
 }

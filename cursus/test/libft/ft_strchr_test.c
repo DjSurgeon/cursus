@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:46:29 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/15 16:46:38 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/16 00:26:18 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,36 +16,37 @@ void ft_putstr(char *s);
 void ft_putchar(char c);
 char *ft_strchr(const char *s, int c);
 
-void ft_putstr(char *s)
+void ft_putstr(char *s) // imprimir cadenas
 {
     size_t i;
     i = 0;
     while (s[i] != '\0')
     {
         ft_putchar(s[i]);
-        s++;
+        i++;
     }    
 }
 void ft_putchar(char c)
 {
     write(1, &c, 1);
 }
+#include <unistd.h>
+
 char *ft_strchr(const char *s, int c)
 {
-    size_t i;
-        
-    i = 0;
-    
-    while (s[i] != '\0')
+    while (*s != '\0')
     {
-        if (s[i] == c)
+        if (*s == c)
         {
-            return ((char *)&s[i]); // devolvemos el puntero desde la posicion del caracter encontrado
+            return ((char *)s); // retornamos la coincidencia
         }
         s++;
     }
-    return (NULL);
-    
+    if (c == '\0')
+    {
+        return ((char *)s);
+    }
+    return (NULL); // si no hubiera coincidencia NULL
 }
 int main(void)
 {
@@ -54,6 +55,10 @@ int main(void)
     c = 'o';
 
     ft_putstr(ft_strchr(s, c)); // Expect ola!
+    ft_putchar('\n');
+    ft_putstr(ft_strchr(s, 'a')); // Expect a!   
+    ft_putchar('\n');
+    ft_putstr(ft_strchr(s, 'e')); // Expect NULL 
 
     return (0);
 }
