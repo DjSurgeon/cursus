@@ -6,11 +6,10 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 16:47:41 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/14 17:29:53 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/15 14:39:53 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
 #include <unistd.h>
 
 int ft_strncmp(const char *s1, const char *s2, size_t n);

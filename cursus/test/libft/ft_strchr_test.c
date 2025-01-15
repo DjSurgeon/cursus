@@ -6,21 +6,23 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:46:29 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/14 14:04:27 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/15 16:46:38 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
+void ft_putstr(char *s);
 void ft_putchar(char c);
-const char *ft_strchr(const char *s, int c);
-void ft_str(char *s);
+char *ft_strchr(const char *s, int c);
 
-void ft_str(char *s)
+void ft_putstr(char *s)
 {
-    while (*s != '\0')
+    size_t i;
+    i = 0;
+    while (s[i] != '\0')
     {
-        ft_putchar(*s);
+        ft_putchar(s[i]);
         s++;
     }    
 }
@@ -28,21 +30,21 @@ void ft_putchar(char c)
 {
     write(1, &c, 1);
 }
-const char *ft_strchr(const char *s, int c)
+char *ft_strchr(const char *s, int c)
 {
-    while (*s != '\0')
+    size_t i;
+        
+    i = 0;
+    
+    while (s[i] != '\0')
     {
+        if (s[i] == c)
+        {
+            return ((char *)&s[i]); // devolvemos el puntero desde la posicion del caracter encontrado
+        }
         s++;
-        if (*s == c)
-        {
-            return (s);
-        }
-        else
-        {
-            return (NULL);
-        }
-
     }
+    return (NULL);
     
 }
 int main(void)
@@ -51,7 +53,7 @@ int main(void)
     int c;
     c = 'o';
 
-    ft_str(ft_strchr(s, c));
+    ft_putstr(ft_strchr(s, c)); // Expect ola!
 
     return (0);
 }
