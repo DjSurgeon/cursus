@@ -6,20 +6,15 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:39:08 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/13 23:43:22 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/15 22:44:48 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_isdigit(int c);
-
 int ft_isdigit(int c)
 {
-    if (c >= 48 && c <= 57)
+    if (c >= '0' && c <= '9')
     {
         return (1);
     }
-    else
-    {
-        return (0);
-    }
+    return (0);
 }

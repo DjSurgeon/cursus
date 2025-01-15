@@ -6,11 +6,9 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 12:43:01 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/13 23:41:04 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/15 22:44:10 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-int ft_isascii(int c);
 
 int ft_isascii(int c)
 {
@@ -18,8 +16,5 @@ int ft_isascii(int c)
     {
         return (1);
     }
-    else
-    {
-        return (0);
-    }
+    return (0);
 }

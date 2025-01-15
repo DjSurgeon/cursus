@@ -6,20 +6,15 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 13:50:45 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/13 23:49:06 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/15 22:44:16 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_isalnum(int c);
-
 int ft_isalnum(int c)
 {
-    if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+    if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
     {
         return (1);
     }
-    else
-    {
-        return (0);
-    }
+    return (0);
 }

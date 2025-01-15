@@ -6,11 +6,9 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 15:36:22 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/13 23:44:27 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/15 22:45:20 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-int ft_isprint (int c);
 
 int ft_isprint (int c)
 {
@@ -18,8 +16,5 @@ int ft_isprint (int c)
     {
         return (1);
     }
-    else
-    {
-        return (0);
-    }
+    return (0);
 }
