@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/17 10:57:07 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/17 14:50:21 by serjimen         ###   ########.fr       */
+/*   Created: 2025/01/17 15:20:01 by serjimen          #+#    #+#             */
+/*   Updated: 2025/01/17 15:33:47 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void ft_bzero (void *s , size_t n)
+void *ft_memcpy (void *dest , const void *src, size_t n)
 {
-    unsigned char *string;
+    unsigned char *destination;
+    unsigned char *source;
     size_t i;
-    string = (unsigned char *)s;
+
+    destination = (unsigned char *)dest;
+    source = (unsigned char *)src;
     i = 0;
     
     while (i < n)
     {
-        string[i] = '\0';
+        destination[i] = source[i];
         i++;
     }
+    return ((void *) destination);
 }

@@ -6,12 +6,12 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:05:21 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/17 12:18:43 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/17 14:42:31 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-
+/*
 void *ft_memset (void *s, int c, size_t n)
 {
     char *a;    // al igual que en bzero el puntero void lo pasaremos a puntero de char
@@ -28,6 +28,26 @@ void *ft_memset (void *s, int c, size_t n)
         i++;
     }
     return (s); // devolvemos s que es lo que dice el manual
+}
+*/
+#include <unistd.h>
+
+void *ft_memset (void *s, int c, size_t n)
+{
+    unsigned char *string;
+    unsigned char character;
+    size_t i;
+    
+    character = (unsigned char) c;
+    string = (unsigned char *)s;       
+    i = 0;
+    
+    while (i < n)
+    {
+        string[i] = character;
+        i++;
+    }
+    return ((void *)s);
 }
 int main (void)
 {

@@ -6,27 +6,27 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:36:59 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/17 12:43:10 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/17 15:16:48 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void *memchr (const void *s, int c, size_t n)
+void *ft_memchr (const void *s, int c, size_t n)
 {
-    unsigned char d;
-    unsigned char a;
+    unsigned char *string;
+    unsigned char character;
     size_t i;
 
-    d = (unsigned char) s;
-    a = (unsigned char) c;   
+    string = (unsigned char *) s;
+    character = (unsigned char) c;   
     i = 0;
 
-    while (d != '\0')
+    while (string != '\0')
     {
-        if (d == a)
+        if (i < n)
         {
-            return (d);
+            return ((void *) string[i]);
         }
         i++;
     }
