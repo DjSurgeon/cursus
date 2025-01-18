@@ -24,8 +24,7 @@ int ft_isspace(int c)
 int ft_atoi(const char *str)
 {
     int sign;
-    int r;
-    r = 0; // inicializamos el resultado en 0
+    int result = 0; // inicializamos el resultado en 0
     sign = 1; // inicializamos el signo positivo
 
     while (ft_isspace(*str) == 1) // Verificamos los espacios del principio
@@ -42,9 +41,9 @@ int ft_atoi(const char *str)
     }
     while (*str >= '0' && *str <= '9') // verificamos los numeros
     {
-        r = r * 10 + (*str - '0'); // Empezamos a contar por la unidad mas a la izquierda
+        result = result * 10 + (*str - '0'); // Empezamos a contar por la unidad mas a la izquierda
                 // Se multiplica por 10 para avanzar un decena, sistema decimal.
         str++;
     }
-    return (r * sign); // retornamos el numero total y le aplicamos el signo
+    return (result * sign); // retornamos el numero total y le aplicamos el signo
 }
