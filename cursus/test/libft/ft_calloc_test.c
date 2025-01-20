@@ -1,15 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_calloc.c                                        :+:      :+:    :+:   */
+/*   ft_calloc_test.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/20 12:39:07 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/20 14:43:32 by serjimen         ###   ########.fr       */
+/*   Created: 2025/01/20 13:52:50 by serjimen          #+#    #+#             */
+/*   Updated: 2025/01/20 14:43:14 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <unistd.h>
 
 void *ft_calloc(size_t nmemb, size_t size)
@@ -37,4 +38,19 @@ void *ft_calloc(size_t nmemb, size_t size)
         i++;
     }
     return (void *)clean_memory; // retornamos el puntero a los bloques de memoria inicializados en 0
+}
+int main(void)
+{
+    size_t nemb = 0;
+    size_t size = sizeof(char);
+    char *string = ft_calloc(nemb, size);
+    char c = 1;
+
+    if (string != NULL)
+    {
+        write(1, &c, 1);
+    }
+
+    free(string);
+    return (0);
 }
