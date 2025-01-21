@@ -6,16 +6,16 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 15:40:58 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/15 23:16:10 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/22 00:44:34 by sergio-jimene    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_toupper (int c)
+int	ft_toupper(int c)
 {
-    if (c >= 'a' && c <= 'z')
-    {
-        c-= 32;
-        return (c);
-    }
-    return (c);
+	if (c >= 'a' && c <= 'z')
+	{
+		c -= 32;
+		return (c);
+	}
+	return (c);
 }

@@ -6,16 +6,16 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:15:21 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/15 23:16:42 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/22 00:43:04 by sergio-jimene    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_tolower (int c)
+int	ft_tolower(int c);
 {
-    if (c >= 'A' && c <= 'Z')
-    {
-        c += 32;
-        return (c);
-    }
-    return (c);
+	if (c >= 'A' && c <= 'Z')
+	{
+		c += 32;
+		return (c);
+	}
+	return (c);
 }

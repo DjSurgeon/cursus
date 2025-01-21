@@ -6,15 +6,13 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 12:43:01 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/15 22:44:10 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/22 00:06:27 by sergio-jimene    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_isascii(int c)
+int	ft_isascii(int c)
 {
-    if (c >= 0 && c <= 127)
-    {
-        return (1);
-    }
-    return (0);
+	if (c >= 0 && c <= 127)
+		return (1);
+	return (0);
 }
