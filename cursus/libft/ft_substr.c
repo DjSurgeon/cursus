@@ -6,13 +6,13 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:19:44 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/20 16:09:14 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/21 21:48:37 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-char *ft_substr(char const *s, unsigned int start, size_t len)
+char *ft_substr(const char *s, unsigned int start, size_t len)
 {
     char *new_substring;   // puntero a la substring de s
     size_t i;              // variable para iterar
