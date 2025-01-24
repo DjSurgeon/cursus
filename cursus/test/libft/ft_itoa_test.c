@@ -1,16 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_itoa_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 10:29:49 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/24 14:01:36 by serjimen         ###   ########.fr       */
+/*   Created: 2025/01/24 12:15:02 by serjimen          #+#    #+#             */
+/*   Updated: 2025/01/24 14:24:37 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
+#include <stdlib.h>
+// #include "libft.h"
 
 static size_t	intlen (int n) // encapsulamos la funcion con static funcion para contar cadenas
 {
@@ -79,7 +81,7 @@ char    *ft_itoa(int n)
 	negative = 1; // si negative es 1 es numero positivo
 	if (n < 0)
 	{
-		n = -n;
+		n = -n; // ¿¿¿¿¿gestionar mx int???
 		negative = 0; // si negative es 0 es numero negativo
 	}
 	aux_itoa(result, n);
@@ -90,4 +92,12 @@ char    *ft_itoa(int n)
 	reverse_string(result, len);
 	result[len + 1] = '\0'; // cerramos la cadena con el '\0'
 	return (result);
+}
+
+int main(void)
+{
+    char *str = ft_itoa(-2147483647);
+    write(1, str, 15); // Imprimimos la cadena.
+    free(str); // Liberamos la memoria asignada.
+    return 0;
 }
