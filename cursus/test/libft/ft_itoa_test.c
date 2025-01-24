@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:15:02 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/24 14:24:37 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:33:46 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,15 @@ char    *ft_itoa(int n)
 	negative = 1; // si negative es 1 es numero positivo
 	if (n < 0)
 	{
+		// result[0] = '-';
 		n = -n; // ¿¿¿¿¿gestionar mx int???
-		negative = 0; // si negative es 0 es numero negativo
+		// negative = 0; // si negative es 0 es numero negativo
 	}
 	aux_itoa(result, n);
-	if (negative != 1)
+/* 	if (negative != 1)
 	{
 		result[len-1] = '-'; // si es negativo colocamos el signo
-	}
+	} */
 	reverse_string(result, len);
 	result[len + 1] = '\0'; // cerramos la cadena con el '\0'
 	return (result);
@@ -96,7 +97,7 @@ char    *ft_itoa(int n)
 
 int main(void)
 {
-    char *str = ft_itoa(-2147483647);
+    char *str = ft_itoa(-2147483648);
     write(1, str, 15); // Imprimimos la cadena.
     free(str); // Liberamos la memoria asignada.
     return 0;

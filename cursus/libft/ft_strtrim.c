@@ -6,26 +6,42 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:07:08 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/21 21:47:26 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/24 16:28:27 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
 char *ft_strtrim (const char *s1, const char *set)
 {
-    char *new_string; // nueva string resultante despues de recortar los caracteres
-    size_t i;
+    char    *new_string;
+    size_t  start;
+    size_t  end;
+    int     new_string_len;
+    size_t  i;
     
-    i = 0;
-    new_string = s1;
-    while (new_string != '\0')
+    start = 0;    
+    if (s1 == NULL || set == NULL) // si alguno de los valores es null, devuelve null
+        return (NULL);
+    while (s1[start] != '\0' && ft_char_in_set(s1[start], set) == 1) // verificamos los valores si estan en set
     {
-        if (new_string[i] == set[i])
-        {
-         new_string[i] = '\0';
-        }
+        start++;
+    }
+    end = ft_strlen(s1);
+    while (end > 0 && ft_char_in_set(s1[end - 1], set) == 1) // verificamos a cadena desde el final
+    {
+        end--;
+    }
+    new_string_len = end - start;
+    new_string = (char *)malloc(new_string_len + 1);
+    if (!new_string)
+        return (NULL);
+    i = 0;
+    while (i < new_string_len)
+    {
+        new_string[i] = s1[start + i];
         i++;
     }
+    new_string[i] = '\0';
     return (new_string);
 }
