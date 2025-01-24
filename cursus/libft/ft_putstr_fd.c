@@ -6,16 +6,16 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 12:05:19 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/22 12:18:21 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:38:40 by sergio-jimene    ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void    ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char *s, int fd)
 {
 	size_t	i;
-	
+
 	i = 0;
 	while (s[i] != '\0')
 	{
