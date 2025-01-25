@@ -6,29 +6,29 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 10:29:49 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/24 14:01:36 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:45:27 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	intlen (int n) // encapsulamos la funcion con static funcion para contar cadenas
+static size_t	intlen(int n)
 {
 	size_t count;
 
 	count = 0;
-	if (n <= 0)	// si es negativo o cero
+	if (n <= 0)
 	{
-		count++; // contamos un digito el signo o el 0
+		count++;
 	}
 	while (n != 0)
 	{
-		n = n / 10; // vamos eliminando el ultimo digito
-		count++;	// aumentamos el contador
+		n = n / 10;
+		count++;
 	}
-	return count; // retornamos el numero
+	return count;
 }
-static void	reverse_string(char *s, size_t len) // funcion para revertir cadenas
+static void	reverse_string(char *s, size_t len)
 {
 	size_t	start;
 	size_t	end;
@@ -68,26 +68,26 @@ static char*	aux_itoa(char *s, int n)
 }
 char    *ft_itoa(int n)
 {
-	size_t	len; // longitud de la cadena que vamos a imprimir
-	char	*result; // cadena resultante, la vamos modificando
-	int		negative; // variable para gestionar el signo
+	size_t	len;
+	char	*result;
+	int	negative;
 
-	len = intlen(n); // calculamos la longitud del int
-	result = malloc(len + 1); // reservamos la memoria de la longitud del int + el caracter '\0'
+	len = intlen(n);
+	result = malloc(len + 1);
 	if (result == NULL)
 		return (NULL);
-	negative = 1; // si negative es 1 es numero positivo
+	negative = 1;
 	if (n < 0)
 	{
 		n = -n;
-		negative = 0; // si negative es 0 es numero negativo
+		negative = 0;
 	}
 	aux_itoa(result, n);
 	if (negative != 1)
 	{
-		result[len-1] = '-'; // si es negativo colocamos el signo
+		result[len-1] = '-';
 	}
 	reverse_string(result, len);
-	result[len + 1] = '\0'; // cerramos la cadena con el '\0'
+	result[len + 1] = '\0';
 	return (result);
 }

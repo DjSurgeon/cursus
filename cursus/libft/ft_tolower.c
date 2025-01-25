@@ -6,11 +6,13 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 16:15:21 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/22 00:43:04 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/25 17:08:49 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_tolower(int c);
+#include "libft.h"
+
+int	ft_tolower(int c)
 {
 	if (c >= 'A' && c <= 'Z')
 	{

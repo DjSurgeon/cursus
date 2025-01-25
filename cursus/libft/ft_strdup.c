@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:46:15 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/22 09:47:38 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/25 16:57:04 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*ft_strdup(const char *s)
 		return (NULL);
 	while (i < s_size)
 	{
-		new_string[i] = s[i]; // caracter nulo?
+		new_string[i] = s[i];
 		i++;
 	}
 	return (new_string);

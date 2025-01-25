@@ -6,13 +6,13 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:07:08 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/24 16:28:27 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/25 17:06:22 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strtrim (const char *s1, const char *set)
+char    *ft_strtrim (const char *s1, const char *set)
 {
     char    *new_string;
     size_t  start;
@@ -21,14 +21,14 @@ char *ft_strtrim (const char *s1, const char *set)
     size_t  i;
     
     start = 0;    
-    if (s1 == NULL || set == NULL) // si alguno de los valores es null, devuelve null
+    if (s1 == NULL || set == NULL)
         return (NULL);
-    while (s1[start] != '\0' && ft_char_in_set(s1[start], set) == 1) // verificamos los valores si estan en set
+    while (s1[start] != '\0' && ft_char_in_set(s1[start], set) == 1)
     {
         start++;
     }
     end = ft_strlen(s1);
-    while (end > 0 && ft_char_in_set(s1[end - 1], set) == 1) // verificamos a cadena desde el final
+    while (end > 0 && ft_char_in_set(s1[end - 1], set) == 1)
     {
         end--;
     }
