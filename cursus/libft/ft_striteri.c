@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcat.c                                       :+:      :+:    :+:   */
+/*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/16 16:38:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/25 11:23:27 by serjimen         ###   ########.fr       */
+/*   Created: 2025/01/25 09:58:47 by serjimen          #+#    #+#             */
+/*   Updated: 2025/01/25 10:19:09 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	size_t	destination_len;
-	size_t	source_len;
-	size_t	i;
+	size_t  i;
 
-	destination_len = ft_strlen(dst);
-	source_len = ft_strlen(src);
 	i = 0;
-	if (size <= destination_len)
-		return (size + source_len);
-	while (src[i] && (destination_len + i < size - 1))
+	if (s == NULL || f == NULL)
 	{
-		dst[destination_len + i] = src[i];
+		return;
+	}
+	while (s[i] != '\0')
+	{
+		f(i, &s[i]);
 		i++;
 	}
-	dst[destination_len + i] = '\0';
-	return (source_len + destination_len);
 }

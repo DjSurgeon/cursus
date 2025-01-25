@@ -6,13 +6,13 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:27:39 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/22 10:03:19 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/25 10:55:50 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "libft.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
 	size_t	source_len;
 	size_t	i;

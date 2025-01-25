@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:29:50 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/15 23:14:26 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/25 16:02:17 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,15 @@ size_t ft_strlen(const char *s)
 {
     size_t i;
     i = 0; // Establecemos el contador en 0
-    while (*s != '\0') // Recorremos la cadena y sumamos al contador
+    while (s[i] != '\0') // Recorremos la cadena y sumamos al contador
     {
-        s++;
         i++;
     }
     return (i);
 }
 int main (void)
 {
-    char s1[] = "Hola! ";
+    char s1[] = "Ho la! ";
     char s2[] = "42 Madrid";
     ft_putchar(ft_strlen(s1) + '0'); // Expect 6
     ft_putchar('\n');

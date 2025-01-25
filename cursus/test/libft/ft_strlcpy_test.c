@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:20:29 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/16 16:36:10 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/25 11:00:50 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ size_t ft_strlcpy (char *dst, const char *src, size_t size)
 }
 int main(void)
 {
-    const char *src = "hello";
+    const char src[] = "hello";
     char dst[5];
     size_t size = 3;
     ft_putchar(ft_strlcpy(dst, src, size) + '0'); // expect 5

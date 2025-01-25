@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:10:29 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/24 17:33:40 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/25 10:20:20 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int main(void)
 	
 	result = ft_strmapi(string, ft_to_upper);
 	write(1, result, ft_strlen(result));
-
+	write(1, string, ft_strlen(string));
+	free(result);
+	
 	return (0);
 }
