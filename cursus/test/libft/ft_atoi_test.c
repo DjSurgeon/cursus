@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:35:33 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/16 15:34:38 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/26 11:00:40 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 int ft_isspace(int c)
 {
-    if (c == 32 || c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v')
+    if (c == 32 || c == '\f' || c == '\n' 
+        || c == '\r' || c == '\t' || c == '\v')
     {
         return (1);
     }
@@ -30,7 +31,7 @@ int ft_atoi(const char *str)
     sign = 1; // inicializamos el signo positivo
 
     while (ft_isspace(*str) == 1) // Verificamos los espacios del principio
-    {
+                {
         str++;
     }
     if (*str == '-' || *str == '+') // verificamos los signos
@@ -51,8 +52,11 @@ int ft_atoi(const char *str)
 }
 int main(void)
 {
-    const char *number = "1234";
-    // TODO pasar un int a string
-    printf("%d\n", ft_atoi(number));
+    const char *number1 = "1234";
+    const char *number2 = "-2147483648";
+    const char *number3 = "2147483647";
+    printf("%d\n", ft_atoi(number1)); // expect 1234
+    printf("%d\n", ft_atoi(number2)); // expect -2147483648
+    printf("%d\n", ft_atoi(number3)); // expect 2147483647
     return (0);
 }

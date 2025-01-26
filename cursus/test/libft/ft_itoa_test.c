@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:15:02 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/24 16:33:46 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/26 12:29:42 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	reverse_string(char *s, size_t len) // funcion para revertir cadenas
 		}
 	}
 }
-static char*	aux_itoa(char *s, int n)
+static char	*aux_itoa(char *s, int n)
 {
 	size_t	i;
 	

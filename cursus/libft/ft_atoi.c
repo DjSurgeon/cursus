@@ -6,11 +6,17 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 10:31:59 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/21 23:38:56 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/26 10:51:55 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_isspace(int c)
+/*
+**	description: convert a string to int (ascii to int)
+**	parameters: a pointer to string
+**	return: a int
+*/
+
+static int	ft_isspace(int c)
 {
 	if (c == 32 || c == 'f' || c == 'n'
 		|| c == 'r' || c == 't' || c == 'v')

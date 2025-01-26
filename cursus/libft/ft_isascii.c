@@ -6,9 +6,15 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 12:43:01 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/22 00:06:27 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/26 12:15:46 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+**	description: check if c is an ascii value
+**	parameter: int or ascci value
+**	return: 1 if is ascii 0 if not
+*/
 
 int	ft_isascii(int c)
 {

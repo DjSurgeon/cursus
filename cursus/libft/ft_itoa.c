@@ -6,15 +6,21 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 10:29:49 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/25 16:45:27 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/26 12:31:29 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+**	description: generate a string equal to int value
+**	parameter: int positive or negative
+**	return: the string of int value or NULL if malloc fail
+*/
 
 #include "libft.h"
 
 static size_t	intlen(int n)
 {
-	size_t count;
+	size_t	count;
 
 	count = 0;
 	if (n <= 0)
@@ -26,8 +32,9 @@ static size_t	intlen(int n)
 		n = n / 10;
 		count++;
 	}
-	return count;
+	return (count);
 }
+
 static void	reverse_string(char *s, size_t len)
 {
 	size_t	start;
@@ -41,22 +48,23 @@ static void	reverse_string(char *s, size_t len)
 		{
 			swap = s[start];
 			s[start] = s[end];
-			s[end] =  swap;
+			s[end] = swap;
 			start++;
 			end--;
 		}
 	}
 }
-static char*	aux_itoa(char *s, int n)
+
+static char	*aux_itoa(char *s, int n)
 {
 	size_t	i;
-	
+
 	i = 0;
 	if (n == 0)
 	{
 		s[0] = '0';
 		s[1] = '\0';
-	return (s);
+		return (s);
 	}
 	while (n > 0)
 	{
@@ -66,11 +74,12 @@ static char*	aux_itoa(char *s, int n)
 	}
 	return (s);
 }
-char    *ft_itoa(int n)
+
+char	*ft_itoa(int n)
 {
 	size_t	len;
 	char	*result;
-	int	negative;
+	int		negative;
 
 	len = intlen(n);
 	result = malloc(len + 1);
@@ -85,7 +94,7 @@ char    *ft_itoa(int n)
 	aux_itoa(result, n);
 	if (negative != 1)
 	{
-		result[len-1] = '-';
+		result[len - 1] = '-';
 	}
 	reverse_string(result, len);
 	result[len + 1] = '\0';

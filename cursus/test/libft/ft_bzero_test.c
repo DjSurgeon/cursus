@@ -6,32 +6,18 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:03:34 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/17 14:50:42 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/26 11:36:36 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-/*
-void ft_bzero (void *s , size_t n)
-{
-    char *c;
-    size_t i;
-    c = (char *)s;  //casteamos el puntero void a puntero char para poder trabajar con el, por que? por que el puntero más basico y puedes apuntar a cualquier direccion de memoria, asegurandote que la dejas en cero byte a byte.
-    i = 0;
-    
-    while (i < n)
-    {
-        c[i] = '\0';    // recorremos el tamaño n, inicializando en 0
-        i++;
-    }
-}
-*/
 
 void ft_bzero (void *s , size_t n)
 {
-    unsigned char *string;
-    size_t i;
-    string = (unsigned char *)s;
+    unsigned char *string; // trabajamos con unsigned char, para trabajar los 8 bytes de memoria, si trabajas con signo el primer byte corresponde al signo
+    size_t i; // sirve para almacenar datos y cantidades de memoria. Es unsigned por lo tanto no tiene valores negativos útil para iterar
+    
+    string = (unsigned char *)s; // casteo de un puntero void a unsigned char
     i = 0;
     
     while (i < n)
