@@ -6,11 +6,17 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:28:52 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/22 00:29:58 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/27 12:08:03 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+/*
+**	description: move n bytes from source to destiny
+**	parameters: source, destiny and n bytes to move
+**	return: pointer to destiny
+*/
+
+#include "libft.h"
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
 {
@@ -23,12 +29,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	i = 0;
 	if (destination == source || n == 0)
 		return ((void *) destination);
-	if (destination < source)
-		while (i < n)
-		{
-			destination[i] = source[i];
-			i++;
-		}
 	if (destination > source)
 	{
 		i = n;

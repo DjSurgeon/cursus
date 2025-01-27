@@ -6,13 +6,19 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:12:37 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/23 12:49:53 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/27 12:57:33 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+/*
+**	description: concat a string with other string
+**	paramaters: two string string source an string destiny
+**	return: the concatenation of the strings
+*/
 
-char	*ft_strjoin(char const*s1, char const *s2)
+#include "libft.h"
+
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*new_string;
 	size_t	i;
@@ -26,9 +32,7 @@ char	*ft_strjoin(char const*s1, char const *s2)
 	size_s2 = ft_strlen(s2);
 	new_string = malloc(size_s1 + size_s2 + 1);
 	if (new_string == NULL)
-	{
 		return (NULL);
-	}
 	while (i < size_s1)
 	{
 		new_string[i] = s1[i];
@@ -36,9 +40,9 @@ char	*ft_strjoin(char const*s1, char const *s2)
 	}
 	while (j < size_s2)
 	{
-		new_string[i+j] = s2[j];
+		new_string[i + j] = s2 [j];
 		j++;
 	}
-	new_string[i+j] = '\0';
+	new_string[i + j] = '\0';
 	return (new_string);
 }

@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 10:29:49 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/26 12:31:29 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 11:46:32 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 #include "libft.h"
 
-static size_t	intlen(int n)
+static size_t	intlen(long n)
 {
 	size_t	count;
 
@@ -55,7 +55,7 @@ static void	reverse_string(char *s, size_t len)
 	}
 }
 
-static char	*aux_itoa(char *s, int n)
+static char	*aux_itoa(char *s, long n)
 {
 	size_t	i;
 
@@ -80,23 +80,25 @@ char	*ft_itoa(int n)
 	size_t	len;
 	char	*result;
 	int		negative;
+	long	num;
 
-	len = intlen(n);
+	num = n;
+	len = intlen(num);
 	result = malloc(len + 1);
 	if (result == NULL)
 		return (NULL);
 	negative = 1;
 	if (n < 0)
 	{
-		n = -n;
+		num = -num;
 		negative = 0;
 	}
-	aux_itoa(result, n);
+	aux_itoa(result, num);
 	if (negative != 1)
 	{
 		result[len - 1] = '-';
 	}
 	reverse_string(result, len);
-	result[len + 1] = '\0';
+	result[len] = '\0';
 	return (result);
 }

@@ -6,11 +6,17 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:36:59 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/22 00:02:01 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/27 11:53:27 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+/*
+**	description: look for a character in a string for n bytes
+**	parameters: the string, the character in ascii and the number of bytes
+**	return: pointer to coincidence byte if find it NULL if not
+*/
+
+#include "libft.h"
 
 void	*ft_memchr(const void *s, int c, size_t n)
 {

@@ -6,11 +6,17 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:43:43 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/22 00:14:45 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/27 11:59:03 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+/*
+**	description: compare memoria areas
+**	parameters: 2 strings and n bytes
+**	return:	0 if strings are equals, 1 or -1 if s1 > s2 or s1 < s2
+*/
+
+#include "libft.h"
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {

@@ -6,11 +6,17 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:20:01 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/22 00:20:05 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/27 12:02:07 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+/*
+**	description: copy n portion of memory from source to destination
+**	parameters: source an destiny and number of bytes
+**	resturn: pointer to destiny
+*/
+
+#include "libft.h"
 
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {

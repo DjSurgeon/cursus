@@ -6,9 +6,15 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 11:59:57 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/23 12:35:33 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/27 12:25:39 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+**	description: print a character in file descriptor number
+**	parameters: char and file descriptor
+**	return:  none
+*/
 
 #include "libft.h"
 

@@ -6,21 +6,27 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:05:05 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/25 16:56:50 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 12:38:16 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+**	description: separate a string in substring with delimiter char
+**	parameters: the string an the character delimiter
+**	result:	pointer to array of strings
+*/
 
 #include "libft.h"
 
 int	assign_malloc(char **array, size_t position, size_t size)
 {
 	size_t	i;
-	
+
 	i = 0;
 	array[position] = malloc(size);
 	if (array[position] == NULL)
 	{
-		while (i <  position)
+		while (i < position)
 		{
 			free(array[i]);
 			i++;
@@ -30,46 +36,41 @@ int	assign_malloc(char **array, size_t position, size_t size)
 	}
 	return (0);
 }
+
 int	ft_substr_cpy(char **substrings_array, char const *string, char character)
 {
 	size_t	i;
 	size_t	j;
-	size_t	substrings;
-	size_t	string_len;
-	
+	size_t	len;
+
 	i = 0;
 	j = 0;
-	substrings = 0;
 	while (string[i] != '\0')
 	{
-		string_len = 0;
+		len = 0;
 		while (string[i] != '\0' && string[i] == character)
-		{
 			i++;
-		}
 		while (string[i] != '\0' && string[i] != character)
 		{
-			string_len++;
+			len++;
 			i++;
 		}
-		if (string_len != 0)
+		if (len != 0)
 		{
-			if (assign_malloc(substrings_array, j, string_len + 1))
-			{
+			if (assign_malloc(substrings_array, j, len + 1))
 				return (1);
-			}
 		}
-		ft_strlcpy(substrings_array[j], &string[i - string_len], string_len + 1);
+		ft_strlcpy(substrings_array[j], &string[i - len], len + 1);
 		j++;
 	}
 	return (0);
 }
 
-size_t ft_count_strings(const char *string, char character)
+size_t	ft_count_strings(const char *string, char character)
 {
-	size_t sub_strings;
-	size_t i;
-	int is_in_string;
+	size_t	sub_strings;
+	size_t	i;
+	int		is_in_string;
 
 	sub_strings = 0;
 	i = 0;
@@ -93,9 +94,9 @@ size_t ft_count_strings(const char *string, char character)
 	return (sub_strings);
 }
 
-char **ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
-	size_t 	substrings;
+	size_t	substrings;
 	char	**substrings_array;
 
 	if (s == NULL)

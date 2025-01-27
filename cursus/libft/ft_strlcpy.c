@@ -6,9 +6,15 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:27:39 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/25 10:55:50 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 13:01:02 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+**	description: copy strings for a determinate size
+**	parameters: two strings and size
+**	return: the length of the source string
+*/
 
 #include "libft.h"
 

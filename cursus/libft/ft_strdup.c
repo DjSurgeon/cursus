@@ -6,11 +6,17 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:46:15 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/25 16:57:04 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 12:49:02 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+/*
+**	description: duplicate a string
+**	parameters: the string to duplicate
+**	return: the duplicate string
+*/
+
+#include "libft.h"
 
 void	*ft_strdup(const char *s)
 {

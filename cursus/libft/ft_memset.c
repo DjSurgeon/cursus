@@ -6,11 +6,17 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 11:56:12 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/22 00:41:09 by sergio-jimene    ###   ########.fr       */
+/*   Updated: 2025/01/27 12:11:42 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+/*
+**	description: put the character c in s for n bytes
+**	parameters: character, destiny and number of bytes
+**	return: pointer to destiny
+*/
+
+#include "libft.h"
 
 void	*ft_memset(void *s, int c, size_t n)
 {

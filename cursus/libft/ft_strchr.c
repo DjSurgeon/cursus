@@ -6,11 +6,17 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:46:29 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/25 17:10:05 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 12:41:21 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+/*
+**  description: look for a first char coincidence in a string
+**  parameters: the string and a character in ascii
+**  return: pointer to string if exits NULL if not
+*/
+
+#include "libft.h"
 
 char    *ft_strchr(const char *s, int c)
 {

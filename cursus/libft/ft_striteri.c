@@ -6,9 +6,15 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:58:47 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/25 10:19:09 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 12:52:25 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+**	description: apply a function at every character of the string
+**	parameters:	the string and the function
+**	return: none
+*/
 
 #include "libft.h"
 
