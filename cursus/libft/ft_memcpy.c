@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:20:01 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 12:02:07 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 19:24:57 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	unsigned char	*source;
 	size_t			i;
 
+	if (src == NULL && dest == NULL)
+		return (NULL);
 	destination = (unsigned char *) dest;
 	source = (unsigned char *) src;
 	i = 0;

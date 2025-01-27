@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:10:13 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/16 00:22:56 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 19:51:54 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,12 @@ char *ft_strrchr(const char *s, int c)
 }
 int main (void)
 {
-    char string[] = "Hola Mando";
-    char c = 'a';
-    char d = 'e';
-    ft_putstr(ft_strrchr(string, c)); // Expect ando
+    char string[] = "the cake is a lie !";
+    char c = '\0';
+    char d = 'y';
+    ft_putstr(ft_strrchr(string, c)); // Expect !
+    ft_putchar('\n');
+    ft_putstr(ft_strrchr("Hello World 42!", 32)); // Expect 42 
     ft_putchar('\n');
     ft_putstr(ft_strrchr(string, d)); // Expect NULL
     return (0);
