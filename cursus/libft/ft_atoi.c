@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 10:31:59 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/26 10:51:55 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:21:58 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_atoi(const char *str)
 		str++;
 	if (*str == '-' || *str == '+')
 		if (*str == '-')
-			sign == -1;
+			sign = -1;
 	str++;
 	while (*str >= '0' && *str <= '9')
 	{

@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 12:36:59 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 11:53:27 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:31:19 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	character = (unsigned char) c;
 	i = 0;
 	while (string[i] != '\0')
-		if (string[i] == n)
-			return ((void *) string[i]);
+		if (string[i] == character && i < n)
+			return ((void *)string);
 	i++;
 	return (NULL);
 }
