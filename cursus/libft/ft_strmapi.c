@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 16:47:58 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 12:52:56 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 15:00:30 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	size_t	i;
 	char	*new_string;
 
-	if(s == NULL)
+	if (s == NULL)
 		return (NULL);
 	new_string_len = ft_strlen(s);
 	i = 0;
@@ -37,5 +37,5 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 		i++;
 	}
 	new_string[i] = '\0';
-	return ( new_string);
+	return (new_string);
 }

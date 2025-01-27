@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrchr.c                                       :+:      :+:    :+:   */
+/*   ft_strrchr2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/14 14:10:13 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 12:41:44 by serjimen         ###   ########.fr       */
+/*   Created: 2025/01/27 15:17:47 by serjimen          #+#    #+#             */
+/*   Updated: 2025/01/27 15:19:03 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@
 
 #include "libft.h"
 
-char    *ft_strrchr(const char *s, int c)
+char	*ft_strrchr(const char *s, int c)
 {
-    const char  *last_character;
+	const char	*last_character;
+	size_t		i;
 
-    last_character = NULL;
-    while (*s != '\0')
-    {
-        if (*s == c)
-        {
-            last_character = s;
-        }
-        s++;
-    }
-    if (c == '\0')
-    {
-        return ((char *)s);
-    }
-    return ((char *)last_character);
+	i = 0;
+	last_character = NULL;
+	while (s[i] != '\0')
+	{
+		if (s[i] == c)
+		{
+			last_character = s;
+		}
+		i++;
+	}
+	if (c == '\0')
+		return ((char *)s);
+	return ((char *)last_character);
 }
