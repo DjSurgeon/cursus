@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 11:48:45 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/20 12:00:27 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 12:06:41 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ void *ft_memmove(void *dest, const void *src, size_t n)
     }
 
     // Caso 2: Si `dest` está antes que `src` en memoria (no hay solapamiento hacia atrás)
-    else if (destination < source)
+/*     else if (destination < source)
     {
         while (i < n) // Copiamos de adelante hacia atrás
         {
             destination[i] = source[i]; // Copiamos cada byte de `src` a `dest`
             i++;
         }
-    }
+    } */
     // Caso 3: Si `dest` está después de `src` en memoria (posible solapamiento hacia atrás)
     else
     {

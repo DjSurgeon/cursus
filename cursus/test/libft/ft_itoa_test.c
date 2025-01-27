@@ -6,12 +6,13 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:15:02 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/26 12:29:42 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/27 11:42:53 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
 // #include "libft.h"
 
 static size_t	intlen (int n) // encapsulamos la funcion con static funcion para contar cadenas
@@ -49,7 +50,7 @@ static void	reverse_string(char *s, size_t len) // funcion para revertir cadenas
 		}
 	}
 }
-static char	*aux_itoa(char *s, int n)
+static char	*aux_itoa(char *s, long n)
 {
 	size_t	i;
 	
@@ -73,8 +74,10 @@ char    *ft_itoa(int n)
 	size_t	len; // longitud de la cadena que vamos a imprimir
 	char	*result; // cadena resultante, la vamos modificando
 	int		negative; // variable para gestionar el signo
+	long	num; // vamos a traabajar con long para el caso de INT_MIN
 
-	len = intlen(n); // calculamos la longitud del int
+	num = n;
+	len = intlen(num); // calculamos la longitud del int
 	result = malloc(len + 1); // reservamos la memoria de la longitud del int + el caracter '\0'
 	if (result == NULL)
 		return (NULL);
@@ -82,23 +85,23 @@ char    *ft_itoa(int n)
 	if (n < 0)
 	{
 		// result[0] = '-';
-		n = -n; // ¿¿¿¿¿gestionar mx int???
-		// negative = 0; // si negative es 0 es numero negativo
+		num = -num; // ¿¿¿¿¿gestionar mx int???
+		negative = 0; // si negative es 0 es numero negativo
 	}
-	aux_itoa(result, n);
-/* 	if (negative != 1)
+	aux_itoa(result, num);
+	if (negative != 1)
 	{
 		result[len-1] = '-'; // si es negativo colocamos el signo
-	} */
+	}
 	reverse_string(result, len);
-	result[len + 1] = '\0'; // cerramos la cadena con el '\0'
+	result[len] = '\0'; // cerramos la cadena con el '\0'
 	return (result);
 }
 
 int main(void)
 {
-    char *str = ft_itoa(-2147483648);
-    write(1, str, 15); // Imprimimos la cadena.
+    char *str = ft_itoa(-2147483647);
+    printf("%s\n", str);
     free(str); // Liberamos la memoria asignada.
     return 0;
 }
