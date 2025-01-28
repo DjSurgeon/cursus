@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:47:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 15:50:52 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:26:08 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ char *ft_substr(char const *s, unsigned int start, size_t len)
     i = 0;
     if (s == NULL)
         return (NULL);
-    if (start > ft_strlen(s))
-        return(ft_strdup(""));
-    // new_substring = malloc(len + 1); // guardamos la memoria de la substring mas el caracter nulo
+    if (start >= ft_strlen(s))
+        return(ft_calloc(1, ft_strlen(s)));
+    // guardamos la memoria de la substring mas el caracter nulo
     new_substring = ft_calloc(1, len + 1);
     if (new_substring == NULL)
         return (NULL); // Si tenemos algun error al reservar la memoria devolvemos NULL, o si la entrada de la string a copiar es NULL tambien tendremos la misma respuesta
@@ -99,7 +99,7 @@ int main(void)
 /*     result = ft_substr(s, start, len);
     write(1, result, ft_strlen(result));
     free(result); */
-    result = ft_substr(s, 52, 3);
+    result = ft_substr(s, 5, 10);
     write(1, result, ft_strlen(result));
     free(result);
 
