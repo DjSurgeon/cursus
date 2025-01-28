@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 10:31:59 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 10:41:04 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:43:31 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 **	parameters: a pointer to string
 **	return: a int
 */
+
+#include "libft.h"
 
 static int	ft_isspace(int c)
 {
@@ -26,21 +28,25 @@ static int	ft_isspace(int c)
 
 int	ft_atoi(const char *str)
 {
+	size_t	i;
 	int		sign;
 	int		result;
 
+	i = 0;
 	result = 0;
 	sign = 1;
-	while (ft_isspace(*str) == 1)
-		str++;
-	if (*str == '-' || *str == '+')
-		if (*str == '-')
-			sign = -1;
-	str++;
-	while (*str >= '0' && *str <= '9')
+	while (ft_isspace(str[i]) == 1)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		result = result * 10 + (*str - '0');
-		str++;
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - '0');
+		i++;
 	}
 	return (result * sign);
 }

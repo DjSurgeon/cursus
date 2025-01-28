@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 14:11:14 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 14:57:24 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 13:11:10 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_strtrim(const char *s1, const char *set)
 		end--;
 	new_string_len = end - start;
 	new_string = (char *)malloc(new_string_len + 1);
-	if (!new_string)
+	if (new_string == NULL)
 		return (NULL);
 	ft_copy_string(new_string, s1, start, new_string_len);
 	return (new_string);

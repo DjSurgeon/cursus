@@ -6,14 +6,14 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:35:33 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/26 11:00:40 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 12:01:50 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
 
-int ft_isspace(int c)
+/* int ft_isspace(int c)
 {
     if (c == 32 || c == '\f' || c == '\n' 
         || c == '\r' || c == '\t' || c == '\v')
@@ -49,6 +49,39 @@ int ft_atoi(const char *str)
         str++;
     }
     return (r * sign); // retornamos el numero total y le aplicamos el signo
+i} */
+
+static int	ft_isspace(int c)
+{
+	if (c == 32 || c == '\f' || c == '\n'
+		|| c == '\r' || c == '\t' || c == '\v')
+		return (1);
+	return (0);
+}
+
+int	ft_atoi(const char *str)
+{
+	int		sign;
+    int		result;
+    size_t  i;
+    
+	result = 0;
+	sign = 1;
+    i = 0;
+	while (ft_isspace(str[i]) == 1)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+    {
+		if (str[i] == '-')
+			sign = -1;
+	    i++;
+    }
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = result * 10 + (str[i] - '0');
+		i++;
+	}
+	return (result * sign);
 }
 int main(void)
 {
