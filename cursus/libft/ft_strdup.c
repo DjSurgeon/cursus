@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:46:15 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 13:02:42 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:18:41 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	*ft_strdup(const char *s)
 	size_t	i;
 
 	i = 0;
-	s_size = ft_strlen(s + 1);
-	new_string = ft_calloc(1, s_size);
+	s_size = ft_strlen(s);
+	new_string = ft_calloc(1, s_size + 1);
 	if (new_string == NULL)
 		return (NULL);
-	while (i < s_size - 1)
+	while (i < s_size)
 	{
 		new_string[i] = s[i];
 		i++;

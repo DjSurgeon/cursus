@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 15:49:10 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 16:08:54 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:14:29 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,8 @@ char **ft_split(char const *s, char c)
 
 int main(void)
 {
-	char *s = " Wot rld   23";
-	char **v = ft_split(s, ' ');
+	char *s = "d Wot rld   23 zzd";
+	char **v = ft_split(s, 'd');
 
 	int i = 0;
 	while(v[i])

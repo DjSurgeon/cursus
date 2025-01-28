@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:17:47 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 16:52:58 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 17:06:13 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*ft_strrchr(const char *s, int c)
 	}
 	if (c == '\0')
 	{
-		last_character = '\0';
 		return ((char *)last_character);
 	}
 	return ((char *)last_character);
