@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 10:31:59 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 16:21:58 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 10:41:04 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 static int	ft_isspace(int c)
 {
-	if (c == 32 || c == 'f' || c == 'n'
-		|| c == 'r' || c == 't' || c == 'v')
+	if (c == 32 || c == '\f' || c == '\n'
+		|| c == '\r' || c == '\t' || c == '\v')
 		return (1);
 	return (0);
 }
