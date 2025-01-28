@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 09:58:47 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 11:03:09 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 11:48:56 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,6 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 	size_t	i;
 
 	i = 0;
-	if (s == NULL || f == NULL)
-	{
-		return (NULL);
-	}
 	while (s[i] != '\0')
 	{
 		f(i, &s[i]);
