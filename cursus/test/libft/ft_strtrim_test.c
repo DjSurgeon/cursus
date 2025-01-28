@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:24:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 16:30:04 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 21:53:37 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ char *ft_strtrim(const char *s1, const char *set)
 }
 int main(void)
 {
-    char const s1[] = "    bcDD6abc  ";
-    char const set[] = " ";
+    char const s1[] = "  ";
+    char const set[] = "a";
     char *result;
 
     result = ft_strtrim(s1, set);

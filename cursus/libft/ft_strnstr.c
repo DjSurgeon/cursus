@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:43:56 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 11:25:27 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 23:34:15 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,12 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 		return ((char *)big);
 	while (big[i] != '\0' && i < len)
 	{
-		if (little[j] != '\0' && big[i] == little[j])
+		j = 0;
+		while (big[i + j] == little[j] && i + j < len)
 		{
+			if (little[j + 1] == '\0')
+				return ((char *)&big[i]);
 			j++;
-			if (little[j] == '\0')
-				return ((char *)&big[i - (j - 1)]);
 		}
 		i++;
 	}
