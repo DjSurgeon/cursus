@@ -6,13 +6,32 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:47:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 12:38:56 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:50:52 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include "libft.h"
+void	*ft_strdup(const char *s)
+{
+	char	*new_string;
+	size_t	s_size;
+	size_t	i;
+
+	i = 0;
+	s_size = ft_strlen(s + 1);
+	new_string = ft_calloc(1, s_size);
+	if (new_string == NULL)
+		return (NULL);
+	while (i < s_size - 1)
+	{
+		new_string[i] = s[i];
+		i++;
+	}
+	new_string[i] = '\0';
+	return (new_string);
+}
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	size_t			i;
@@ -53,6 +72,8 @@ char *ft_substr(char const *s, unsigned int start, size_t len)
     i = 0;
     if (s == NULL)
         return (NULL);
+    if (start > ft_strlen(s))
+        return(ft_strdup(""));
     // new_substring = malloc(len + 1); // guardamos la memoria de la substring mas el caracter nulo
     new_substring = ft_calloc(1, len + 1);
     if (new_substring == NULL)
@@ -70,14 +91,16 @@ char *ft_substr(char const *s, unsigned int start, size_t len)
 int main(void)
 {
     char s[] = "Hello World!";
-    unsigned int start = 7;
-    size_t len = 3;
+/*     unsigned int start = 7;
+    size_t len = 3; */
 
     char *result;
 
-    result = ft_substr(s, start, len);
+/*     result = ft_substr(s, start, len);
     write(1, result, ft_strlen(result));
-
+    free(result); */
+    result = ft_substr(s, 52, 3);
+    write(1, result, ft_strlen(result));
     free(result);
 
     return (0);

@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:54:46 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 10:32:19 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:57:56 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ void *ft_strdup (const char *s)
 }
 int main (void)
 {
-    char s[] = "Hello 42!!";
+    char s[] = "";
     char *d;
     
     d = ft_strdup(s);
-    write(1, d, 11);
+    write(1, d, ft_strlen(d));
     free (d);
     
     return (0);

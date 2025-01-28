@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 12:46:29 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/24 14:35:47 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 15:10:06 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,34 @@ void ft_putchar(char c)
 
 char *ft_strchr(const char *s, int c)
 {
-    while (*s != '\0')
+    size_t  i;
+
+    i = 0;
+    while (s[i] != '\0')
     {
-        if (*s == c)
+        if (s[i] == c)
         {
-            return ((char *)s); // retornamos la coincidencia
+            return ((char *)&s[i]); // retornamos la coincidencia
         }
         s++;
     }
     if (c == '\0')
     {
-        return ((char *)s);
+        return ((char *)&s[i]);
     }
     return (NULL); // si no hubiera coincidencia NULL
 }
 int main(void)
 {
-    const char s[] = "Hola!";
+    const char s[] = "Holllo!";
     int c;
     c = 'o';
 
-    ft_putstr(ft_strchr(s, c)); // Expect ola!
+    ft_putstr(ft_strchr(s, c)); // Expect olllo!
     ft_putchar('\n');
-    ft_putstr(ft_strchr(s, 'a')); // Expect a!   
+    ft_putstr(ft_strchr(s, 'l')); // Expect lllo!   
     ft_putchar('\n');
-    ft_putstr(ft_strchr(s, ' ')); // Expect NULL 
-
+    ft_putstr(ft_strchr(s, '\0')); // Expect '\0' 
+    
     return (0);
 }

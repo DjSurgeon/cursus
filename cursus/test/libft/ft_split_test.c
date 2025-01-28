@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 15:49:10 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 12:36:01 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:08:54 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char **ft_split(char const *s, char c)
 		return (NULL);
 	substrings = ft_count_strings(s, c); // funcion auxiliar para saber cuantas subtrings vamos a tener
 	substrings_array = malloc((substrings + 1) * sizeof(char *)); // malloc de cada substring encontrada + 1 ya que la ultima sera null
-	if (substrings_array == NULL || !substrings)
+	if (substrings_array == NULL)
 		return (NULL);
 	substrings_array[substrings] = NULL; // el ultimo array sera NULL para saber que se ha acabado el array
 	// 2. Funcion para copiar los strings, en las posiciones correctas del array.
@@ -144,8 +144,8 @@ char **ft_split(char const *s, char c)
 
 int main(void)
 {
-	char *s = "__Wot__ _rld__23";
-	char **v = ft_split(s, '_');
+	char *s = " Wot rld   23";
+	char **v = ft_split(s, ' ');
 
 	int i = 0;
 	while(v[i])
