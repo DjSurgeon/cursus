@@ -6,14 +6,14 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 15:49:10 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 17:14:29 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/29 02:13:55 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "../libft/libft.h"
+// #include "libft.h"
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -144,9 +144,8 @@ char **ft_split(char const *s, char c)
 
 int main(void)
 {
-	char *s = "d Wot rld   23 zzd";
-	char **v = ft_split(s, 'd');
-
+	char *s = " hWot   hrl  dh2  3h h h hhhh h hhhzzd";
+	char **v = ft_split(s, ' ');
 	int i = 0;
 	while(v[i])
 		printf("%s\n", v[i++]); // Imprimimos cada substring

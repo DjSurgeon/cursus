@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:20:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 22:03:27 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/29 01:33:30 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@
 char	*ft_strchr(const char *s, int c)
 {
 	size_t	i;
+	size_t	len;
 
 	i = 0;
+	len = ft_strlen(s);
+	if (c == '\0')
+		return ((char *)&s[len]);
 	while (s[i] != '\0')
 	{
 		if (s[i] == c)
@@ -31,7 +35,5 @@ char	*ft_strchr(const char *s, int c)
 		}
 		i++;
 	}
-	if (c == '\0')
-		return ((char *)&s[i]);
 	return (NULL);
 }

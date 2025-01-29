@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:17:47 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 17:06:13 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/29 01:53:23 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,16 @@
 
 char	*ft_strrchr(const char *s, int c)
 {
-	const char	*last_character;
-	size_t		string_len;
-	int			i;
+	int			len;
 
-	last_character = NULL;
-	string_len = ft_strlen(s);
-	i = string_len;
-	while (i >= 0)
-	{
-		if (s[i] == c)
-		{
-			last_character = &s[i];
-			return ((char *)last_character);
-		}
-		i--;
-	}
+	len = ft_strlen(s);
 	if (c == '\0')
+		return ((char *)&s[len]);
+	while (len >= 0)
 	{
-		return ((char *)last_character);
+		if (s[len] == c)
+			return ((char *)&s[len]);
+		len--;
 	}
-	return ((char *)last_character);
+	return (NULL);
 }
