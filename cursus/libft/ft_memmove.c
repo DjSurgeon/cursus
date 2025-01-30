@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 10:28:52 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 19:30:35 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:36:58 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	unsigned char	*source;
 	size_t			i;
 
-	if (src == NULL && dest == NULL)
+	if (!src && !dest)
 		return (NULL);
 	destination = (unsigned char *) dest;
 	source = (unsigned char *) src;

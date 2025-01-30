@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 10:29:49 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 11:46:32 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:34:29 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*ft_itoa(int n)
 	num = n;
 	len = intlen(num);
 	result = malloc(len + 1);
-	if (result == NULL)
+	if (!result)
 		return (NULL);
 	negative = 1;
 	if (n < 0)

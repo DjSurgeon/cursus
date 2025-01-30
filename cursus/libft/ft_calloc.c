@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:39:07 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/26 12:07:55 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/30 14:33:44 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		return (malloc(0));
 	total_size = nmemb * size;
 	memory_pointer = malloc(total_size);
-	if (memory_pointer == NULL)
+	if (!memory_pointer)
 		return (NULL);
 	clean_memory = (unsigned char *)memory_pointer;
 	i = 0;

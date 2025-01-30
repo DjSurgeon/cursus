@@ -6,13 +6,13 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 17:24:51 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 21:53:37 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/30 15:42:42 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "libft.h"
+// #include "libft.h"
 
 size_t ft_strlen(const char *s)
 {
@@ -24,6 +24,15 @@ size_t ft_strlen(const char *s)
         i++;
     }
     return (i);
+}
+static  char *verify_len(size_t start, size_t end, char *new_string)
+{
+    new_string = malloc(1);
+    if (!new_string)
+        return (NULL);
+    new_string[0] = '\0';
+    return (new_string);
+}
 }
 static void ft_copy_string(char *dest, const char *src, size_t start, size_t len)
 {
@@ -67,6 +76,20 @@ char *ft_strtrim(const char *s1, const char *set)
     end = ft_strlen(s1);
     while (end > 0 && ft_char_in_set(s1[end - 1], set) == 1)
         end--;
+    if (start > end)
+    {
+        verify_len(start, end, new_string);
+    }
+    /*
+    if (start > end)
+        {
+            new_string = malloc(1);
+            if (!new_string)
+                return (NULL);
+            new_string[0] = '\0';
+            return (new_string);
+        }
+    */
     new_string_len = end - start;
     new_string = (char *)malloc(new_string_len + 1);
     if (!new_string)
@@ -76,8 +99,8 @@ char *ft_strtrim(const char *s1, const char *set)
 }
 int main(void)
 {
-    char const s1[] = "  ";
-    char const set[] = "a";
+    char const s1[] = "xxHI42xxxxx";
+    char const set[] = "x";
     char *result;
 
     result = ft_strtrim(s1, set);
