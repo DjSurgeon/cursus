@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 12:15:02 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 11:42:53 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/29 11:50:32 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char    *ft_itoa(int n)
 
 int main(void)
 {
-    char *str = ft_itoa(-2147483647);
+    char *str = ft_itoa(0);
     printf("%s\n", str);
     free(str); // Liberamos la memoria asignada.
     return 0;

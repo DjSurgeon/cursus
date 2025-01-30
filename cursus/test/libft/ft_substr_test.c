@@ -6,13 +6,17 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:47:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 16:26:08 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:25:43 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "libft.h"
+// #include "libft.h"
+
+void	*ft_calloc(size_t nmemb, size_t size);
+size_t  ft_strlen(const char *s);
+
 void	*ft_strdup(const char *s)
 {
 	char	*new_string;
@@ -84,13 +88,13 @@ char *ft_substr(char const *s, unsigned int start, size_t len)
         i++;
         start++;
     }
-    new_substring[i] = '\0';
+    //    new_substring[i] = '\0'; esta linea nos sobra ya que al asignar memoria con calloc ya estamos asignando todo los caracteres a 0, el ultimo caracter siempre es 0. Util cuando trabajas con char
     return (new_substring);
 }
 
 int main(void)
 {
-    char s[] = "Hello World!";
+    char *s = " ";
 /*     unsigned int start = 7;
     size_t len = 3; */
 
@@ -99,7 +103,7 @@ int main(void)
 /*     result = ft_substr(s, start, len);
     write(1, result, ft_strlen(result));
     free(result); */
-    result = ft_substr(s, 5, 10);
+    result = ft_substr(s, 5, 0);
     write(1, result, ft_strlen(result));
     free(result);
 

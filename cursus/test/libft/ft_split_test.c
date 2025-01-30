@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 15:49:10 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/29 02:13:55 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:45:52 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,28 @@
 #include <stdlib.h>
 #include <stdio.h>
 // #include "libft.h"
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	size_t			i;
+	size_t			total_size;
+	void			*memory_pointer;
+	unsigned char	*clean_memory;
+
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	total_size = nmemb * size;
+	memory_pointer = malloc(total_size);
+	if (memory_pointer == NULL)
+		return (NULL);
+	clean_memory = (unsigned char *)memory_pointer;
+	i = 0;
+	while (i < total_size)
+	{
+		clean_memory[i] = 0;
+		i++;
+	}
+	return (clean_memory);
+}
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -63,7 +85,7 @@ int	assign_malloc(char **array, size_t position, size_t size)
 	return (0); // ok
 }
 // funcion que va a copiar los substring en el array en la posicion correcta return 0 si es exitoso, return 1 si sale mal
-int	ft_substr_cpy(char **substrings_array, char const *string, char character)
+int	ft_substr_cpy(char **substrings_array, char const *string, char character, size_t substrings)
 {
 	size_t	i; // iterador strings
 	size_t	j; // iterador malloc
@@ -71,7 +93,7 @@ int	ft_substr_cpy(char **substrings_array, char const *string, char character)
 	
 	i = 0;
 	j = 0;
-	while (string[i] != '\0') // utilizamos la lógica de la funcion anterior para movermos igual a traves de la string
+	while (string[i] != '\0' && j < substrings) // utilizamos la lógica de la funcion anterior para movermos igual a traves de la string
 	{
 		string_len = 0;
 		while (string[i] != '\0' && string[i] == character)
@@ -130,12 +152,12 @@ char **ft_split(char const *s, char c)
 	if (s == NULL) // si no existe la string, retornamos null
 		return (NULL);
 	substrings = ft_count_strings(s, c); // funcion auxiliar para saber cuantas subtrings vamos a tener
-	substrings_array = malloc((substrings + 1) * sizeof(char *)); // malloc de cada substring encontrada + 1 ya que la ultima sera null
+	substrings_array = ft_calloc(substrings, sizeof(char *)); // malloc((substrings + 1) * sizeof(char *)); // malloc de cada substring encontrada + 1 ya que la ultima sera null ft_calloc(substrings, sizeof(char));
 	if (substrings_array == NULL)
 		return (NULL);
-	substrings_array[substrings] = NULL; // el ultimo array sera NULL para saber que se ha acabado el array
+	// substrings_array[substrings] = NULL; // el ultimo array sera NULL para saber que se ha acabado el array
 	// 2. Funcion para copiar los strings, en las posiciones correctas del array.
-	if (ft_substr_cpy(substrings_array, s, c) == 1)
+	if (ft_substr_cpy(substrings_array, s, c, substrings) == 1) /********añado el parametro subtrings*/
 	{
 		return (NULL);
 	}
@@ -144,7 +166,7 @@ char **ft_split(char const *s, char c)
 
 int main(void)
 {
-	char *s = " hWot   hrl  dh2  3h h h hhhh h hhhzzd";
+	char *s = " hola   que tal    vaaassss    lololo    lolaloe dfasd  455677!   3·$·\"  $                ";
 	char **v = ft_split(s, ' ');
 	int i = 0;
 	while(v[i])

@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:05:05 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 16:09:08 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:48:09 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	assign_malloc(char **array, size_t position, size_t size)
 	return (0);
 }
 
-int	ft_substr_cpy(char **substrings_array, char const *string, char character)
+int	ft_substr_cpy(char **substrings_array, char const *string, char character, size_t substrings)
 {
 	size_t	i;
 	size_t	j;
@@ -45,7 +45,7 @@ int	ft_substr_cpy(char **substrings_array, char const *string, char character)
 
 	i = 0;
 	j = 0;
-	while (string[i] != '\0')
+	while (string[i] != '\0' && j < substrings)
 	{
 		len = 0;
 		while (string[i] != '\0' && string[i] == character)
@@ -102,13 +102,10 @@ char	**ft_split(char const *s, char c)
 	if (s == NULL)
 		return (NULL);
 	substrings = ft_count_strings(s, c);
-	substrings_array = malloc((substrings + 1) * sizeof(char *));
+	substrings_array = ft_calloc(substrings, sizeof(char *));
 	if (substrings_array == NULL)
 		return (NULL);
-	substrings_array[substrings] = NULL;
-	if (ft_substr_cpy(substrings_array, s, c) == 1)
-	{
+	if (ft_substr_cpy(substrings_array, s, c, substrings) == 1)
 		return (NULL);
-	}
 	return (substrings_array);
 }
