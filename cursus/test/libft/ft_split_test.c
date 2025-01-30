@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 15:49:10 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/30 10:45:52 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/30 23:44:03 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ char **ft_split(char const *s, char c)
 	size_t 	substrings; // numero de substrings
 	char	**substrings_array;
 
-	if (s == NULL) // si no existe la string, retornamos null
+	if (!s) // si no existe la string, retornamos null
 		return (NULL);
 	substrings = ft_count_strings(s, c); // funcion auxiliar para saber cuantas subtrings vamos a tener
 	substrings_array = ft_calloc(substrings, sizeof(char *)); // malloc((substrings + 1) * sizeof(char *)); // malloc de cada substring encontrada + 1 ya que la ultima sera null ft_calloc(substrings, sizeof(char));
@@ -166,8 +166,10 @@ char **ft_split(char const *s, char c)
 
 int main(void)
 {
-	char *s = " hola   que tal    vaaassss    lololo    lolaloe dfasd  455677!   3·$·\"  $                ";
-	char **v = ft_split(s, ' ');
+	// char *s1 = " hola   que tal    vaaassss    lololo    lolaloe dfasd  455677!   3·$·\"  $                ";
+	// char *s2 = "";
+	char **v = ft_split("zzzzzz\t\tzzzzz8  z  8zzssssssssssssss\nsssss\nssssssssssssssssssssss\t\tssssssssssszzzzzzzzzzzzz", '\t');
+	// char **v = ft_split(s1, 'x');
 	int i = 0;
 	while(v[i])
 		printf("%s\n", v[i++]); // Imprimimos cada substring
