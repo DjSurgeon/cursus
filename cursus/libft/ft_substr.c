@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:05:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/29 14:20:11 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/30 11:53:09 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,14 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 	if (s == NULL)
 		return (NULL);
 	if (start >= ft_strlen(s))
-		return (ft_calloc(1, ft_strlen(s)));
+		return (malloc(0));
 	new_substring = ft_calloc(1, len + 1);
 	if (new_substring == NULL)
 		return (NULL);
 	while (i < len)
 	{
-		new_substring[i] = s[start];
+		new_substring[i] = s[start + i];
 		i++;
-		start++;
 	}
-	new_substring[i] = '\0';
 	return (new_substring);
 }

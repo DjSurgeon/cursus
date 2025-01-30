@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:05:05 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/30 10:48:09 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/30 11:09:20 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	assign_malloc(char **array, size_t position, size_t size)
 	return (0);
 }
 
-int	ft_substr_cpy(char **substrings_array, char const *string, char character, size_t substrings)
+int	ft_substr_cpy(char **substrings_array, char const *string, char c, size_t substrings)
 {
 	size_t	i;
 	size_t	j;
@@ -48,9 +48,9 @@ int	ft_substr_cpy(char **substrings_array, char const *string, char character, s
 	while (string[i] != '\0' && j < substrings)
 	{
 		len = 0;
-		while (string[i] != '\0' && string[i] == character)
+		while (string[i] != '\0' && string[i] == c)
 			i++;
-		while (string[i] != '\0' && string[i] != character)
+		while (string[i] != '\0' && string[i] != c)
 		{
 			len++;
 			i++;

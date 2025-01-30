@@ -6,12 +6,14 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 15:47:38 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/29 14:25:43 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/01/30 11:49:52 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
+# include <stdlib.h>
+
 // #include "libft.h"
 
 void	*ft_calloc(size_t nmemb, size_t size);
@@ -76,17 +78,18 @@ char *ft_substr(char const *s, unsigned int start, size_t len)
     i = 0;
     if (s == NULL)
         return (NULL);
-    if (start >= ft_strlen(s))
-        return(ft_calloc(1, ft_strlen(s)));
+    if (start >= ft_strlen(s)) //  || start + len >= ft_strlen(s))
+        return(malloc(0));
     // guardamos la memoria de la substring mas el caracter nulo
+/*     if (len > ft_strlen(s) + start)
+        len = ft_strlen(s) + start; */
     new_substring = ft_calloc(1, len + 1);
     if (new_substring == NULL)
         return (NULL); // Si tenemos algun error al reservar la memoria devolvemos NULL, o si la entrada de la string a copiar es NULL tambien tendremos la misma respuesta
     while (i < len)
     {
-        new_substring[i] = s[start]; // copiamos desde el indice start durante len y dejamos el ultimo para el caracter '\0'
+        new_substring[i] = s[start + i]; // copiamos desde el indice start durante len y dejamos el ultimo para el caracter '\0'
         i++;
-        start++;
     }
     //    new_substring[i] = '\0'; esta linea nos sobra ya que al asignar memoria con calloc ya estamos asignando todo los caracteres a 0, el ultimo caracter siempre es 0. Util cuando trabajas con char
     return (new_substring);
@@ -94,7 +97,7 @@ char *ft_substr(char const *s, unsigned int start, size_t len)
 
 int main(void)
 {
-    char *s = " ";
+    // char *s = "";
 /*     unsigned int start = 7;
     size_t len = 3; */
 
@@ -103,7 +106,7 @@ int main(void)
 /*     result = ft_substr(s, start, len);
     write(1, result, ft_strlen(result));
     free(result); */
-    result = ft_substr(s, 5, 0);
+    result = ft_substr("hola", 0, 10);
     write(1, result, ft_strlen(result));
     free(result);
 
