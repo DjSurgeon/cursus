@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 15:16:54 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/02 17:18:57 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/02/03 10:41:22 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new)		// el parametro **lst es un pun
 	new->next = *lst;									// ahora el puntero de new apunta a la direccion de *lst
 														// lo que quiere decir que new es el primer nodo de la lista
 	*lst = new;											// y aquie el puntero lst le indicamos que es el primero.
-	// verificar si algun valor es nulo y asignar malloc
+	// en la linea superior le decimos que la n ueva cabeza de lista en new.
 }
 
 int	ft_lstsize(t_list *lst)				// el parametro lst indica el principio de la lista
