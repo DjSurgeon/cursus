@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 10:54:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/03 11:14:47 by serjimen         ###   ########.fr       */
+/*   Created: 2025/02/03 10:43:18 by serjimen          #+#    #+#             */
+/*   Updated: 2025/02/03 23:39:41 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-**	description: the last node of the list
-**	parameters: hte begining of the list
-**	return: the last node of the list
+**	description: count the nodes of the list
+**	parameters: the first node
+**	return: the number of nodes
 */
 
-t_list	*ft_lstlast(t_list *lst)
-{
-	t_list	*last;
+#include "libft.h"
 
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
+int	ft_lstsize(t_list *lst)
+{
+	int	counter;
+
+	counter = 0;
+	while (lst)
 	{
+		counter++;
 		lst = lst->next;
 	}
-	last = lst;
-	return (last);
+	return (counter);
 }

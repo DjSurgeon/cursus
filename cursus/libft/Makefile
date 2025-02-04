@@ -6,7 +6,7 @@
 #    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/28 23:41:16 by serjimen          #+#    #+#              #
-#    Updated: 2025/01/30 15:01:35 by serjimen         ###   ########.fr        #
+#    Updated: 2025/02/03 22:35:03 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,18 +48,37 @@ SOURCE = 	ft_atoi.c \
 			ft_substr.c \
 			ft_tolower.c \
 			ft_toupper.c
+BONUS = 	ft_lstnew_bonus.c \
+			ft_lstadd_front_bonus.c \
+			ft_lstsize_bonus.c \
+			ft_lstlast_bonus.c \
+			ft_lstadd_back_bonus.c \
+			ft_lstdelone_bonus.c \
+			ft_lstclear_bonus.c \
+			ft_lstiter_bonus.c \
+			ft_lstmap_bonus.c			
 
-OBJ = $(SOURCE:.c=.o)
+OBJ = $(SOURCE:%.c=%.o)
 
-$(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+OBJBONUS = $(BONUS:%.c=%.o)
 
 all: $(NAME)
 
+$(NAME): $(OBJ)
+	ar rcs $(NAME) $(OBJ)
+	
+bonus: $(OBJ) $(OBJBONUS)
+	ar rcs $(NAME) $(OBJ) $(OBJBONUS)
+
+%.o: %.c libft.h
+	$(CC) $(FLAGS) -c $< -o $@
+
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(OBJBONUS)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re bonus

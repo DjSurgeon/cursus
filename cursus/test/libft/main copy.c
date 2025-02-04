@@ -6,12 +6,14 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 23:59:49 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/03 23:46:45 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:11:08 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "libft.h"
+#include <string.h>
+#include <stdlib.h>
 
 int main(void)
 {
@@ -27,6 +29,64 @@ int main(void)
 	char	*string7 = "             ho la    ";
 	// char	*string8 = "  hola            ";
 	// char	*string9 = "             h o l a   ";
+
+	char	*stringnum1 = "0";
+	char	*stringnum2 = "    42";
+	char	*stringnum3 = " \f\v\n-42";
+	char	*stringnum4 = "2147483647";
+	char	*stringnum5 = "-2147483648";
+	char	*stringnum6 = "1234a42";
+
+	int		number1 = 0;
+	int		number2 = 2147483647;
+	int		number3 = -2147483648;
+	int		number4 = -42;
+
+	char	*stringcmp1 = "abcdefghij";
+	char	*stringcmp2 = "abcdEfghij";
+	char	*stringcmp3 = "Abcdefghij";
+//	char	*stringcmp4 = "abcdefghiJ";
+	char	*stringcmp5 = "";
+	char	*stringcmp6 = "ZSD";
+	
+	printf("== Atoi function\n");
+		printf("ft_42\n");
+	printf("string = 0 -> int = %i\n", ft_atoi(stringnum1));
+	printf("string =     42 -> int = %i\n", ft_atoi(stringnum2));
+	printf("string = \\f\\v\\n-42 -> int = %i\n", ft_atoi(stringnum3));
+	printf("string = 2147483647 -> int = %i\n", ft_atoi(stringnum4));
+	printf("string = -2147483648 -> int = %i\n", ft_atoi(stringnum5));
+	printf("string = 1234a42 -> int = %i\n", ft_atoi(stringnum6));
+		printf("c Lib\n");
+	printf("string = 0 -> int = %i\n", atoi(stringnum1));
+	printf("string =     42 -> int = %i\n", atoi(stringnum2));
+	printf("string = \\f\\v\\n-42 -> int = %i\n", atoi(stringnum3));
+	printf("string = 2147483647 -> int = %i\n", atoi(stringnum4));
+	printf("string = -2147483648 -> int = %i\n", atoi(stringnum5));
+	printf("string = 1234a42 -> int = %i\n", atoi(stringnum6));
+		printf("==============================\n");
+	printf("== Itoa function\n");
+			printf("ft_42\n");
+	printf("int = 0 -> string = %s\n", ft_itoa(number1));
+	printf("int = 2147483647 -> string = %s\n", ft_itoa(number2));
+	printf("int = -2147483648 -> string = %s\n", ft_itoa(number3));
+	printf("int = -42 -> string = %s\n", ft_itoa(number4));
+		printf("==============================\n");
+	printf("== memcmp function\n");
+		printf("ft_42\n");
+	printf("string1 = abcdefghij -> string2 = abcdefghij = result = %i\n", ft_memcmp(stringcmp1, stringcmp1, 10));
+	printf("string1 = abcdefghij -> string2 = abcdEfghij = result = %i\n", ft_memcmp(stringcmp1, stringcmp2, 10));
+	printf("string1 = abcdefghij -> string2 = Abcdefghij = result = %i\n", ft_memcmp(stringcmp1, stringcmp3, 10));
+	printf("string1 = abcdefghij -> string2 = '' = result = %i\n", ft_memcmp(stringcmp1, stringcmp5, 10));
+	printf("string1 = abcdefghij -> string2 = ZSD = result = %i\n", ft_memcmp(stringcmp1, stringcmp6, 10));
+		printf("c Lib");
+	printf("string1 = abcdefghij -> string2 = abcdefghij = result = %i\n", memcmp(stringcmp1, stringcmp1, 10));
+	printf("string1 = abcdefghij -> string2 = abcdEfghij = result = %i\n", memcmp(stringcmp1, stringcmp2, 10));
+	printf("string1 = abcdefghij -> string2 = Abcdefghij = result = %i\n", memcmp(stringcmp1, stringcmp3, 10));
+	printf("string1 = abcdefghij -> string2 = '' = result = %i\n", memcmp(stringcmp1, stringcmp5, 1));
+	printf("string1 = abcdefghij -> string2 = ZSD = result = %i\n", memcmp(stringcmp1, stringcmp6, 4));
+
+
 
 	printf("Convertir el char a mayusculas: %c\n", ft_toupper(char1));	// expect 'D'
 	printf("Convertir el char a minusculas: %c\n", ft_tolower(char2));	// expect 'd'

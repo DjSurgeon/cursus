@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 16:43:43 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/27 11:59:03 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/02/04 01:06:18 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,8 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	i = 0;
 	while (i < n)
 	{
-		if (memory1[i] < memory2[i])
-			return (-1);
-		if (memory1[i] > memory2[i])
-			return (1);
+		if (memory1[i] != memory2[i])
+			return (memory1[i] - memory2[i]);
 		i++;
 	}
 	return (0);

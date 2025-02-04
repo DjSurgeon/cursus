@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 10:32:03 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/03 11:29:20 by serjimen         ###   ########.fr       */
+/*   Created: 2025/02/03 13:57:49 by serjimen          #+#    #+#             */
+/*   Updated: 2025/02/03 23:41:43 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-**	description: add the new node to the front of the list
-**	parameters: pointer to the memory direction of the first node, the new node
+**	description: iterate over the list and apply the function
+**	parameters: pointer to the first node, the function
 **	return: nothing
 */
 
-void	ft_lstaddfront(t_list **lst, t_list *new)
+#include "libft.h"
+
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	if (!lst || !new)
+	if (!lst || !f)
 		return ;
-	new->next = *lst;
-	*lst = new;
+	while (lst)
+	{
+		f(lst->content);
+		lst = lst->next;
+	}
 }
