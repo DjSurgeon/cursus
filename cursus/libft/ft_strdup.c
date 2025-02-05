@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:46:15 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/30 14:40:08 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/02/05 21:55:09 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 #include "libft.h"
 
-void	*ft_strdup(const char *s)
+char	*ft_strdup(const char *s)
 {
 	char	*new_string;
 	size_t	s_size;
