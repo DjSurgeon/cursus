@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 14:39:02 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/05 14:59:11 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/02/06 10:43:48 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /*
 **	vamos a leer la entrada estandar del teclado
 **	en read utilizamos el fd 0 la cual es la entrada estandar del teclado
-**	esa entrada se alamacenara en buffer
+**	esa entrada se almacenara en buffer
 **	le vamos a indicar cuantos bytes va a leer
 */
 
