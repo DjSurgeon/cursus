@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf_tester.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:13:32 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/11 12:40:59 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/02/12 11:11:53 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,18 @@ int main (void)
 	printf("Número 10 -> %X\n", num7);
 	printf("Número 25 -> %X\n", num8);
 	printf("Número 465821 -> %X\n", num9);
+
+	/*
+	**	el valor de retorno de la función printf es un int que indica el número de carácteres impresos
+	*/
+
+	int	chars;
+				//	12345678
+	chars = printf("hola 42\n");	// return 8
+	printf("%i\n", chars);
+				//		 1  2 1
+	chars = printf("hola %% %i\n", 42);	// return 10
+	printf("%i\n", chars);
 
 	return (0);
 }
