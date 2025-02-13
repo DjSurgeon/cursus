@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf_char.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 16:39:22 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/12 12:32:06 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/02/13 14:29:55 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,96 @@ size_t	ft_strlen(const char *s)
 		i++;
 	}
 	return (i);
+}
+void	ft_putnbr_fd(int n, int fd)
+{
+	char	number;
+
+	if (n == -2147483648)
+		write(fd, "-2147483648", 11);
+	else if (n < 0)
+	{
+		n = n * -1;
+		write(fd, "-", 1);
+		if (n >= 10)
+			ft_putnbr_fd(n / 10, fd);
+		number = (n % 10) + '0';
+		write(fd, &number, 1);
+	}
+	else
+	{
+		if (n >= 10)
+			ft_putnbr_fd(n / 10, fd);
+		number = (n % 10) + '0';
+		write(fd, &number, 1);
+	}
+}
+void	ft_putnbr_unsigned(unsigned int n)
+{
+	char	number;
+
+	if (n == 0)
+		write(1, "0", 1);
+	else
+	{
+		if (n >= 10)
+			ft_putnbr_unsigned(n / 10);
+		number = (n % 10) + '0';
+		write(1, &number, 1);
+	}
+}
+void	hexadecimal_upper(long n)
+{
+	char	hexa[16] = "0123456789ABCDEF";
+	char	number;
+	char	result;
+
+	if (n == -2147483648)
+		write(1, "-80000000", 9);
+	else if (n < 0)
+	{
+		n =  n * -1;
+		write(1, "-", 1);
+		if (n >= 16)
+			hexadecimal_upper(n / 16);
+		number = (n % 16);
+		number = hexa[number];
+		write (1, &number, 1);
+	}
+	else
+	{
+		if (n >= 16)
+			hexadecimal_upper(n / 16);
+		number = (n % 16);
+		number = hexa[number];
+		write (1, &number, 1);
+	}
+}
+void	hexadecimal_lower(long n)
+{
+	char	hexa[16] = "0123456789abcdef";
+	char	number;
+
+	if (n == -2147483648)
+		write(1, "-80000000", 9);
+	else if (n < 0)
+	{
+		n =  n * -1;
+		write(1, "-", 1);
+		if (n >= 16)
+			hexadecimal_lower(n / 16);
+		number = (n % 16);
+		number = hexa[number];
+		write (1, &number, 1);
+	}
+	else
+	{
+		if (n >= 16)
+			hexadecimal_lower(n / 16);
+		number = (n % 16);
+		number = hexa[number];
+		write (1, &number, 1);
+	}
 }
 static size_t	intlen(long n)
 {
@@ -98,25 +188,23 @@ static char	*aux_itoa(char *s, long n)
 	return (s);
 }
 
-char	*ft_itoa(int n)
+char	*ft_itoa_long(long n)
 {
 	size_t	len;
 	char	*result;
 	int		negative;
-	long	num;
 
-	num = n;
-	len = intlen(num);
+	len = intlen(n);
 	result = malloc(len + 1);
 	if (!result)
 		return (NULL);
 	negative = 1;
 	if (n < 0)
 	{
-		num = -num;
+		n = -n;
 		negative = 0;
 	}
-	aux_itoa(result, num);
+	aux_itoa(result, n);
 	if (negative != 1)
 	{
 		result[len - 1] = '-';
@@ -125,29 +213,7 @@ char	*ft_itoa(int n)
 	result[len] = '\0';
 	return (result);
 }
-void	ft_putnbr_fd(int n, int fd)
-{
-	char	number;
-
-	if (n == -2147483648)
-		write(fd, "-2147483648", 11);
-	else if (n < 0)
-	{
-		n = n * -1;
-		write(fd, "-", 1);
-		if (n >= 10)
-			ft_putnbr_fd(n / 10, fd);
-		number = (n % 10) + '0';
-		write(fd, &number, 1);
-	}
-	else
-	{
-		if (n >= 10)
-			ft_putnbr_fd(n / 10, fd);
-		number = (n % 10) + '0';
-		write(fd, &number, 1);
-	}
-}
+/**********************************************/
 int	ft_printf(char const *str, ...)
 {
 	va_list	parameters;
@@ -185,7 +251,27 @@ int	ft_printf(char const *str, ...)
 			if (*str == 'u')					// imprime unsigned int
 			{
 				unsigned int	number = va_arg(parameters, unsigned int);
-				// TODO itoa de unsigned ints o putnbr de unsigned
+				count += intlen(number) - 1;
+				ft_putnbr_unsigned(number);
+			}
+			if (*str == 'X' )
+			{
+				int	number	= va_arg(parameters, int);
+				hexadecimal_upper(number); // <- necesito devolver un char y contarlo
+				// count += ft_strlen(ft_itoa(number)); otro contdor este no vale
+			}
+			if (*str == 'x')
+			{
+				int number = va_arg(parameters, int); 
+				hexadecimal_lower(number); // mismo problema que en el upper, mal contador
+			}
+			if (*str == 'p')
+			{
+				char	*result_pointer;
+				void 	*pointer = va_arg(parameters, void*);
+				write(1, "0x", 2);
+				result_pointer = ft_itoa_long((long) pointer); //imrime bien ahora hay que contarlo igual
+				// count += ft_strlen(result_pointer);
 			}
 		}
 		else
@@ -196,7 +282,7 @@ int	ft_printf(char const *str, ...)
 		count++;
 	}	
 	va_end(parameters);
-	str = '\0';
+	// str = '\0';
 	return (count);
 }
 
@@ -204,11 +290,16 @@ int	main(void)
 {
 	int	count1 = 0;
 	int	count2 = 0;
+
+	char *string = "hola";
+	void *pointer = &string;
 	
-	count1 = ft_printf("%i %sc %% %d %c\n",+1234-5,  "hola", -12, 'c');
-	count2 = printf("%i %sc %% %d %c\n",+1234-5,  "hola", -12, 'c');
-	// count = ft_printf("h o%%la%c\n", 'z');
-	ft_printf("%i\n", count1);
-	printf("%i\n", count2);
+	count1 = ft_printf("%i %sc %% %d %c\n%u<- unsigned || \nhexadecimal mayus ->%x\n%p\n",+1234-5,  "hola", -12, 'c', 4294967295, 0, pointer);
+	ft_printf("\n\n^^ ft_printf == printf vv\n\n");
+	count2 = printf("%i %sc %% %d %c\n%u<- unsigned || \nhexadecimal mayus ->%x\n%p\n",+1234-5,  "hola", -12, 'c', 4294967295, 0, pointer);
+
+	ft_printf("\n\nRetorno printf: \n");
+	ft_printf("ft_printf: %i\n", count1);
+	printf("printf: %i\n", count2);
 	return (0);
 }

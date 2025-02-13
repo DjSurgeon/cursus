@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf_tester.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 11:13:32 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/12 11:11:53 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/02/13 12:12:33 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int main (void)
 	printf("Puntero a un int: %p\n", pointer1); 		//dirección de memoria en la pila (stack)
 	printf("Puntero a una string: %p\n", pointer2);		//dirección de memoria de segmento de texto
 	printf("Puntero a un string: %p\n", pointer3);		//dirección de memoria en la pila (stack)
+	printf("Puntero a un string: %p\n", pointer3);		//dirección de memoria en la pila (stack)
+
 
 /*
 **	%d un número decimal en base 10 %i un entero en base 10
