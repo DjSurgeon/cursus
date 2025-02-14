@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf_char.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 16:39:22 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/13 14:29:55 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/02/14 01:36:25 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void	hexadecimal_upper(long n)
 {
 	char	hexa[16] = "0123456789ABCDEF";
 	char	number;
-	char	result;
 
 	if (n == -2147483648)
 		write(1, "-80000000", 9);
@@ -218,8 +217,10 @@ int	ft_printf(char const *str, ...)
 {
 	va_list	parameters;
 	int		count;
+	char	*aux;
 	
 	count = 0;
+	*aux = *str;
 	va_start(parameters, str);
 
 	while (*str)
@@ -254,7 +255,7 @@ int	ft_printf(char const *str, ...)
 				count += intlen(number) - 1;
 				ft_putnbr_unsigned(number);
 			}
-			if (*str == 'X' )
+/* 			if (*str == 'X' )
 			{
 				int	number	= va_arg(parameters, int);
 				hexadecimal_upper(number); // <- necesito devolver un char y contarlo
@@ -270,9 +271,9 @@ int	ft_printf(char const *str, ...)
 				char	*result_pointer;
 				void 	*pointer = va_arg(parameters, void*);
 				write(1, "0x", 2);
-				result_pointer = ft_itoa_long((long) pointer); //imrime bien ahora hay que contarlo igual
+				result_pointer = ft_itoa_long((long) pointer); //imprime bien ahora hay que contarlo igual
 				// count += ft_strlen(result_pointer);
-			}
+			} */
 		}
 		else
 		{
@@ -283,6 +284,7 @@ int	ft_printf(char const *str, ...)
 	}	
 	va_end(parameters);
 	// str = '\0';
+	// count = ft_strlen(aux);
 	return (count);
 }
 
@@ -294,9 +296,9 @@ int	main(void)
 	char *string = "hola";
 	void *pointer = &string;
 	
-	count1 = ft_printf("%i %sc %% %d %c\n%u<- unsigned || \nhexadecimal mayus ->%x\n%p\n",+1234-5,  "hola", -12, 'c', 4294967295, 0, pointer);
+	count1 = ft_printf("%i %sc %% %d %c\n<- unsigned\n",+1234-5,  "hola", -12, 'c');
 	ft_printf("\n\n^^ ft_printf == printf vv\n\n");
-	count2 = printf("%i %sc %% %d %c\n%u<- unsigned || \nhexadecimal mayus ->%x\n%p\n",+1234-5,  "hola", -12, 'c', 4294967295, 0, pointer);
+	count2 = printf("%i %sc %% %d %c\n<- unsigned\n",+1234-5,  "hola", -12, 'c');
 
 	ft_printf("\n\nRetorno printf: \n");
 	ft_printf("ft_printf: %i\n", count1);

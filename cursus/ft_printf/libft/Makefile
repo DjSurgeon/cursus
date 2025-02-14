@@ -6,13 +6,14 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/28 23:41:16 by serjimen          #+#    #+#              #
-#    Updated: 2025/02/13 22:19:04 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/02/14 01:13:00 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+
 NAME = libft.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 SOURCE = 	ft_atoi.c \
 			ft_bzero.c \
 			ft_calloc.c \
@@ -46,8 +47,10 @@ SOURCE = 	ft_atoi.c \
 			ft_strtrim.c \
 			ft_substr.c \
 			ft_tolower.c \
-			ft_toupper.c
-			
+			ft_toupper.c \
+			ft_longlen.c \
+			ft_putnbr_unsig_fd.c
+
 BONUS = 	ft_lstnew_bonus.c \
 			ft_lstadd_front_bonus.c \
 			ft_lstsize_bonus.c \
@@ -56,7 +59,7 @@ BONUS = 	ft_lstnew_bonus.c \
 			ft_lstdelone_bonus.c \
 			ft_lstclear_bonus.c \
 			ft_lstiter_bonus.c \
-			ft_lstmap_bonus.c
+			ft_lstmap_bonus.c			
 
 OBJ = $(SOURCE:%.c=%.o)
 
@@ -66,12 +69,12 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	ar rcs $(NAME) $(OBJ)
-
+	
 bonus: $(OBJ) $(OBJBONUS)
 	ar rcs $(NAME) $(OBJ) $(OBJBONUS)
 
 %.o: %.c libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJ) $(OBJBONUS)
