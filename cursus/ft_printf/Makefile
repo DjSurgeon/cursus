@@ -6,36 +6,31 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 22:16:42 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/02/14 00:41:30 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/02/16 23:53:25 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprint.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SOURCE =	ft_printf.c\
-			ft_printf_utils.c
+SOURCE =	ft_printf.c \
+			ft_printf_utilchars.c \
+			ft_printf_utilnumbers.c
 
 OBJ = $(SOURCE:%.c=%.o)
 
-LIBFT_DIR = libft
-LIBFT = $(LIBFT_DIR)/libft.a
-
-all: $(LIBFT) $(NAME)
-
-$(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+all: $(NAME)
 
 $(NAME): $(OBJ)
 	ar rcs $(NAME) $(OBJ)
-	ar rcs $(NAME) $(LIBFT)
+
+%.o: %.c ft_printf.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	$(MAKE) -C $(LIBFT_DIR) clean
 	rm -f $(OBJ)
 
 fclean:
-	$(MAKE) -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 
 re: fclean all

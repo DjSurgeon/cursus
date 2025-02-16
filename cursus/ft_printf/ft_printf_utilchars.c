@@ -1,28 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_unsig_fd.c                               :+:      :+:    :+:   */
+/*   ft_printf_utilchars.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/14 01:10:17 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/02/14 01:28:00 by sergio-jime      ###   ########.fr       */
+/*   Created: 2025/02/16 23:48:12 by sergio-jime       #+#    #+#             */
+/*   Updated: 2025/02/17 00:00:38 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	ft_putnbr_unsig_fd(unsigned int n, int fd)
+int	ft_countchar(char c)
 {
-	char	number;
+	int	count;
 
-	if (n == 0)
-		write(1, "0", 1);
-	else
+	count = 0;
+	count += write(1, &c, 1);
+	return (count);
+}
+
+int	ft_countstr(char *s)
+{
+	int	count;
+
+	count = 0;
+	if (s == NULL)
 	{
-		if (n >= 10)
-			ft_putnbr_unsig_fd(n / 10, fd);
-		number = (n % 10) + '0';
-		write(fd, &number, 1);
+		write(1, "(null)", 6);
+		return (6);
 	}
+	while (*s)
+	{
+		count += write(1, s, 1);
+		s++;
+	}
+	return (count);
 }
