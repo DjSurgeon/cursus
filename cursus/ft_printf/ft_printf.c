@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 22:07:26 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/02/17 00:01:19 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/02/17 01:41:52 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ static int	check_module(va_list parameters, const char *str)
 	if (*str == 'u')
 		count += ft_countunsig(va_arg(parameters, unsigned int));
 	if (*str == 'x')
-		count += ft_counthexalo(va_arg(parameters, long));
+		count += ft_counthexalo(va_arg(parameters, unsigned long long));
 	if (*str == 'X')
-		count += ft_counthexaup(va_arg(parameters, long));
+		count += ft_counthexaup(va_arg(parameters, unsigned long long));
 	if (*str == 'p')
-		count += ft_countpointer((long)va_arg(parameters, void *));
+		count += ft_countpointer(va_arg(parameters, unsigned long long));
 	return (count);
 }
 

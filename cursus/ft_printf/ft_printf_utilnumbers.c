@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 23:50:00 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/02/17 00:04:07 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/02/17 01:42:00 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,16 @@ int	ft_countunsig(unsigned int n)
 	return (count);
 }
 
-int	ft_counthexalo(long n)
+int	ft_counthexalo(unsigned long long n)
 {
 	char	hexa[16];
 	char	number;
 	int		count;
 
-	hexa = "0123456789abcdef";
 	count = 0;
-	if (n < 0)
-	{
-		count += write(1, "-", 1);
-		n = n * -1;
-	}
+	ft_memcpy(hexa, "0123456789abcdef", 16);
+	if (n == 0)
+		count += write(1, "0", 1);
 	if (n >= 16)
 		count += ft_counthexalo(n / 16);
 	number = hexa[n % 16];
@@ -68,19 +65,16 @@ int	ft_counthexalo(long n)
 	return (count);
 }
 
-int	ft_counthexaup(long n)
+int	ft_counthexaup(unsigned long long n)
 {
 	char	hexa[16];
 	char	number;
 	int		count;
 
-	hexa = "0123456789ABCDEF";
 	count = 0;
-	if (n < 0)
-	{
+	ft_memcpy(hexa, "0123456789ABCDEF", 16);
+	if (n == 0)
 		count += write(1, "-", 1);
-		n = n * -1;
-	}
 	if (n >= 16)
 		count += ft_counthexaup(n / 16);
 	number = hexa[n % 16];
@@ -88,7 +82,7 @@ int	ft_counthexaup(long n)
 	return (count);
 }
 
-int	ft_countpointer(long n)
+int	ft_countpointer(unsigned long long n)
 {
 	int		count;
 

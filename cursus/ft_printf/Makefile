@@ -6,11 +6,11 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/13 22:16:42 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/02/16 23:53:25 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/02/17 00:39:07 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftprint.a
+NAME = libftprintf.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SOURCE =	ft_printf.c \

@@ -6,12 +6,13 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 22:39:53 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/02/15 18:59:19 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/02/17 01:40:07 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include <stdio.h>
+#include <limits.h>
 
 int	main(void)
 {	
@@ -190,5 +191,19 @@ ft_printf("%i\n", chars0);
 			//		 1  2 1
 chars0 = ft_printf("hola %% %i\n", 42);	// return 10
 ft_printf("%i\n", chars0);
+
+ft_printf("\n\n\n\n#### TEST ####\n");
+
+ft_printf("ft %p \n", 1);
+printf("cc %d \n", 1);
+ft_printf("ft %x \n", ULONG_MAX);
+printf("cc %lx \n", ULONG_MAX);
+ft_printf("ft %x \n", LONG_MIN);
+printf("cc %lx \n", LONG_MIN);
+ft_printf("ft %p \n", 15);
+printf("cc %d \n", 15);
+ft_printf("ft - This is a %c %s %d %x %X %p %%\n", 'c', "string", INT_MIN, ULLONG_MAX, ULONG_MAX, "pointer");
+printf("cc - This is a %c %s %d %llx %lX %p %%\n", 'c', "string", INT_MIN, ULLONG_MAX, ULONG_MAX, "pointer");
+
 	return (0);
 }
