@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 22:39:53 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/02/17 01:40:07 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/02/17 02:21:34 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,16 +194,23 @@ ft_printf("%i\n", chars0);
 
 ft_printf("\n\n\n\n#### TEST ####\n");
 
-ft_printf("ft %p \n", 1);
-printf("cc %d \n", 1);
-ft_printf("ft %x \n", ULONG_MAX);
-printf("cc %lx \n", ULONG_MAX);
-ft_printf("ft %x \n", LONG_MIN);
-printf("cc %lx \n", LONG_MIN);
-ft_printf("ft %p \n", 15);
-printf("cc %d \n", 15);
-ft_printf("ft - This is a %c %s %d %x %X %p %%\n", 'c', "string", INT_MIN, ULLONG_MAX, ULONG_MAX, "pointer");
-printf("cc - This is a %c %s %d %llx %lX %p %%\n", 'c', "string", INT_MIN, ULLONG_MAX, ULONG_MAX, "pointer");
+// ft_printf("ft %p \n", 1);
+// printf("cc %d \n", 1);
+// ft_printf("ft %x \n", ULONG_MAX);
+// printf("cc %lx \n", ULONG_MAX);
+// ft_printf("ft %x \n", LONG_MIN);
+// printf("cc %lx \n", LONG_MIN);
+// ft_printf("ft %p \n", 15);
+// printf("cc %d \n", 15);
+// ft_printf("ft - This is a %c %s %d %x %X %p %%\n", 'c', "string", INT_MIN, ULLONG_MAX, ULONG_MAX, "pointer");
+// printf("cc - This is a %c %s %d %llx %lX %p %%\n", 'c', "string", INT_MIN, ULLONG_MAX, ULONG_MAX, "pointer");
+
+
+int d = ft_printf("%x %% %c %% %s, %p, %i %d, %%%%%% %% %u %x %X %% %s %c\n", 402, 'b', "hi ;=()", "char *", 4567, -1234, 9876, 9876, 9875, "lol", '\t');
+int f =    printf("%x %% %c %% %s, %p, %i %d, %%%%%% %% %u %x %X %% %s %c\n", 402, 'b', "hi ;=()", "char *", 4567, -1234, 9876, 9876, 9875, "lol", '\t');
+
+ft_printf("%d", d);
+printf("%d", f);
 
 	return (0);
 }
