@@ -6,11 +6,17 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 22:07:26 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/02/17 01:41:52 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/02/17 14:14:25 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+/*
+**	description: check the char after the format parameter and print the
+**	string accoprding the format and arguments
+**	parameters: the list of paramters and the string
+**	return: the numbers of chars printed
+*/
 
 static int	check_module(va_list parameters, const char *str)
 {
@@ -28,13 +34,18 @@ static int	check_module(va_list parameters, const char *str)
 	if (*str == 'u')
 		count += ft_countunsig(va_arg(parameters, unsigned int));
 	if (*str == 'x')
-		count += ft_counthexalo(va_arg(parameters, unsigned long long));
+		count += ft_counthexalo(va_arg(parameters, unsigned int));
 	if (*str == 'X')
-		count += ft_counthexaup(va_arg(parameters, unsigned long long));
+		count += ft_counthexaup(va_arg(parameters, unsigned int));
 	if (*str == 'p')
-		count += ft_countpointer(va_arg(parameters, unsigned long long));
+		count += ft_countpointer(va_arg(parameters, uintptr_t));
 	return (count);
 }
+/*
+**	description: check in the string if the format character exits
+**	paramters: the list of parameters, the string
+**	return: the numbers of chars printed
+*/
 
 static int	check_str(va_list parameters, const char *str)
 {
@@ -54,6 +65,12 @@ static int	check_str(va_list parameters, const char *str)
 	}
 	return (count);
 }
+/*
+**	description: write the output of a format string that specifies
+**	in the arguments
+**	parameters: a const string, an unlimited number of parameters
+**	return: the numbers of chars printed
+*/
 
 int	ft_printf(char const *str, ...)
 {

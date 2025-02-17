@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/17 15:20:01 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/30 14:36:38 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/02/17 13:49:40 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 **	description: copy n portion of memory from source to destination
 **	parameters: source an destiny and number of bytes
-**	resturn: pointer to destiny
+**	return: pointer to destiny
 */
 
 #include "libft.h"
