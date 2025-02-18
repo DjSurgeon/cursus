@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 22:07:26 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/02/17 14:14:25 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/02/18 12:00:03 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ static int	check_str(va_list parameters, const char *str)
 	count = 0;
 	while (*str)
 	{
-		if (*str == '%')
+		if (*str == '%' && *(str + 1) == '\0')
+			return (-1);
+		if (*str == '%' && ft_strchr("csiduxXp%", *(str + 1)))
 		{
 			str++;
 			count += check_module(parameters, str);
@@ -78,6 +80,8 @@ int	ft_printf(char const *str, ...)
 	int		count;
 
 	count = 0;
+	if (!str)
+		return (0);
 	va_start(parameters, str);
 	count = check_str(parameters, str);
 	va_end(parameters);
