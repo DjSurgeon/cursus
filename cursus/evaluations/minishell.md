@@ -1,7 +1,5 @@
 ## Primera batería: Enfoque general
 
-Estas preguntas te ayudarán a entender cómo encararon el proyecto y qué decisiones tomaron:
-
 - ¿Cómo estructuraron el proyecto? ¿Dividieron el trabajo en módulos o lo hicieron todo en un solo archivo?
 - ¿Cuáles fueron los principales retos al inicio del proyecto? ¿Por dónde empezaron y por qué?
 - ¿Cómo manejaron la gestión de memoria? ¿Tuvieron problemas con leaks? ¿Cómo los resolvieron?
@@ -12,7 +10,6 @@ Estas preguntas te ayudarán a entender cómo encararon el proyecto y qué decis
 
 ## Segunda batería: Preguntas concretas para la corrección
 
-Aquí te enfocas en aspectos técnicos específicos para identificar errores o mejoras:
 
 - ¿El minishell maneja correctamente el historial de comandos? ¿Cómo lo implementaron?
 - ¿Funciona la ejecución de comandos con rutas absolutas y relativas?
