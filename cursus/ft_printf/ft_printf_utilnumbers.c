@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utilnumbers.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 23:50:00 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/02/17 14:16:43 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/02/18 10:25:54 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,10 @@ int	ft_countpointer(uintptr_t n)
 	count = 0;
 	if ((void *)n == NULL)
 	{
-		count += write(1, ("(nil)"), 5);
+		count += write(1, "(nil)", 5);
 		return (count);
 	}
 	count += write(1, "0x", 2);
-	if (n >= 16)
-		count += ft_counthexalo(n);
+	count += ft_counthexalo(n);
 	return (count);
 }
