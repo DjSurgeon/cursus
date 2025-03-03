@@ -193,11 +193,137 @@ En Linux, los discos de almacenamiento (como discos duros, SSDs, o discos virtua
 
 La nomenclatura más común para discos en Linux es `/dev/sdxn`, donde:
 
-`**/dev/**`: Es el directorio raíz donde se almacenan los dispositivos especiales en el sistema, accesibles como archivos.
-**sd**: Es el prefijo que identifica discos basados en SCSI (*Small Computer System Interface*) o SATA, comúnmente usado para discos físicos o virtuales (por ejemplo, discos en VirtualBox o UTM).
-**hd** (para discos IDE, aunque obsoletos en sistemas modernos).
-**nvme** (para discos NVMe en sistemas modernos con SSDs de alta velocidad).
-`**x**`: Es una letra que identifica el disco físico o virtual, comenzando desde a para el primer disco (`/dev/sda`), b para el segundo (`/dev/sdb`), y así sucesivamente.
-`**n**`: Es un número que representa la partición dentro de un disco específico, comenzando desde 1 (por ejemplo, `/dev/sda1` para la primera partición del primer disco, `/dev/sda2` para la segunda, `/dev/sdb1` para la primera partición del segundo disco, etc.).
+- **`/dev/`**: Es el directorio raíz donde se almacenan los dispositivos especiales en el sistema, accesibles como archivos.
+- **sd**: Es el prefijo que identifica discos basados en SCSI (*Small Computer System Interface*) o SATA, comúnmente usado para discos físicos o virtuales (por ejemplo, discos en VirtualBox o UTM).
+- **hd** (para discos IDE, aunque obsoletos en sistemas modernos).
+- **nvme** (para discos NVMe en sistemas modernos con SSDs de alta velocidad).
+- **`x`**: Es una letra que identifica el disco físico o virtual, comenzando desde a para el primer disco (`/dev/sda`), b para el segundo (`/dev/sdb`), y así sucesivamente.
+- **`n`**: Es un número que representa la partición dentro de un disco específico, comenzando desde 1 (por ejemplo, `/dev/sda1` para la primera partición del primer disco, `/dev/sda2` para la segunda, `/dev/sdb1` para la primera partición del segundo disco, etc.).
 
 En máquinas virtuales, VirtualBox o UTM pueden asignar discos virtuales (como archivos **.vdi** o **.qcow2**) que se presentan como `/dev/sda`, `/dev/sdb`, etc., siguiendo la misma convención.
+
+## Estructura jerárquica del sistema de archivos en Linux
+
+En Linux, todo el sistema de archivos se organiza en una estructura jerárquica con el directorio raíz (`/`) como punto de partida. Discos, particiones y dispositivos se montan bajo este directorio, formando un árbol de directorios que facilita la organización, administración y acceso a los datos. Esta estructura es estándar en distribuciones como Debian y Rocky Linux, es crucial para gestionar correctamente las particiones cifradas con LVM, como /boot, /, /home, y /swap.
+
+- `/` **(Directorio raíz)**: Es el directorio principal y punto de partida de toda la jerarquía del sistema de archivos. Contiene subdirectorios esenciales y sirve como base para montar discos, particiones y dispositivos.
+- `/home`: Almacena los archivos personales, configuraciones y datos de los usuarios (por ejemplo, /home/usuario). Es un directorio crítico que, en el proyecto, debe estar en una partición o volumen lógico separado y cifrado para mejorar la seguridad.
+- `/var`: Contiene datos variables que cambian dinámicamente durante la operación normal del sistema, como archivos de registro (logs), cachés, correos temporales, y datos de aplicaciones. Subdirectorios importantes incluyen:
+- `/var/log`: Almacena registros del sistema (por ejemplo, `/var/log/syslog`, `/var/log/auth.log`), esenciales para detectar problemas de seguridad o errores.
+- `/var/cache`: Almacena cachés de aplicaciones.
+- `/var/tmp`: Almacena datos temporales más persistentes que `/tmp`.
+- `/etc`: Almacena archivos de configuración del sistema y de aplicaciones (por ejemplo, `/etc/ssh/sshd_config` para SSH, `/etc/apparmor.d` para AppArmor).
+- `/bin`: Contiene binarios esenciales del sistema necesarios para el funcionamiento básico, accesibles para todos los usuarios (por ejemplo, ls, cat, cp). Estos ejecutables son críticos para arrancar y mantener el sistema.
+- `/sbin`: Almacena binarios y comandos administrativos esenciales, principalmente para el superusuario (root), como fdisk, cryptsetup, o lvm.
+- `/dev`: Contiene archivos de dispositivos que representan discos duros, unidades de CD/DVD, interfaces de red, y otros dispositivos físicos o virtuales (por ejemplo, `/dev/sda`, `/dev/sda1`).
+- `/mnt`: Es un punto de montaje temporal para sistemas de archivos externos o discos adicionales, usado por administradores para montar manualmente dispositivos.
+- `/media`: Similar a `/mnt`, pero gestionado automáticamente por el sistema para montar dispositivos removibles, como USB o CD-ROM.
+- `/swap`: Representa el espacio de intercambio (swap), que actúa como una extensión de la memoria RAM. Cuando la memoria física se llena, el sistema puede mover datos no utilizados temporalmente al swap para liberar espacio en la RAM, mejorando el rendimiento en máquinas virtuales con recursos limitados, `/swap` debe estar en un volumen lógico y puede cifrarse opcionalmente.
+- `/boot`: Contiene archivos necesarios para el arranque del sistema, como el kernel (por ejemplo, `/boot/vmlinuz`), el cargador de arranque GRUB (por ejemplo, `/boot/grub`), e imágenes iniciales. `/boot` debe ser una partición o volumen no cifrado (como `/dev/sda1`), ya que los cargadores de arranque no pueden leer particiones cifradas.
+- `/tmp`: Almacena archivos temporales creados por el sistema operativo y aplicaciones. Estos archivos suelen tener una vida corta y pueden eliminarse al reiniciar el sistema o después de un período de inactividad. Es útil para operaciones transitorias, pero no debe usarse para datos permanentes.
+- `/srv`: Está diseñado para almacenar datos relacionados con servicios específicos ofrecidos por el sistema, como servidores web, FTP o bases de datos. Los datos se organizan en subdirectorios basados en el servicio (por ejemplo, `/srv/www` para un servidor web, `/srv/ftp` para un servidor FTP).
+
+## Importancia y mantenimiento:
+
+Es fundamental revisar regularmente los registros en `/var/log` (por ejemplo, `/var/log/syslog`, `/var/log/auth.log`) para detectar problemas de seguridad, errores del sistema o actividades sospechosas, como se menciona en tus apuntes. Esto es para garantizar que las políticas de seguridad (como **SSH**, **firewall**, y **AppArmor/SELinux**) funcionen correctamente.
+
+## Encriptación de una partición
+
+La encriptación de particiones es una técnica de seguridad utilizada para proteger los datos almacenados en discos duros, SSDs u otros dispositivos de almacenamiento mediante el cifrado del sistema de archivos o de las particiones específicas. Este proceso transforma los datos en un formato ilegible (cifrado) que solo puede ser descifrado con una clave o contraseña válida, garantizando la confidencialidad y seguridad de la información.
+
+## Propósito y beneficios:
+
+- **Confidencialidad de los datos**: La encriptación asegura que los datos almacenados en una partición no puedan ser leídos o manipulados por personas no autorizadas, incluso si el dispositivo físico es robado o perdido.
+- **Seguridad física**: Protege contra accesos no autorizados en caso de robo, pérdida o acceso físico al disco, como en entornos virtuales o servidores.
+- **Cumplimiento de leyes de protección de datos**: Ayuda a cumplir con regulaciones como el **GDPR** (Reglamento General de Protección de Datos) o normativas locales, asegurando que los datos sensibles (por ejemplo, en `/home` o `/`) estén protegidos.
+- **Prevención de accesos no autorizados**: Impide que atacantes o usuarios malintencionados accedan a los datos sin la clave o contraseña, reduciendo riesgos en sistemas críticos.
+
+## Métodos de encriptación en Linux:
+
+En distribuciones como Debian y Rocky Linux, la encriptación de particiones se implementa generalmente con herramientas como LUKS (Linux Unified Key Setup), que es un estándar para cifrar discos y particiones en Linux.
+
+El proceso típico incluye:
+
+- Crear un volumen físico (PV) o partición (por ejemplo, `/dev/sda5`).
+- Cifrarlo con `cryptsetup luksFormat /dev/sda5`, estableciendo una contraseña o clave.
+- Abrir el volumen cifrado con `cryptsetup luksOpen /dev/sda5 sda5_crypt` para mapearlo como un dispositivo cifrado.
+- Usar LVM para crear volúmenes lógicos (LVs) sobre el dispositivo cifrado, como *root* para `/` o *home* para `/home`, que luego se montan en la jerarquía del sistema de archivos.
+
+## `sudo` (Superuser Do)
+
+`sudo` (Superuser Do) es un comando y sistema de administración de privilegios en Linux que permite a usuarios normales ejecutar comandos con privilegios administrativos de *root* (superusuario) de forma controlada, segura y auditada. En lugar de otorgar acceso directo a la cuenta *root* o compartir su contraseña, **sudo** habilita a usuarios específicos (generalmente miembros del grupo `sudo` o configurados en `/etc/sudoers`) a realizar tareas administrativas, mejorando la seguridad y el control en sistemas como Debian y Rocky Linux.
+
+## Características principales:
+
+- **Control y seguridad**: sudo otorga privilegios temporales para ejecutar comandos específicos sin necesidad de compartir la contraseña de `root`, reduciendo riesgos de seguridad. Los privilegios se conceden solo durante la sesión activa o hasta que se cierre el terminal, evitando accesos prolongados no autorizados.
+- **Registro de comandos**: Todos los comandos ejecutados con sudo se registran automáticamente en un archivo de registro, generalmente `/var/log/auth.log` o `/var/log/sudo` (si se configura específicamente), lo que permite auditorías y detección de actividades sospechosas.
+- **Configuración flexible**: Los permisos se definen en el archivo `/etc/sudoers` o mediante archivos en `/etc/sudoers.d`, permitiendo especificar qué usuarios o grupos pueden ejecutar qué comandos, con qué restricciones (por ejemplo, número de intentos, tiempo de validez, o mensajes personalizados).
+
+## Ventajas:
+
+- Mejora la seguridad al evitar el uso directo de la cuenta root, para cumplir con las políticas de contraseñas fuertes y acceso seguro (por ejemplo, prohibir SSH como root).
+- Facilita la administración delegada, permitiendo a usuarios ejecutar comandos administrativos sin comprometer la seguridad del sistema.
+- Proporciona un registro detallado de actividades, para archivar *input/output* en `/var/log/sudo/`.
+
+## Limitaciones:
+
+- Requiere una configuración cuidadosa en `/etc/sudoers` para evitar errores o vulnerabilidades, lo que puede ser un desafío para usuarios novatos.
+- Los usuarios deben conocer la contraseña de su cuenta (no la de *root*) para usar sudo, lo que podría ser un inconveniente si la olvidan o si hay políticas estrictas de cambio de contraseñas.
+
+## Protocolo SSH (Secure Shell)
+
+**SSH**, o *Secure Shell*, es un protocolo de red diseñado para establecer conexiones seguras y cifradas entre un cliente y un servidor, permitiendo el acceso remoto a la terminal de una computadora o dispositivo de forma segura. Fue creado en 1995 por Tatu Ylönen como una alternativa segura a protocolos como **Telnet**, que transmitían datos sin cifrado, exponiendo información a ataques como escuchas (*eavesdropping*).
+
+## Función principal
+
+El objetivo principal de SSH es proporcionar un canal seguro para acceder remotamente a servidores o dispositivos, cifrando toda la información transmitida (como comandos, datos de autenticación y salidas) para protegerla contra accesos no autorizados o interceptaciones.
+
+## Historia y evolución
+
+Desarrollado inicialmente por Tatu Ylönen, SSH se lanzó en 1995 y ha evolucionado a través de múltiples versiones (SSH-1 y SSH-2, siendo esta última la más común hoy en día por su mayor seguridad). Sigue siendo ampliamente utilizado para administrar servidores, máquinas virtuales y dispositivos en red, incluyendo entornos virtualizados como los de VirtualBox o UTM.
+
+## Métodos de cifrado
+
+SSH utiliza dos tipos de cifrado para garantizar la seguridad del intercambio de información entre dispositivos:
+
+- **Cifrado simétrico**: Utiliza una misma clave para cifrar y descifrar los datos durante la comunicación, lo que es rápido y eficiente para grandes volúmenes de información (por ejemplo, algoritmos como AES).
+- **Cifrado asimétrico**: Emplea un par de claves públicas y privadas para establecer la conexión inicial y autenticar a las partes (por ejemplo, RSA o DSA), asegurando que solo los dispositivos autorizados puedan comunicarse.
+
+## Etapas de funcionamiento
+
+SSH opera en tres etapas principales durante una conexión:
+
+- **Autenticación del servidor (emisor) por el cliente (receptor)**: El cliente verifica la identidad del servidor mediante su clave pública (almacenada en `/etc/ssh/ssh_host_rsa_key.pub`), asegurando que se conecta al servidor correcto y evitando ataques de *man-in-the-middle*.
+- **Generación de la clave de sesión**: Se crea una clave de sesión simétrica única para la comunicación, cifrada con el cifrado asimétrico, que se usará para encriptar toda la comunicación durante la sesión, garantizando velocidad y seguridad.
+- **Autenticación del cliente**: El cliente se autentica ante el servidor usando métodos como contraseñas, claves públicas/privadas (por ejemplo, con `ssh-keygen`), o certificados.
+
+## UFW (Uncomplicated Firewall)
+
+**UFW**, o *Uncomplicated Firewall*, es una herramienta de seguridad de Linux que proporciona una interfaz simplificada para gestionar *firewalls*, basada en el *backend* de `iptables` (o `nftables` en versiones recientes). Actúa como un firewall de red que controla el tráfico entrante y saliente según reglas definidas por el administrador, protegiendo el sistema contra accesos no autorizados y ataques en red.
+
+## Características principales:
+
+- **Interfaz simplificada para iptables**: UFW traduce las reglas configuradas por el usuario en comandos de iptables (o nftables) de forma automática, ocultando la complejidad de estos backend y facilitando su uso para administradores novatos o intermedios.
+- **Facilidad de uso**: Proporciona comandos simples y directos para habilitar, deshabilitar o configurar reglas de firewall, como ufw enable, ufw disable, ufw allow, y ufw deny, lo que lo hace ideal para entornos donde la simplicidad es clave.
+- **Restricción de acceso**: Por defecto, UFW bloquea todo el tráfico entrante y permite todo el tráfico saliente, permitiendo al administrador abrir solo los puertos necesarios. Esto asegura un enfoque de seguridad "deny by default" (denegar por defecto).
+- **Soporte nativo para IPv6**: UFW gestiona tanto tráfico IPv4 como IPv6, lo que lo hace compatible con redes modernas, un detalle importante para máquinas virtuales en entornos virtualizados como VirtualBox o UTM.
+- **Registros (logs)**: Proporciona registros detallados del tráfico de red, que pueden habilitarse con ufw logging on y monitorearse en `/var/log/ufw.log` o `/var/log/syslog`. Estos registros son esenciales para auditar el tráfico y detectar intentos de acceso no autorizados.
+
+## TTY (Teletype o Terminal Type)
+
+**TTY**, que proviene de "*Teletype*" o "*Terminal Type*", es un término que hace referencia a las interfaces de terminal que permiten la interacción entre un usuario y un sistema operativo en Linux. Originalmente, un TTY representaba consolas físicas o dispositivos de entrada/salida como teletipos conectados directamente al sistema. Actualmente, el término se aplica tanto a consolas físicas como a terminales virtuales o sesiones de terminal abiertas en el sistema, que permiten al usuario ingresar comandos y recibir salidas, como en distribuciones como Debian y Rocky Linux.
+
+## Características principales
+
+- **Origen histórico**: En los primeros sistemas Unix, TTY se refería a dispositivos físicos como teletipos o terminales conectados al sistema mediante cables, usados para interactuar con computadoras en la década de 1970. Estos dispositivos enviaban y recibían datos en forma de texto mediante comandos básicos.
+
+Hoy en día, TTY abarca:
+
+- **Consolas físicas**: Terminales directamente conectadas al hardware, como `/dev/tty1`, `/dev/tty2`, etc., que corresponden a terminales de texto accesibles al iniciar el sistema o cambiar entre ellas con Ctrl+Alt+F1, Ctrl+Alt+F2, etc.
+- **Terminales virtuales**: Sesiones de terminal abiertas en el sistema, como las generadas por emuladores de terminal (por ejemplo, GNOME Terminal, xterm) o conexiones remotas como SSH, identificadas como `/dev/pts/X` (donde X es un número asignado dinámicamente).
+**Nomenclatura en Linux**: Los TTY se enumeran como archivos especiales en el directorio `/dev`, siguiendo una convención estándar: `/dev/tty1`, `/dev/tty2`, ..., `/dev/tty6` o más, representan terminales virtuales locales accesibles desde la consola física. `/dev/ttyS0`, `/dev/ttyS1`, etc., se refieren a puertos seriales físicos (obsoletos en muchos sistemas modernos). `/dev/pts/X` indica terminales pseudo-TTY, usados en emuladores de terminal o conexiones SSH.
+
+## Funciones y uso
+
+- Permiten la interacción directa del usuario con el sistema operativo mediante comandos en una línea de comandos (shell), como bash o sh.
+- Son esenciales para tareas administrativas, como configurar sudo, iniciar sesiones de root, o depurar problemas en modo texto.
