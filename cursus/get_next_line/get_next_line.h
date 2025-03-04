@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 10:52:22 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/10 12:23:12 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/04 12:23:30 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@
 #include <fcntl.h>
 
 char	*get_next_line(int fd);
-int	    ft_strchr(char *buffer, char c);
+int		ft_strchr(char *buffer, char c);
 size_t	ft_strlen(const char *s);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 char	*ft_strjoin(char const *s1, char const *s2);
+void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif

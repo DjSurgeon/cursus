@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 12:22:07 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/02/10 12:22:47 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/04 12:33:45 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ft_strchr(char *buffer, char c)
 {
 	size_t	i;
 
+	i = 0;
 	while (buffer[i] != '\0')
 	{
 		if (buffer[i] == c)
@@ -83,4 +84,26 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	new_string[i] = '\0';
 	return (new_string);
+}
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	size_t			i;
+	size_t			total_size;
+	void			*memory_pointer;
+	unsigned char	*clean_memory;
+
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	total_size = nmemb * size;
+	memory_pointer = malloc(total_size);
+	if (!memory_pointer)
+		return (NULL);
+	clean_memory = (unsigned char *)memory_pointer;
+	i = 0;
+	while (i < total_size)
+	{
+		clean_memory[i] = 0;
+		i++;
+	}
+	return (clean_memory);
 }
