@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 11:15:42 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/05 14:45:28 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/07 15:30:55 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ int main (void)
 	int		file_descriptor;
 	char	*line;
 
-	file_descriptor = open("example2.txt", O_RDONLY);
+	file_descriptor = open("hello.txt", O_RDONLY);
 	if (file_descriptor == -1)
 	{
 		printf("Error");

@@ -1,22 +1,3 @@
-Hola
-
-Mundo
-
-
-
-
-
-42
-
-
-
-
-p
-
-
-
-(
-
-
-	
-)
+Hola Mundo
+Hola 42
+Nuevalinea
