@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:33:36 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/10 11:14:08 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/03/10 11:45:04 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int main(void)
 	int		file_descriptor;
 	char	*gnl;
 
-	file_descriptor = open("example2.txt", O_RDONLY);
+	file_descriptor = open("hello.txt", O_RDONLY);
 
 	if (file_descriptor < 0)
 	{

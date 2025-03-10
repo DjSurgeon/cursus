@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:17:02 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/10 11:06:24 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:30:12 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,7 @@ char	*ft_strdup(const char *s)
 	duplicate = malloc (len + 1 * sizeof (char));
 	if (!duplicate)
 		return (NULL);
-	while (i < len)
-	{
-		duplicate[i] = s[i];
-		i++;
-	}
-	duplicate[i] = '\0';
-	return (duplicate);
-}
+	while (i < len) 
 /*
 **	Description: Concatenates two null-terminated strings into a newly
 	allocated string.

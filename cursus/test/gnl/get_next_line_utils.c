@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:17:02 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/07 12:42:25 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/10 12:11:43 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
