@@ -3,84 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/06 16:03:42 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/10 12:26:24 by sergio-jime      ###   ########.fr       */
+/*   Created: 2025/03/06 11:33:36 by sergio-jime       #+#    #+#             */
+/*   Updated: 2025/03/10 11:14:08 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static void	add_to_buffer(char *dynamic_buffer, char *buffer)
+char	*read_line(int fd, char **buffer)
 {
-	if (!dynamic_buffer || !buffer)	// control de errores
-		return ;
-	dynamic_buffer = malloc(buffer);	// reservar memoria para el nodo
-	if (!dynamic_buffer)
-		return ;
-	dynamic_buffer = ft_strlcat(dynamic_buffer, buffer, ft_strlen(buffer));
-}
+	char	*read_line;
+	char	*temporal;
+	char	*line;
+	int		bytes_read;
 
-static void	find_line(char *dynamic_buffer, int fd)
-{
-	char	*buffer;
-	int		bytes;
-
-	while (!(ft_strchr(*dynamic_buffer, '\n')))
+	read_line = malloc(BUFFER_SIZE + 1 * sizeof(char));
+	if (!read_line)
+		return (NULL);
+	if (*buffer == NULL)
+		*buffer = ft_strdup("");
+	bytes_read = 1;
+	while (bytes_read > 0)
 	{
-		buffer = malloc (BUFFER_SIZE + 1);
-		if (!buffer)
-			return ;
-		bytes = read(fd, buffer, BUFFER_SIZE);
-		if (bytes < 0)
+		bytes_read = read(fd, read_line, BUFFER_SIZE);
+		if (bytes_read < 0)
 		{
-			free (buffer);
-			return ;
+			free(read_line);
+			free(*buffer);
+			*buffer = NULL;
+			return (NULL);
 		}
-		if (bytes == 0)
+		read_line[bytes_read] = '\0';
+		*buffer = ft_strjoin(*buffer, read_line);
+		if ((temporal = ft_strchr(*buffer, '\n')))
 		{
-			free (buffer);
-			return ;
+			line = ft_substr(*buffer, 0, ft_strlen(*buffer) - ft_strlen(temporal) + 1);
+			temporal = ft_strdup(temporal + 1);
+			free(*buffer);
+			*buffer = temporal;
+			free(read_line);
+			return (line);
 		}
-		buffer[bytes] = '\0';
-		add_to_buffer(dynamic_buffer, buffer);
+		if (bytes_read == 0)
+			break ;
 	}
-	return (0);
+	free(read_line);
+	if (*buffer && **buffer != '\0')
+	{
+		line = ft_strdup(*buffer);
+		free(*buffer);
+		*buffer = NULL;
+		return (line);
+	}
+	line = NULL;
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
 {
-	char		*line;                  // Cuando tengamos la linea completa la devolveremos
-	static char	*dynamic_buffer;   	      		// variable estatica que guardara la linea
+	static char	*buffer;
+	char		*line;
 
-	*dynamic_buffer = NULL;
-	*line = NULL;
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
 		return (NULL);
-	find_line(dynamic_buffer, fd);
-	
+	line = read_line(fd, &buffer);
 	return (line);
 }
 
-#include <stdio.h>
-
-int	main(void)
+int main(void)
 {
-	char	*file_name = "example.txt";
-	int		fd;
+	int		file_descriptor;
+	char	*gnl;
 
-	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("Error\n");
-		return (-1);
-	}
-	else
-	{
-		get_next_line(fd);
-	}
-	close(fd);
+	file_descriptor = open("example2.txt", O_RDONLY);
 
+	if (file_descriptor < 0)
+	{
+		printf("Error");
+		return (1);
+	}
+	while ((gnl = get_next_line(file_descriptor)) != NULL)
+	{
+		printf("%s", gnl);
+		free (gnl);
+	}
+	close(file_descriptor);
 	return (0);
 }

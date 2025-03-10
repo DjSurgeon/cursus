@@ -5,105 +5,167 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 12:22:07 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/04 12:33:45 by serjimen         ###   ########.fr       */
+/*   Created: 2025/03/07 10:17:02 by sergio-jime       #+#    #+#             */
+/*   Updated: 2025/03/10 11:06:24 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strchr(char *buffer, char c)
-{
-	size_t	i;
-
-	i = 0;
-	while (buffer[i] != '\0')
-	{
-		if (buffer[i] == c)
-		{
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
+/*
+**	Description: Calculates the length of a null-terminated string.
+**	Parameters:
+**		- s: A pointer to the string whose length is to be calculated.
+**	Return:
+**		- The number of characters in the string, excluding the null terminator.
+*/
 size_t	ft_strlen(const char *s)
 {
-	size_t	i;
+	size_t	len;
 
-	i = 0;
-	while (s[i] != '\0')
+	len = 0;
+	while (*s)
 	{
-		i++;
+		s++;
+		len++;
 	}
-	return (i);
+	return (len);
 }
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+/*
+**	Description: Duplicates a null-terminated string by allocating memory and
+	copying its content.
+**	Parameters:
+**		- s: A pointer to the null-terminated string to be duplicated.
+**	Return:
+**		- A pointer to the newly allocated duplicate string.
+**		- NULL if memory allocation fails.
+*/
+
+char	*ft_strdup(const char *s)
 {
-	size_t	destination_len;
-	size_t	source_len;
+	char	*duplicate;
+	size_t	len;
 	size_t	i;
 
-	destination_len = ft_strlen(dst);
-	source_len = ft_strlen(src);
 	i = 0;
-	if (size <= destination_len)
-		return (size + source_len);
-	while (src[i] && (destination_len + i < size - 1))
+	len = ft_strlen (s);
+	duplicate = malloc (len + 1 * sizeof (char));
+	if (!duplicate)
+		return (NULL);
+	while (i < len)
 	{
-		dst[destination_len + i] = src[i];
+		duplicate[i] = s[i];
 		i++;
 	}
-	dst[destination_len + i] = '\0';
-	return (source_len + destination_len);
+	duplicate[i] = '\0';
+	return (duplicate);
 }
-char	*ft_strjoin(char const *s1, char const *s2)
+/*
+**	Description: Concatenates two null-terminated strings into a newly
+	allocated string.
+**	Parameters:
+**	- s1: A pointer to the first null-terminated string.
+**	- s2: A pointer to the second null-terminated string.
+**	Return:
+**	- A pointer to the newly allocated string containing the concatenation
+	of s1 and s2.
+**	- NULL if memory allocation fails.
+*/
+
+char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*new_string;
+	size_t	len_s1;
+	size_t	len_s2;
 	size_t	i;
 	size_t	j;
-	size_t	size_s1;
-	size_t	size_s2;
 
 	i = 0;
 	j = 0;
-	size_s1 = ft_strlen(s1);
-	size_s2 = ft_strlen(s2);
-	new_string = malloc(size_s1 + size_s2 + 1);
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	new_string = malloc(len_s1 + len_s2 + 1 * sizeof(char));
 	if (!new_string)
 		return (NULL);
-	while (i < size_s1)
+	while (i < len_s1)
 	{
 		new_string[i] = s1[i];
 		i++;
 	}
-	while (j < size_s2)
+	while (j < len_s2)
 	{
-		new_string[i + j] = s2 [j];
+		new_string[i + j] = s2[j];
 		j++;
 	}
-	new_string[i] = '\0';
+	new_string[i + j] = '\0';
 	return (new_string);
 }
-void	*ft_calloc(size_t nmemb, size_t size)
-{
-	size_t			i;
-	size_t			total_size;
-	void			*memory_pointer;
-	unsigned char	*clean_memory;
+/*
+**	Description: Locates the first occurrence of a character in a
+	null-terminated string.
+**	Parameters:
+**	- s: A pointer to the null-terminated string to search in.
+**	- c: The character to search for, passed as an int but treated
+	as an unsigned char.
+**	Return:
+**	- A pointer to the first occurrence of the character in the string.
+**	- A pointer to the null terminator if c is '\0'.
+**	- NULL if the character is not found.
+*/
 
-	if (nmemb == 0 || size == 0)
-		return (malloc(0));
-	total_size = nmemb * size;
-	memory_pointer = malloc(total_size);
-	if (!memory_pointer)
-		return (NULL);
-	clean_memory = (unsigned char *)memory_pointer;
-	i = 0;
-	while (i < total_size)
+char	*ft_strchr(const char *s, int c)
+{
+	const char	*ptr = s;
+
+	while (*ptr != '\0')
 	{
-		clean_memory[i] = 0;
+		if (*ptr == (unsigned char)c)
+			return ((char *)ptr);
+		ptr++;
+	}
+	if (c == '\0')
+		return ((char *)ptr);
+	return (NULL);
+}
+
+/*
+**	Description: Creates a new substring from a given string,
+	starting at a specified position.
+**	Parameters:
+**	- s: A pointer to the null-terminated source string.
+**	- start: The starting index from which to extract the substring.
+**	- len: The maximum length of the substring to extract.
+**	Return:
+**	- A pointer to the newly allocated substring.
+**	- An empty string if start is beyond the string's length.
+**	- NULL if s is NULL or if memory allocation fails.
+*/
+char	*ft_substr(const char *s, unsigned int start, size_t len)
+{
+	char	*substring;
+	size_t	s_len;
+	size_t	i;
+
+	if (!s)
+		return (NULL);
+	s_len = ft_strlen(s);
+	if (start >= s_len)
+	{
+		substring = malloc(1);
+		if (!substring)
+			return (NULL);
+		return (substring[0] = '\0', substring);
+	}
+	if (len > s_len - start)
+		len = s_len - start;
+	substring = malloc(len + 1);
+	if (!substring)
+		return (NULL);
+	i = 0;
+	while (i < len)
+	{
+		substring[i] = s[start + i];
 		i++;
 	}
-	return (clean_memory);
+	return (substring[i] = '\0', substring);
 }
