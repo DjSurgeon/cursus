@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:17:02 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/11 10:51:51 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/03/11 13:46:14 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		new_string[i + j] = s2[j];
 		j++;
 	}
-	new_string[i + j] = '\0';
-	return (new_string);
+	return (new_string[i + j] = '\0', new_string);
 }
 /*
 **	Description: Locates the first occurrence of a character in a
