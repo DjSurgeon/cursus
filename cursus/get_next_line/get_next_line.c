@@ -6,12 +6,22 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:17:17 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/12 14:20:33 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/12 14:59:02 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+/*
+**	Description: Cleans the buffer by extracting the remaining content after
+	a newline.
+**	Parameters:
+**	- buffer: A pointer to the buffer containing the read data.
+**	Return:
+**	- A new string with the content after the newline, or NULL if no newline
+	is found.
+**	- Frees the original buffer.
+*/
 char	*clean_buffer(char *buffer)
 {
 	char	*temp;
@@ -28,6 +38,15 @@ char	*clean_buffer(char *buffer)
 	return (NULL);
 }
 
+/*
+**	Description: Extracts a line from the buffer up to the newline character.
+**	Parameters:
+**	- buffer: A pointer to the buffer containing the read data.
+** Return:
+**	- A new string containing the line up to and including the newline
+	or the entire buffer if no newline is found.
+*/
+
 char	*extract_line(char *buffer)
 {
 	char	*line;
@@ -40,6 +59,15 @@ char	*extract_line(char *buffer)
 		line = ft_strdup(buffer);
 	return (line);
 }
+/*
+**	Description: Reads from the file descriptor and accumulates data in the
+	buffer until a newline or EOF is found.
+**	Parameters:
+**	- fd: The file descriptor to read from.
+**	- buffer: A pointer to the static buffer to accumulate data.
+**	Return:
+**	- The updated buffer with the new data read, or NULL if an error occurs.
+*/
 
 char	*read_line(int fd, char **buffer)
 {
@@ -68,6 +96,14 @@ char	*read_line(int fd, char **buffer)
 	}
 	return (*buffer);
 }
+/*
+**	Description: Reads the next line from a file descriptor.
+**	Parameters:
+**	- fd: The file descriptor to read from.
+**	Return:
+**	- A string containing the next line, or NULL if there are no more
+	lines or an error occurs.
+*/
 
 char	*get_next_line(int fd)
 {
@@ -87,19 +123,4 @@ char	*get_next_line(int fd)
 	line = extract_line(buffer);
 	buffer = clean_buffer(buffer);
 	return (line);
-}
-
-int	main(void)
-{
-	char	*gnl;
-	int		fd;
-
-	fd = open("hp.txt", O_RDONLY);
-	while ((gnl = get_next_line(fd)) != NULL)
-	{
-		printf("%s", gnl);
-		free(gnl);
-	}
-	close(fd);
-	return (0);
 }
