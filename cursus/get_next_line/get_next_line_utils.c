@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:17:02 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/10 15:30:12 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:11:36 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,14 @@ char	*ft_strdup(const char *s)
 	duplicate = malloc (len + 1 * sizeof (char));
 	if (!duplicate)
 		return (NULL);
-	while (i < len) 
+	while (i < len)
+	{
+		duplicate[i] = s[i];
+		i++;
+	}
+	duplicate[i] = '\0';
+	return (duplicate);
+}
 /*
 **	Description: Concatenates two null-terminated strings into a newly
 	allocated string.
@@ -90,8 +97,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		new_string[i + j] = s2[j];
 		j++;
 	}
-	new_string[i + j] = '\0';
-	return (new_string);
+	return (new_string[i + j] = '\0', new_string);
 }
 /*
 **	Description: Locates the first occurrence of a character in a
@@ -133,32 +139,32 @@ char	*ft_strchr(const char *s, int c)
 **	- An empty string if start is beyond the string's length.
 **	- NULL if s is NULL or if memory allocation fails.
 */
+
 char	*ft_substr(const char *s, unsigned int start, size_t len)
 {
 	char	*substring;
 	size_t	s_len;
 	size_t	i;
+	size_t	effective_len;
 
 	if (!s)
 		return (NULL);
 	s_len = ft_strlen(s);
 	if (start >= s_len)
-	{
-		substring = malloc(1);
-		if (!substring)
-			return (NULL);
-		return (substring[0] = '\0', substring);
-	}
-	if (len > s_len - start)
-		len = s_len - start;
-	substring = malloc(len + 1);
+		effective_len = 0;
+	else if (len > s_len - start)
+		effective_len = s_len - start;
+	else
+		effective_len = len;
+	substring = malloc(effective_len + 1);
 	if (!substring)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (i < effective_len)
 	{
 		substring[i] = s[start + i];
 		i++;
 	}
-	return (substring[i] = '\0', substring);
+	substring[i] = '\0';
+	return (substring);
 }

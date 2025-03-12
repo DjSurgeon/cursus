@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:33:36 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/11 14:40:35 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/03/12 00:05:58 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,31 +45,31 @@
 	}
 	return(NULL);
 } */
-	/*	Lectura del archivo
-	Reservar memoria para la linea leida, hacemos un malloc, para guardar cada vez que ejecutamos read
-	del tamaño + 1 para finalizar la cadena
-	Leemos el archivo en partes del tamaño dado (BUFFER_SIZE), hasta encontrar un salto de linea
-	*/
+/*	Lectura del archivo
+Reservar memoria para la linea leida, hacemos un malloc, para guardar cada vez que ejecutamos read
+del tamaño + 1 para finalizar la cadena
+Leemos el archivo en partes del tamaño dado (BUFFER_SIZE), hasta encontrar un salto de linea
+*/
 
-char	*read_line(int fd, char **buffer)
+char *read_line(int fd, char **buffer)
 {
-	
-	char	*read_line;		// buffer temporal para leer el archivo
-	char	*temporal;		// puntero temporal ara el rest despues de \n
-	char	*line;			// linea a devolver
-	int		bytes_read;		// numero de bytes leidos por read
-	
+
+	char *read_line; // buffer temporal para leer el archivo
+	char *temporal;	 // puntero temporal ara el rest despues de \n
+	char *line;		 // linea a devolver
+	int bytes_read;	 // numero de bytes leidos por read
+
 	read_line = malloc(BUFFER_SIZE + 1 * sizeof(char)); // malloc para reservar el buffer_size
 	if (!read_line)
 		return (NULL);
-	if (*buffer == NULL)	// si buffer esta vacio, pprimera llamada, por ejemplo ponemos cadena vacia, para evitar errores en el strjoin
+	if (*buffer == NULL) // si buffer esta vacio, pprimera llamada, por ejemplo ponemos cadena vacia, para evitar errores en el strjoin
 		*buffer = ft_strdup("");
 	// line = extract_lines(fd, read_line, *buffer);
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
-		bytes_read = read(fd, read_line, BUFFER_SIZE);	// leemos el archivo
-		if (bytes_read < 0)	// control de errores si bytes read es -1
+		bytes_read = read(fd, read_line, BUFFER_SIZE); // leemos el archivo
+		if (bytes_read < 0)							   // control de errores si bytes read es -1
 		{
 			free(read_line); // revisar estos free
 			free(*buffer);
@@ -88,34 +88,34 @@ char	*read_line(int fd, char **buffer)
 			return (line);
 		}
 		if (bytes_read == 0)
-			break;		
+			break;
 	}
 	if (*buffer && **buffer != '\0')
 	{
 		line = ft_strdup(*buffer);
-	 	free(read_line);	//loss 5 de 5
-	 	free(*buffer);
-	 	*buffer = NULL;
-	 	return (line);
+		free(read_line); // loss 5 de 5
+		free(*buffer);
+		*buffer = NULL;
+		return (line);
 	}
 	free(read_line);
 	line = NULL;
 	return (line);
 }
-	/*	Control de errores
-	Checkear el fd, los valores de la tabla de fd son siempre positivos
-	Checkear el BUFFER_SIZE, el tamaño del buffer siempre tiene que se mayor que 0
-	para poder escribir en el algo
-	Checkear los permisos, read puede devolver 0 si mandas leer un archivo y tienes permisos
-	si no tuviera permisos devolveria -1 y asi se controla el error
-	*/
+/*	Control de errores
+Checkear el fd, los valores de la tabla de fd son siempre positivos
+Checkear el BUFFER_SIZE, el tamaño del buffer siempre tiene que se mayor que 0
+para poder escribir en el algo
+Checkear los permisos, read puede devolver 0 si mandas leer un archivo y tienes permisos
+si no tuviera permisos devolveria -1 y asi se controla el error
+*/
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
-	static char	*buffer;
-	char		*line;
-	
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
+	static char *buffer = NULL;
+	char *line;
+
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &buffer, 0) < 0)
 		return (NULL);
 	line = read_line(fd, &buffer);
 	if (!line && buffer)
@@ -128,8 +128,8 @@ char	*get_next_line(int fd)
 
 int main(void)
 {
-	int		file_descriptor;
-	char	*gnl;
+	int file_descriptor;
+	char *gnl;
 
 	file_descriptor = open("hello.txt", O_RDONLY);
 
@@ -141,7 +141,7 @@ int main(void)
 	while ((gnl = get_next_line(file_descriptor)) != NULL)
 	{
 		printf("%s", gnl);
-		free (gnl);
+		free(gnl);
 	}
 	close(file_descriptor);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 10:17:02 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/11 13:46:14 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/03/12 13:33:18 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 {
 	char	*new_string;
 	size_t	len_s1;
-	size_t	len_s2;	
+	size_t	len_s2;
 	size_t	i;
 	size_t	j;
 
@@ -92,7 +92,6 @@ char	*ft_strjoin(const char *s1, const char *s2)
 		new_string[i] = s1[i];
 		i++;
 	}
-	free((void *)s1);
 	while (j < len_s2)
 	{
 		new_string[i + j] = s2[j];

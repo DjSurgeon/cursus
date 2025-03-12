@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   example8.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:17:17 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/12 14:20:33 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/12 13:43:16 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+
+
 char	*clean_buffer(char *buffer)
 {
 	char	*temp;
 	char	*line;
-
+	
 	temp = ft_strchr(buffer, '\n');
 	if (temp)
 	{
@@ -25,7 +27,7 @@ char	*clean_buffer(char *buffer)
 		return (line);
 	}
 	free(buffer);
-	return (NULL);
+	return(NULL);
 }
 
 char	*extract_line(char *buffer)
@@ -35,13 +37,17 @@ char	*extract_line(char *buffer)
 
 	temp = ft_strchr(buffer, '\n');
 	if (temp)
+	{
 		line = ft_substr(buffer, 0, ft_strlen(buffer) - ft_strlen(temp) + 1);
+	}
 	else
+	{
 		line = ft_strdup(buffer);
+	}
 	return (line);
 }
 
-char	*read_line(int fd, char **buffer)
+char	*read_line(int fd,char **buffer)
 {
 	char	*buffer_read;
 	int		bytes_read;
@@ -63,7 +69,7 @@ char	*read_line(int fd, char **buffer)
 		if (ft_strchr(*buffer, '\n') || bytes_read == 0)
 		{
 			free (buffer_read);
-			break ;
+			break;
 		}
 	}
 	return (*buffer);
@@ -74,7 +80,7 @@ char	*get_next_line(int fd)
 	static char	*buffer = NULL;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, &buffer, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
 	if (!buffer)
 		buffer = ft_strdup("");
@@ -89,7 +95,7 @@ char	*get_next_line(int fd)
 	return (line);
 }
 
-int	main(void)
+int main(void)
 {
 	char	*gnl;
 	int		fd;
