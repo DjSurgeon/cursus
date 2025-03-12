@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:17:17 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/12 14:59:02 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/13 00:34:08 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@
 	is found.
 **	- Frees the original buffer.
 */
-char	*clean_buffer(char *buffer)
+char *clean_buffer(char *buffer)
 {
-	char	*temp;
-	char	*line;
+	char *temp;
+	char *line;
 
 	temp = ft_strchr(buffer, '\n');
 	if (temp)
@@ -47,10 +47,10 @@ char	*clean_buffer(char *buffer)
 	or the entire buffer if no newline is found.
 */
 
-char	*extract_line(char *buffer)
+char *extract_line(char *buffer)
 {
-	char	*line;
-	char	*temp;
+	char *line;
+	char *temp;
 
 	temp = ft_strchr(buffer, '\n');
 	if (temp)
@@ -69,11 +69,11 @@ char	*extract_line(char *buffer)
 **	- The updated buffer with the new data read, or NULL if an error occurs.
 */
 
-char	*read_line(int fd, char **buffer)
+char *read_line(int fd, char **buffer)
 {
-	char	*buffer_read;
-	int		bytes_read;
-	char	*temp;
+	char *buffer_read;
+	int bytes_read;
+	char *temp;
 
 	buffer_read = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!buffer_read)
@@ -90,8 +90,8 @@ char	*read_line(int fd, char **buffer)
 		free(temp);
 		if (ft_strchr(*buffer, '\n') || bytes_read == 0)
 		{
-			free (buffer_read);
-			break ;
+			free(buffer_read);
+			break;
 		}
 	}
 	return (*buffer);
@@ -105,10 +105,10 @@ char	*read_line(int fd, char **buffer)
 	lines or an error occurs.
 */
 
-char	*get_next_line(int fd)
+char *get_next_line(int fd)
 {
-	static char	*buffer = NULL;
-	char		*line;
+	static char *buffer = NULL;
+	char *line;
 
 	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, &buffer, 0) < 0)
 		return (NULL);
@@ -116,7 +116,7 @@ char	*get_next_line(int fd)
 		buffer = ft_strdup("");
 	if (!read_line(fd, &buffer) || !*buffer)
 	{
-		free (buffer);
+		free(buffer);
 		buffer = NULL;
 		return (NULL);
 	}

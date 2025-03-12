@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:17:17 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/12 13:43:16 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/13 00:14:58 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,14 @@ char	*get_next_line(int fd)
 int main(void)
 {
 	char	*gnl;
-	int		fd;
+	//int		fd;
 
-	fd = open("hp.txt", O_RDONLY);
-	while ((gnl = get_next_line(fd)) != NULL)
+	// fd = open("hp.txt", O_RDONLY);
+	while ((gnl = get_next_line(1)) != NULL)
 	{
 		printf("%s", gnl);
 		free(gnl);
 	}
-	close(fd);
+	//close(fd);
 	return (0);
 }
