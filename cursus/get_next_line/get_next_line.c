@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:17:17 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/13 00:34:08 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/13 10:13:56 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char *get_next_line(int fd)
 	static char *buffer = NULL;
 	char *line;
 
-	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, &buffer, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
 	if (!buffer)
 		buffer = ft_strdup("");
