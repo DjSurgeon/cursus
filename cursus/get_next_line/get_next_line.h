@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 10:52:22 by serjimen          #+#    #+#             */
-/*   Updated: 2025/03/12 13:50:19 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/13 11:42:24 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <stdio.h>
+# include <stdbool.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
 # endif
 
 char	*get_next_line(int fd);
-char	*read_line(int fd, char **buffer);
+bool	read_line(int fd, char **buffer);
 char	*extract_line(char *buffer);
 char	*clean_buffer(char *buffer);
 size_t	ft_strlen(const char *s);

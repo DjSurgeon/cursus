@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:17:17 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/13 10:59:25 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/03/13 12:39:53 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*extract_line(char *buffer)
 **	- The updated buffer with the new data read, or NULL if an error occurs.
 */
 
-char	*read_line(int fd, char **buffer)
+bool	read_line(int fd, char **buffer)
 {
 	char	*buffer_read;
 	int		bytes_read;
@@ -78,13 +78,13 @@ char	*read_line(int fd, char **buffer)
 
 	buffer_read = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!buffer_read)
-		return (NULL);
+		return (false);
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer_read, BUFFER_SIZE);
 		if (bytes_read < 0)
-			return (free(buffer_read), NULL);
+			return (free(buffer_read), false);
 		buffer_read[bytes_read] = '\0';
 		temp = *buffer;
 		*buffer = ft_strjoin(temp, buffer_read);
@@ -95,7 +95,7 @@ char	*read_line(int fd, char **buffer)
 			break ;
 		}
 	}
-	return (*buffer);
+	return (true);
 }
 /*
 **	Description: Reads the next line from a file descriptor.
@@ -124,4 +124,26 @@ char	*get_next_line(int fd)
 	line = extract_line(buffer);
 	buffer = clean_buffer(buffer);
 	return (line);
+}
+int	main(void)
+{
+	int		fd;
+	char	*gnl;
+
+	fd = open("hp.txt", O_RDONLY);
+	if(fd < 0)
+	{
+		printf("Error in file descriptor");
+		return(-1);
+	}
+	else 
+	{
+		while ((gnl = get_next_line(fd)) != NULL)
+		{
+			printf("%s", gnl);
+			free(gnl);
+		}
+	}
+	close(fd);
+	return (0);
 }
