@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:04:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/22 01:45:48 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/31 10:44:28 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdbool.h>
 // #include libft
 // #include ft_printf
+// #include limits.h
 
 typedef struct s_stack_node
 {
