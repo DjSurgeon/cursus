@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:17:17 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/03/13 10:13:56 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/16 23:16:12 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 	is found.
 **	- Frees the original buffer.
 */
+
 char *clean_buffer(char *buffer)
 {
 	char *temp;
@@ -123,4 +124,26 @@ char *get_next_line(int fd)
 	line = extract_line(buffer);
 	buffer = clean_buffer(buffer);
 	return (line);
+}
+int main(void)
+{
+	int	fd;
+	char *gnl;
+
+	fd = open("empty.txt", O_RDONLY);
+	
+	if (fd < 0)
+	{
+		printf("Error");
+		return(-1);
+	}
+	else
+	{
+		while((gnl = get_next_line(fd)) != NULL)
+		{
+			printf("%s", gnl);
+			free(gnl);
+		}
+	}
+	return (0);
 }
