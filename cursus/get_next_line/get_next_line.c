@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:17:17 by sergio-jime       #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/03/16 23:16:12 by sergio-jime      ###   ########.fr       */
+=======
+/*   Updated: 2025/03/13 12:39:53 by serjimen         ###   ########.fr       */
+>>>>>>> 5c16492299516550ecb5fed7ac2ca090386a59d2
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +27,14 @@
 **	- Frees the original buffer.
 */
 
+<<<<<<< HEAD
 char *clean_buffer(char *buffer)
+=======
+char	*clean_buffer(char *buffer)
+>>>>>>> 5c16492299516550ecb5fed7ac2ca090386a59d2
 {
-	char *temp;
-	char *line;
+	char	*temp;
+	char	*line;
 
 	temp = ft_strchr(buffer, '\n');
 	if (temp)
@@ -48,10 +56,10 @@ char *clean_buffer(char *buffer)
 	or the entire buffer if no newline is found.
 */
 
-char *extract_line(char *buffer)
+char	*extract_line(char *buffer)
 {
-	char *line;
-	char *temp;
+	char	*line;
+	char	*temp;
 
 	temp = ft_strchr(buffer, '\n');
 	if (temp)
@@ -70,21 +78,21 @@ char *extract_line(char *buffer)
 **	- The updated buffer with the new data read, or NULL if an error occurs.
 */
 
-char *read_line(int fd, char **buffer)
+bool	read_line(int fd, char **buffer)
 {
-	char *buffer_read;
-	int bytes_read;
-	char *temp;
+	char	*buffer_read;
+	int		bytes_read;
+	char	*temp;
 
 	buffer_read = malloc(BUFFER_SIZE + 1 * sizeof(char));
 	if (!buffer_read)
-		return (NULL);
+		return (false);
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer_read, BUFFER_SIZE);
 		if (bytes_read < 0)
-			return (free(buffer_read), NULL);
+			return (free(buffer_read), false);
 		buffer_read[bytes_read] = '\0';
 		temp = *buffer;
 		*buffer = ft_strjoin(temp, buffer_read);
@@ -92,10 +100,10 @@ char *read_line(int fd, char **buffer)
 		if (ft_strchr(*buffer, '\n') || bytes_read == 0)
 		{
 			free(buffer_read);
-			break;
+			break ;
 		}
 	}
-	return (*buffer);
+	return (true);
 }
 /*
 **	Description: Reads the next line from a file descriptor.
@@ -106,10 +114,10 @@ char *read_line(int fd, char **buffer)
 	lines or an error occurs.
 */
 
-char *get_next_line(int fd)
+char	*get_next_line(int fd)
 {
-	static char *buffer = NULL;
-	char *line;
+	static char	*buffer = NULL;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
@@ -125,6 +133,7 @@ char *get_next_line(int fd)
 	buffer = clean_buffer(buffer);
 	return (line);
 }
+<<<<<<< HEAD
 int main(void)
 {
 	int	fd;
@@ -140,10 +149,30 @@ int main(void)
 	else
 	{
 		while((gnl = get_next_line(fd)) != NULL)
+=======
+int	main(void)
+{
+	int		fd;
+	char	*gnl;
+
+	fd = open("hp.txt", O_RDONLY);
+	if(fd < 0)
+	{
+		printf("Error in file descriptor");
+		return(-1);
+	}
+	else 
+	{
+		while ((gnl = get_next_line(fd)) != NULL)
+>>>>>>> 5c16492299516550ecb5fed7ac2ca090386a59d2
 		{
 			printf("%s", gnl);
 			free(gnl);
 		}
 	}
+<<<<<<< HEAD
+=======
+	close(fd);
+>>>>>>> 5c16492299516550ecb5fed7ac2ca090386a59d2
 	return (0);
 }
