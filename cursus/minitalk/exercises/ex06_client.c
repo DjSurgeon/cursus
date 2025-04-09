@@ -1,36 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex03_client.c                                      :+:      :+:    :+:   */
+/*   ex06_client.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/08 14:32:17 by serjimen          #+#    #+#             */
-/*   Updated: 2025/04/09 14:24:59 by serjimen         ###   ########.fr       */
+/*   Created: 2025/04/09 14:23:18 by serjimen          #+#    #+#             */
+/*   Updated: 2025/04/09 15:26:04 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <signal.h>
 #include <unistd.h>
+#include <signal.h>
 
-void	send_signal(pid_t pid)
+void	send_signal(pid_t pid, unsigned char c)
 {
-	if(kill(pid, SIGUSR1) == -1)
-		printf("Error\n");
-	else
-		printf("Signal send");
+	int	i;
+	int bit;
+
+	i = 7;
+	while (i >= 0)
+	{
+		bit = (c >> i) & 1;
+		if (bit == 0)
+		{
+			kill(pid, SIGUSR1);
+		}
+		else
+			kill(pid, SIGUSR2);
+		usleep(100);
+		i--;
+	}
 }
 
 int main(int argc, char *argv[])
 {
-	pid_t pid;
-	if(argc == 2)
+	pid_t	pid;
+
+	if(argc == 3)
 	{
 		pid = (pid_t)atoi(argv[1]);
-		send_signal(pid);
+		send_signal(pid, argv[2][0]);
 	}
-	else
-		printf("Use this -> <PID>\n ");
 	return (0);
 }
