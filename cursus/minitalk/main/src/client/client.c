@@ -1,53 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex06_client.c                                      :+:      :+:    :+:   */
+/*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 14:23:18 by serjimen          #+#    #+#             */
-/*   Updated: 2025/04/16 12:24:55 by sergio-jime      ###   ########.fr       */
+/*   Created: 2025/04/12 14:30:47 by sergio-jime       #+#    #+#             */
+/*   Updated: 2025/04/12 15:10:11 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+// #include "minitalk.h"
+#include <stdio.h>
 #include <unistd.h>
 #include <signal.h>
 #include <stdlib.h>
 
-static int	ft_strlen(const char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
-
-static void send_length(pid_t pid, unsigned int len)
-{
-	int i;
-	int bit;
-
-	i = 31;
-	while (i >= 0)
-	{
-		bit = (len >> i) & 1;
-		if(bit == 0)
-		{
-			kill(pid, SIGUSR1);
-		}
-		else
-		{
-			kill(pid, SIGUSR2);
-		}
-		usleep(500);
-		i--;
-	}
-	
-}
-
-static void	send_signal(pid_t pid, unsigned char c)
+void	send_signals(pid_t pid, unsigned char c)
 {
 	int	i;
 	int bit;
@@ -56,35 +25,29 @@ static void	send_signal(pid_t pid, unsigned char c)
 	while (i >= 0)
 	{
 		bit = (c >> i) & 1;
-		if (bit == 0)
-		{
+		if(bit == 0)
 			kill(pid, SIGUSR1);
-		}
 		else
 			kill(pid, SIGUSR2);
-		usleep(500);
+		usleep(100);
 		i--;
 	}
 }
 
 int main(int argc, char *argv[])
 {
-	pid_t	pid;
-	int		i;
-	int		len;
-
-	i = 0;
+	(void)argv;
 	if(argc == 3)
 	{
+		//TODO process the message
 		pid = (pid_t)atoi(argv[1]);
-		len = ft_strlen(argv[2]);
-		send_length(pid, len);
-		while (argv[2][i] != '\0')
-		{
-			send_signal(pid, argv[2][i]);
-			i++;
-		}
-		send_signal(pid, '\0');
+		send_signals(pid, argv[2][0]);
 	}
-	return (0);
+	else
+	{
+		printf("Error\n");
+		printf("How to use the client?\n");
+		printf("./client <PID> <Message>\n");
+	}
+	exit(EXIT_SUCCESS);
 }

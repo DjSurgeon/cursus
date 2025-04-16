@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex06_server.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 14:39:05 by serjimen          #+#    #+#             */
-/*   Updated: 2025/04/09 15:39:43 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:57:34 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void	handler_signs(int signum, siginfo_t *info, void *context)
+static void	handler_signs(int signum, siginfo_t *info, void *context)
 {
-	static	bit_count = 0;
+	static	int bit_count = 0;
 	static	unsigned char c = 0;
 
 	(void)context;
@@ -28,11 +28,18 @@ void	handler_signs(int signum, siginfo_t *info, void *context)
 	bit_count++;
 	if(bit_count == 8)
 	{
-		printf("%c\n", (char)c);
+		// TODO Procesar los bits y la longitud
+		
+		if (c == '\0')
+		{
+			write(1, "\0\n", 2);
+		}
+		else
+		{
+			write(1, &c, 1);
+		}
 		bit_count = 0;
 		c = 0;
-		// if(info != NULL)
-		// 	printf("\nPID: %i", info->si_pid);
 	}
 }
 
