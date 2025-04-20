@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:30:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/04/20 17:13:31 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/04/20 17:18:16 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	main(int argc, char *argv[])
 			send_signals(pid, argv[2][i]);
 			i++;
 		}
+		send_signals(pid, '\0');
 	}
 	else
 	{
@@ -51,6 +52,5 @@ int	main(int argc, char *argv[])
 		ft_putstr_fd("How to use the client?\n", 2);
 		ft_putstr_fd("./client <PID> <Message>\n", 2);
 	}
-	send_signals(pid, '\0');
 	exit(EXIT_SUCCESS);
 }
