@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:04:25 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/04/19 18:18:51 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/04/20 17:12:30 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,12 @@ int	main(void)
 	pid = getpid();
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	printf("Welcome to the minitalk 42 cursus project\n");
-	printf("The PID is [%d]\n", (int)pid);
-	printf("How to use the client?\n");
-	printf("./client <PID> <Message>\n");
+	ft_putstr_fd("Welcome to the minitalk 42 cursus project\n", 1);
+	ft_putstr_fd("The PID is: ", 1);
+	ft_putnbr_fd((int)pid, 1);
+	ft_putchar_fd('\n', 1);
+	ft_putstr_fd("How to use the client?\n", 1);
+	ft_putstr_fd("./client <PID> <Message>\n", 1);
 	while (1)
 		pause();
 	exit(EXIT_SUCCESS);
