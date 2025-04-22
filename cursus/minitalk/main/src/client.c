@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:30:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/04/20 17:18:16 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/04/22 12:36:18 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	send_signals(pid_t pid, unsigned char c)
 			kill(pid, SIGUSR1);
 		else
 			kill(pid, SIGUSR2);
-		usleep(100);
+		usleep(300);
 		i--;
 	}
 }

@@ -6,17 +6,16 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:05:13 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/04/20 16:53:43 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/04/22 13:07:39 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
-# define MINITAL_H
+# define MINITALK_H
 
 # include <unistd.h>
 # include <signal.h>
 # include <stdlib.h>
-# include <stdio.h>
 
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(const char *s1, const char *s2);
