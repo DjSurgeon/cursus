@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:30:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/04/22 12:36:18 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/05/01 17:59:23 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,15 @@ static void	send_signals(pid_t pid, unsigned char c)
 	{
 		bit = (c >> i) & 1;
 		if (bit == 0)
-			kill(pid, SIGUSR1);
+		{
+			if (kill(pid, SIGUSR1) == -1)
+				exit(EXIT_FAILURE);
+		}
 		else
-			kill(pid, SIGUSR2);
+		{
+			if (kill(pid, SIGUSR2) == -1)
+				exit(EXIT_FAILURE);
+		}
 		usleep(300);
 		i--;
 	}

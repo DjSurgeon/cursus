@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 14:04:25 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/04/20 17:12:30 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/05/01 18:03:50 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ int	main(void)
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
 	pid = getpid();
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
+	if (sigaction(SIGUSR1, &sa, NULL) == -1)
+		exit(EXIT_FAILURE);
+	if (sigaction(SIGUSR2, &sa, NULL) == -1)
+		exit(EXIT_FAILURE);
 	ft_putstr_fd("Welcome to the minitalk 42 cursus project\n", 1);
 	ft_putstr_fd("The PID is: ", 1);
 	ft_putnbr_fd((int)pid, 1);
