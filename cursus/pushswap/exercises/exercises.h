@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
+/*   exercises.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 10:32:03 by serjimen          #+#    #+#             */
-/*   Updated: 2025/05/05 15:48:50 by serjimen         ###   ########.fr       */
+/*   Created: 2025/05/05 15:34:58 by serjimen          #+#    #+#             */
+/*   Updated: 2025/05/05 15:56:20 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: add the new node to the front of the list
-**	parameters: pointer to the memory direction of the first node, the new node
-**	return: nothing
-*/
+#ifndef EXERCISES_H
+# define EXERCISES_H
 
-#include "libft.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+
+typedef struct s_node
 {
-	if (!lst || !new)
-		return ;
-	new->next = *lst;
-	*lst = new;
-}
+	int				value;
+	struct s_node	*next;
+}					t_node;
 
+t_node	*create_node(int value);
+
+#endif

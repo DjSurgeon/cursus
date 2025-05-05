@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front_bonus.c                            :+:      :+:    :+:   */
+/*   ex02.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 10:32:03 by serjimen          #+#    #+#             */
-/*   Updated: 2025/05/05 15:48:50 by serjimen         ###   ########.fr       */
+/*   Created: 2025/05/05 12:03:50 by serjimen          #+#    #+#             */
+/*   Updated: 2025/05/05 15:57:49 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: add the new node to the front of the list
-**	parameters: pointer to the memory direction of the first node, the new node
-**	return: nothing
-*/
+#include "exercises.h"
 
-#include "libft.h"
+// void add_front(t_node **head, t_node *new_node);
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+void	add_front(t_node **head, t_node *new_node)
 {
-	if (!lst || !new)
+	if (!head || !new_node)
 		return ;
-	new->next = *lst;
-	*lst = new;
+	new_node->next = *head;
+	*head = new_node;
 }
 
+int	main(void)
+{
+	t_node	*node1;
+	t_node	*node2;
+
+	node1 = create_node(10);
+	node2 = create_node(20);
+
+	printf("[INT] Node1.value = %d Node1.next = %p", node1->value, node1->value);
+
+	return (0);
+}
