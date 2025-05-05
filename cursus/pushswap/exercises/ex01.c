@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:42:19 by serjimen          #+#    #+#             */
-/*   Updated: 2025/05/05 15:31:33 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:20:43 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ various_nodes	*create_3(char *s, int i, double d)
 	my_node->next = NULL;
 	return (my_node);
 }
-
+/*
 int	main(void)
 {
 	int	value;
@@ -107,3 +107,4 @@ int	main(void)
 	printf("String: %s, Int: %d, Boolean: %f\n", my_node1->string, my_node1->value, my_node1->dooble);
 	return (0);
 }
+ */
