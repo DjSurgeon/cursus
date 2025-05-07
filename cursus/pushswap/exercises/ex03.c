@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex02.c                                             :+:      :+:    :+:   */
+/*   ex03.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 12:03:50 by serjimen          #+#    #+#             */
-/*   Updated: 2025/05/07 11:19:58 by serjimen         ###   ########.fr       */
+/*   Created: 2025/05/07 12:23:44 by serjimen          #+#    #+#             */
+/*   Updated: 2025/05/07 12:45:44 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exercises.h"
 
-// void add_front(t_node **head, t_node *new_node);
-
-void	add_front(t_node **head, t_node *new_node)
+void	add_back(t_node **head, t_node *new_node)
 {
+	t_node	*current;
+
 	if (!head || !new_node)
 		return ;
-	new_node->next = *head;
-	*head = new_node;
+	if (*head == NULL)
+	{
+		*head = new_node;
+		return ;
+	}
+	/* 3) Recorrer la lista hasta el último nodo */
+	current = *head;
+	while (current->next != NULL)
+		current = current->next;
+	/* 4) Enlazar el nuevo nodo al final */
+	current->next = new_node;
 }
-/*
-int	main(void)
-{
-	t_node	*node1;
-	t_node	*node2;
 
-	node1 = create_node(10);
-	node2 = create_node(20);
-
-	printf("[INT] Node1.value = %d Node1.next = %p", node1->value, node1->next);
-	printf("[INT] Node2.value = %d Node2.next = %p", node2->value, node2->next);
-
-	return (0);
-} */
