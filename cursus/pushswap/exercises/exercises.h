@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:34:58 by serjimen          #+#    #+#             */
-/*   Updated: 2025/05/07 12:57:48 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:12:35 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,8 @@ various_nodes	*create_3(char *s, int i, double d);
 t_node			*create_node(int value);
 void			add_front(t_node **head, t_node *new_node);
 void			add_back(t_node **head, t_node *new_node);
+int				list_length(t_node *head);
+void			print_list(t_node *head);
+void			free_list(t_node **head);
 
 #endif

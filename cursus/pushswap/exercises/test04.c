@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test03.c                                           :+:      :+:    :+:   */
+/*   test04.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/07 12:42:10 by serjimen          #+#    #+#             */
-/*   Updated: 2025/05/07 14:13:56 by serjimen         ###   ########.fr       */
+/*   Created: 2025/05/07 14:14:17 by serjimen          #+#    #+#             */
+/*   Updated: 2025/05/07 14:20:08 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- #include "exercises.h"
+#include "exercises.h"
 
- int	main(void)
+int	main(void)
  {
 	t_node	*head;
 	t_node	*node1;
@@ -48,7 +48,7 @@
 	add_front(&head, node4); // primer nodo ahora
 	printf("Node4 -> Value: %d Pointer: %p\n", node4->value, node4->next);
 	add_back(&head, node5);	// quinto nodo
-	printf("Node4 -> Value: %d Pointer: %p\n", node5->value, node5->next);
+	printf("Node5 -> Value: %d Pointer: %p\n", node5->value, node5->next);
 	t_node	*tmp;
 	tmp = head;
 
@@ -57,7 +57,15 @@
 		printf("Value: %d Pointer: %p ->", tmp->value, tmp->next);
 		tmp = tmp->next;
 	}
+	int	number;
 
-	
+	number = list_length(head); // Expect 5
+	printf("\nSize of the list: %d", number);
+
+	free(node1);
+	free(node2);
+	free(node3);
+	free(node4);
+	free(node5);
 	return (0);
  }
