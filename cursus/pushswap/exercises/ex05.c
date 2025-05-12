@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:57:53 by serjimen          #+#    #+#             */
-/*   Updated: 2025/05/12 14:13:58 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:35:06 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ bool check_arguments(int argc, char *argv[])
 	i = 0;
 	while (i < argc)
 	{
-		if (ft_signednbr(argv[i]))
-			return (true);
+		if (!isdigit(argv[i][0]))
+			return (false);
+		if (!ft_signednbr(argv[i]))
+			return (false);
 		i++;
 	}
-	return (false);
+	return (true);
 }

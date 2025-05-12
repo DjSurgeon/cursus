@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 10:24:39 by serjimen          #+#    #+#             */
-/*   Updated: 2025/05/12 14:12:38 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:25:13 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,14 @@ int	main(int argc, char *argv[])
 	stack_b =  NULL;
 	if (argc >= 2)
 	{
-		while (check_arguments(argc, &argv[i]))
+		while (i < argc)
+		{
+			if (!check_arguments(argc, &argv[i]))
+				return (printf("Error argumentos no validos"));
 			i++;
-		printf("argumentos validos\n");
-		printf("añadiendo argumentos al stack\n");
+		}
+		printf("argumentos validos!\n");
+		printf("añadiendo argumentos al stack...\n");
 		i = 1;
 		while (i < argc)
 		{
@@ -35,7 +39,7 @@ int	main(int argc, char *argv[])
 			add_back(&stack_a, create_stack);
 			i++;
 		}
-		printf("mostrando argumentos en el stack\n");
+		printf("mostrando argumentos en el stack:\n");
 		print_list(stack_a);
 	}
 	else
