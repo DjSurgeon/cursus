@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 15:34:58 by serjimen          #+#    #+#             */
-/*   Updated: 2025/05/07 15:12:35 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:09:12 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <stdbool.h>
+# include <ctype.h>
 
 typedef struct s_node
 {
@@ -38,5 +40,7 @@ void			add_back(t_node **head, t_node *new_node);
 int				list_length(t_node *head);
 void			print_list(t_node *head);
 void			free_list(t_node **head);
+bool			check_arguments(int argc, char *argv[]);
+bool 			ft_signednbr(char *str);
 
 #endif

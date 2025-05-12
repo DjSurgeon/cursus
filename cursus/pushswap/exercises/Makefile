@@ -6,7 +6,7 @@
 #    By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/05 16:03:21 by serjimen          #+#    #+#              #
-#    Updated: 2025/05/07 14:13:48 by serjimen         ###   ########.fr        #
+#    Updated: 2025/05/12 12:02:02 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ RM      = rm -f
 SRCS    =	ex01.c \
 			ex02.c \
 			ex03.c \
-			ex04.c
+			ex04.c \
+			ex05.c
 
 OBJS    = $(SRCS:.c=.o)
 
