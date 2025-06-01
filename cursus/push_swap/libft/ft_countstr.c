@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_countstr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 10:32:03 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/01 16:04:19 by sergio-jime      ###   ########.fr       */
+/*   Created: 2025/06/01 17:39:31 by sergio-jime       #+#    #+#             */
+/*   Updated: 2025/06/01 17:39:54 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: add the new node to the front of the list
-**	parameters: pointer to the memory direction of the first node, the new node
-**	return: nothing
-*/
-
 #include "libft.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+/*
+**	description: write a string and count it
+**	parameters: a string
+**	return: the numbers of chars printed
+*/
+
+int	ft_countstr(char *s)
 {
-	if (!lst || !new)
-		return ;
-	new->next = *lst;
-	*lst = new;
+	int	count;
+
+	count = 0;
+	if (s == NULL)
+	{
+		write(1, "(null)", 6);
+		return (6);
+	}
+	while (*s)
+	{
+		count += write(1, s, 1);
+		s++;
+	}
+	return (count);
 }
