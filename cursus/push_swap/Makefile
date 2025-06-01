@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+         #
+#    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/21 13:12:04 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/05/12 15:42:35 by serjimen         ###   ########.fr        #
+#    Updated: 2025/06/01 15:49:51 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ LIBFT_A		:= $(LIBFT_DIR)/libft.a
 
 SRC_LIB		:= $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES	:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
+
+# Rules ====================================================================== #
 
 all: $(LIBFT_A) $(NAME)
 
