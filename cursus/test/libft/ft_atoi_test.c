@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi_test.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 14:35:33 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 14:51:26 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:37:59 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_atoi(const char *str)
 	int		sign;
     int		result;
     size_t  i;
-    
+
 	result = 0;
 	sign = 1;
     i = 0;
@@ -51,7 +51,7 @@ int main(void)
     const char *number2 = "-2147483648";
     const char *number3 = "2147483647";
     const char *empty = "";
-    
+
     printf("%d\n", ft_atoi(number1)); // expect 1234
     printf("%d\n", ft_atoi(number2)); // expect -2147483648
     printf("%d\n", ft_atoi(number3)); // expect 2147483647

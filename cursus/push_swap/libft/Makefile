@@ -6,7 +6,7 @@
 #    By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/28 23:41:16 by serjimen          #+#    #+#              #
-#    Updated: 2025/05/12 14:50:04 by serjimen         ###   ########.fr        #
+#    Updated: 2025/06/02 10:58:27 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,17 +16,26 @@ CFLAGS = -Wall -Wextra -Werror
 SOURCE = 	ft_atoi.c \
 			ft_bzero.c \
 			ft_calloc.c \
+			ft_countchar.c \
+			ft_counthexalo.c \
+			ft_counthexaup.c \
+			ft_countint.c \
+			ft_countpointer.c \
+			ft_countstr.c \
+			ft_countunsig.c \
 			ft_isalnum.c \
 			ft_isalpha.c \
 			ft_isascii.c \
 			ft_isdigit.c \
 			ft_isprint.c \
+			ft_isspace.c \
 			ft_itoa.c \
 			ft_memchr.c \
 			ft_memcmp.c \
 			ft_memcpy.c \
 			ft_memmove.c \
 			ft_memset.c \
+			ft_printf.c \
 			ft_putchar_fd.c \
 			ft_putendl_fd.c \
 			ft_putnbr_fd.c \
@@ -55,7 +64,8 @@ SOURCE = 	ft_atoi.c \
 			ft_lstdelone.c \
 			ft_lstclear.c \
 			ft_lstiter.c \
-			ft_lstmap.c
+			ft_lstmap.c \
+			get_next_line.c \
 
 OBJ = $(SOURCE:%.c=%.o)
 

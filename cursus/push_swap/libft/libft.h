@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:44:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/01 17:40:41 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/02 10:58:10 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,24 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <stdint.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdbool.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
 
 int		ft_atoi(const char *str);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
 int		ft_countchar(char c);
+int		ft_counthexaup(unsigned long long n);
+int		ft_counthexalo(unsigned long long n);
+int		ft_countint(int n);
+int		ft_countpointer(uintptr_t n);
 int		ft_countstr(char *s);
+int		ft_countunsig(unsigned int n);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
@@ -56,6 +68,7 @@ char	*ft_strtrim(const char *s1, const char *set);
 char	*ft_substr(const char *s, unsigned int start, size_t len);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
+char	*get_next_line(int fd);
 
 typedef struct s_list
 {
