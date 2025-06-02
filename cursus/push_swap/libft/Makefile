@@ -6,83 +6,60 @@
 #    By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/28 23:41:16 by serjimen          #+#    #+#              #
-#    Updated: 2025/06/02 10:58:27 by serjimen         ###   ########.fr        #
+#    Updated: 2025/06/02 12:08:23 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libft.a
-CC = cc
-CFLAGS = -Wall -Wextra -Werror
-SOURCE = 	ft_atoi.c \
-			ft_bzero.c \
-			ft_calloc.c \
-			ft_countchar.c \
-			ft_counthexalo.c \
-			ft_counthexaup.c \
-			ft_countint.c \
-			ft_countpointer.c \
-			ft_countstr.c \
-			ft_countunsig.c \
-			ft_isalnum.c \
-			ft_isalpha.c \
-			ft_isascii.c \
-			ft_isdigit.c \
-			ft_isprint.c \
-			ft_isspace.c \
-			ft_itoa.c \
-			ft_memchr.c \
-			ft_memcmp.c \
-			ft_memcpy.c \
-			ft_memmove.c \
-			ft_memset.c \
-			ft_printf.c \
-			ft_putchar_fd.c \
-			ft_putendl_fd.c \
-			ft_putnbr_fd.c \
-			ft_putstr_fd.c \
-			ft_split.c \
-			ft_strchr.c \
-			ft_strdup.c \
-			ft_striteri.c \
-			ft_strjoin.c \
-			ft_strlcat.c \
-			ft_strlcpy.c \
-			ft_strlen.c \
-			ft_strmapi.c \
-			ft_strncmp.c \
-			ft_strnstr.c \
-			ft_strrchr.c \
-			ft_strtrim.c \
-			ft_substr.c \
-			ft_tolower.c \
-			ft_toupper.c \
-			ft_lstnew.c \
-			ft_lstadd_front.c \
-			ft_lstsize.c \
-			ft_lstlast.c \
-			ft_lstadd_back.c \
-			ft_lstdelone.c \
-			ft_lstclear.c \
-			ft_lstiter.c \
-			ft_lstmap.c \
-			get_next_line.c \
+# Color codes ================================================================= #
+RED			:= \e[0;31m
+GREEN		:= \e[0;32m
+BGREEN		:= \e[1;32m
+YELLOW		:= \e[0;33m
+BLUE		:= \e[0;34m
+NC			:= \e[0m
 
-OBJ = $(SOURCE:%.c=%.o)
+# Program ==================================================================== #
+
+NAME		:= libft.a
+
+# Directories ================================================================ #
+
+SRC_DIR		:= src
+OBJ_DIR		:= build
+INC_DIR		:= include
+
+# Compiler =================================================================== #
+
+CC			:= cc
+CFLAGS		:= -Wall -Wextra -Werror -I$(INC_DIR)
+
+# Files ====================================================================== #
+
+SRC_FILES	:= $(wildcard $(SRC_DIR)/*.c)
+OBJ_FILES	:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
+
+# Rules ====================================================================== #
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+$(NAME): $(OBJ_FILES)
+	@ar rcs $(NAME) $(OBJ_FILES)
+	@printf "$(GREEN)$(NAME) Ready!, compile completed$(NC)\n"
 
-%.o: %.c libft.h
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/libft.h
+	@mkdir -p $(OBJ_DIR)
+	@printf "$(BLUE)Creating objects $< $(NC)\n"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
+	@printf "$(RED)Clean objects$(NC)\n"
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@printf "$(RED)Clean library$(NC)\n"
 
 re: fclean all
+	@printf "$(YELLOW)Rebuild completed$(NC)\n"
 
 .PHONY: all clean fclean re

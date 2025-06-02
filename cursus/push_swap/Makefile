@@ -3,21 +3,24 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
+#    By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/21 13:12:04 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/06/01 15:49:51 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/06/02 12:32:48 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+# Color codes ================================================================= #
+RED			:= \e[0;31m
+GREEN		:= \e[0;32m
+BGREEN		:= \e[1;32m
+YELLOW		:= \e[0;33m
+BLUE		:= \e[0;34m
+NC			:= \e[0m
+
 # Program ==================================================================== #
 
-NAME := push_swap
-
-# Compiler =================================================================== #
-
-CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g -I$(INC_DIR) -I$(LIBFT_DIR)
+NAME		:= push_swap
 
 # Directories ================================================================ #
 
@@ -27,9 +30,14 @@ OBJ_DIR		:= build
 LIBFT_DIR	:= libft
 LIBFT_A		:= $(LIBFT_DIR)/libft.a
 
+# Compiler =================================================================== #
+
+CC			:= cc
+CFLAGS		:= -Wall -Wextra -Werror -g -I$(INC_DIR) -I$(LIBFT_DIR)
+
 # Files ====================================================================== #
 
-SRC_LIB		:= $(wildcard $(SRC_DIR)/*.c)
+SRC_FILES	:= $(wildcard $(SRC_DIR)/*.c)
 OBJ_FILES	:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 # Rules ====================================================================== #
@@ -37,20 +45,27 @@ OBJ_FILES	:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 all: $(LIBFT_A) $(NAME)
 
 $(LIBFT_A):
-	$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C $(LIBFT_DIR)
+	@printf "$(BGREEN)Compiling libft$(NC)\n"
 
 $(NAME): $(OBJ_FILES)
-	ar rcs $(NAME) $(OBJ)
+	@$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT_A) -o $(NAME)
+	@printf "$(BGREEN)Built!$(NC)\n"
 
-%.o: %.c push_swap.h
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/push_swap.h
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@printf "$(BLUE)Compiling$(NC)\n"
 
 clean:
-	rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR)
+	@printf "$(RED)Clean objects$(NC)\n"
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@printf "$(RED)Clean all$(NC)\n"
 
 re: fclean all
+	@printf "$(YELLOW)Rebuild completed$(NC)\n"
 
 .PHONY: all clean fclean re

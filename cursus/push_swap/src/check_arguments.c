@@ -1,41 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   check_arguments.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/02 13:24:22 by serjimen         ###   ########.fr       */
+/*   Created: 2025/06/02 13:25:03 by serjimen          #+#    #+#             */
+/*   Updated: 2025/06/02 13:40:10 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	main(int argc, char *argv[])
+bool	check_arguments(int argc, char **argv)
 {
-	t_stack_node	*stack_a;
-	t_stack_node	*stack_b;
-	//t_stack_node	*create_stack;
 	int	i;
 
-	i = 1;
-	stack_a = NULL;
-	stack_b = NULL;
-	(void) argv;
-	if (argc >= 2)
+	i = 0;
+	while (argv[argc][i] != '\0')
 	{
-		while(i < argc)
+		if (ft_isdigit(argv[argc][i]) == 1)
 		{
-			if (!check_arguments(argc, &argv[i]))
-				return (printf("Error"));
 			i++;
 		}
-		ft_printf("Argumentos válidos.");
+		else
+		{
+			return (false);
+		}
 	}
-	else
-	{
-		ft_printf("No hay argumentos, devolviendo el control al usuario.");
-	}
-	return (0);
+	return (true);
 }
