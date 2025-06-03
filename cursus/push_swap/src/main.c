@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/02 13:24:22 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/06/03 23:46:57 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,29 @@
 
 int	main(int argc, char *argv[])
 {
-	t_stack_node	*stack_a;
-	t_stack_node	*stack_b;
-	//t_stack_node	*create_stack;
-	int	i;
+	//t_stack_node	*stack_a;
+	//t_stack_node	*stack_b;
+	char		**arr;
 
-	i = 1;
-	stack_a = NULL;
-	stack_b = NULL;
+	//stack_a = NULL;
+	//stack_b = NULL;
 	(void) argv;
-	if (argc >= 2)
+	if (argc < 2)
+		ft_printf("No hay argumentos, devolviendo el control al usuario.\n");
+	// if (argc == 2 && argv[1][0] == '\0')
+	// 	ft_printf ("Error. Argumentos vacios.\n");
+	if (argc == 2)
 	{
-		while(i < argc)
-		{
-			if (!check_arguments(argc, &argv[i]))
-				return (printf("Error"));
-			i++;
-		}
-		ft_printf("Argumentos válidos.");
+		arr = argument_to_array(argv);
+		check_array(arr);
 	}
-	else
+	int	i = 0;
+	while (arr[i] != NULL)
 	{
-		ft_printf("No hay argumentos, devolviendo el control al usuario.");
+		ft_printf("main -> %s\n", arr[i]);
+		free (arr[i]);
+		i++;
 	}
+	free (arr);
 	return (0);
 }

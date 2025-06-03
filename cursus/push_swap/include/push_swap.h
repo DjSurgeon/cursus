@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:04:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/02 13:40:50 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/06/03 20:13:44 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdlib.h>
 # include <stdbool.h>
 # include "../libft/include/libft.h"
+# include <limits.h>
 
 typedef struct s_stack_node
 {
@@ -31,7 +32,9 @@ typedef struct s_stack_node
 
 // Modulo de parseo y validaciones de entrada
 
-bool	check_arguments(int argc, char **argv);
+char	**argument_to_array(char **argv);
+bool	check_array(char **c_array);
+int		*char_array_to_int_array(char **argv);
 
 // Modulo de manipulacion del stack
 
