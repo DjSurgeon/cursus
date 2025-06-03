@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/03 23:46:57 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/03 23:48:56 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	main(int argc, char *argv[])
 	(void) argv;
 	if (argc < 2)
 		ft_printf("No hay argumentos, devolviendo el control al usuario.\n");
-	// if (argc == 2 && argv[1][0] == '\0')
-	// 	ft_printf ("Error. Argumentos vacios.\n");
 	if (argc == 2)
 	{
 		arr = argument_to_array(argv);

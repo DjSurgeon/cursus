@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+         #
+#    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/21 13:12:04 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/06/02 12:32:48 by serjimen         ###   ########.fr        #
+#    Updated: 2025/06/04 00:12:46 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,9 @@ CFLAGS		:= -Wall -Wextra -Werror -g -I$(INC_DIR) -I$(LIBFT_DIR)
 # Files ====================================================================== #
 
 SRC_FILES	:= $(wildcard $(SRC_DIR)/*.c)
+
+# Objects ===================================================================== #
+
 OBJ_FILES	:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 # Rules ====================================================================== #

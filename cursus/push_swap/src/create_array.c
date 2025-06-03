@@ -6,16 +6,15 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 12:56:19 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/03 22:59:32 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/03 23:49:36 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
 /*
 Voy a crear una función que coja los argumentos y los separe para luego 
 validarlo esta funcion trabaja en chars.
-*/ 
+*/
 char	**argument_to_array(char **argv)
 {
 	char	**c_array;

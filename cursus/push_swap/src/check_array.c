@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:34:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/03 23:47:30 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/03 23:49:51 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static bool	is_duplicated(int *i_array)
 
 	i = 0;
 	if (i_array == NULL)
-		return(false);
+		return (false);
 	while (i_array[i])
 	{
 		temp = i_array[i];
