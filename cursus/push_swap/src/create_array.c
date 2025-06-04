@@ -6,27 +6,31 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 12:56:19 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/03 23:49:36 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/04 13:31:35 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-/*
-Voy a crear una función que coja los argumentos y los separe para luego 
-validarlo esta funcion trabaja en chars.
-*/
-char	**argument_to_array(char **argv)
+/**
+ * @brief function to split the arguments in case argc == 2
+ * @param argv the string
+ * @return a array of arrays
+ */
+char	**argument_to_array(char *argv)
 {
 	char	**c_array;
 
-	c_array = ft_split(argv[1], ' ');
+	if (argv == NULL)
+		return (NULL);
+	c_array = ft_split(argv, ' ');
 	return (c_array);
 }
 
-/*
-Una vez validados los chars, los pasamos a un array de ints para verificar 
-los duplicados
-*/
+/**
+ * @brief function to pass the char array to array of ints
+ * @param argv the array of chars
+ * @return the array of ints
+ */
 int	*char_array_to_int_array(char **argv)
 {
 	int		i;
@@ -36,11 +40,9 @@ int	*char_array_to_int_array(char **argv)
 	i = 0;
 	while (argv[i] != NULL)
 		i++;
-	i_array = ft_calloc(i + 1, sizeof(int));
+	i_array = ft_calloc(i, sizeof(int));
 	if (i_array == NULL)
-	{
 		return (NULL);
-	}
 	i = 0;
 	while (argv[i] != NULL)
 	{
