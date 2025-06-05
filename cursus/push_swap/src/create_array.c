@@ -6,15 +6,15 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 12:56:19 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/04 13:31:35 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/05 13:37:34 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 /**
- * @brief function to split the arguments in case argc == 2
- * @param argv the string
- * @return a array of arrays
+ * @brief Function to split the arguments in case argc == 2.
+ * @param argv The string.
+ * @return A array of arrays.
  */
 char	**argument_to_array(char *argv)
 {
@@ -27,30 +27,27 @@ char	**argument_to_array(char *argv)
 }
 
 /**
- * @brief function to pass the char array to array of ints
- * @param argv the array of chars
- * @return the array of ints
+ * @brief Function to pass the char array to array of ints
+ * @param argv The array of chars
+ * @param length The Length of the array.
+ * @return The array of ints.
  */
-int	*char_array_to_int_array(char **argv)
+int	*char_array_to_int_array(char **argv, int length)
 {
-	int		i;
 	int		*i_array;
 	long	number;
 
-	i = 0;
-	while (argv[i] != NULL)
-		i++;
-	i_array = ft_calloc(i, sizeof(int));
+	i_array = ft_calloc(length, sizeof(int));
 	if (i_array == NULL)
 		return (NULL);
-	i = 0;
-	while (argv[i] != NULL)
+	length = 0;
+	while (argv[length] != NULL)
 	{
-		number = ft_atol(argv[i]);
+		number = ft_atol(argv[length]);
 		if (number > INT_MAX || number < INT_MIN)
 			return (free(i_array), NULL);
-		i_array[i] = (int)number;
-		i++;
+		i_array[length] = (int)number;
+		length++;
 	}
 	return (i_array);
 }

@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_array.c                                       :+:      :+:    :+:   */
+/*   free_stack.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 13:09:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/05 13:32:35 by sergio-jime      ###   ########.fr       */
+/*   Created: 2025/06/05 12:53:23 by sergio-jime       #+#    #+#             */
+/*   Updated: 2025/06/05 13:03:28 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /**
- * @brief Free the char array and all the elements.
- * @param c_array The array of chars.
+ * 
  */
-void	free_array(char **c_array)
-{
-	int	i;
 
-	if (!c_array)
+void	free_stack(t_stack **stack)
+{
+	t_stack	*current;
+	t_stack	*next;
+	
+	if (!stack || !*stack)
 		return ;
-	i = 0;
-	while (c_array[i])
+	current = *stack;
+	while (current != NULL)
 	{
-		free(c_array[i]);
-		i++;
+		next = current->next;
+		free(current);
+		current = next;
 	}
-	free(c_array);
+	*stack = NULL;
 }

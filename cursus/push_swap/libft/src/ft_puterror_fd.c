@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_array.c                                       :+:      :+:    :+:   */
+/*   ft_puterror_fd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/04 13:09:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/05 13:32:35 by sergio-jime      ###   ########.fr       */
+/*   Created: 2025/06/05 13:39:02 by sergio-jime       #+#    #+#             */
+/*   Updated: 2025/06/05 13:44:05 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "libft.h"
 
-/**
- * @brief Free the char array and all the elements.
- * @param c_array The array of chars.
- */
-void	free_array(char **c_array)
+void	ft_puterror_fd(char *str, int fd)
 {
-	int	i;
-
-	if (!c_array)
-		return ;
-	i = 0;
-	while (c_array[i])
-	{
-		free(c_array[i]);
-		i++;
-	}
-	free(c_array);
+	ft_putstr_fd(str, fd);
 }

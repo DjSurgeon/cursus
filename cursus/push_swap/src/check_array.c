@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:34:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/04 14:45:51 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/05 13:44:41 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,10 @@ static bool	is_digit(char **c_array)
 /**
  * @brief Check if the number is duplicated.
  * @param i_array The array of ints.
+ * @param length The length of the array.
  * @return False if the number is duplicated, true otherwise.
  */
-static bool	is_duplicated(int *i_array)
+static bool	is_duplicated(int *i_array, int length)
 {
 	int	i;
 	int	j;
@@ -98,11 +99,11 @@ static bool	is_duplicated(int *i_array)
 	i = 0;
 	if (i_array == NULL)
 		return (false);
-	while (i_array[i])
+	while (i < length)
 	{
 		temp = i_array[i];
 		j = i + 1;
-		while (i_array[j])
+		while (j < length)
 		{
 			if (temp == i_array[j])
 				return (true);
@@ -120,26 +121,23 @@ static bool	is_duplicated(int *i_array)
  */
 bool	check_array(char **c_array)
 {
-	int	i;
 	int	*i_array;
+	int	length;
 
-	i = 0;
+	length = 0;
+	while (c_array[length] != NULL)
+		length++;
 	if (is_empty(c_array))
-		return (ft_printf("Error\n"), false);
+		return (ft_puterror_fd("Error\n", 2), false);
 	if (is_letter(c_array))
-		return (ft_printf("Error\n"), false);
+		return (ft_puterror_fd("Error\n", 2), false);
 	if (!is_digit(c_array))
-		return (ft_printf("Error\n"), false);
-	i_array = char_array_to_int_array(c_array);
+		return (ft_puterror_fd("Error\n", 2), false);
+	i_array = char_array_to_int_array(c_array, length);
 	if (i_array == NULL)
-		return (ft_printf("Error\n"), false);
-	if (is_duplicated(i_array))
-		return (ft_printf("Error\n"), false);
-	while (i_array[i])
-	{
-		ft_printf("int -> %d\n", i_array[i]);
-		i++;
-	}
+		return (ft_puterror_fd("Error\n", 2), false);
+	if (is_duplicated(i_array, length))
+		return (ft_puterror_fd("Error\n", 2), false);
 	free(i_array);
 	return (true);
 }
