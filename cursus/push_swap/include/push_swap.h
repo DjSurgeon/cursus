@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:04:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/05 13:27:32 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/06 17:42:39 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@ int		*char_array_to_int_array(char **argv, int length);
 t_stack	*create_stack(char **array);
 
 // Modulo de operaciones del stack
+
+void	ps_swap_a(t_stack **stack, bool print);
+void	ps_swap_b(t_stack **stack, bool print);
+void	ps_swap_ss(t_stack **stack_a, t_stack **stack_b);
+void	ps_push_b(t_stack **stack_a, t_stack **stack_b, bool print);
+void	ps_push_a(t_stack **stack_a, t_stack **stack_b, bool print);
+void	ps_rotate_a(t_stack **stack, bool print);
+void	ps_rotate_b(t_stack **stack, bool print);
+void	ps_rotate_rr(t_stack **stack_a,t_stack **stack_b);
 
 // Modulo de manipulacion del stack
 

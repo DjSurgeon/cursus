@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/05 13:35:14 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/06 17:52:08 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,18 @@ static void	ft_ps_printlist(t_stack *head)
 {
 	t_stack	*temp;
 
+	if (!head)
+		ft_printf("NULL List");
 	temp = head;
 	while (temp != NULL)
 	{
-		printf("%d\n", temp->value);
+		ft_printf("[%d]", temp->value);
+		ft_printf("[%p]", temp->next);
 		temp = temp->next;
+		if (temp != NULL)
+			ft_printf(" -> ");;
 	}
+	ft_printf("\n");
 }
 /**
  * @brief Entry point for push_swap: parse command-line arguments into a string
@@ -39,10 +45,11 @@ static void	ft_ps_printlist(t_stack *head)
 int	main(int argc, char *argv[])
 {
 	t_stack	*stack_a;
-	//t_stack	*stack_b;
+	t_stack	*stack_b;
 	char		**arr;
 
-	//stack_b = NULL;
+	stack_a = NULL;
+	stack_b = NULL;
 	if (argc < 2)
 		return (EXIT_SUCCESS);
 	if (argc == 2)
@@ -63,8 +70,22 @@ int	main(int argc, char *argv[])
 		if (check_array(argv + 1))
 		{
 			stack_a = create_stack(argv + 1);
+			ft_printf("Lista Original\n");
 			ft_ps_printlist(stack_a);
+			ft_ps_printlist(stack_b);
+			ps_push_b(&stack_a, &stack_b, true);
+			ps_push_b(&stack_a, &stack_b, true);
+			ps_push_b(&stack_a, &stack_b, true);
+			ft_ps_printlist(stack_a);
+			ft_ps_printlist(stack_b);
+			ps_swap_ss(&stack_a, &stack_b);
+			ft_ps_printlist(stack_a);
+			ft_ps_printlist(stack_b);
+			ps_rotate_rr(&stack_a, &stack_b);
+			ft_ps_printlist(stack_a);
+			ft_ps_printlist(stack_b);
 			free_stack(&stack_a);
+			free_stack(&stack_b);
 		}
 	}
 	return (EXIT_SUCCESS);
