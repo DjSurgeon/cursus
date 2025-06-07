@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/06 17:52:08 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/07 17:06:41 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ static void	ft_ps_printlist(t_stack *head)
 int	main(int argc, char *argv[])
 {
 	t_stack	*stack_a;
-	t_stack	*stack_b;
+//	t_stack	*stack_b;
 	char		**arr;
 
 	stack_a = NULL;
-	stack_b = NULL;
+//	stack_b = NULL;
 	if (argc < 2)
 		return (EXIT_SUCCESS);
 	if (argc == 2)
@@ -72,20 +72,7 @@ int	main(int argc, char *argv[])
 			stack_a = create_stack(argv + 1);
 			ft_printf("Lista Original\n");
 			ft_ps_printlist(stack_a);
-			ft_ps_printlist(stack_b);
-			ps_push_b(&stack_a, &stack_b, true);
-			ps_push_b(&stack_a, &stack_b, true);
-			ps_push_b(&stack_a, &stack_b, true);
-			ft_ps_printlist(stack_a);
-			ft_ps_printlist(stack_b);
-			ps_swap_ss(&stack_a, &stack_b);
-			ft_ps_printlist(stack_a);
-			ft_ps_printlist(stack_b);
-			ps_rotate_rr(&stack_a, &stack_b);
-			ft_ps_printlist(stack_a);
-			ft_ps_printlist(stack_b);
 			free_stack(&stack_a);
-			free_stack(&stack_b);
 		}
 	}
 	return (EXIT_SUCCESS);

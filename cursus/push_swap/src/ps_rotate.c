@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 17:09:14 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/06 17:42:32 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/07 17:10:29 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ps_rotate_a(t_stack **stack, bool print)
  * The first element becomes the last.
  * Does nothing if the stack is empty or has only one element.
  * @param stack Pointer to the top of the stack B.
- * @param print Print ra\n if is necessary.
+ * @param print Print rb\n if is necessary.
  */
 
 void	ps_rotate_b(t_stack **stack, bool print)
@@ -67,11 +67,11 @@ void	ps_rotate_b(t_stack **stack, bool print)
  * @brief Shifts all the elements of the stack A up by one position.
  * The first element becomes the last.
  * Does nothing if the stack is empty or has only one element.
- * @param stack Pointer to the top of the stack A.
- * @param print Print ra\n if is necessary.
+ * @param stack_a Pointer to the top of the stack A.
+ * @param stack_b Pointer to the top of the stack B.
  */
 
-void	ps_rotate_rr(t_stack **stack_a,t_stack **stack_b)
+void	ps_rotate_rr(t_stack **stack_a, t_stack **stack_b)
 {
 	ps_rotate_a(stack_a, false);
 	ps_rotate_b(stack_b, false);

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:04:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/06 17:42:39 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/07 17:09:47 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void	ps_push_b(t_stack **stack_a, t_stack **stack_b, bool print);
 void	ps_push_a(t_stack **stack_a, t_stack **stack_b, bool print);
 void	ps_rotate_a(t_stack **stack, bool print);
 void	ps_rotate_b(t_stack **stack, bool print);
-void	ps_rotate_rr(t_stack **stack_a,t_stack **stack_b);
+void	ps_rotate_rr(t_stack **stack_a, t_stack **stack_b);
+void	ps_reverse_a(t_stack **stack, bool print);
+void	ps_reverse_b(t_stack **stack, bool print);
+void	ps_reverse_rr(t_stack **stack_a, t_stack **stack_b);
 
 // Modulo de manipulacion del stack
 
