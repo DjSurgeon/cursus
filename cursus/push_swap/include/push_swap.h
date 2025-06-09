@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:04:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/07 18:18:09 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/09 18:24:06 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	ps_reverse_rr(t_stack **stack_a, t_stack **stack_b);
 bool	check_sort(t_stack **stack);
 int		stack_size(t_stack **stack);
 bool	is_sort(t_stack **stack);
+int		min_stack_value(t_stack **stack);
 
 // Liberaciones de memoria
 

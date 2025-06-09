@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex03.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 12:23:44 by serjimen          #+#    #+#             */
-/*   Updated: 2025/05/07 12:45:44 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:56:26 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,3 @@ void	add_back(t_node **head, t_node *new_node)
 	/* 4) Enlazar el nuevo nodo al final */
 	current->next = new_node;
 }
-
