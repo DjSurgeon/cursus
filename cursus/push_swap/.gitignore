@@ -1,0 +1,5 @@
+push_swap_guilletester/
+*.o
+push_swap
+build/
+libft/build/
