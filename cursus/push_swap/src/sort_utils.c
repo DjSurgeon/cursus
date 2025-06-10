@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:17:00 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/10 13:29:13 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:07:45 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@
  */
 int	max_value_stack(t_stack **stack)
 {
-	int		size;
 	int		max;
 	t_stack	*temp;
 
 	temp = *stack;
-	size = stack_size(stack);
 	max = temp->value;
 	while (temp)
 	{
