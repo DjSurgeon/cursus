@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/09 18:56:16 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/10 10:50:40 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	main(int argc, char *argv[])
 		{
 			stack_a = create_stack(argv + 1);
 			ft_ps_printlist(stack_a);
+			//max_value_stack(&stack_a);
 			//ps_push_b(&stack_a, &stack_b, true);
 			check_sort(&stack_a);
 			ft_ps_printlist(stack_a);

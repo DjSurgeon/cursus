@@ -3,17 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   sort_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:17:00 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/09 18:34:03 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/10 12:28:15 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /**
- * 
+ * Calcula el valor maximo del stack
+ */
+int	max_value_stack(t_stack **stack)
+{
+	int		size;
+	int		max;
+	t_stack	*temp;
+
+	temp = *stack;
+	size = stack_size(stack);
+	max = temp->value;
+	while (temp)
+	{
+		if (max < temp->value)
+			max = temp->value;
+		temp = temp->next;
+	}
+	return (max);
+}
+
+/**
+ * calcula el valor minimo del stack y le asigna un indice
  */
 int	min_stack_value(t_stack **stack)
 {

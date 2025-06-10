@@ -3,17 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   check_sort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:20:25 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/09 19:03:58 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/10 11:56:26 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /**
- * 
+ *
+ */
+
+// static void	reverse_sort_two(t_stack **stack)
+// {
+// 	t_stack	*temp;
+
+// 	temp = *stack;
+// 	if (!temp || !temp->next)
+// 		return ;
+// 	if (temp->value < temp->next->value)
+// 		ps_swap_a(stack, true);
+// }
+
+/**
+ *
  */
 
 static void	sort_two(t_stack **stack)
@@ -27,7 +42,7 @@ static void	sort_two(t_stack **stack)
 		ps_swap_a(stack, true);
 }
 /**
- * 
+ *
  */
 
 static void	sort_three(t_stack **stack)
@@ -36,7 +51,7 @@ static void	sort_three(t_stack **stack)
 	t_stack	*two;
 	t_stack	*three;
 
-	if (!*stack)
+	if (!*stack || is_sort(stack))
 		return ;
 	one = *stack;
 	two = (*stack)->next;
@@ -54,31 +69,37 @@ static void	sort_three(t_stack **stack)
 }
 
 /**
- * 
+ *
  */
-static void	sort_five(t_stack **stack)
+static void	sort_four(t_stack **stack)
 {
-	int		index;
+	int		max;
 	int		size;
 	t_stack	*stack_b;
 
-	index = 0;
-	size = 5;
 	stack_b = NULL;
+	size = stack_size(stack);
 	if (!stack || !(*stack))
 		return ;
 	while (size > 3)
 	{
-		index = min_stack_value(stack);
-		if (index == 0)
-			ps_push_b(stack, &stack_b, true);
-		else
-			ps_reverse_a(stack, true);
+		ps_push_b(stack, &stack_b, true);
 		size = stack_size(stack);
 	}
 	sort_three(stack);
+	max = max_value_stack(stack);
 	ps_push_a(stack, &stack_b, true);
-	ps_push_a(stack, &stack_b, true);
+	if ((*stack)->value > max)
+		ps_rotate_a(stack, true);
+	else if ((*stack)->value > (*stack)->next->value && (*stack)->value < (*stack)->next->next->value)
+		ps_swap_a(stack, true);
+	else if ((*stack)->value > (*stack)->next->value && (*stack)->value < max)
+	{
+		ps_reverse_a(stack, true);
+		ps_swap_a(stack, true);
+		ps_rotate_a(stack, true);
+		ps_rotate_a(stack, true);
+	}
 	free_stack(&stack_b);
 }
 
@@ -95,6 +116,6 @@ bool	check_sort(t_stack **stack)
 	if (size == 3)
 		sort_three(stack);
 	if (size >= 4 && size <= 5)
-		sort_five(stack);
+		sort_four(stack);
 	return (true);
 }

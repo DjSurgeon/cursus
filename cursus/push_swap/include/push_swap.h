@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:04:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/09 18:24:06 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/10 10:40:56 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ bool	check_sort(t_stack **stack);
 int		stack_size(t_stack **stack);
 bool	is_sort(t_stack **stack);
 int		min_stack_value(t_stack **stack);
+int		max_value_stack(t_stack **stack);
 
 // Liberaciones de memoria
 
