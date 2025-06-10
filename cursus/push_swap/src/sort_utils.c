@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:17:00 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/10 12:28:15 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:29:13 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int	max_value_stack(t_stack **stack)
 /**
  * calcula el valor minimo del stack y le asigna un indice
  */
-int	min_stack_value(t_stack **stack)
+size_t	min_stack_value(t_stack **stack)
 {
 	int		min;
-	int		index;
 	int		i;
+	size_t	index;
 	t_stack	*temp;
 
 	if (!stack || !(*stack))
@@ -54,7 +54,7 @@ int	min_stack_value(t_stack **stack)
 		if (temp->value < min)
 		{
 			min = temp->value;
-			index = i;
+			index = (size_t)i;
 		}
 		temp = temp->next;
 		i++;

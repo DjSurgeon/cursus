@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:04:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/10 10:40:56 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:29:24 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 typedef struct s_stack
 {
 	int				value;
+	size_t			index;
 	struct s_stack	*next;
 }					t_stack;
 
@@ -54,7 +55,7 @@ void	ps_reverse_rr(t_stack **stack_a, t_stack **stack_b);
 bool	check_sort(t_stack **stack);
 int		stack_size(t_stack **stack);
 bool	is_sort(t_stack **stack);
-int		min_stack_value(t_stack **stack);
+size_t	min_stack_value(t_stack **stack);
 int		max_value_stack(t_stack **stack);
 
 // Liberaciones de memoria

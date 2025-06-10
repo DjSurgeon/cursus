@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/10 12:50:37 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:52:30 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ static void	ft_ps_printlist(t_stack *head)
 	temp = head;
 	while (temp != NULL)
 	{
-		ft_printf("[%d]", temp->value);
-		ft_printf("[%p]", temp->next);
+		ft_printf("[index][%d]\t |\t |\n", (int)temp->index);
+		ft_printf("\t|[value][%d]\t |\n", temp->value);
+		ft_printf("\t|\t |\t[pointer][%p]\n", temp->next);
 		temp = temp->next;
-		if (temp != NULL)
-			ft_printf(" -> ");;
 	}
 	ft_printf("\n");
 }
@@ -70,10 +69,9 @@ int	main(int argc, char *argv[])
 		{
 			stack_a = create_stack(argv + 1);
 			ft_ps_printlist(stack_a);
-			//max_value_stack(&stack_a);
-			//ps_push_b(&stack_a, &stack_b, true);
 			check_sort(&stack_a);
 			ft_ps_printlist(stack_a);
+			free(stack_a);
 		}
 	}
 	return (EXIT_SUCCESS);

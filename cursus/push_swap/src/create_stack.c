@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_stack.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:49:30 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/05 13:33:36 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/10 13:11:39 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 /**
  * @brief Function to create a node.
  * @param value The int value.
+ * @param index The index in the linked list.
  * @return The node with the value->value and next->NULL.
  */
-static t_stack	*ft_ps_newint(int value)
+static t_stack	*ft_ps_newint(int value, size_t index)
 {
 	t_stack	*node;
 
@@ -24,6 +25,7 @@ static t_stack	*ft_ps_newint(int value)
 	if (!node)
 		return (NULL);
 	node->value = value;
+	node->index = index;
 	node->next = NULL;
 	return (node);
 }
@@ -54,7 +56,7 @@ t_stack	*create_stack(char **array)
 {
 	t_stack	*new_node;
 	t_stack	*stack;
-	int		i;
+	size_t	i;
 	long	value_long;
 	int		value;
 
@@ -64,7 +66,7 @@ t_stack	*create_stack(char **array)
 	{
 		value_long = ft_atol(array[i]);
 		value = (int)value_long;
-		new_node = ft_ps_newint(value);
+		new_node = ft_ps_newint(value, i);
 		if (!new_node)
 		{
 			free_stack(&stack);
