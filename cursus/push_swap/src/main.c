@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/10 13:52:30 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/06/10 13:56:06 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	main(int argc, char *argv[])
 		if (check_array(arr))
 		{
 			stack_a = create_stack(arr);
+			check_sort(&stack_a);
 			free_stack(&stack_a);
 		}
 		free_array(arr);
