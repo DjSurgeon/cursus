@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:20:25 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/10 16:51:36 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/11 12:21:47 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,48 +69,9 @@ static void	sort_three(t_stack **stack)
 }
 
 /**
- * 
+ * Ordena 5
  */
-static void	sort_four_util(size_t index, t_stack **stack, t_stack **stack_b)
-{
-	size_t	i;
-	int		size;
-
-	temp = *stack;
-	size = stack_size(stack);
-	i =  index;
-	while (size > 3)
-	{
-		index = min_stack_value(stack);
-		while (i < size/2)
-		{
-			i--;
-		}
-	}
-	if (index == 0)
-		ps_push_b(stack, stack_b, true);
-	if (index == 1)
-	{
-		ps_swap_a(stack, true);
-		ps_push_b(stack, stack_b, true);
-	}
-	if (index == 2)
-	{
-		ps_reverse_a(stack, true);
-		ps_reverse_a(stack, true);
-		ps_push_b(stack, stack_b, true);
-	}
-	if (index == 3)
-	{
-		ps_reverse_a(stack, true);
-		ps_push_b(stack, stack_b, true);
-	}
-}
-
-/**
- * Ordena 4
- */
-static void	sort_four(t_stack **stack)
+static void	sort_five(t_stack **stack)
 {
 	size_t	index;
 	t_stack	*stack_b;
@@ -118,10 +79,21 @@ static void	sort_four(t_stack **stack)
 	stack_b = NULL;
 	if (!stack || !(*stack))
 		return ;
-	index = min_stack_value(stack);
-	sort_four_util(index, stack, &stack_b);
+	while (stack_size(stack) > 3)
+	{
+		index = min_stack_value(stack);
+		while (min_stack_value(stack) != 0)
+		{
+			if ((int)index <= (stack_size(stack) / 2))
+				ps_rotate_a(stack, true);
+			else if ((int)index > (stack_size(stack) / 2))
+				ps_reverse_a(stack, true);
+		}
+		ps_push_b(stack, &stack_b, true);
+	}
 	sort_three(stack);
-	ps_push_a(stack, &stack_b, true);
+	while (stack_b)
+		ps_push_a(stack, &stack_b, true);
 	free_stack(&stack_b);
 }
 
@@ -136,7 +108,7 @@ bool	check_sort(t_stack **stack)
 		sort_two(stack);
 	if (size == 3)
 		sort_three(stack);
-	if (size == 4)
-		sort_four(stack);
+	if (size >= 4 && size <= 5)
+		sort_five(stack);
 	return (true);
 }
