@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/10 16:23:15 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/12 14:20:53 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ int	main(int argc, char *argv[])
 		if (check_array(argv + 1))
 		{
 			stack_a = create_stack(argv + 1);
-			ft_ps_printlist(stack_a);
-			check_sort(&stack_a);
+			add_correct_index(&stack_a);
+			// ft_ps_printlist(stack_a);
+			// check_sort(&stack_a);
 			ft_ps_printlist(stack_a);
 			free_stack(&stack_a);
 		}

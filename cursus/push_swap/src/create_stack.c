@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_stack.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:49:30 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/10 13:11:39 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/06/11 14:21:44 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,15 @@ t_stack	*create_stack(char **array)
 	t_stack	*stack;
 	size_t	i;
 	long	value_long;
-	int		value;
 
 	stack = NULL;
 	i = 0;
 	while (array[i] != NULL)
 	{
 		value_long = ft_atol(array[i]);
-		value = (int)value_long;
-		new_node = ft_ps_newint(value, i);
+		if (value_long > INT_MAX || value_long < INT_MIN)
+			return (free_array(array), NULL);
+		new_node = ft_ps_newint((int)value_long, i);
 		if (!new_node)
 		{
 			free_stack(&stack);
