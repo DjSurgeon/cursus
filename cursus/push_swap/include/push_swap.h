@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:04:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/12 14:21:04 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/14 18:06:13 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ int		stack_size(t_stack **stack);
 bool	is_sort(t_stack **stack);
 size_t	min_stack_value(t_stack **stack);
 int		max_value_stack(t_stack **stack);
-void	add_correct_index(t_stack **stack);
+void	k_sort(t_stack **stack, int size);
 
 // Liberaciones de memoria
 
-void	free_array(char **c_array);
+void	free_array_c(char **c_array);
+void	free_array_i(int **i_array);
 void	free_stack(t_stack **stack);
 #endif

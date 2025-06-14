@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_sort.c                                       :+:      :+:    :+:   */
+/*   sort_selection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:20:25 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/11 12:21:47 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/14 18:03:44 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ static void	sort_five(t_stack **stack)
 		ps_push_a(stack, &stack_b, true);
 	free_stack(&stack_b);
 }
+/**
+ * selecciona el algoritmo segun el tamaño
+ */
 
 bool	check_sort(t_stack **stack)
 {
@@ -110,5 +113,7 @@ bool	check_sort(t_stack **stack)
 		sort_three(stack);
 	if (size >= 4 && size <= 5)
 		sort_five(stack);
+	if (size > 5)
+		k_sort(stack, size);
 	return (true);
 }

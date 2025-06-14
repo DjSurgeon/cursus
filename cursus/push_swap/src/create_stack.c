@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:49:30 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/11 14:21:44 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/14 18:06:38 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ t_stack	*create_stack(char **array)
 	{
 		value_long = ft_atol(array[i]);
 		if (value_long > INT_MAX || value_long < INT_MIN)
-			return (free_array(array), NULL);
+			return (free_array_c(array), NULL);
 		new_node = ft_ps_newint((int)value_long, i);
 		if (!new_node)
 		{
 			free_stack(&stack);
-			free_array(array);
+			free_array_c(array);
 			return (NULL);
 		}
 		ft_ps_addback(&stack, new_node);

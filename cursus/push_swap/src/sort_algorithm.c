@@ -6,24 +6,70 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 13:21:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/12 14:22:51 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/14 18:09:33 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /**
+ * Bubble Sort;
+ */
+
+static int	*bubble_sort(int *array, int size)
+{
+	int	i;
+	int	j;
+	int temp;
+	
+	i = 0;
+	j = i + 1;
+	while (i < size)
+	{
+		j = i + 1;
+		while (j < size)
+		{
+			if (array[i] > array[j])
+			{
+				temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (array);
+}
+
+/**
+ * funcion para asignar indice segun valor
+ */
+
+static int	find_index(int *array, int size, int value)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		if (array[i] == value)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+/**
  * funcion para colocar los indice correctos
  */
 
-void	add_correct_index(t_stack **stack)
+static void	add_correct_index(t_stack **stack, int size)
 {
 	t_stack *temp;
 	int		*array;
-	int		size;
 	int		i;
 
-	size = stack_size(stack);
 	temp = *stack;
 	array = malloc(sizeof(int) * size);
 	if (!array)
@@ -35,4 +81,17 @@ void	add_correct_index(t_stack **stack)
 		temp = temp->next;
 		i++;
 	}
+	array = bubble_sort(array, size);
+	temp = *stack;
+	while (temp)
+	{
+		temp->index = find_index(array, size, temp->value);
+		temp = temp->next;
+	}
+	free(array);
+}
+
+void	k_sort(t_stack **stack, int size)
+{
+	add_correct_index(stack, size);
 }
