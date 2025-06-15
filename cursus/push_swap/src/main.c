@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/14 18:06:59 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/15 17:59:29 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ static void	ft_ps_printlist(t_stack *head)
 int	main(int argc, char *argv[])
 {
 	t_stack	*stack_a;
-	//t_stack	*stack_b;
+	t_stack	*stack_b;
 	char		**arr;
 
 	stack_a = NULL;
-	//stack_b = NULL;
+	stack_b = NULL;
 	if (argc < 2)
 		return (EXIT_SUCCESS);
 	if (argc == 2)
@@ -59,7 +59,7 @@ int	main(int argc, char *argv[])
 		if (check_array(arr))
 		{
 			stack_a = create_stack(arr);
-			check_sort(&stack_a);
+			check_sort(&stack_a, &stack_b);
 			free_stack(&stack_a);
 		}
 		free_array_c(arr);
@@ -69,10 +69,12 @@ int	main(int argc, char *argv[])
 		if (check_array(argv + 1))
 		{
 			stack_a = create_stack(argv + 1);
-			// ft_ps_printlist(stack_a);
-			check_sort(&stack_a);
 			ft_ps_printlist(stack_a);
-			free_stack(&stack_a);
+			ft_ps_printlist(stack_b);
+			check_sort(&stack_a, &stack_b);
+			ft_ps_printlist(stack_a);
+			ft_ps_printlist(stack_b);
+			//free_stack(&stack_a);
 		}
 	}
 	return (EXIT_SUCCESS);

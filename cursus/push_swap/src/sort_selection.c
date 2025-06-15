@@ -6,26 +6,11 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:20:25 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/14 18:03:44 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/15 17:57:06 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-/**
- *
- */
-
-// static void	reverse_sort_two(t_stack **stack)
-// {
-// 	t_stack	*temp;
-
-// 	temp = *stack;
-// 	if (!temp || !temp->next)
-// 		return ;
-// 	if (temp->value < temp->next->value)
-// 		ps_swap_a(stack, true);
-// }
 
 /**
  * Ordena 2
@@ -100,7 +85,7 @@ static void	sort_five(t_stack **stack)
  * selecciona el algoritmo segun el tamaño
  */
 
-bool	check_sort(t_stack **stack)
+bool	check_sort(t_stack **stack, t_stack **stack_b)
 {
 	int	size;
 
@@ -114,6 +99,6 @@ bool	check_sort(t_stack **stack)
 	if (size >= 4 && size <= 5)
 		sort_five(stack);
 	if (size > 5)
-		k_sort(stack, size);
+		k_sort(stack, stack_b, size);
 	return (true);
 }

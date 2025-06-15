@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:04:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/14 18:06:13 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/15 17:59:03 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 # include <stdbool.h>
 # include "../libft/include/libft.h"
 # include <limits.h>
+# include <math.h> // esta no se puede usar hay que hacer una nueva
 
 typedef struct s_stack
 {
 	int				value;
-	size_t			index;
+	int				index;
 	struct s_stack	*next;
 }					t_stack;
 
@@ -52,12 +53,12 @@ void	ps_reverse_rr(t_stack **stack_a, t_stack **stack_b);
 
 // Modulo de algoritmos
 
-bool	check_sort(t_stack **stack);
+bool	check_sort(t_stack **stack, t_stack **stack_b);
 int		stack_size(t_stack **stack);
 bool	is_sort(t_stack **stack);
 size_t	min_stack_value(t_stack **stack);
 int		max_value_stack(t_stack **stack);
-void	k_sort(t_stack **stack, int size);
+void	k_sort(t_stack **stack, t_stack **stack_b, int size);
 
 // Liberaciones de memoria
 
