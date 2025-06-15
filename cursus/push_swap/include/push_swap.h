@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 12:04:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/15 17:59:03 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 01:21:01 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,19 @@ void	ps_reverse_rr(t_stack **stack_a, t_stack **stack_b);
 bool	check_sort(t_stack **stack, t_stack **stack_b);
 int		stack_size(t_stack **stack);
 bool	is_sort(t_stack **stack);
-size_t	min_stack_value(t_stack **stack);
-int		max_value_stack(t_stack **stack);
+int		max_stack_index(t_stack **stack);
 void	k_sort(t_stack **stack, t_stack **stack_b, int size);
+size_t	min_stack_value(t_stack **stack);
+void	add_correct_index(t_stack **stack, int size);
+int		rb_count(t_stack **stack, int index);
 
 // Liberaciones de memoria
 
 void	free_array_c(char **c_array);
 void	free_array_i(int **i_array);
 void	free_stack(t_stack **stack);
+
+// Utils
+
+void	ft_ps_printlist(t_stack *head);
 #endif

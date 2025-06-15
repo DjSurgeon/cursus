@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_algorithm.c                                   :+:      :+:    :+:   */
+/*   sort_bubble.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/12 13:21:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/15 17:58:20 by sergio-jime      ###   ########.fr       */
+/*   Created: 2025/06/15 23:52:22 by sergio-jime       #+#    #+#             */
+/*   Updated: 2025/06/15 23:52:47 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	find_index(int *array, int size, int value)
  * funcion para colocar los indice correctos
  */
 
-static void	add_correct_index(t_stack **stack, int size)
+void	add_correct_index(t_stack **stack, int size)
 {
 	t_stack	*temp;
 	int		*array;
@@ -89,32 +89,4 @@ static void	add_correct_index(t_stack **stack, int size)
 		temp = temp->next;
 	}
 	free(array);
-}
-/**
- * K-sort general
- */
-void	k_sort(t_stack **stack, t_stack **stack_b, int size)
-{
-	int	range;
-	int	i;
-
-	i = 0;
-	add_correct_index(stack, size);
-	range = 2;
-	while (*stack)
-	{
-		if ((*stack)->index <= i)
-		{
-			ps_push_b(stack, stack_b, true);
-			ps_rotate_b(stack_b, true);
-			i++;
-		}
-		else if ((*stack)->index <= i + range)
-		{
-			ps_push_b(stack, stack_b, true);
-			i++;
-		}
-		else
-			ps_rotate_a(stack, true);
-	}
 }

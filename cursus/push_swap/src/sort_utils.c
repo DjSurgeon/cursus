@@ -6,30 +6,11 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:17:00 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/10 16:07:45 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 01:20:22 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-/**
- * Calcula el valor maximo del stack
- */
-int	max_value_stack(t_stack **stack)
-{
-	int		max;
-	t_stack	*temp;
-
-	temp = *stack;
-	max = temp->value;
-	while (temp)
-	{
-		if (max < temp->value)
-			max = temp->value;
-		temp = temp->next;
-	}
-	return (max);
-}
 
 /**
  * calcula el valor minimo del stack y le asigna un indice
@@ -56,6 +37,45 @@ size_t	min_stack_value(t_stack **stack)
 		}
 		temp = temp->next;
 		i++;
+	}
+	return (index);
+}
+
+/**
+ * rb count
+ */
+int	rb_count(t_stack **stack, int index)
+{
+	t_stack	*temp;
+	int		i;
+
+	i = 0;
+	temp = *stack;
+	while (temp)
+	{
+		if (temp->index == index)
+			return (i);
+		i++;
+		temp = temp->next;
+	}
+	return (-1);
+}
+
+/**
+ * calcula el mayor indice del stack.
+ */
+int	max_stack_index(t_stack **stack)
+{
+	t_stack	*temp;
+	int		index;
+
+	temp = *stack;
+	index = 0;
+	while (temp)
+	{
+		if (temp->index > index)
+			index = temp->index;
+		temp = temp->next;
 	}
 	return (index);
 }
@@ -97,4 +117,21 @@ bool	is_sort(t_stack **stack)
 		temp = temp->next;
 	}
 	return (true);
+}
+
+void	ft_ps_printlist(t_stack *head)
+{
+	t_stack	*temp;
+
+	if (!head)
+		ft_printf("NULL List");
+	temp = head;
+	while (temp != NULL)
+	{
+		ft_printf("[index][%d]\t |\t |\n", (int)temp->index);
+		ft_printf("\t|[value][%d]\t |\n", temp->value);
+		ft_printf("\t|\t |\t[pointer][%p]\n", temp->next);
+		temp = temp->next;
+	}
+	ft_printf("\n");
 }

@@ -6,28 +6,12 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 12:34:04 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/15 17:59:29 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 01:21:25 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	ft_ps_printlist(t_stack *head)
-{
-	t_stack	*temp;
-
-	if (!head)
-		ft_printf("NULL List");
-	temp = head;
-	while (temp != NULL)
-	{
-		ft_printf("[index][%d]\t |\t |\n", (int)temp->index);
-		ft_printf("\t|[value][%d]\t |\n", temp->value);
-		ft_printf("\t|\t |\t[pointer][%p]\n", temp->next);
-		temp = temp->next;
-	}
-	ft_printf("\n");
-}
 /**
  * @brief Entry point for push_swap: parse command-line arguments into a string
  * array.
@@ -61,6 +45,7 @@ int	main(int argc, char *argv[])
 			stack_a = create_stack(arr);
 			check_sort(&stack_a, &stack_b);
 			free_stack(&stack_a);
+			free_stack(&stack_b);
 		}
 		free_array_c(arr);
 	}
@@ -69,12 +54,9 @@ int	main(int argc, char *argv[])
 		if (check_array(argv + 1))
 		{
 			stack_a = create_stack(argv + 1);
-			ft_ps_printlist(stack_a);
-			ft_ps_printlist(stack_b);
 			check_sort(&stack_a, &stack_b);
-			ft_ps_printlist(stack_a);
-			ft_ps_printlist(stack_b);
-			//free_stack(&stack_a);
+			free_stack(&stack_a);
+			free_stack(&stack_b);
 		}
 	}
 	return (EXIT_SUCCESS);
