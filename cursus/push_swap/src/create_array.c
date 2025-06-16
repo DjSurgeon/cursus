@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 12:56:19 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/05 13:37:34 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 14:02:00 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	*char_array_to_int_array(char **argv, int length)
 	while (argv[length] != NULL)
 	{
 		number = ft_atol(argv[length]);
-		if (number > INT_MAX || number < INT_MIN)
+		if (number > INT_MAX || number < INT_MIN || ft_ps_countstr(argv[length]) > 10)
 			return (free(i_array), NULL);
 		i_array[length] = (int)number;
 		length++;
