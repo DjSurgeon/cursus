@@ -6,13 +6,13 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 13:39:02 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/05 13:44:05 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 18:11:42 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_puterror_fd(char *str, int fd)
+void	ft_puterror_fd(char *str)
 {
-	ft_putstr_fd(str, fd);
+	ft_putstr_fd(str, 2);
 }

@@ -6,12 +6,30 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:20:25 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/16 13:43:11 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 16:42:12 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
+/**
+ * @brief Verify if the stack is sort.
+ * @param stack Pointer to the head of the stack.
+ * @return True if the stack is sort.
+ */
+bool	is_sort(t_stack **stack)
+{
+	t_stack	*temp;
+
+	temp = *stack;
+	while (temp->next != NULL)
+	{
+		if (temp->value > temp->next->value)
+			return (false);
+		temp = temp->next;
+	}
+	return (true);
+}
 /**
  * Ordena 2
  */

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 13:21:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/16 01:01:07 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 16:40:17 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,41 @@ static void	k_sort_step1(t_stack **stack_a, t_stack **stack_b, int range)
 /**
  * envia al stack a ordenado
  */
+static void	k_sort_step2_aux(int reverse, int rotate, t_stack **stack_b)
+{
+	int	i;
+
+	i = 0;
+	if (rotate <= reverse)
+	{
+		while (i < rotate)
+		{
+			ps_rotate_b(stack_b, true);
+			i++;
+		}
+	}
+	else
+	{
+		while (i < reverse)
+		{
+			ps_reverse_b(stack_b, true);
+			i++;
+		}
+	}
+}
 
 static void	k_sort_step2(t_stack **stack_a, t_stack **stack_b, int size)
 {
 	int	index;
 	int	rotate;
 	int	reverse;
-	int	i;
 
 	while (*stack_b)
 	{
-		i = 0;
 		index = max_stack_index(stack_b);
 		rotate = rb_count(stack_b, index);
 		reverse = size - rotate;
-		if (rotate <= reverse)
-			while (i < rotate)
-			{
-				ps_rotate_b(stack_b, true);
-				i++;
-			}
-		else
-			while (i < reverse)
-			{
-				ps_reverse_b(stack_b, true);
-				i++;
-			}
+		k_sort_step2_aux(reverse, rotate, stack_b);
 		ps_push_a(stack_a, stack_b, true);
 		size--;
 	}

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 18:17:00 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/16 13:42:58 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 16:41:11 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,25 +98,6 @@ int	stack_size(t_stack **stack)
 		size++;
 	}
 	return (size);
-}
-
-/**
- * @brief Verify if the stack is sort.
- * @param stack Pointer to the head of the stack.
- * @return True if the stack is sort.
- */
-bool	is_sort(t_stack **stack)
-{
-	t_stack	*temp;
-
-	temp = *stack;
-	while (temp->next != NULL)
-	{
-		if (temp->value > temp->next->value)
-			return (false);
-		temp = temp->next;
-	}
-	return (true);
 }
 
 void	ft_ps_printlist(t_stack *head)

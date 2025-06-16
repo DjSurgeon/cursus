@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 13:44:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/06/16 13:52:40 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 18:12:35 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		ft_printf(char const *str, ...);
 int		ft_ps_countstr(char *s);
 void	ft_putchar_fd(char c, int fd);
 void	ft_putendl_fd(char *s, int fd);
-void	ft_puterror_fd(char *str, int fd);
+void	ft_puterror_fd(char *str);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c);

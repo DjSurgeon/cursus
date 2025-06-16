@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:09:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/15 16:23:02 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 17:34:29 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,4 @@ void	free_array_c(char **c_array)
 		i++;
 	}
 	free(c_array);
-}
-
-/**
- * @brief Free the char array and all the elements.
- * @param i_array The array of ints.
- */
-void	free_array_i(int **i_array)
-{
-	int	i;
-
-	if (!i_array)
-		return ;
-	i = 0;
-	while (i_array[i])
-	{
-		free(i_array[i]);
-		i++;
-	}
-	free(i_array);
 }

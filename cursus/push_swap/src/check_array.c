@@ -6,16 +6,18 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 13:34:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/16 14:01:25 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/16 18:12:02 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /**
- * @brief Checks if the string is empty.
- * @param c_array The char array.
- * @return True is the string is empty, false otherwise.
+ * @brief Checks if the array of strings is empty.
+ * This function verifies whether the first element of the array is NULL,
+ * which indicates an empty array.
+ * @param c_array The array of strings to check.
+ * @return True if the array is empty, false otherwise.
  */
 
 static bool	is_empty(char **c_array)
@@ -26,9 +28,11 @@ static bool	is_empty(char **c_array)
 }
 
 /**
- * @brief Checks if the string contains letters. (A to Z) and (a to z)
- * @param c_array The char array.
- * @return True if the string contain letters, false otherwise
+ * @brief Checks if any string in the array contains alphabetical letters.
+ * This function iterates through each string in the array and checks for
+ * the presence of letters (A-Z, a-z), using ft_isalpha.
+ * @param c_array The array of strings to check.
+ * @return True if any string contains at least one letter, false if none do.
  */
 static bool	is_letter(char **c_array)
 {
@@ -52,11 +56,14 @@ static bool	is_letter(char **c_array)
 }
 
 /**
- * @brief Checks if the digit are in valid format, only one sign
- * before the number. (-9) (+1)
- * Checks too if are any strange symbol after the number. (8+) (9$)
- * @param c_array The char array.
- * @return True in case of the numbers are in correct format, false otherwise.
+ * @brief Validate the format of each string in the array as an integer.
+ * Ensures that each string reperesents a valid integer with:
+ * - An optional single leading sign ('+' or '-') followed by digits.
+ * - Only digits after the sign, with no additional characters.
+ * Examples of invalid formats: "8+", "9$", "-+1", "12a".
+ * @param c_array The array of strings to validate.
+ * @return True if all strings are valid integers, false if any string has
+ * an invalid format.
  */
 static bool	is_digit(char **c_array)
 {
@@ -85,10 +92,14 @@ static bool	is_digit(char **c_array)
 }
 
 /**
- * @brief Check if the number is duplicated.
- * @param i_array The array of ints.
- * @param length The length of the array.
- * @return False if the number is duplicated, true otherwise.
+ * @brief Check for duplicate integers in the array.
+ * This function iterates through the array to detect if any integer
+ * appears more than once.
+ * @param i_array The array of integers to check.
+ * @param length The number of elements in the array.
+ * @return True if any duplicate is found, false if all elements are unique.
+ * @note If a duplicate is found, the funcion frees the array and returns true.
+ * 
  */
 static bool	is_duplicated(int *i_array, int length)
 {
@@ -106,7 +117,7 @@ static bool	is_duplicated(int *i_array, int length)
 		while (j < length)
 		{
 			if (temp == i_array[j])
-				return (true);
+				return (free(i_array), true);
 			j++;
 		}
 		i++;
@@ -115,9 +126,15 @@ static bool	is_duplicated(int *i_array, int length)
 }
 
 /**
- * @brief Function to checks all the errors.
- * @param c_array The char array.
- * @return True if all checks are ok, false otherwise
+ * @brief Validates the array of strings for use in push_swap.
+ * This function performs a series of checks on the array:
+ * - Ensure the array is not empty.
+ * - Verifies that no string contains letters.
+ * - Confirms that all strings represent valid integers.
+ * - Converts the string to integers and checks for duplicates.
+ * @param c_array The array of strings to validate.
+ * @return True if all checks pass, false if any checks fails.
+ * @note Prints "Error\n" to stderr and returns false if any check fails.
  */
 bool	check_array(char **c_array)
 {
@@ -128,16 +145,16 @@ bool	check_array(char **c_array)
 	while (c_array[length] != NULL)
 		length++;
 	if (is_empty(c_array))
-		return (ft_puterror_fd("Error\n", 2), false);
+		return (ft_puterror_fd("Error\n"), false);
 	if (is_letter(c_array))
-		return (ft_puterror_fd("Error\n", 2), false);
+		return (ft_puterror_fd("Error\n"), false);
 	if (!is_digit(c_array))
-		return (ft_puterror_fd("Error\n", 2), false);
+		return (ft_puterror_fd("Error\n"), false);
 	i_array = char_array_to_int_array(c_array, length);
 	if (i_array == NULL)
-		return (ft_puterror_fd("Error\n", 2), false);
+		return (ft_puterror_fd("Error\n"), false);
 	if (is_duplicated(i_array, length))
-		return (ft_puterror_fd("Error\n", 2), false);
+		return (ft_puterror_fd("Error\n"), false);
 	free(i_array);
 	return (true);
 }
