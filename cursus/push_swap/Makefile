@@ -6,7 +6,7 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/21 13:12:04 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/06/04 00:12:46 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/06/17 13:01:30 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,10 +62,12 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/push_swap.h
 
 clean:
 	@rm -rf $(OBJ_DIR)
+	@$(MAKE) -C $(LIBFT_DIR) clean
 	@printf "$(RED)Clean objects$(NC)\n"
 
 fclean: clean
 	@rm -f $(NAME)
+	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@printf "$(RED)Clean all$(NC)\n"
 
 re: fclean all
