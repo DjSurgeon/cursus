@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:20:25 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/17 11:11:46 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/17 14:41:46 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	sort_three(t_stack **stack)
  */
 static void	sort_five(t_stack **stack)
 {
-	size_t	index;
+	int	index;
 	t_stack	*stack_b;
 
 	stack_b = NULL;
@@ -98,9 +98,9 @@ static void	sort_five(t_stack **stack)
 		index = min_stack_value(stack);
 		while (min_stack_value(stack) != 0)
 		{
-			if ((int)index <= (stack_size(stack) / 2))
+			if (index <= (stack_size(stack) / 2))
 				ps_rotate_a(stack, true);
-			else if ((int)index > (stack_size(stack) / 2))
+			else if (index > (stack_size(stack) / 2))
 				ps_reverse_a(stack, true);
 		}
 		ps_push_b(stack, &stack_b, true);

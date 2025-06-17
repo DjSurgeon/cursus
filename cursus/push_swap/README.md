@@ -93,7 +93,7 @@ O como varios argumentos.
 
 Cada vez que el programa detecta que los argumentos no son los correctos, deberá mostrar `Error\n` en la salida de errores estándar.
 
-El programa no aceptara argumentos que no sean numeros enteros.
+El programa no aceptara argumentos que no sean numeros enteros correctamente formateados (con un solo signo delante del digito).
 
 - `./push_swap 2 six 9`
 - `./push_swap 1 ++3 % 35 80 -3`
@@ -106,10 +106,66 @@ El programa no aceptara numeros por encima o por debajo de los limites del INT_M
 
 - `./push_swap 54867543867438 3`
 - `./push_swap -2147483647765 4 5`
-- `./push_swap 3 2 1 9999999999999999999999999999999999`
+- `./push_swap 3 2 1 18446744073709551615`
 
 El programa no aceptara argumentos "vacios".
 
 - `./push_swap ""`
 - `./push_swap "     "`
 
+El programa no aceptara ningún nñumero duplicado.
+
+- `./push_swap 2 8 2`
+- `./push_swap 007 98 7`
+
+## Algoritmos
+
+Dependiendo de la cantidad de elementos a colocar el programa elegira el algoritmo de ordenación más optimo.
+
+### Pequeños algoritmos
+
+Para tamaños entre 2 y 5 elementos.
+- Para un stack de 2 elementos, se ejecuta una comparación directa entre los elementos y se ejecuta un swap a (sa) si es necesario.
+- Para un stack de 3 elementos, sólamente existen 6 posibles permutaciones, una de las cuales ya está ordenada. Por lo que se calculan las otras 5 posibilidades y se ejecuta la mas optima.
+- Para un stack de 5 elementos, se buscan los dos elementos más pèqueños del stack y pasan en orden al stack B, primero el menor y depues el segundo menor. Una vez que en el stack hay 3 elementos se ejecuta el algoritmo de 3 elementos y una vez ordenados se devuelven los elementos del stack B al A.
+
+### K-sort
+
+El K-Sort es un algoritmo de ordenamiento especializado diseñado para trabajar con estructuras de datos de tipo stack (pila) con operaciones limitadas. Es una adaptación inteligente del algoritmo Radix Sort optimizada para el contexto de ordenamiento con dos stacks y operaciones restringidas.
+
+Uno de los elementos mas importantes es el tamaño o rango en el que se dividen los elementos.
+```c
+int	range;
+int size;
+range = ft_sqroot(size) * (13 / 10);
+// size es el número de elementos del stack
+// 1.3 es un factor de optimización
+// range determina cuántos elementos procesamos cada ronda
+```
+El calculo del rango es fundamental para optimizar el número de operaciones, si el rango es muy pequeño se producirian muchas operaciones, si en cambio es demasiado grande la distribucion podria ser ineficiente.
+
+#### Paso 1
+
+Indexación de los elementos y distribucion en rangos.
+
+| Stack | valores / indices |
+| --- | --- |
+| Stack A (valores): | [5, 2, 8, 1, 9, 3, 7, 4, 6] |
+| ↓ Indexación ↓ |
+| Stack A (indices): | [4, 1, 7, 0, 8, 2, 6, 3, 5] |
+
+Rango = √9 * 1.3 = 3 * 1.3 = 4
+
+Proceso:
+
+| i=0 | range=4 | movimiento |
+| --- | --- | --- |
+| ¿elemento ≤ 0? | Sí | Push B + Rotate B |
+| ¿elemento ≤ 4? | Sí | Push B |
+| ¿elemento > 4? | Sí | Rotate A |
+
+#### Paso 2
+
+Reconstruccion ordenada.
+
+Se busca el elemento con el indice mas alto. Se calcula la cantidad de rotaciones que se necesitan para colocarlo el primero y enviarlo al stack A. La busqueda del elemento ira iterando hasta vaciar el stack B.
