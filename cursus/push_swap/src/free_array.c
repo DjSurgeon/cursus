@@ -6,15 +6,19 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 13:09:37 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/16 17:34:29 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/17 12:34:40 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /**
- * @brief Free the char array and all the elements.
- * @param c_array The array of chars.
+ * @brief Safely deallocates a dynamically allocated array of strings.
+ * Frees:
+ * - Individual string elements.
+ * - The array container itself.
+ * @param c_array Double pointer to the string array.
+ * @note Handles NULL input correctly.
  */
 void	free_array_c(char **c_array)
 {

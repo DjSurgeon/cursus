@@ -6,15 +6,19 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 12:53:23 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/06 13:55:19 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/17 12:37:02 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /**
- * @brief Free all the stack, and all the nodes of the stack.
- * @param param The stack
+ * @brief Deallocates all nodes in a stack and resets the stack pointer.
+ * Iterates through echa node to:
+ * - Free node memory.
+ * - Set stack head to NULL.
+ * @param stack Double pointer to the head of the stack.
+ * @note Safe for NULL inputs and already freed stacks.
  */
 
 void	free_stack(t_stack **stack)

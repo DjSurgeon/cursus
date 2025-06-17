@@ -6,16 +6,16 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:20:25 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/16 16:42:12 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/17 11:11:46 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
 /**
- * @brief Verify if the stack is sort.
- * @param stack Pointer to the head of the stack.
- * @return True if the stack is sort.
+ * @brief Checks if the stack is sorted in ascending order.
+ * @param stack Double pointer to the head of the stack.
+ * @return True if the stack is sorted, false otherwise.
  */
 bool	is_sort(t_stack **stack)
 {
@@ -31,7 +31,10 @@ bool	is_sort(t_stack **stack)
 	return (true);
 }
 /**
- * Ordena 2
+ * @brief Sorts a stack of two elements.
+ * Performs a swap operation (sa) if the first element is greater
+ * than the second.
+ * @param stack Double pointer to the head of the stack.
  */
 
 static void	sort_two(t_stack **stack)
@@ -45,7 +48,10 @@ static void	sort_two(t_stack **stack)
 		ps_swap_a(stack, true);
 }
 /**
- * Ordena 3
+ * @brief Sort a stack of three elements using optimal operations.
+ * Analizes the relative positions of values and applies combinations of:
+ * - Swap (sa), rotate (ra) or reverse rotate (rra).
+ * @param stack Double pointer to the head of the stack.
  */
 
 static void	sort_three(t_stack **stack)
@@ -72,7 +78,12 @@ static void	sort_three(t_stack **stack)
 }
 
 /**
- * Ordena 5
+ * @brief Sorts stacks of four or five elements.
+ * Strategy:
+ * - Find and pushes the smallest values to stack B.
+ * - Sorts the remaining three elements in the stack A.
+ * - Pushes all the elements back from stack B to stack A.
+ * @param stack Double pointer to the head of stack A.
  */
 static void	sort_five(t_stack **stack)
 {
@@ -100,7 +111,15 @@ static void	sort_five(t_stack **stack)
 	free_stack(&stack_b);
 }
 /**
- * selecciona el algoritmo segun el tamaño
+ * @brief Select the appropiate sorting algorithm based on stack size.
+ * Algorith selection:
+ * - Size 2: sort_two.
+ * - Size 3: sort_three.
+ * - Size 4-5: sort_five.
+ * - Size >5: k_sort (radix-based algorithm).
+ * @param stack Double pointer to the head of the stack A.
+ * @param stack_b Double pointer to the head of the stack B.
+ * @return True if sorting was successful/initiated, false on error.
  */
 
 bool	check_sort(t_stack **stack, t_stack **stack_b)

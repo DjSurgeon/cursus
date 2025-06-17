@@ -6,18 +6,24 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 10:49:30 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/16 13:43:48 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/17 10:39:15 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 /**
- * @brief Function to create a node.
- * @param value The int value.
- * @param index The index in the linked list.
- * @return The node with the value->value and next->NULL.
+ * @brief Creates a new node for the stack with a given integer value
+ * and index.
+ * This function allocates memory for a new stack node, initializes it with
+ * provided value and index, and sets the next pointer to NULL.
+ * @param value The integer value to store in the node.
+ * @param index The position index of the node in the stack.
+ * @return A pointer to the newly created node, or NULL if 
+ * memory allocations fails.
+ * @note The caller is responsible for freeing the node when it is no
+ * longer needed.
  */
-static t_stack	*ft_ps_newint(int value, size_t index)
+static t_stack	*ft_ps_newint(int value, int index)
 {
 	t_stack	*node;
 
@@ -31,9 +37,14 @@ static t_stack	*ft_ps_newint(int value, size_t index)
 }
 
 /**
- * @brief Function to append the node at the end of the linked list.
- * @param head A pointer to the head of the list.
- * @param new_node The node to append.
+ * @brief Appends the node to the en of the stack.
+ * This function adds the given node to the end of the linked list representing
+ * the stack.
+ * If the stack is empty, the new node becomes the head of the stack.
+ * @param head A pointer to the pointer of the first node in the stack.
+ * @param new_node The node to append to the stack.
+ * @note This function does not return a value. It modifies the stack in place.
+ * @warning If either head or new_node is NULL, the function does nothing.
  */
 static void	ft_ps_addback(t_stack **head, t_stack *new_node)
 {
@@ -52,6 +63,17 @@ static void	ft_ps_addback(t_stack **head, t_stack *new_node)
 	current->next = new_node;
 }
 
+/**
+ * @brief Creates a stack from an array of strings representing integers.
+ * This function converts each string in the array to an integer, creates
+ * a stack node for each value, and appends it to stack while assigning an index.
+ * @param array The array of strings to convert into stack nodes.
+ * @return A pointer to the head of the stack, or NULL if an error occurs
+ * during conversion or memory allocation.
+ * @note The function checks for integer overflow and invalid strings lengths.
+ * @note In case of an error, frees the allocated stack and the array.
+ * @warning The array must be NULL-terminated.
+ */
 t_stack	*create_stack(char **array)
 {
 	t_stack	*new_node;
