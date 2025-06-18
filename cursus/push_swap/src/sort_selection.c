@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_selection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 17:20:25 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/17 14:41:46 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/18 10:15:02 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	sort_three(t_stack **stack)
  */
 static void	sort_five(t_stack **stack)
 {
-	int	index;
+	int		index;
 	t_stack	*stack_b;
 
 	stack_b = NULL;
