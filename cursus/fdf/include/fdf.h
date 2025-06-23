@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/22 23:53:23 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/24 00:46:26 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
+# include <mlx.h>
 
 #endif

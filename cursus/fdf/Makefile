@@ -6,7 +6,7 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/22 23:22:18 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/06/23 00:46:49 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/06/24 00:04:31 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,14 @@ INC_DIR		:= include
 OBJ_DIR		:= build
 LIBFT_DIR	:= libft
 LIBFT_A		:= $(LIBFT_DIR)/libft.a
+MLX_DIR		:= minilibx-linux
 
 # Compiler =================================================================== #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g -I$(INC_DIR) -I$(LIBFT_DIR)
+CFLAGS		:= -Wall -Wextra -Werror -g -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
 LDFLAGS		:= -lm
+MLXFLAGS	:= -L$(MLX_DIR) -lmlx -lXext -lX11
 
 # Files ====================================================================== #
 
@@ -53,7 +55,9 @@ $(LIBFT_A):
 	@printf "$(BGREEN)Compiling libft$(NC)\n"
 
 $(NAME): $(OBJ_FILES)
-	@$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT_A) -o $(NAME) $(LDFLAGS)
+	@$(MAKE) -C $(MLX_DIR)
+	@printf "$(BGREEN)Compiling minilibx$(NC)\n"
+	@$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT_A) -o $(NAME) $(MLXFLAGS) $(LDFLAGS)
 	@printf "$(BGREEN)Built!$(NC)\n"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/fdf.h

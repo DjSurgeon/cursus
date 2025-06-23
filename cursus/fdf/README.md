@@ -35,6 +35,8 @@ Intenta **simular la visión humana**, donde los objetos se hacen más pequeños
 fdf/
 ├── libft/
 │   └── .all libft archives 
+├── minilibx-linux/
+│   └── .all minilibx archives 
 ├── include/
 │   └── fdf.h
 ├── src/
@@ -57,11 +59,13 @@ INC_DIR		:= include
 OBJ_DIR		:= build
 LIBFT_DIR	:= libft
 LIBFT_A		:= $(LIBFT_DIR)/libft.a
+MLX_DIR		:= minilibx-linux
 ```
 - **src**: Carpeta donde se incluye el código fuente del programa (*.c)
 - **include**: Carpeta donde se incluyen las cabeceras del programa (*.h)
 - **build**: Carpeta donde se guardarán los archivos objeto del programa (*.o)
 - **libft**: Carpeta donde se encuentra la librería estática para poder trabajar.
+- **mlx**: Carpeta donde se encuentra la minilibx en su version Linux para la biblioteca gráfica.
 
 ```Makefile
 # Compiler =================================================================== #
@@ -69,6 +73,7 @@ LIBFT_A		:= $(LIBFT_DIR)/libft.a
 CC			:= cc
 CFLAGS		:= -Wall -Wextra -Werror -g -I$(INC_DIR) -I$(LIBFT_DIR)
 LDFLAGS		:= -lm
+MLXFLAGS	:= -L$(MLX_DIR) -lmlx -lXext -lX11
 ```
 - **cc**: Compilador estándar en sistemas basador en Unix y Linux
 - -**Wall** -**Wextra**: Habilita advertencias adicionales
@@ -76,7 +81,8 @@ LDFLAGS		:= -lm
 - -**g**: Genera información de depuración
 - -**I<directorio>**: Flag para poder añadir carpetas a la búsqueda de cabeceras.
 - -**lm**: Para la libreria math.h el compilador sabe la firma de las funciones, pero la implementacion está en la libreria matematica `libm`. `-l<nombre>` busca y enlaza con la libreria `-lm` => `libm`.
-
+- -**lmlx**: busca `libmlx.a` en `minilibx-linux/`
+- -**lXext** -**lX11**: flags necesarias para X11
 ```Makefile
 # Files ====================================================================== #
 
@@ -102,7 +108,8 @@ $(LIBFT_A):
 	@$(MAKE) -C $(LIBFT_DIR)
 
 $(NAME): $(OBJ_FILES)
-	@$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT_A) -o $(NAME)
+	@$(MAKE) -C $(MLX_DIR)
+	@$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT_A) -o $(NAME) $(MLXFLAGS) $(LDFLAGS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/fdf.h
 	@mkdir -p $(OBJ_DIR)
@@ -111,6 +118,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/fdf.h
 
 - `all`: Primero se construye la librería estática `libft.a` y luego el ejecutable `./fdf`.
 - `(LIBFT_A)`: Invoca `make` dentro del directorio `libft/`, construyendo la librería estática.
+- `$(MAKE) -C $(MLX_DIR)`: Invoca make dentro de la carpeta de la minilibx.
 - `$(NAME): $(OBJ_FILES)`: Enlaza todos los archivos objeto `($(OBJ_FILES))` con la librería estática `$(LIBFT_A)` para generar el ejecutable `./fdf`.
 - `$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/fdf.h`: Regla de patrón para compilar cualquier `%.c` dentro de `src/` a su correspondiente `%.o` dentro de `build/`.
 - `@mkdir -p $(OBJ_DIR)`: crea la carpeta `build/` si no existe.
@@ -161,3 +169,12 @@ La biblioteca estándar <math.h> es la que provee funciones matemáticas avanzad
 | Exponenciación | `pow`, `exp`, `log` | Ajustes de escalado |
 | Redondeo | `floor`, `ceil`, `round` | Ajustes de coordenadas |
 
+## MiniLibX
+
+MiniLibX es una pequeña biblioteca gráfica que permite realizar ls tareas mas basicas para renderizar elementos en pantalla sin necesidad de conocimientos en X-Window.
+
+Algunas de las funciones son las siguientes:
+
+- `void *mlx_init(void)`: Arranca la conexión con el servidor gráfico.
+- `void *mlx_new_window(void *mlx, int w, int h, char *t)`: Crea una ventana de ancho `w`, alto `h`, titulo `t`. Retorna un puntero `void *win`.
+- `int mlx_destroy_window(void *mlx, void *win)`: Cierra y libera los recursos asociados a la ventana `win`.
