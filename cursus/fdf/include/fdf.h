@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/24 00:46:26 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/25 19:26:27 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,12 @@
 # include <string.h>
 # include <fcntl.h>
 # include <mlx.h>
+
+// Test y ejercicios
+
+void	hello_mlx(void);
+void	draw_pixels(void);
+void	draw_square(int w, int h);
+void	close_with_esc(void);
 
 #endif
