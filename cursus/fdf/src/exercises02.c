@@ -6,13 +6,13 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 15:03:34 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/25 19:11:03 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/28 10:32:46 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-typedef struct s_data
+/* typedef struct s_data
 {
 	void	*mlx;
 	void	*window;
@@ -62,3 +62,4 @@ void	draw_square(int	w, int h)
 	mlx_put_image_to_window(square->mlx, square->window, square->image, 25, 25);
 	mlx_loop(square->mlx);
 }
+ */

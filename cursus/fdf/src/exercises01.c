@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 11:38:49 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/25 16:49:55 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/28 10:32:24 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ Después habrá que llamar mlx_loop() para mantener la ventana abierta y a la es
 de eventos (hooks).
 */
 
-typedef struct	s_data {
+/* typedef struct	s_data {
 	void	*mlx;
 	void	*win;
 	void	*img;
@@ -102,3 +102,4 @@ void	draw_pixels(void)
 	mlx_put_image_to_window(img.mlx, img.win, img.img, 0, 0);
 	mlx_loop(img.mlx);
 }
+ */

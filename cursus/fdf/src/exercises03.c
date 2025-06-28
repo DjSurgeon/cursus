@@ -6,12 +6,12 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 19:16:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/25 20:32:02 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/28 17:37:45 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
+/* 
 typedef struct s_data {
     void 		*mlx_ptr;      // Puntero a la instancia MLX
     void 		*win_ptr;      // Puntero a la ventana
@@ -34,13 +34,6 @@ static int close_window(t_data *data)
 {
     mlx_destroy_window(data->mlx_ptr, data->win_ptr);
     exit(0);
-}
-
-static int say_hello(int x, int y, t_data *data)
-{
-	(void)data;
-	ft_printf("Hello! %d %d\n", x, y);
-	return (0);
 }
 
 void	close_with_esc(void)
@@ -68,7 +61,7 @@ void	close_with_esc(void)
 //	mlx_key_hook(window->win_ptr, key_press, window);
 	mlx_hook(window->win_ptr, 2, (1L<<0), key_press, window); // Tecla ESC
 	mlx_hook(window->win_ptr, 17, (1L<<8), close_window, window); // Cierre en X
-	mlx_hook(window->win_ptr, 7, (1L<<8), say_hello, window);
 	// TODO: Iniciar loop principal
     mlx_loop(window->mlx_ptr);
 }
+ */

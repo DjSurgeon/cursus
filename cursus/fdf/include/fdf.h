@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/25 19:26:27 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/28 17:45:47 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,53 @@
 # include <fcntl.h>
 # include <mlx.h>
 
+// Macros por defecto
+
+# define WIDTH 800
+# define HEIGHT 600
+# define TITLE "FDF 42"
+
+// Estructuras
+
+typedef struct	s_img {
+	void	*img_ptr;			// Puntero a la imagen MLX
+	// data->image->img_ptr = mlx_new_image(data->mlx_ptr, 800, 600);
+	// Necesitamos saber de que puntero estamos hablando.
+	char	*img_data;			// Datos raw de la imagen
+	// image->img_data = mlx_get_data_addr(data->image->img_ptr,
+	// &data->image->bits_per_pixel, &data->image->line_len,
+	// &data->image->endian);
+	// Este puntero es muy importante y que necesitamos saber la posicion
+	// de la memoria donde estan alamacenado los colores de cada pixel.
+	int		bits_per_pixel;		// Bits por píxel (generalmente 32)
+	// 4 bytes por pixel
+	int		line_len;			// Bytes por línea
+	// El sistem operativo puede añadir bytes extras al final por razones de memoria
+	int		endian;				// Orden de bytes
+	// little-endian en sistemaa x86/x64
+}				t_img;
+
+typedef struct	s_data {
+	void	*mlx_ptr;			// Puntero a la instancia MLX
+	void	*win_ptr;			// Puntero a la ventana
+	t_img	img;				// Estructura de imagen
+	int		width;				// Ancho de la ventana
+	int		height;				// Alto de la ventana
+}				t_data;
+
 // Test y ejercicios
 
-void	hello_mlx(void);
-void	draw_pixels(void);
-void	draw_square(int w, int h);
-void	close_with_esc(void);
+// void	hello_mlx(void);
+// void	draw_pixels(void);
+// void	draw_square(int w, int h);
+// void	close_with_esc(void);
+// void	one_pixel(int x, int y, int color);
+void	put_pixel_to_image(t_data *data, int x, int y, int color);
+void	init_window(t_data **data, int width, int height, char* title);
+void	init_image(t_data *data, int width, int height);
+int		key_press_event(int keycode, t_data *data);
+int		close_program(t_data *data);
+int		mouse_press_event(int button, int x, int y, t_data *data);
+void	print_rectangle(t_data *data, int axis_x, int axis_y, int witdh, int heigth);
 
 #endif
