@@ -6,12 +6,22 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:55:52 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/30 14:15:09 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/30 14:59:20 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/**
+ * @brief Validates a single line of map coordinatea and updates map dimensions.
+ * This function processes a line of space-separated z-coordinates values,
+ * counting the number of values (width) and tracking line numbers (height).
+ * It validates consistent witdh across all lines of the map.
+ * @param line The current line being processed from the map file.
+ * @param map Pointer to the t_sizemap structure storing map dimensions.
+ * @return void Exits program with EXIT_FAILURE if inconsistent width
+ * is detected.
+ */
 static void	check_coordinate(char *line, t_sizemap *map)
 {
 	char			**axis_z;
@@ -36,6 +46,17 @@ static void	check_coordinate(char *line, t_sizemap *map)
 	free(axis_z);
 }
 
+/**
+ * @brief Validates file extension and processes map content line
+ * by line.
+ * Checks if the file has correct .fdf extension. If valid,
+ * reads the file line by line, processing each line through check_coordinate()
+ * Upon reaching end of file, outputs map dimensions and exits.
+ * @param finalpath Full path to the map file being validated.
+ * @param fd File descriptor of the opened map file.
+ * @return void Exits program with EXIT_FAILURE on invalid extension,
+ * or EXIT_SUCCESS after processing entire file.
+ */
 static void	check_extension(char *finalpath, int fd)
 {
 	t_sizemap	*map;
@@ -68,6 +89,16 @@ static void	check_extension(char *finalpath, int fd)
 	}
 }
 
+/**
+ * @brief Main map validation function: handles path construction and
+ * file access.
+ * Construct the full path to the map file, attempts to open it, and initiates
+ * the validation process throught check_extension(). 
+ * Handles file access errors.
+ * @param str Map filename (without path).
+ * @return void Exits program with EXIT_FAILURE on file access errors,
+ * or continues validation through check_extension.
+ */
 void	check_map(char *str)
 {
 	int		fd;
