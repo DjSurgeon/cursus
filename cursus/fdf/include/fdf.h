@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/30 10:10:05 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/30 14:02:53 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,23 @@
 # define TITLE "FDF 42"
 
 // Estructuras
+
+typedef struct	s_coordinates
+{
+	int			axis_x;
+	int			axis_y;
+	int			axis_z;
+	int			color;
+}				t_coordinates;
+
+typedef struct s_sizemap
+{
+	int			check_width;
+	int			width;
+	int			heigth;
+	int			*matrix;
+}				t_sizemap;
+
 
 typedef struct	s_img {
 	void	*img_ptr;			// Puntero a la imagen MLX
@@ -80,6 +97,6 @@ void	print_rectangle(t_data *data, int axis_x, int axis_y, int witdh, int heigth
 
 // Modulo de parseo de datos
 
-void	open_map(char *str);
+void	check_map(char *str);
 
 #endif
