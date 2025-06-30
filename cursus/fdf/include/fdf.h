@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/28 17:45:47 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/30 10:10:05 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,9 @@ int		key_press_event(int keycode, t_data *data);
 int		close_program(t_data *data);
 int		mouse_press_event(int button, int x, int y, t_data *data);
 void	print_rectangle(t_data *data, int axis_x, int axis_y, int witdh, int heigth);
+
+// Modulo de parseo de datos
+
+void	open_map(char *str);
 
 #endif

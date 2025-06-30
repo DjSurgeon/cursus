@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/28 13:28:46 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/28 18:28:20 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/06/28 18:35:36 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	move_pixel(t_data *data)
 	j = round(rand() % HEIGHT);
 	put_pixel_to_image(data, i, j, 0x00FF00);
 }
-
 
 int	key_press_event(int keycode, t_data *data)
 {
