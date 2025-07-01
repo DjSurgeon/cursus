@@ -6,45 +6,11 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:55:52 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/30 14:59:20 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/01 19:35:27 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-/**
- * @brief Validates a single line of map coordinatea and updates map dimensions.
- * This function processes a line of space-separated z-coordinates values,
- * counting the number of values (width) and tracking line numbers (height).
- * It validates consistent witdh across all lines of the map.
- * @param line The current line being processed from the map file.
- * @param map Pointer to the t_sizemap structure storing map dimensions.
- * @return void Exits program with EXIT_FAILURE if inconsistent width
- * is detected.
- */
-static void	check_coordinate(char *line, t_sizemap *map)
-{
-	char			**axis_z;
-	int				i;
-	static int		j = 1;
-
-	i = 0;
-	axis_z = ft_split(line, 32);
-	while (axis_z[i])
-	{
-		free(axis_z[i]);
-		i++;
-	}
-	map->width = i;
-	map->heigth = j++;
-	if (map->check_width != 0 && map->check_width != map->width)
-	{
-		perror("Error different width map");
-		exit (EXIT_FAILURE);
-	}
-	map->check_width = map->width;
-	free(axis_z);
-}
 
 /**
  * @brief Validates file extension and processes map content line
@@ -57,36 +23,14 @@ static void	check_coordinate(char *line, t_sizemap *map)
  * @return void Exits program with EXIT_FAILURE on invalid extension,
  * or EXIT_SUCCESS after processing entire file.
  */
-static void	check_extension(char *finalpath, int fd)
+static bool	check_extension(char *finalpath, int fd)
 {
-	t_sizemap	*map;
-	char		*line;
-
-	map = NULL;
-	map = malloc(sizeof(t_sizemap));
 	if (ft_strnstr(finalpath, ".fdf", ft_strlen(finalpath)) == NULL)
 	{
-		perror("Error extension");
-		free(finalpath);
-		exit (EXIT_FAILURE);
+		close (fd);
+		return (print_error("Error unknown extension", finalpath), false);
 	}
-	else
-	{
-		while (1)
-		{
-			line = get_next_line(fd);
-			if (line == NULL)
-			{
-				free(finalpath);
-				// TODO: eje z
-				ft_printf("width %d, heigth %d\n", map->width, map->heigth);
-				free(map);
-				exit(EXIT_SUCCESS);
-			}
-			check_coordinate(line, map);
-			free(line);
-		}
-	}
+	return (true);
 }
 
 /**
@@ -99,22 +43,23 @@ static void	check_extension(char *finalpath, int fd)
  * @return void Exits program with EXIT_FAILURE on file access errors,
  * or continues validation through check_extension.
  */
-void	check_map(char *str)
+bool	check_map(char *str)
 {
 	int		fd;
-	char	*path = "../fdf/maps/";
-	char	*file = str;
+	char	*path;
 	char	*finalpath;
 
-	finalpath = ft_strjoin(path, file);
+	path = "../fdf/maps/";
+	finalpath = ft_strjoin(path, str);
 	fd = open(finalpath, O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Error open(): ");
-		free(finalpath);
-		exit(EXIT_FAILURE);
-	}
+	if (fd < 0)
+		return (print_error("Error open()", finalpath), false);
 	else
-		check_extension(finalpath, fd);
-	close(fd);
+	{
+		if (!check_extension(finalpath, fd))
+			return (print_error("Error extension", finalpath), false);
+		else if (!check_file(finalpath, fd))
+			return (print_error("Error file", finalpath), false);
+	}
+	return (close(fd), true);
 }

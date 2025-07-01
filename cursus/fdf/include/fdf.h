@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/30 14:02:53 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/01 19:03:18 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_sizemap
 	int			check_width;
 	int			width;
 	int			heigth;
-	int			*matrix;
+	int			**matrix;
 }				t_sizemap;
 
 
@@ -97,6 +97,16 @@ void	print_rectangle(t_data *data, int axis_x, int axis_y, int witdh, int heigth
 
 // Modulo de parseo de datos
 
-void	check_map(char *str);
+bool	check_map(char *str);
+bool	check_file(char *finalpath, int fd);
+void	create_coordinates(t_sizemap *map, int fd);
+
+// Modulo de errores
+
+void	print_error(char *str, char *path);
+
+// liberacion de memoria
+
+void	free_matrix(int **matrix);
 
 #endif
