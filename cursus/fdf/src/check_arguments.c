@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:55:52 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 12:41:22 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 18:14:16 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,6 @@ static bool	check_extension(char *path)
 	if (ft_strnstr(path + (len - 4), ".fdf", 4) == NULL)
 		return (print_error("Error Invalid Extension\n"), false);
 	return (true);
-}
-
-/**
- * open file
- */
-static int	open_path(char *str)
-{
-	int	fd;
-
-	fd = open(str, O_RDONLY);
-	if (fd < 0)
-		return (print_error("Error Invalid File Descriptor\n"), -1);
-	return (fd);
 }
 
 /**
@@ -78,13 +65,15 @@ bool	check_map(char *str)
 	int		fd;
 	char	*finalpath;
 
-	if ((finalpath = create_path(str)) == NULL)
+	finalpath = create_path(str);
+	if (finalpath == NULL)
 		return (false);
-	else if ((fd = open_path(finalpath)) == -1)
+	fd = open_path(finalpath);
+	if (fd == -1)
 		return (free(finalpath), false);
 	else if (!check_extension(finalpath))
 		return (close(fd), free(finalpath), false);
-	else if (!check_file(finalpath, fd))
-		return (false);
-	return (close(fd), true);
+	else if (!validate_map(finalpath, fd))
+		return (close(fd), free(finalpath), false);
+	return (close(fd), free(finalpath), true);
 }

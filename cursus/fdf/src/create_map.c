@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:46:06 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/01 19:22:20 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 18:08:50 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /**
  * read file para adjudicar valores
  */
+/* 
 static bool	read_file_2(int fd, t_sizemap *map)
 {
 	char	*line;
@@ -45,10 +46,11 @@ static bool	read_file_2(int fd, t_sizemap *map)
 	}
 	return (true);
 }
-
+*/
 /**
  * reserva matrix y adjudica los valores
  */
+/*
 void	create_coordinates(t_sizemap *map, int fd)
 {
 	int	col;
@@ -79,3 +81,4 @@ void	create_coordinates(t_sizemap *map, int fd)
 	}
 	free_matrix(map->matrix);
 }
+ */

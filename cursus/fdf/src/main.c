@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 00:34:42 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 12:07:23 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 16:45:58 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ int	main(int argc, char *argv[])
 		if (!check_map(argv[1]))
 			exit(EXIT_FAILURE);
 	}
+	ft_printf("SUCCESS");
 	return (EXIT_SUCCESS);
 }
