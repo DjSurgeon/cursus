@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 18:07:36 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 21:40:31 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_sizemap
 {
 	int			expected_width;
 	int			width;
-	int			heigth;
+	int			height;
 	int			**matrix;
 }				t_sizemap;
 

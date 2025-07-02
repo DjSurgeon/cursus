@@ -6,22 +6,19 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:55:52 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 18:14:16 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 21:36:02 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /**
- * @brief Validates file extension and processes map content line
- * by line.
- * Checks if the file has correct .fdf extension. If valid,
- * reads the file line by line, processing each line through check_coordinate()
- * Upon reaching end of file, outputs map dimensions and exits.
- * @param finalpath Full path to the map file being validated.
- * @param fd File descriptor of the opened map file.
- * @return void Exits program with EXIT_FAILURE on invalid extension,
- * or EXIT_SUCCESS after processing entire file.
+ * @brief Validates file extension for FDF map files.
+ * Checks if the provided file path has the correct ".fdf" extension.
+ * The extension must be exactly 4 characters long at the end of the path.
+ * @param path Full path to the map file being validated.
+ * @return true If the extension is valid.
+ * @return false If the extension is invalid (with error message printed).
  */
 static bool	check_extension(char *path)
 {
@@ -36,7 +33,12 @@ static bool	check_extension(char *path)
 }
 
 /**
- * create path
+ * @brief Construct the full path to the map file.
+ * Combines the base directory path (../fdf/maps/) with the provided filename
+ * to create the full path to the map file.
+ * @param str Map filename (without path).
+ * @return char* Full path to the map file, or NULL if memory allocation
+ * fail (with error message).
  */
 static char	*create_path(char *str)
 {
@@ -51,14 +53,16 @@ static char	*create_path(char *str)
 }
 
 /**
- * @brief Main map validation function: handles path construction and
- * file access.
- * Construct the full path to the map file, attempts to open it, and initiates
- * the validation process throught check_extension(). 
- * Handles file access errors.
+ * @brief Main map validation function: coordinates file access
+ * and validation.
+ * Construct the full path to the map file, open it, and performs
+ * sequential validation checks (file existence, extension and content).
+ * Manage resources (file descriptor and memory) throughout the process.
  * @param str Map filename (without path).
- * @return void Exits program with EXIT_FAILURE on file access errors,
- * or continues validation through check_extension.
+ * @return true If all validations pass (file exits, valid extension,
+ * and proper content).
+ * @return false If any validation fails (with appropiate error 
+ * messages printed).
  */
 bool	check_map(char *str)
 {

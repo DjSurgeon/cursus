@@ -6,12 +6,20 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 17:20:40 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 18:17:48 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 22:30:27 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+/**
+ * @brief Safely deallocates a dynamically allocated string array.
+ * Iterates trough a NULL-terminated array of strings, freeing each
+ * individual string and finally freeing the array pointer itself.
+ * Handles NULL input gracefully (no operation).
+ * @param matrix NULL-terminated array of strings to deallocate.
+ * @return void.
+ */
 void	free_matrix(char **matrix)
 {
 	int	i;

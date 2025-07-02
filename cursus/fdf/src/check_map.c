@@ -6,14 +6,21 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:52:58 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 18:33:37 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 21:52:24 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /**
- * read file
+ * @brief Reads and validates the map file line by line.
+ * Iterates through each line of the map file, validating the format
+ * and counting the number of lines (height). Stores the final height
+ * in the map structure upon successful completion.
+ * @param fd File descriptor of the opened map file.
+ * @param map Pointer to the t_sizemap structure for storing map dimensions.
+ * @return true If all lines are valid and file fully processed.
+ * @return false If any line fails validation (with error message).
  */
 static bool	read_map(int fd, t_sizemap *map)
 {
@@ -27,11 +34,16 @@ static bool	read_map(int fd, t_sizemap *map)
 		line = get_next_line(fd);
 		if (line == NULL)
 		{
-			map->heigth = i;
+			map->height = i;
 			return (free(line), true);
 		}
 		if (!validate_format(line, map))
-			return (free(line), false);
+		{
+			free(line);
+			close(fd);
+			line = get_next_line(fd);
+			return (false);
+		}
 		free(line);
 		i++;
 	}
@@ -39,7 +51,11 @@ static bool	read_map(int fd, t_sizemap *map)
 }
 
 /**
- * create t_sizemap struct
+ * @brief Allocates and initializes a t_sizemap structure.
+ * Creates a zero-initialized t_sizemap structure using calloc.
+ * @param map Unused parameter (present for consistency).
+ * @return t_sizemap* Pointer to allocated structure, or NULL on
+ * failure (with error message).
  */
 static t_sizemap	*create_sizemap(t_sizemap *map)
 {
@@ -50,7 +66,15 @@ static t_sizemap	*create_sizemap(t_sizemap *map)
 }
 
 /**
- * check file
+ * @brief Orchestrates the map validation process.
+ * Manages the full map validation workflow:
+ * - Creates size tracking structure.
+ * - Reads and validates file content line by line.
+ * - Reopens file for additional processing.
+ * @param finalpath Full path to the map file.
+ * @param fd File descriptor of the opened map file.
+ * @return true If all validation steps pas successfully.
+ * @return false If any step fail (with appropiate error handling).
  */
 bool	validate_map(char *finalpath, int fd)
 {
@@ -66,6 +90,6 @@ bool	validate_map(char *finalpath, int fd)
 	fd = open_path(finalpath);
 	if (fd == -1)
 		return (false);
-	// create_coordinates(map, fd);
+	// TODO: create and save the map size and coordenates
 	return (free(map), true);
 }

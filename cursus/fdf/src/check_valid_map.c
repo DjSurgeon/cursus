@@ -6,14 +6,22 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:00:03 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 18:30:25 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 22:10:56 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /**
- * paarsear color
+ * @brief Parses a coordinate string into its numerical and color components.
+ * Split a coordinate string (format: "number, color") into
+ * separate components.
+ * Handles both simple numbers with aassociated color codes.
+ * @param line Coordinate string to parse.
+ * @return char** Array of strings where:
+ * - [0] = z-coordinate value.
+ * - [1] = color code (if present).
+ * NULL if memory allocation fails.
  */
 static char	**parse_color(char *line)
 {
@@ -26,7 +34,15 @@ static char	**parse_color(char *line)
 }
 
 /**
- * array de numeros
+ * @brief Validates an array of coordinate strings.
+ * Processes each coordinate string in the array, validating:
+ * - The numerical part is a valid integer.
+ * - The color part (if present) is a valid hexadecimal code.
+ * - Consistent width across all lines of the map.
+ * @param str Array of coordinate strings.
+ * @param map Pointer to t_sizemap structure for storing/validating dimensions.
+ * @return true If all coordinates are valid and width is consistent.
+ * @return false If any validation fails (with resources cleaned up).
  */
 static bool	is_valid_array(char **str, t_sizemap *map)
 {
@@ -40,11 +56,11 @@ static bool	is_valid_array(char **str, t_sizemap *map)
 		if (!color)
 			return (false);
 		if (!is_valid_number(color[0]))
-			return (free(color), false);
+			return (free_matrix(color), false);
 		if (color[1])
 		{
 			if (!is_valid_hexa(color[1]))
-				return (free(color), false);
+				return (free_matrix(color), false);
 		}
 		free_matrix(color);
 		i++;
@@ -56,7 +72,12 @@ static bool	is_valid_array(char **str, t_sizemap *map)
 }
 
 /**
- * parse la linea
+ * @brief Slpits a map line into individual coordinate strings.
+ * Separates a line of space-separated coordinate values into an
+ * array of individual coordinate strings.
+ * @param line The map line to split.
+ * @return char** Array of coordinate strings, or NULL on
+ * allocation failure.
  */
 static char	**parse_line(char *line)
 {
@@ -70,13 +91,13 @@ static char	**parse_line(char *line)
 
 /**
  * @brief Validates a single line of map coordinatea and updates map dimensions.
- * This function processes a line of space-separated z-coordinates values,
- * counting the number of values (width) and tracking line numbers (height).
- * It validates consistent witdh across all lines of the map.
+ * Processes a line of space-separated coordinate values, validating:
+ * - The format of each coordinate (number + optional color).
+ * - Consistent width across all lines of the map.
  * @param line The current line being processed from the map file.
- * @param map Pointer to the t_sizemap structure storing map dimensions.
- * @return void Exits program with EXIT_FAILURE if inconsistent width
- * is detected.
+ * @param map Pointer to the t_sizemap structure for storing map dimensions.
+ * @return true If the line is valid and width is consistent.
+ * @return false If validation fails (with resources cleaned up).
  */
 bool	validate_format(char *line, t_sizemap *map)
 {
