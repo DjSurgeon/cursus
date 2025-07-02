@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 00:34:42 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/01 17:11:19 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 12:07:23 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@
 int	main(int argc, char *argv[])
 {
 	if (argc != 2)
-		ft_printf("Error Arguments");
+	{
+		print_error("Invalid arguments\nUsage: ./fdf <map_file.fdf>");
+		exit(EXIT_FAILURE);
+	}
 	else
 	{
 		if (!check_map(argv[1]))
-			ft_printf("Error *");
+			exit(EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
 }

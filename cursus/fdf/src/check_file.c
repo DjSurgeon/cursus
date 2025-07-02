@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:52:58 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/01 19:17:56 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 11:51:32 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ bool	check_file(char *finalpath, int fd)
 	{
 		free(map);
 		close (fd);
-		return (print_error("Error memory allocation check_file()", finalpath),
+		return (print_error("Error memory allocation check_file()"),
 			false);
 	}
 	else
@@ -130,7 +130,7 @@ bool	check_file(char *finalpath, int fd)
 		close(fd);
 		fd = open(finalpath, O_RDONLY);
 		if (fd < 0)
-			return (print_error("Error open()", finalpath), false);
+			return (print_error("Error open()"), false);
 		create_coordinates(map, fd);
 		free(map);
 	}

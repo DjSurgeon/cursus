@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:55:52 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/01 19:35:27 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 12:41:22 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,44 @@
  * @return void Exits program with EXIT_FAILURE on invalid extension,
  * or EXIT_SUCCESS after processing entire file.
  */
-static bool	check_extension(char *finalpath, int fd)
+static bool	check_extension(char *path)
 {
-	if (ft_strnstr(finalpath, ".fdf", ft_strlen(finalpath)) == NULL)
-	{
-		close (fd);
-		return (print_error("Error unknown extension", finalpath), false);
-	}
+	int	len;
+
+	len = ft_strlen(path);
+	if (len < 4)
+		return (false);
+	if (ft_strnstr(path + (len - 4), ".fdf", 4) == NULL)
+		return (print_error("Error Invalid Extension\n"), false);
 	return (true);
+}
+
+/**
+ * open file
+ */
+static int	open_path(char *str)
+{
+	int	fd;
+
+	fd = open(str, O_RDONLY);
+	if (fd < 0)
+		return (print_error("Error Invalid File Descriptor\n"), -1);
+	return (fd);
+}
+
+/**
+ * create path
+ */
+static char	*create_path(char *str)
+{
+	char	*path;
+	char	*finalpath;
+
+	path = "../fdf/maps/";
+	finalpath = ft_strjoin(path, str);
+	if (!finalpath)
+		return (print_error("Error Memory Allocation\n"), NULL);
+	return (finalpath);
 }
 
 /**
@@ -46,20 +76,15 @@ static bool	check_extension(char *finalpath, int fd)
 bool	check_map(char *str)
 {
 	int		fd;
-	char	*path;
 	char	*finalpath;
 
-	path = "../fdf/maps/";
-	finalpath = ft_strjoin(path, str);
-	fd = open(finalpath, O_RDONLY);
-	if (fd < 0)
-		return (print_error("Error open()", finalpath), false);
-	else
-	{
-		if (!check_extension(finalpath, fd))
-			return (print_error("Error extension", finalpath), false);
-		else if (!check_file(finalpath, fd))
-			return (print_error("Error file", finalpath), false);
-	}
+	if ((finalpath = create_path(str)) == NULL)
+		return (false);
+	else if ((fd = open_path(finalpath)) == -1)
+		return (free(finalpath), false);
+	else if (!check_extension(finalpath))
+		return (close(fd), free(finalpath), false);
+	else if (!check_file(finalpath, fd))
+		return (false);
 	return (close(fd), true);
 }

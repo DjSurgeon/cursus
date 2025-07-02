@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/01 19:03:18 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/02 11:48:13 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	create_coordinates(t_sizemap *map, int fd);
 
 // Modulo de errores
 
-void	print_error(char *str, char *path);
+void	print_error(char *str);
 
 // liberacion de memoria
 
