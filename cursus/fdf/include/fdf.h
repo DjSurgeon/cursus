@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/03 14:29:53 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/03 18:26:09 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,6 @@ void	print_error(char *str);
 // liberacion de memoria
 
 void	free_matrix(char **matrix);
-void	free_structure(t_coordinates **structure);
+void	free_structure(t_coordinates **structure, int heght);
 
 #endif
