@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 17:20:40 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 22:30:27 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/03 10:54:44 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,17 @@ void	free_matrix(char **matrix)
 		i++;
 	}
 	free(matrix);
+}
+
+void	free_structure(t_coordinates **structure)
+{
+	int	i;
+
+	i = 0;
+	while (structure[i])
+	{
+		free(structure[i]);
+		i++;
+	}
+	free(structure);
 }

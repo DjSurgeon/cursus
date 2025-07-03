@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 21:40:31 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/03 14:29:53 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ typedef struct	s_coordinates
 
 typedef struct s_sizemap
 {
-	int			expected_width;
-	int			width;
-	int			height;
-	int			**matrix;
+	int						expected_width;
+	int						width;
+	int						height;
+	t_coordinates			**matrix;
 }				t_sizemap;
 
 
@@ -99,8 +99,11 @@ void	print_rectangle(t_data *data, int axis_x, int axis_y, int witdh, int heigth
 
 bool	check_map(char *str);
 bool	validate_map(char *finalpath, int fd);
-void	create_coordinates(t_sizemap *map, int fd);
+bool	create_coordinates(t_sizemap *map, int fd);
 bool	validate_format(char *line, t_sizemap *map);
+
+// Modulo utils
+
 int		open_path(char *str);
 bool	is_valid_number(char *str);
 bool	is_valid_hexa(char *str);
@@ -113,5 +116,6 @@ void	print_error(char *str);
 // liberacion de memoria
 
 void	free_matrix(char **matrix);
+void	free_structure(t_coordinates **structure);
 
 #endif

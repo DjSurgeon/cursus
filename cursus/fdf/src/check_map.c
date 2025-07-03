@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:52:58 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 21:52:24 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/03 10:46:06 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,7 @@ bool	validate_map(char *finalpath, int fd)
 	if (fd == -1)
 		return (false);
 	// TODO: create and save the map size and coordenates
+	if (!create_coordinates(map, fd))
+		return (free(map), false);
 	return (free(map), true);
 }

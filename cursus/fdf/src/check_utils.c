@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:16:29 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 22:24:48 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/03 14:29:47 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ bool	is_valid_hexa(char *str)
 {
 	int	i;
 
-	if (str[0] == '0' && str[1] == 'x' && str[3] != '\0')
+	if (str[0] == '0' && str[1] == 'x' && str[2] != '\0')
 		i = 2;
 	else
 		return (print_error("Invalid hexadecimal\n"), false);
