@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:00:03 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 22:10:56 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/04 09:28:29 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ bool	validate_format(char *line, t_sizemap *map)
 	if (!is_valid_array(line_z, map))
 		return (free_matrix(line_z), false);
 	if (!is_correct_width(map))
-		return (false);
+		return (free_matrix(line_z), false);
 	return (free_matrix(line_z), true);
 }

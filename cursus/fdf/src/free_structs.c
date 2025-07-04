@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 17:20:40 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/03 18:25:38 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/04 14:39:52 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,11 @@ void	free_structure(t_coordinates **structure, int height)
 		free(structure[i]);
 		i++;
 	}
+	free(structure);
+}
+
+void	free_map(t_sizemap *structure, int height)
+{
+	free_structure(structure->matrix, height);
 	free(structure);
 }

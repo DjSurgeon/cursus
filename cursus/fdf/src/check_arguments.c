@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:55:52 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 21:36:02 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/04 14:27:30 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,20 +64,23 @@ static char	*create_path(char *str)
  * @return false If any validation fails (with appropiate error 
  * messages printed).
  */
-bool	check_map(char *str)
+t_sizemap	*check_map(char *str, t_sizemap *map)
 {
 	int		fd;
 	char	*finalpath;
 
 	finalpath = create_path(str);
 	if (finalpath == NULL)
-		return (false);
+		return (NULL);
 	fd = open_path(finalpath);
 	if (fd == -1)
-		return (free(finalpath), false);
+		return (free(finalpath), NULL);
 	else if (!check_extension(finalpath))
-		return (close(fd), free(finalpath), false);
-	else if (!validate_map(finalpath, fd))
-		return (close(fd), free(finalpath), false);
-	return (close(fd), free(finalpath), true);
+		return (close(fd), free(finalpath), NULL);
+	map = validate_map(finalpath, fd, map);
+	if (map == NULL)
+		return (close(fd), free(finalpath), NULL);
+	// else if (!validate_map(finalpath, fd, fdf))
+	// 	return (close(fd), free(finalpath), NULL);
+	return (close(fd), free(finalpath), map);
 }

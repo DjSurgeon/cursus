@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:52:58 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/03 10:46:06 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/04 14:27:57 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ static bool	read_map(int fd, t_sizemap *map)
  * @return t_sizemap* Pointer to allocated structure, or NULL on
  * failure (with error message).
  */
-static t_sizemap	*create_sizemap(t_sizemap *map)
-{
-	map = ft_calloc(1, sizeof(t_sizemap));
-	if (!map)
-		return (print_error("Error Memory Allocation"), NULL);
-	return (map);
-}
+// static t_sizemap	*create_sizemap(t_sizemap *map)
+// {
+// 	map = ft_calloc(1, sizeof(t_sizemap));
+// 	if (!map)
+// 		return (print_error("Error Memory Allocation"), NULL);
+// 	return (map);
+// }
 
 /**
  * @brief Orchestrates the map validation process.
@@ -76,22 +76,24 @@ static t_sizemap	*create_sizemap(t_sizemap *map)
  * @return true If all validation steps pas successfully.
  * @return false If any step fail (with appropiate error handling).
  */
-bool	validate_map(char *finalpath, int fd)
+t_sizemap	*validate_map(char *finalpath, int fd, t_sizemap *map)
 {
-	t_sizemap	*map;
+	// t_sizemap	*map;
 
-	map = NULL;
-	map = create_sizemap(map);
-	if (!map)
-		return (false);
+	// map = NULL;
+	// map = create_sizemap(map);
+	// if (!map)
+	// 	return (NULL);
 	if (!read_map(fd, map))
-		return (free(map), false);
+		return (free(map), NULL);
 	close(fd);
 	fd = open_path(finalpath);
 	if (fd == -1)
-		return (false);
-	// TODO: create and save the map size and coordenates
-	if (!create_coordinates(map, fd))
-		return (free(map), false);
-	return (free(map), true);
+		return (NULL);
+	map = create_coordinates(map, fd);
+	if (map == NULL)
+		return (free(map), NULL);
+	// if (!create_coordinates(map, fd, fdf))
+	// 	return (free(map), false);
+	return (map);
 }
