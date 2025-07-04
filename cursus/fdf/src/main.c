@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 00:34:42 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/04 14:40:29 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/04 17:54:31 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ int	main(int argc, char *argv[])
 {
 	t_sizemap	*fdf;
 
-	fdf = NULL;
-	fdf = ft_calloc(1, sizeof(t_sizemap));
 	if (argc != 2)
 	{
 		print_error("Invalid arguments\nUsage: ./fdf <map_file.fdf>");
@@ -38,17 +36,15 @@ int	main(int argc, char *argv[])
 	}
 	else
 	{
+		fdf = NULL;
+		fdf = create_sizemap(fdf);
 		fdf = check_map(argv[1], fdf);
 		if (fdf == NULL)
 			exit(EXIT_FAILURE);
-		// if (!check_map(argv[1], fdf))
-		// 	exit(EXIT_FAILURE);
 	}
-	ft_printf("%d\n", fdf->matrix[1][0].axis_x);
-	ft_printf("%d\n", fdf->matrix[1][0].axis_y);
-	ft_printf("%d\n", fdf->matrix[1][0].axis_z);
-	ft_printf("%d\n", fdf->matrix[1][0].color);
-	ft_printf("SUCCESS");
+	init_fdf(fdf);
+	// print_coord(fdf);
+	// ft_printf("SUCCESS");
 	free_map(fdf, fdf->height);
 	return (EXIT_SUCCESS);
 }

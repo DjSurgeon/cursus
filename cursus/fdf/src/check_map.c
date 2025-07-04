@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 12:52:58 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/04 14:27:57 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/04 15:06:25 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,6 @@ static bool	read_map(int fd, t_sizemap *map)
 }
 
 /**
- * @brief Allocates and initializes a t_sizemap structure.
- * Creates a zero-initialized t_sizemap structure using calloc.
- * @param map Unused parameter (present for consistency).
- * @return t_sizemap* Pointer to allocated structure, or NULL on
- * failure (with error message).
- */
-// static t_sizemap	*create_sizemap(t_sizemap *map)
-// {
-// 	map = ft_calloc(1, sizeof(t_sizemap));
-// 	if (!map)
-// 		return (print_error("Error Memory Allocation"), NULL);
-// 	return (map);
-// }
-
-/**
  * @brief Orchestrates the map validation process.
  * Manages the full map validation workflow:
  * - Creates size tracking structure.
@@ -78,12 +63,6 @@ static bool	read_map(int fd, t_sizemap *map)
  */
 t_sizemap	*validate_map(char *finalpath, int fd, t_sizemap *map)
 {
-	// t_sizemap	*map;
-
-	// map = NULL;
-	// map = create_sizemap(map);
-	// if (!map)
-	// 	return (NULL);
 	if (!read_map(fd, map))
 		return (free(map), NULL);
 	close(fd);
@@ -93,7 +72,5 @@ t_sizemap	*validate_map(char *finalpath, int fd, t_sizemap *map)
 	map = create_coordinates(map, fd);
 	if (map == NULL)
 		return (free(map), NULL);
-	// if (!create_coordinates(map, fd, fdf))
-	// 	return (free(map), false);
 	return (map);
 }

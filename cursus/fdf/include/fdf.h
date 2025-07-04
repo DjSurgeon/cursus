@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/04 14:37:35 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/04 18:18:41 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct	s_img {
 	// &data->image->endian);
 	// Este puntero es muy importante y que necesitamos saber la posicion
 	// de la memoria donde estan alamacenado los colores de cada pixel.
-	int		bits_per_pixel;		// Bits por píxel (generalmente 32)
+	int		bpp;		// Bits por píxel (generalmente 32)
 	// 4 bytes por pixel
 	int		line_len;			// Bytes por línea
 	// El sistem operativo puede añadir bytes extras al final por razones de memoria
@@ -87,13 +87,17 @@ typedef struct	s_data {
 // void	draw_square(int w, int h);
 // void	close_with_esc(void);
 // void	one_pixel(int x, int y, int color);
-void	put_pixel_to_image(t_data *data, int x, int y, int color);
-void	init_window(t_data **data, int width, int height, char* title);
-void	init_image(t_data *data, int width, int height);
 int		key_press_event(int keycode, t_data *data);
 int		close_program(t_data *data);
 int		mouse_press_event(int button, int x, int y, t_data *data);
 void	print_rectangle(t_data *data, int axis_x, int axis_y, int witdh, int heigth);
+
+// Modulo mlx
+void	init_fdf(t_sizemap *map);
+void	init_window(t_data *data, int width, int height, char* title);
+void	init_image(t_data *data, int width, int height);
+void	put_pixel_to_image(t_data *data, int x, int y, int color);
+void	draw_coordenates(t_sizemap *map, t_data *data);
 
 // Modulo de parseo de datos
 
@@ -104,10 +108,11 @@ bool		validate_format(char *line, t_sizemap *map);
 
 // Modulo utils
 
-int		open_path(char *str);
-bool	is_valid_number(char *str);
-bool	is_valid_hexa(char *str);
-bool	is_correct_width(t_sizemap *map);
+int			open_path(char *str);
+bool		is_valid_number(char *str);
+bool		is_valid_hexa(char *str);
+bool		is_correct_width(t_sizemap *map);
+t_sizemap	*create_sizemap(t_sizemap *map);
 
 // Modulo de errores
 
@@ -118,5 +123,9 @@ void	print_error(char *str);
 void	free_matrix(char **matrix);
 void	free_structure(t_coordinates **structure, int heght);
 void	free_map(t_sizemap *structure, int height);
+
+// Debug
+
+void print_coord(t_sizemap	*fdf);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:16:29 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/03 14:29:47 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/04 14:50:03 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,19 @@ bool	is_correct_width(t_sizemap *map)
 		return (false);
 	}
 	return (true);
+}
+
+/**
+ * @brief Allocates and initializes a t_sizemap structure.
+ * Creates a zero-initialized t_sizemap structure using calloc.
+ * @param map Unused parameter (present for consistency).
+ * @return t_sizemap* Pointer to allocated structure, or NULL on
+ * failure (with error message).
+ */
+t_sizemap	*create_sizemap(t_sizemap *map)
+{
+	map = ft_calloc(1, sizeof(t_sizemap));
+	if (!map)
+		return (print_error("Error Memory Allocation"), NULL);
+	return (map);
 }
