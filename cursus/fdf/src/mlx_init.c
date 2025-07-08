@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:47:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/04 18:20:32 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/08 07:54:28 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,12 @@ void	init_image(t_data *data, int width, int height)
 		&data->img.bpp, &data->img.line_len, &data->img.endian);
 	if (!data->img.img_data)
 		return (perror("Fallo en la recuperacion de los datos de la imagen"));
-	}
+}
 
 void	init_fdf(t_sizemap *map)
 {
 	t_data	*fdf_data;
 	
-	(void)map;
 	fdf_data = malloc(sizeof(t_data));
 	if (!fdf_data)
 		return (perror("Fallo inicialización estructura."));
@@ -79,8 +78,7 @@ void	init_fdf(t_sizemap *map)
 	/**
 	 * Eventos y dibujos
 	 */
-	draw_coordenates(map, fdf_data);
-	// put_pixel_to_image(fdf_data, 400, 300, 0x00FF00);
+	screen_position(map);	// put_pixel_to_image(fdf_data, 400, 300, 0x00FF00);
 	mlx_put_image_to_window(fdf_data->mlx_ptr, fdf_data->win_ptr, fdf_data->img.img_ptr, 400, 300);
 	mlx_loop(fdf_data->mlx_ptr);
 }
