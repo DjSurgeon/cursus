@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/08 07:30:11 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/08 18:15:20 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # define WIDTH 800
 # define HEIGHT 600
 # define TITLE "serjimen - FDF 42"
-# define SCALE 25
+# define SCALE 150
 
 // Estructuras
 
@@ -104,8 +104,8 @@ void	init_fdf(t_sizemap *map);
 void	init_window(t_data *data, int width, int height, char* title);
 void	init_image(t_data *data, int width, int height);
 void	put_pixel_to_image(t_data *data, int x, int y, int color);
-void	draw_coordenates(t_screen2d *screen, t_data *data, t_sizemap *map);
-t_screen2d	*screen_position(t_sizemap *map);
+void	draw_coordenates(t_data *data, t_sizemap *map);
+t_screen2d	screen_position(int x, int y, t_sizemap *map);
 
 // Modulo de parseo de datos
 

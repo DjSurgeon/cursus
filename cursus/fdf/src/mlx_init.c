@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:47:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/08 07:54:28 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/08 18:10:47 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	init_image(t_data *data, int width, int height)
 void	init_fdf(t_sizemap *map)
 {
 	t_data	*fdf_data;
+	(void)map;
 	
 	fdf_data = malloc(sizeof(t_data));
 	if (!fdf_data)
@@ -78,7 +79,8 @@ void	init_fdf(t_sizemap *map)
 	/**
 	 * Eventos y dibujos
 	 */
-	screen_position(map);	// put_pixel_to_image(fdf_data, 400, 300, 0x00FF00);
-	mlx_put_image_to_window(fdf_data->mlx_ptr, fdf_data->win_ptr, fdf_data->img.img_ptr, 400, 300);
+		// put_pixel_to_image(fdf_data, 400, 300, 0x00FF00);
+	draw_coordenates(fdf_data, map);
+	mlx_put_image_to_window(fdf_data->mlx_ptr, fdf_data->win_ptr, fdf_data->img.img_ptr, 0, 0);
 	mlx_loop(fdf_data->mlx_ptr);
 }
