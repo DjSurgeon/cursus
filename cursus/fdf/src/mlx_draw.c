@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:14:58 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/08 18:18:13 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/09 11:35:20 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ t_screen2d	screen_position(int x, int y, t_sizemap *map)
 		// Funcion para calcular la escala automatica
 	float	scale_x =  (float)WIDTH / (map->width);
 	float	scale_y =  (float)HEIGHT / (map->height);
-	float	scale = fmin(scale_x, scale_y) * 0.85;
+	float	scale = fmin(scale_x, scale_y) * 0.90;
 
 		// Funcion para centrar
-	int offset_x = (WIDTH - (map->width * scale)) / 2;
-	int offset_y = (HEIGHT - (map->height * scale)) / 2;
+	int offset_x = (WIDTH - ((map->width - 1) * scale)) / 2;
+	int offset_y = (HEIGHT - ((map->height -1) * scale)) / 2;
 
 	screen.x_screen = offset_x + x * scale;
 	screen.y_screen = offset_y + y * scale;
@@ -62,7 +62,7 @@ void	draw_coordenates(t_data *data, t_sizemap *map)
 		while (j < map->width)
 		{
 			screen = screen_position(map->matrix[i][j].axis_x ,map->matrix[i][j].axis_y , map);
-			put_pixel_to_image(data, screen.x_screen, screen.y_screen, 0xFF0000);
+			put_pixel_to_image(data, screen.x_screen, screen.y_screen, map->matrix[i][j].color);
 			j++;
 		}
 		i++;
