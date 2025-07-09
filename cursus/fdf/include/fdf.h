@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/09 11:40:01 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/09 16:56:13 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ typedef struct s_screen2d
 	int		x_screen;
 	int		y_screen;
 }			t_screen2d;
+
+typedef struct s_screen3d
+{
+	int		x_screen;
+	int		y_screen;
+}			t_screen3d;	
 
 typedef struct	s_coordinates
 {
@@ -104,8 +110,10 @@ void	init_fdf(t_sizemap *map);
 void	init_window(t_data *data, int width, int height, char* title);
 void	init_image(t_data *data, int width, int height);
 void	put_pixel_to_image(t_data *data, int x, int y, int color);
-void	draw_coordenates(t_data *data, t_sizemap *map);
-t_screen2d	screen_position(int x, int y, t_sizemap *map);
+//void	draw_2Dcoordenates(t_data *data, t_sizemap *map);
+void	draw_3Dcoordenates(t_data *data, t_sizemap *map);
+// t_screen2d	screen_2Dposition(int x, int y, t_sizemap *map);
+// t_screen3d	screen_3Dposition(float x, float y, float z, t_sizemap *map);
 
 // Modulo de parseo de datos
 
@@ -131,6 +139,10 @@ void	print_error(char *str);
 void	free_matrix(char **matrix);
 void	free_structure(t_coordinates **structure, int heght);
 void	free_map(t_sizemap *structure, int height);
+
+// Hooks
+
+bool	fdf_hooks(t_data *data);
 
 // Debug
 

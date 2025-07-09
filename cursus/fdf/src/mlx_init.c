@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:47:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/08 18:10:47 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/09 16:34:34 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	init_fdf(t_sizemap *map)
 	 * Eventos y dibujos
 	 */
 		// put_pixel_to_image(fdf_data, 400, 300, 0x00FF00);
-	draw_coordenates(fdf_data, map);
+	draw_3Dcoordenates(fdf_data, map);
 	mlx_put_image_to_window(fdf_data->mlx_ptr, fdf_data->win_ptr, fdf_data->img.img_ptr, 0, 0);
+	fdf_hooks(fdf_data);
 	mlx_loop(fdf_data->mlx_ptr);
 }
