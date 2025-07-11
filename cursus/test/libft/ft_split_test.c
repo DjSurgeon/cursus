@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_test.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 15:49:10 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/30 23:44:03 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:00:37 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ int main(void)
 {
 	// char *s1 = " hola   que tal    vaaassss    lololo    lolaloe dfasd  455677!   3·$·\"  $                ";
 	// char *s2 = "";
-	char **v = ft_split("zzzzzz\t\tzzzzz8  z  8zzssssssssssssss\nsssss\nssssssssssssssssssssss\t\tssssssssssszzzzzzzzzzzzz", '\t');
+	char **v = ft_split("holaque", ',');
 	// char **v = ft_split(s1, 'x');
 	int i = 0;
 	while(v[i])
