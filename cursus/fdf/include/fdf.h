@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/09 16:56:13 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/21 16:36:16 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,43 @@
 # include <fcntl.h>
 # include <mlx.h>
 
-// Macros por defecto
+/* -------------------------------- Macros ---------------------------------- */
+
+/**
+ * @brief Defaults parameters
+ */
 
 # define WIDTH 1920
 # define HEIGHT 1080
 # define TITLE "serjimen - FDF 42"
 # define SCALE 50
 
-// Estructuras
+/* ------------------------------ Structures -------------------------------- */
 
-typedef struct s_screen2d
+/**
+ * @struct s_bresenham
+ * @brief Stores parameters for Bresenham's line algorithm
+ * @param diffx Difference in x coordinates
+ * @param diffy Difference in y coordinates
+ */
+typedef struct	s_bresenham
+{
+	int	diffx;
+	int	diffy;
+	int	stepx;
+	int	stepy;
+	int	varerr;
+	int	temperr;
+}				t_bresenham;
+
+
+typedef struct	s_screen2d
 {
 	int		x_screen;
 	int		y_screen;
 }			t_screen2d;
 
-typedef struct s_screen3d
+typedef struct	s_screen3d
 {
 	int		x_screen;
 	int		y_screen;
@@ -58,7 +79,7 @@ typedef struct	s_coordinates
 	int			color;
 }				t_coordinates;
 
-typedef struct s_sizemap
+typedef struct	s_sizemap
 {
 	int						expected_width;
 	int						width;
@@ -112,8 +133,11 @@ void	init_image(t_data *data, int width, int height);
 void	put_pixel_to_image(t_data *data, int x, int y, int color);
 //void	draw_2Dcoordenates(t_data *data, t_sizemap *map);
 void	draw_3Dcoordenates(t_data *data, t_sizemap *map);
+t_screen3d	screen_3Dposition(float x, float y, float z, t_sizemap *map);
 // t_screen2d	screen_2Dposition(int x, int y, t_sizemap *map);
 // t_screen3d	screen_3Dposition(float x, float y, float z, t_sizemap *map);
+void	draw_bresenham(t_data *data, t_screen3d pstart, t_screen3d pend, int color);
+void	draw(t_data *data, t_sizemap *map);
 
 // Modulo de parseo de datos
 

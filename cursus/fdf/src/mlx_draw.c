@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:14:58 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/09 16:57:29 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/21 16:12:54 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@
 	return (screen);
 }
  */
-static t_screen3d	screen_3Dposition(float x, float y, float z, t_sizemap *map)
+t_screen3d	screen_3Dposition(float x, float y, float z, t_sizemap *map)
 {
 	t_screen3d screen;
 	
 		// Funcion para calcular la escala automatica
 	float	scale_x =  (float)WIDTH / (map->width);
 	float	scale_y =  (float)HEIGHT / (map->height);
-	float	scale = fmin(scale_x, scale_y) * 0.90;
+	float	scale = fmin(scale_x, scale_y) * 0.40;
 
 		// Funcion para centrar
 	int offset_x = (WIDTH - ((map->width - 1) * scale)) / 2;
