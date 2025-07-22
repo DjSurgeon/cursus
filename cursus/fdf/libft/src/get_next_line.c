@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:17:17 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/02 20:33:36 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/22 18:31:12 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,16 +60,25 @@ static char	*extract_line(char *buffer)
 		line = ft_strdup(buffer);
 	return (line);
 }
-/*
-**	Description: Reads from the file descriptor and accumulates data in the
-	buffer until a newline or EOF is found.
-**	Parameters:
-**	- fd: The file descriptor to read from.
-**	- buffer: A pointer to the static buffer to accumulate data.
-**	Return:
-**	- The updated buffer with the new data read, or NULL if an error occurs.
-*/
 
+/**
+ * @file get_next_line.c
+ * @brief Read from file descriptor and accumulates data in buffer.
+ * Performs buffered reading from a file descriptor, accumulating data
+ * until either:
+ * - A new line character is found.
+ * - EOF is reached.
+ * - An error occurs.
+ * @note Dynamically manages buffer growth using ft_strjoin.
+ * @note Ensures proper null-termination os accumulated data.
+ * @note Uses BUFFER_SIZE for chunked reading.
+ * @param fd Valid file descriptor to read from.
+ * @param buffer Pointer to the static buffer accumulating data between calls.
+ * @return bool true if reading succeds (newline found or EOF reached),
+ * false if any error occurs (with proper cleanup).
+ * @warning The file descriptor must be valid and readable.
+ * @warning The buffer pointer must be properly initializaed.
+ */
 static bool	read_line(int fd, char **buffer)
 {
 	char	*buffer_read;
@@ -97,15 +106,36 @@ static bool	read_line(int fd, char **buffer)
 	}
 	return (true);
 }
-/*
-**	Description: Reads the next line from a file descriptor.
-**	Parameters:
-**	- fd: The file descriptor to read from.
-**	Return:
-**	- A string containing the next line, or NULL if there are no more
-	lines or an error occurs.
-*/
 
+/**
+ * @file get_next_line.c
+ * @brief Reads the next line from a file descriptor.
+ * Reads from a file descriptor until a newline is encountered or EOF
+ * is reached, maintaining state between calls using a static buffer.
+ * The function:
+ * - Handles files descriptor validation.
+ * - Manages memory allocation and cleanup.
+ * - Preserves remaining buffer content between calls.
+ * - Support configurable BUFFER_SIZE
+ * @note The returned string must be freed by the caller.
+ * @note Properly handles edge cases (empty lines, EOF without newline).
+ * @param fd Valid file descriptor to read from.
+ * @return char* On success: Dynamically allocated string containing the line
+ * (including newline if present), on failure or EOF : NULL (with all
+ * resources cleanup).
+ * @code
+ * // Example
+ * int fd = open("file.txt", O_RDONLY);
+ * char *line;
+ * while((line = get_next_line(fd)) != NULL)
+ * {
+ * 	ft_printf("%s", line);
+ * 	free(line);
+ * }
+ * close(fd);
+ * @endcode
+ * @warning Requires BUFFER_SIZE to be defined.
+ */
 char	*get_next_line(int fd)
 {
 	static char	*buffer = NULL;

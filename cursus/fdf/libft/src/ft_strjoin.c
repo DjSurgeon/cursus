@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:12:37 by serjimen          #+#    #+#             */
-/*   Updated: 2025/07/22 09:10:21 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/22 18:41:56 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@
  * @param s2 Second null-terminated string to concatenate (can be NULL).
  * @return char* On success: Pointer to newly allocated concatenated string.
  * On failure: NULL (memory allocation failed).
+ * @code
+ * // Example
+ * char *result = ft_strjoin("Hello ", "World");
+ * if (result)
+ * {
+ * 	ft_printf("%s\n", result); // Output: "Hello World"
+ * free(result);
+ * }
+ * @endcode
  */
 
 #include "libft.h"

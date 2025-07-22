@@ -3,18 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 15:20:00 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/29 01:33:30 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/07/22 19:39:21 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**  description: look for a first char coincidence in a string
-**  parameters: the string and a character in ascii
-**  return: pointer to string if exits NULL if not
-*/
+/**
+ * @file ft_strchr.c
+ * @brief Locates first occurrence of character in string.
+ * Scans the null-terminated string 's' for the first occurrence of character
+ * 'c' (converted to char). The search includes the terminating null character,
+ * allowing for null-character searches.
+ * @param s Null-terminated stringto search.
+ * @param c Character to locate (converted to char).
+ * @return char* Pointer to the located character in 's', or NULL if the
+ * character
+ */
 
 #include "libft.h"
 

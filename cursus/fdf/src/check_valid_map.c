@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:00:03 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/04 09:28:29 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/22 16:55:40 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,18 +90,24 @@ static char	**parse_line(char *line)
 }
 
 /**
- * @brief Validates a single line of map coordinatea and updates map dimensions.
- * Processes a line of space-separated coordinate values, validating:
- * - The format of each coordinate (number + optional color).
- * - Consistent width across all lines of the map.
- * @param line The current line being processed from the map file.
- * @param map Pointer to the t_sizemap structure for storing map dimensions.
- * @return true If the line is valid and width is consistent.
- * @return false If validation fails (with resources cleaned up).
+ * @file check_valid_map.c
+ * @brief Validates a single line of map coordinates and updates map dimensions.
+ * Performs comprehensive validation of a map file line containing:
+ * - Space separated coordinates values.
+ * - Optional color values in hexadecimal format.
+ * - Validates both syntax and semantic consistency.
+ * @note Performs complete memory cleanup in all cases.
+ * @note Verifies width consistency with previous lines.
+ * @param line The current line being processed (null-terminated string).
+ * @param map Pointer to t_sizemap structure for dimension tracking.
+ * @return bool true if line format is valid and width matches previous lines,
+ * false if any validation fails (with automatic resource cleanup).
+ * @warning The line string must be null-terminated.
+ * @warning Modifies map->width on first successful line validation.
  */
 bool	validate_format(char *line, t_sizemap *map)
 {
-	char			**line_z;
+	char	**line_z;
 
 	line_z = parse_line(line);
 	if (line_z == NULL)

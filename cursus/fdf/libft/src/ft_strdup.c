@@ -3,18 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 14:46:15 by serjimen          #+#    #+#             */
-/*   Updated: 2025/02/05 21:55:09 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/07/22 18:21:18 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: duplicate a string
-**	parameters: the string to duplicate
-**	return: the duplicate string
-*/
+/**
+ * @file ft_strdup.c
+ * @brief Creates a duplicate of a string
+ * Allocates memory for and creates a exact copy of the input string,
+ * including the null terminator. The new string is allocated using
+ * ft_calloc to ensure proper initialization.
+ * @note The returned string must be freed by the caller.
+ * @note Safe for NULL inputs.
+ * @param s Null-terminated string to duplicate (can be NULL)
+ * @return char* On success: Pointer to newly allocated string copy,
+ * on failure: NULL (memory allocation failed).
+ * @code
+ * // Example
+ * char *original = "Hello";
+ * char *duplicate = ft_strdup(original);
+ * if (copy)
+ * {
+ * 	ft_printf("%s\n", copy); // Output: "Hello"
+ * 	free(copy);
+ * }
+ * @endcode
+ */
 
 #include "libft.h"
 
