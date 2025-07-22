@@ -3,20 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 12:43:56 by serjimen          #+#    #+#             */
-/*   Updated: 2025/01/28 23:34:15 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/07/22 09:49:16 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: locate the first ocurrence of the string little,
-** in the big string
-**	parameters: two string and the length to look for
-**	return: if little is NULL return big, if little don't exit in
-** big return NULL and if exits pointer to first character of little
-*/
+/**
+ * @file ft_strcstr.c
+ * @brief Locates the first occurrence of a substring with length limit.
+ * Searches for the first ocurrence of the null-terminated string 'little'
+ * in the string 'big' where not more than 'len' characters are searched.
+ * Characters that appear after a ('\0') character are not searched.
+ * @note Safe for NULL inputs.
+ * @note Comparison stops at first null terminator encountered.
+ * @param big The string to be scanned (haystack).
+ * @param little The string to search for (needle).
+ * @param len Maximum number of characters to search in 'big'.
+ * @return char* If 'little' is empty, returns 'big'.
+ * If 'little' occurs nowhere in 'big', returns NULL.
+ * Otherwise returns pointer to first character of the first occurrence
+ * of 'little' within 'big'.
+ */
 
 #include "libft.h"
 

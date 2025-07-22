@@ -6,23 +6,24 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 00:34:42 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/04 17:54:31 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/22 08:31:41 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /**
- * @brief Entry point for the FDF program: validates input and processes
- * map file.
+ * @file main.c
+ * @brief Entry point for the FDF program.
+ * Validates input arguments, processes the map file, initializes the FDF
+ * application, and manage memory cleanup.
  * The program requires exactly one argument representing the map
  * file path.
- * Validates the input arguments and initiates map validation.
- * Usage: ./fdf map_file.fdf
  * @param argc Number or command line argument.
  * @param argv Array of arguments strings where argv[1] is the map file path.
  * @return int EXIT_SUCCESS on successful validation, EXIT_FAILURE
  * on any error.
+ * @note Usage: ./fdf <map_file.fdf>
  */
 
 int	main(int argc, char *argv[])
@@ -43,8 +44,6 @@ int	main(int argc, char *argv[])
 			exit(EXIT_FAILURE);
 	}
 	init_fdf(fdf);
-	// print_coord(fdf);
-	// ft_printf("SUCCESS");
 	free_map(fdf, fdf->height);
 	return (EXIT_SUCCESS);
 }

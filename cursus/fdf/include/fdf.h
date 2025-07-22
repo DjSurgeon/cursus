@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/21 16:36:16 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/21 17:10:13 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 /* -------------------------------- Macros ---------------------------------- */
 
 /**
- * @brief Defaults parameters
+ * @brief Defaults parameters.
  */
 
 # define WIDTH 1920
@@ -44,11 +44,15 @@
 
 /**
  * @struct s_bresenham
- * @brief Stores parameters for Bresenham's line algorithm
- * @param diffx Difference in x coordinates
- * @param diffy Difference in y coordinates
+ * @brief Stores parameters for Bresenham's line algorithm.
+ * @param diffx Difference in x coordinates.
+ * @param diffy Difference in y coordinates.
+ * @param stepx Step direction in x axis.
+ * @param stepy Step direction in y axis.
+ * @param varerr Error variable.
+ * @param temperr Temporary error variable.
  */
-typedef struct	s_bresenham
+typedef struct s_bresenham
 {
 	int	diffx;
 	int	diffy;
@@ -56,97 +60,119 @@ typedef struct	s_bresenham
 	int	stepy;
 	int	varerr;
 	int	temperr;
-}				t_bresenham;
+}		t_bresenham;
 
-
-typedef struct	s_screen2d
+/**
+ * @struct s_scr2d
+ * @brief Stores 2D screen coordinates.
+ * @param x_screen X coordinate on screen.
+ * @param y_screen Y coordinate on screen.
+ */
+typedef struct s_scr2d
 {
-	int		x_screen;
-	int		y_screen;
-}			t_screen2d;
+	int	x_screen;
+	int	y_screen;
+}		t_scr2d;
 
-typedef struct	s_screen3d
+/**
+ * @struct s_scr3d
+ * @brief Stores 3D screen coordinates.
+ * @param x_screen X coordinate on screen.
+ * @param y_screen Y coordinate on screen.
+ */
+typedef struct s_scr3d
 {
-	int		x_screen;
-	int		y_screen;
-}			t_screen3d;	
+	int	x_screen;
+	int	y_screen;
+}		t_scr3d;	
 
-typedef struct	s_coordinates
+/**
+ * @struct s_coordinates
+ * @brief Stores 3D world coordinates and color.
+ * @param axis_x X coordinate in world space.
+ * @param axis_y Y coordinate in world space.
+ * @param axis_z Z coordinate in world space (height).
+ * @param color Color value.
+ */
+typedef struct s_coordinates
 {
-	int			axis_x;
-	int			axis_y;
-	int			axis_z;
-	int			color;
-}				t_coordinates;
+	int	axis_x;
+	int	axis_y;
+	int	axis_z;
+	int	color;
+}		t_coordinates;
 
-typedef struct	s_sizemap
+/**
+ * @struct s_sizemap
+ * @brief Stores map dimensions and coordinate matrix.
+ * @param expected_with Expected width from first line.
+ * @param width Actual map width.
+ * @param height Map height.
+ * @param matrix 2D array of coordinates.
+ */
+typedef struct s_sizemap
 {
-	int						expected_width;
-	int						width;
-	int						height;
-	t_coordinates			**matrix;
-}				t_sizemap;
+	int				expected_width;
+	int				width;
+	int				height;
+	t_coordinates	**matrix;
+}					t_sizemap;
 
+/**
+ * @struct s_img
+ * @brief Stores MLX image data.
+ * @param img_ptr Pointer to MLX image.
+ * @param img_data Raw image data.
+ * @param bpp Bits per pixel.
+ * @param line_len Bytes per line.
+ * @param endian Byte order.
+ */
+typedef struct s_img
+{
+	void	*img_ptr;
+	char	*img_data;
+	int		bpp;
+	int		line_len;
+	int		endian;
+}			t_img;
 
-typedef struct	s_img {
-	void	*img_ptr;			// Puntero a la imagen MLX
-	// data->image->img_ptr = mlx_new_image(data->mlx_ptr, 800, 600);
-	// Necesitamos saber de que puntero estamos hablando.
-	char	*img_data;			// Datos raw de la imagen
-	// image->img_data = mlx_get_data_addr(data->image->img_ptr,
-	// &data->image->bits_per_pixel, &data->image->line_len,
-	// &data->image->endian);
-	// Este puntero es muy importante y que necesitamos saber la posicion
-	// de la memoria donde estan alamacenado los colores de cada pixel.
-	int		bpp;		// Bits por píxel (generalmente 32)
-	// 4 bytes por pixel
-	int		line_len;			// Bytes por línea
-	// El sistem operativo puede añadir bytes extras al final por razones de memoria
-	int		endian;				// Orden de bytes
-	// little-endian en sistemaa x86/x64
-}				t_img;
+/**
+ * @struct s_data
+ * @brief Main data structure for MLX operations.
+ * @param mlx_ptr Pointer to MLX instance.
+ * @param win_ptr Pointer to window.
+ * @param img Image structure.
+ * @param width Window width.
+ * @param height Window height.
+ */
+typedef struct s_data
+{
+	void	*mlx_ptr;
+	void	*win_ptr;
+	t_img	img;
+	int		width;
+	int		height;
+}			t_data;
 
-typedef struct	s_data {
-	void	*mlx_ptr;			// Puntero a la instancia MLX
-	void	*win_ptr;			// Puntero a la ventana
-	t_img	img;				// Estructura de imagen
-	int		width;				// Ancho de la ventana
-	int		height;				// Alto de la ventana
-}				t_data;
+/* ---------------------------- MLX Module ---------------------------------- */
 
-// Test y ejercicios
+void		init_fdf(t_sizemap *map);
+void		init_window(t_data *data, int width, int height, char *title);
+void		init_image(t_data *data, int width, int height);
+void		put_pixel_to_image(t_data *data, int x, int y, int color);
+void		draw_3Dcoordenates(t_data *data, t_sizemap *map);
+t_scr3d		screen_3Dposition(float x, float y, float z, t_sizemap *map);
+void		bresenham(t_data *data, t_scr3d pstart, t_scr3d pend, int color);
+void		draw(t_data *data, t_sizemap *map);
 
-// void	hello_mlx(void);
-// void	draw_pixels(void);
-// void	draw_square(int w, int h);
-// void	close_with_esc(void);
-// void	one_pixel(int x, int y, int color);
-int		key_press_event(int keycode, t_data *data);
-int		close_program(t_data *data);
-int		mouse_press_event(int button, int x, int y, t_data *data);
-void	print_rectangle(t_data *data, int axis_x, int axis_y, int witdh, int heigth);
-
-// Modulo mlx
-void	init_fdf(t_sizemap *map);
-void	init_window(t_data *data, int width, int height, char* title);
-void	init_image(t_data *data, int width, int height);
-void	put_pixel_to_image(t_data *data, int x, int y, int color);
-//void	draw_2Dcoordenates(t_data *data, t_sizemap *map);
-void	draw_3Dcoordenates(t_data *data, t_sizemap *map);
-t_screen3d	screen_3Dposition(float x, float y, float z, t_sizemap *map);
-// t_screen2d	screen_2Dposition(int x, int y, t_sizemap *map);
-// t_screen3d	screen_3Dposition(float x, float y, float z, t_sizemap *map);
-void	draw_bresenham(t_data *data, t_screen3d pstart, t_screen3d pend, int color);
-void	draw(t_data *data, t_sizemap *map);
-
-// Modulo de parseo de datos
+/* ----------------------- Map Parsing Module ------------------------------- */
 
 t_sizemap	*check_map(char *str, t_sizemap *map);
 t_sizemap	*validate_map(char *finalpath, int fd, t_sizemap *map);
 t_sizemap	*create_coordinates(t_sizemap *map, int fd);
 bool		validate_format(char *line, t_sizemap *map);
 
-// Modulo utils
+/* --------------------------- Utils Module --------------------------------- */
 
 int			open_path(char *str);
 bool		is_valid_number(char *str);
@@ -154,22 +180,22 @@ bool		is_valid_hexa(char *str);
 bool		is_correct_width(t_sizemap *map);
 t_sizemap	*create_sizemap(t_sizemap *map);
 
-// Modulo de errores
+/* ------------------------- Error Handling Module -------------------------- */
 
-void	print_error(char *str);
+void		print_error(char *str);
 
-// liberacion de memoria
+/* ---------------------- Memory Management Module -------------------------- */
 
-void	free_matrix(char **matrix);
-void	free_structure(t_coordinates **structure, int heght);
-void	free_map(t_sizemap *structure, int height);
+void		free_matrix(char **matrix);
+void		free_structure(t_coordinates **structure, int heght);
+void		free_map(t_sizemap *structure, int height);
 
-// Hooks
+/* ---------------------------- Hooks Module -------------------------------- */
 
-bool	fdf_hooks(t_data *data);
+bool		fdf_hooks(t_data *data);
 
-// Debug
+/* ---------------------------- Debug Module -------------------------------- */
 
-void print_coord(t_sizemap	*fdf);
+void		print_coord(t_sizemap	*fdf);
 
 #endif

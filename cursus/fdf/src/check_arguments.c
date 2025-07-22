@@ -6,19 +6,26 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 09:55:52 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/04 15:05:49 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/22 09:39:33 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /**
+ * @file check_arguments.c
  * @brief Validates file extension for FDF map files.
- * Checks if the provided file path has the correct ".fdf" extension.
- * The extension must be exactly 4 characters long at the end of the path.
- * @param path Full path to the map file being validated.
- * @return true If the extension is valid.
- * @return false If the extension is invalid (with error message printed).
+ * Performs strict validation of the file extension to ensure it:
+ * - Appears exactly at the end of the path.
+ * - Matches the exact case-sensitive string ".fdf".
+ * - Has exactly 4 characters in length.
+ * @note The check is case-sensitive (.FDF will fail).
+ * @note Requires the extension to be exactly at the end of the path.
+ * @note Minimum path length requirement: 4 characters.
+ * @param path Full filesystem path to the map file being validated.
+ * Must be a null-terminated string.
+ * @return true If the path has a valid .fdf extension.
+ * @return false Otherwise (with error message printed to stderr).
  */
 static bool	check_extension(char *path)
 {
@@ -33,12 +40,15 @@ static bool	check_extension(char *path)
 }
 
 /**
+ * @file check_arguments.c
  * @brief Construct the full path to the map file.
- * Combines the base directory path (../fdf/maps/) with the provided filename
- * to create the full path to the map file.
+ * Combines the base direcctory path for map files with the provided filename
+ * to create a complete filesystem path. The function uses the project's
+ * standard map directory location (../fdf/maps).
+ * @note The returned string is dynamically allocated and must be freed.
  * @param str Map filename (without path).
- * @return char* Full path to the map file, or NULL if memory allocation
- * fail (with error message).
+ * @return char* On success: Newly allocated string containing full path.
+ * On failure: NULL (with error message printed to stderr).
  */
 static char	*create_path(char *str)
 {
@@ -53,16 +63,24 @@ static char	*create_path(char *str)
 }
 
 /**
- * @brief Main map validation function: coordinates file access
- * and validation.
- * Construct the full path to the map file, open it, and performs
- * sequential validation checks (file existence, extension and content).
- * Manage resources (file descriptor and memory) throughout the process.
- * @param str Map filename (without path).
- * @return true If all validations pass (file exits, valid extension,
- * and proper content).
- * @return false If any validation fails (with appropiate error 
- * messages printed).
+ * @file check_arguments.c
+ * @brief Main map validation function.
+ * Performs comprenhensive validation of a map file including path
+ * construction, file access check, extension validation, and content
+ * verification. Manages all resources (file descriptor and memory)
+ * thoughout the validation process.
+ * @note This function performs the following validation steps:
+ * 1 - Construct full path to map file.
+ * 2 - Verifies file accessibility.
+ * 3 - Validates file extesion (*.fdf).
+ * 4 - Performs content validation and parsing.
+ * @note Manage all resources (close file descriptors, frees memory)
+ * even in error cases.
+ * @param str Map filename or relative path.
+ * @param map Pointer to existing t_sizemap structure or NULL.
+ * @return t_sizemap* On sucess: Pointer to validated and populated
+ * map structure. On failure: NULL (with appropiate error messages
+ * printed to stderr).
  */
 t_sizemap	*check_map(char *str, t_sizemap *map)
 {

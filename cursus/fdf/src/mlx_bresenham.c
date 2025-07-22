@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 12:06:05 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/21 14:03:51 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/21 17:10:41 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * 
  */
 
-void	draw_bresenham(t_data *data, t_screen3d pstart, t_screen3d pend, int color)
+void	bresenham(t_data *data, t_scr3d pstart, t_scr3d pend, int color)
 {
 	t_bresenham	bresen;
 	
@@ -62,20 +62,20 @@ void	draw(t_data *data, t_sizemap *map)
 		for (int col = 0; col < map->width; col++)
 		{
 			t_coordinates	c0 = map->matrix[row][col];
-			t_screen3d		p0 = screen_3Dposition(c0.axis_x, c0.axis_y, c0.axis_z, map);
+			t_scr3d		p0 = screen_3Dposition(c0.axis_x, c0.axis_y, c0.axis_z, map);
 			// Derecha
 			if (col + 1 < map->width)
 			{
 				t_coordinates	c1 = map->matrix[row][col+1];
-				t_screen3d		p1 = screen_3Dposition(c1.axis_x, c1.axis_y, c1.axis_z, map);
-				draw_bresenham(data, p0, p1, c0.color);
+				t_scr3d		p1 = screen_3Dposition(c1.axis_x, c1.axis_y, c1.axis_z, map);
+				bresenham(data, p0, p1, c0.color);
 			}
 			// Abajo
 			if (row + 1 < map->height)
 			{
 				t_coordinates	c1 = map->matrix[row+1][col];
-				t_screen3d		p1 = screen_3Dposition(c1.axis_x, c1.axis_y, c1.axis_z, map);
-				draw_bresenham(data, p0, p1, c0.color);
+				t_scr3d		p1 = screen_3Dposition(c1.axis_x, c1.axis_y, c1.axis_z, map);
+				bresenham(data, p0, p1, c0.color);
 			}
 		}
 	}

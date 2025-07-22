@@ -6,15 +6,24 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:12:37 by serjimen          #+#    #+#             */
-/*   Updated: 2025/03/28 15:33:19 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/22 09:10:21 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: concat a string with other string
-**	paramaters: two string string source an string destiny
-**	return: the concatenation of the strings
-*/
+/**
+ * @file ft_strjoin.c
+ * @brief Concatenates two strings into a new dinamically allocated string.
+ * Allocates memory for and creates a new string that is the result of
+ * concatenating string s1 followed by string s2. The new string is
+ * null-terminated and memory is using allocated using ft_calloc.
+ * @note The returned string must be freed by the caller when no longer
+ * needed.
+ * @note If either s1 or s2 is NULL, treats it as an empty string ("").
+ * @param s1 First null-terminated string to concatenate (can be NULL).
+ * @param s2 Second null-terminated string to concatenate (can be NULL).
+ * @return char* On success: Pointer to newly allocated concatenated string.
+ * On failure: NULL (memory allocation failed).
+ */
 
 #include "libft.h"
 
