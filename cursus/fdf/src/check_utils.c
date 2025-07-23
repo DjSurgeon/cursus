@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:16:29 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/23 14:36:02 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/23 16:37:37 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	open_path(char *str)
 
 	fd = open(str, O_RDONLY);
 	if (fd < 0)
-		return (print_error("Error Invalid File Descriptor\n"), -1);
+		return (print_error("Error: Invalid file descriptor\n"), -1);
 	return (fd);
 }
 
@@ -102,19 +102,25 @@ bool	is_valid_number(char *str)
 }
 
 /**
- * @brief Validates consistent map width across lines.
- * Compares the current line's width with the expected width
- * established from the first line of the map. Ensures all
- * lines have the same number of coordinates.
+ * @file check_utils.c
+ * @brief Validates consistent map width across all lines.
+ * Ensures the current line's coordinate count matches the expected width
+ * established from the first line of the map file. This validation is
+ * critical for maintaining proper map structure in the FDF wireframe.
+ * @note First line establishes expected width for subsequent lines.
+ * @note Always returns true for first line.
+ * @note Critical for maintaining rectangular map structure.
  * @param map Pointer to t_sizemap structure storing width information.
- * @return true If width matches expected value.
- * @return false If consistent width (with error message).
+ * @return true If width matches expected value or is first line.
+ * @return false If width mismatch (with descriptive error message).
+ * @warning The map structure must contain valid width values.
+ * @warning Terminates validation pipeline on failure.
  */
 bool	is_correct_width(t_sizemap *map)
 {
 	if (map->expected_width != 0 && map->expected_width != map->width)
 	{
-		print_error("Error different width map");
+		print_error("Error: Inconsistent width map\n");
 		return (false);
 	}
 	return (true);
@@ -137,6 +143,6 @@ t_sizemap	*create_sizemap(t_sizemap *map)
 {
 	map = ft_calloc(1, sizeof(t_sizemap));
 	if (!map)
-		return (print_error("Error Memory Allocation"), NULL);
+		return (print_error("Error: Memory allocation\n"), NULL);
 	return (map);
 }

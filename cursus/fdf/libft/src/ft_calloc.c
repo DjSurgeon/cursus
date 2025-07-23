@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 12:39:07 by serjimen          #+#    #+#             */
-/*   Updated: 2025/07/22 08:36:12 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/23 17:05:35 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,21 @@
  * against size_t overflow by returning NULL if the multiplication of nmeb
  * and size would overflow.
  * @note The memory is set to zero using byte-by-byte initialization.
- * @note If either nmeb or size id 0, returns a unique pointer that can
+ * @note If either nmeb or size is 0, returns a unique pointer that can
  * be freed.
  * @note The returned pointer should be freed when no longer needed.
  * @param nmeb Number of elements to allocate.
  * @param size Size of each element in bytes.
  * @return void* Pointer to the allocated memory, or NULL if allocation
  * fails or if nmeb * size overflow.
+ * @code
+ * // Example
+ * int *arr = (int *)ft_calloc(10, sizeof(int));
+ * if (!arr)
+ * {
+ *	// Handle allocation error
+ * }
+ * @endcode
  */
 
 #include "libft.h"

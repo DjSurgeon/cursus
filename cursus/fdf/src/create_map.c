@@ -6,14 +6,29 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:46:06 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/04 14:29:14 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/23 17:26:56 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /**
- * setear las coordenadas
+ * @file create_map.c
+ * @brief Parses and assigns coordinate values to the map matrix.
+ * Processes a line from the map file to extract and store:
+ * - X & Y grid positions (based on matrix indexes).
+ * - Z elevation values (parsed from input).
+ * - Color values (either specified or default white).
+ * @note Expect coordinates in format 'z' or 'z,color'.
+ * @note Uses default white (FFFFFF) if no color specified.
+ * @note Handles hexadecimal color values (with 0x prefix).
+ * @param map Pointer to initialized t_sizemap structure with allocated matrix.
+ * @param line String containing space-separated coordinate data.
+ * @param row Current matrix row being processed.
+ * @return t_sizemap* On success: Pointer to updated map structure,
+ * on failure: NULL.
+ * @warning Map matrix must be pre-allocated.
+ * @warning Line must match expected coordinate format.
  */
 static t_sizemap	*set_coordinates(t_sizemap *map, char *line, int row)
 {
@@ -43,13 +58,25 @@ static t_sizemap	*set_coordinates(t_sizemap *map, char *line, int row)
 	free_matrix(axis_z);
 	return (map);
 }
+
 /**
- * read file para adjudicar valores
+ * @file create_map.c
+ * @brief Read and parses coordinate data from map file.
+ * Processes the map file line by line, extracting and storing coordinate
+ * values in the pre-allocated matrix. Handles both elevation and color data.
+ * @note Reads until EOF or error occurs.
+ * @note Each line must match the expected coordinate format.
+ * @param fd Valid file descriptor for the opened map file.
+ * @param map Pointer to initialized t_sizemap structure with allocated matrix.
+ * @return t_sizemap* On success: Pointer to populated map structure,
+ * on failure: NULL.
+ * @warning File descriptor must be valid and properly positioned.
+ * @warning Map structure must have allocated matrix.
  */
 static t_sizemap	*read_coordinates(int fd, t_sizemap *map)
 {
-	char			*line;
-	int				row;
+	char	*line;
+	int		row;
 
 	line = NULL;
 	row = 0;
@@ -69,7 +96,21 @@ static t_sizemap	*read_coordinates(int fd, t_sizemap *map)
 }
 
 /**
- * reservar matriz 2d
+ * @file create_map.c
+ * @brief Allocates a 2D matrix for storing map coordinates.
+ * Dynamically allocates memory for a height x width matrix coordinates.
+ * Performs complete initialization and cleanup if allocation fails
+ * at any stage.
+ * @note Performs row-by-row allocation with immediate cleanup on failure.
+ * @note Sets matrix pointer to NULL on complete failure.
+ * @note Prints descriptive error messages for allocation failures.
+ * @param map Pointer to t_sizemap structure containing:
+ * - Height: Number of rows to allocate.
+ * - Width: Number or columns to allocate.
+ * - Matrix: Pointer to be initialized.
+ * @return bool true If allocation succeeds for entire matrix.
+ * @return bool false If any allocation fails (with full cleanup).
+ * @warning The map structure must have a valid height and width values > 0.
  */
 static bool	allocate_matrix(t_sizemap *map)
 {
@@ -79,7 +120,7 @@ static bool	allocate_matrix(t_sizemap *map)
 	map->matrix = ft_calloc(map->height, sizeof(t_coordinates *));
 	if (!map->matrix)
 	{
-		print_error("Error Memory Allocation");
+		print_error("Error: Memory allocation in matrix rows\n");
 		return (false);
 	}
 	while (row < map->height)
@@ -87,7 +128,7 @@ static bool	allocate_matrix(t_sizemap *map)
 		map->matrix[row] = ft_calloc(map->width, sizeof(t_coordinates));
 		if (!map->matrix[row])
 		{
-			print_error("Error Memory Allocation");
+			print_error("Error: Memory allocation in matrix columns\n");
 			free_structure(map->matrix, map->height);
 			map->matrix = NULL;
 			return (false);
@@ -98,7 +139,21 @@ static bool	allocate_matrix(t_sizemap *map)
 }
 
 /**
- * reserva matrix y adjudica los valores
+ * @file create_map.c
+ * @brief Creates and populates the coordinate matrix from map file.
+ * Orchestrates the complete coordinate maatrix creation process:
+ * 1 - Allocates memory for the 2D coordinate matrix.
+ * 2 - Reads and parses coordinate values from the file.
+ * 3 - Handles resource cleanup on failure.
+ * @note Manage all memory allocation for coordinate storage.
+ * @note Close file descriptor before returning.
+ * @note Performs complete cleanup on any failure.
+ * @param map Pointer to initialized t_sizemap structure.
+ * @param fd Valid file descriptor for the opened map file.
+ * @return t_sizemap* On success: Pointer to populated map structure,
+ * on failure: NULL.
+ * @warning The map structure must be properly initialized.
+ * @warning The file descriptor must be valid and readable.
  */
 t_sizemap	*create_coordinates(t_sizemap *map, int fd)
 {
@@ -106,7 +161,8 @@ t_sizemap	*create_coordinates(t_sizemap *map, int fd)
 		return (NULL);
 	map = read_coordinates(fd, map);
 	if (!read_coordinates(fd, map))
-		return (free_structure(map->matrix, map->height), print_error("Error Coordinates\n"), NULL);
+		return (free_structure(map->matrix, map->height), close(fd),
+			print_error("Error: Invalid coordinates\n"), NULL);
 	close(fd);
 	return (map);
 }
