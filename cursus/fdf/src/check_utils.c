@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:16:29 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/22 09:26:16 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/23 14:36:02 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,18 @@ int	open_path(char *str)
 }
 
 /**
+ * @file check_utils.c
  * @brief Validates a hexadecimal color code string.
- * Checks if the string conforms to the format "0xRRGGBB" where:
- * - Starts with "0x".
- * - Contains 6 hexadecimal digits.
- * - Only valid hex characters (0-9, a-f, A-F).
- * @param str String to validate as hezadecimal color code.
- * @return true If the string is a valid hexadecimal color.
- * @return false If invalid format (with error message printed).
+ * Verifies that a string conforms to the standard hexadecimal color format:
+ * - Must begin with "0x" prefix.
+ * - Only allows characters 0-9, a-f, A-F.
+ * - Properly terminated (null or newline).
+ * @note Requires strict "0x" prefix (case sensitive).
+ * @note Case-insensitive for hex digits (a-f and A-F both allowed).
+ * @note Prints error messages to stderr on validation failures.
+ * @param str String to validate as hexadecimal color code.
+ * @return bool true If the string is a valid hexadecimal color.
+ * @return bool false If invalid format (with descriptive error message).
  */
 bool	is_valid_hexa(char *str)
 {
@@ -54,25 +58,30 @@ bool	is_valid_hexa(char *str)
 	if (str[0] == '0' && str[1] == 'x' && str[2] != '\0')
 		i = 2;
 	else
-		return (print_error("Invalid hexadecimal\n"), false);
+		return (print_error("Error: Invalid 0x prefix\n"), false);
 	while (str[i] != '\0' && str[i] != '\n')
 	{
 		if (ft_isxdigit(str[i]) == 0)
-			return (print_error("Invalid hexadecimal\n"), false);
+			return (print_error("Error: Invalid hexadecimal\n"), false);
 		i++;
 	}
 	return (true);
 }
 
 /**
- * @brief Validates a numerical string representation.
- * Checks if the string represents a valid integer with:
- * - Optional leading sign (+ or -)-
- * - At least one digit after any sign.
- * - Only digit characters (0-9).
+ * @file check_utils.c
+ * @brief Validates a string as a properly formated number.
+ * Performs comprehensive validation string representing an integer number,
+ * checking for:
+ * - Optional leading sign character (+ or -).
+ * - At least one following digit.
+ * - Only valid digit characters (0-9).
+ * - Proper termination (null or newline).
+ * @note Rejects any non-digit characters.
+ * @note Prints error messages to stderr on validation failures.
  * @param str String to validate as numerical.
- * @return true If the string is a valid number.
- * @return false If invalid format (with error message).
+ * @return bool true If the string is a valid number format.
+ * @return false If invalid format (with descriptive error message).
  */
 bool	is_valid_number(char *str)
 {
@@ -82,11 +91,11 @@ bool	is_valid_number(char *str)
 	if (str[0] == '-' || str[0] == '+')
 		i = 1;
 	if (str[i] == '\0')
-		return (print_error("Invalid sign"), false);
+		return (print_error("Error: Missing digits after sign\n"), false);
 	while (str[i] != '\0' && str[i] != '\n')
 	{
 		if (ft_isdigit(str[i]) == 0)
-			return (print_error("Invalid character\n"), false);
+			return (print_error("Error: Non-digit character\n"), false);
 		i++;
 	}
 	return (true);

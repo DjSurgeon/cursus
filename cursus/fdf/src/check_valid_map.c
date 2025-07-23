@@ -6,22 +6,28 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:00:03 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/22 16:55:40 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/23 14:07:25 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 /**
+ * @file check_valid_map.c
  * @brief Parses a coordinate string into its numerical and color components.
- * Split a coordinate string (format: "number, color") into
- * separate components.
- * Handles both simple numbers with aassociated color codes.
- * @param line Coordinate string to parse.
+ * Splits a coordinate string in the format "z,color" into separate components:
+ * - The z-coordinate (elevation value).
+ * - Optinoal color in hexadecimal format.
+ * @note Uses coma (',') as the delimiter between components.
+ * @note The returned array and strings must be freed by caller.
+ * @note Handles both simple z-values and colored coordinates.
+ * @note Empty color components will be returned as NULL.
+ * @param line Coordinate string to parse (format "z" or "z,color").
  * @return char** Array of strings where:
- * - [0] = z-coordinate value.
- * - [1] = color code (if present).
- * NULL if memory allocation fails.
+ * - [0] = z-coordinate value as string.
+ * - [1] = color code as string (NULL if not present).
+ * - NULL if memory allocation fails.
+ * @warning The input string must not be NULL.
  */
 static char	**parse_color(char *line)
 {
@@ -34,15 +40,21 @@ static char	**parse_color(char *line)
 }
 
 /**
+ * @file check_valid_map.c
  * @brief Validates an array of coordinate strings.
- * Processes each coordinate string in the array, validating:
- * - The numerical part is a valid integer.
- * - The color part (if present) is a valid hexadecimal code.
- * - Consistent width across all lines of the map.
- * @param str Array of coordinate strings.
- * @param map Pointer to t_sizemap structure for storing/validating dimensions.
- * @return true If all coordinates are valid and width is consistent.
- * @return false If any validation fails (with resources cleaned up).
+ * Performs comprehensive validation of coordinate strings from a map file,
+ * checking both the numerical and optional color components. Also maintains
+ * and validates consistent map width across all lines.
+ * @note Validates both the numeric and color components of each coordinate.
+ * @note Tracks and enforces consistent map width.
+ * @note Automatically cleans up allocated resources on validation failure.
+ * @note Sets expected_width on first validation.
+ * @param str Array of coordinate strings (null-terminated array).
+ * @param map Pointer to t_sizemap structure for dimension tracking.
+ * @return bool true If all coordinates are valid and width is consistent.
+ * @return bool false If any validation fails (with resources cleaned up).
+ * @warning The input array must be NULL-terminated.
+ * @warning The map structure must be properly initialized.
  */
 static bool	is_valid_array(char **str, t_sizemap *map)
 {
@@ -72,12 +84,15 @@ static bool	is_valid_array(char **str, t_sizemap *map)
 }
 
 /**
- * @brief Slpits a map line into individual coordinate strings.
- * Separates a line of space-separated coordinate values into an
- * array of individual coordinate strings.
- * @param line The map line to split.
- * @return char** Array of coordinate strings, or NULL on
- * allocation failure.
+ * @file check_valid_map.c
+ * @brief Splits a map line into individual coordenate strings.
+ * Processes a line from the map file and separates if into an array
+ * of strings representing individual coordinates. The splitting is done
+ * using space character (ASCII '32') as delimiter.
+ * @note The returned array and all its strings must be freed by the caller.
+ * @param line The map line to process (null-terminated string).
+ * @return char** On success: Array of null-terminated coordinate strings,
+ * on failure: NULL.
  */
 static char	**parse_line(char *line)
 {

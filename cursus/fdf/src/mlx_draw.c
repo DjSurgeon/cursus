@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 18:14:58 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/21 16:12:54 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/23 12:55:11 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@
 	return (screen);
 }
  */
-t_screen3d	screen_3Dposition(float x, float y, float z, t_sizemap *map)
+t_scr3d	screen_3Dposition(float x, float y, float z, t_sizemap *map)
 {
-	t_screen3d screen;
+	t_scr3d screen;
 	
 		// Funcion para calcular la escala automatica
 	float	scale_x =  (float)WIDTH / (map->width);
@@ -92,7 +92,7 @@ t_screen3d	screen_3Dposition(float x, float y, float z, t_sizemap *map)
 
 void	draw_3Dcoordenates(t_data *data, t_sizemap *map)
 {
-	t_screen3d	screen;
+	t_scr3d	screen;
 	int i = 0;
 	while (i < map->height)
 	{

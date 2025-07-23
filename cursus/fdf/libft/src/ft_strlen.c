@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 14:11:11 by serjimen          #+#    #+#             */
-/*   Updated: 2025/07/22 09:17:01 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/23 12:06:32 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@
  * @param s Pointer to the null-terminated string to measure.
  * @return size_t The number of characters in the string preceding the null
  * terminator.
+ * @code
+ * // Example
+ * const char *str = "Hello world";
+ * size_t len = ft_strlen(str); // len = 11
+ * @endcode
  */
 
 #include "libft.h"

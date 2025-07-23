@@ -6,23 +6,25 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 00:17:17 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/22 18:31:12 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/23 12:41:20 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-/*
-**	Description: Cleans the buffer by extracting the remaining content after
-	a newline.
-**	Parameters:
-**	- buffer: A pointer to the buffer containing the read data.
-**	Return:
-**	- A new string with the content after the newline, or NULL if no newline
-	is found.
-**	- Frees the original buffer.
-*/
-
+/**
+ * @file get_next_line.c
+ * @brief Processes buffer to extract remaining content after newline.
+ * Examines the buffer and returns a new string containing any content that
+ * exits after the newline character. The original buffer is always freed to
+ * prevent memory leaks.
+ * @note Always frees the input buffer to prevent memory leaks.
+ * @note Returns NULL if no newline is found in the buffer.
+ * @note The returned string must be freed by the caller when no longer needed.
+ * @param buffer Input buffer containing accumulated read data.
+ * @return char* On success: New string with post-newline content, on
+ * failure: NULL.
+ */
 static char	*clean_buffer(char *buffer)
 {
 	char	*temp;
@@ -39,15 +41,22 @@ static char	*clean_buffer(char *buffer)
 	return (NULL);
 }
 
-/*
-**	Description: Extracts a line from the buffer up to the newline character.
-**	Parameters:
-**	- buffer: A pointer to the buffer containing the read data.
-** Return:
-**	- A new string containing the line up to and including the newline
-	or the entire buffer if no newline is found.
-*/
-
+/**
+ * @file get_next_line.c
+ * @brief Extract a complete line from buffer
+ * Processes the input buffer to extract either:
+ * - A complete line including the newline character.
+ * - The remaining buffer content if no newline exits.
+ * @note The returned string mus be freed by the caller.
+ * @note Preserves the newline character when present.
+ * @note Returns complete buffer contents when no newline exits.
+ * @param buffer Input buffer containing accumulated read data.
+ * @return char* Newly allocated string containing:
+ * - The line including newline if found.
+ * - Entire buffer contents if no newline.
+ * - NULL if memory allocation fails.
+ * @warning The buffer must be a valid null-terminated string.
+ */
 static char	*extract_line(char *buffer)
 {
 	char	*line;
