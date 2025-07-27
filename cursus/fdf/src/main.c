@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/23 00:34:42 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/22 08:31:41 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/27 11:05:21 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int	main(int argc, char *argv[])
 		fdf = check_map(argv[1], fdf);
 		if (fdf == NULL)
 			exit(EXIT_FAILURE);
+		init_fdf(fdf);
 	}
-	init_fdf(fdf);
 	free_map(fdf, fdf->height);
 	return (EXIT_SUCCESS);
 }

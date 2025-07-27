@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/21 17:10:13 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/27 16:52:39 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,23 @@ typedef struct s_bresenham
  * @brief Stores 2D screen coordinates.
  * @param x_screen X coordinate on screen.
  * @param y_screen Y coordinate on screen.
+ * @param x_screen X coordinate on screen.
+ * @param y_screen Y coordinate on screen.
+ * @param scale_x Horizontal scaling factor projection.
+ * @param scale_y Vertical scaling factor projection.
+ * @param scale Uniform scaling projection.
+ * @param offset_x Horizontal screen offset.
+ * @param offset_y Vertical screen offset.
  */
 typedef struct s_scr2d
 {
-	int	x_screen;
-	int	y_screen;
+	int		x_screen;
+	int		y_screen;
+	float	scale_x;
+	float	scale_y;
+	float	scale;
+	int		offset_x;
+	int		offset_y;
 }		t_scr2d;
 
 /**
@@ -79,12 +91,26 @@ typedef struct s_scr2d
  * @brief Stores 3D screen coordinates.
  * @param x_screen X coordinate on screen.
  * @param y_screen Y coordinate on screen.
+ * @param scale_x Horizontal scaling factor projection.
+ * @param scale_y Vertical scaling factor projection.
+ * @param scale Uniform scaling projection.
+ * @param offset_x Horizontal screen offset.
+ * @param offset_y Vertical screen offset.
+ * @param iso_x Intermediate isometric X value during calculation.
+ * @param iso_y Intermediate isometric Y value during calculation.
  */
 typedef struct s_scr3d
 {
-	int	x_screen;
-	int	y_screen;
-}		t_scr3d;	
+	int		x_screen;
+	int		y_screen;
+	float	scale_x;
+	float	scale_y;
+	float	scale;
+	int		offset_x;
+	int		offset_y;
+	float	iso_x;
+	float	iso_y;
+}		t_scr3d;
 
 /**
  * @struct s_coordinates
@@ -160,8 +186,10 @@ void		init_fdf(t_sizemap *map);
 void		init_window(t_data *data, int width, int height, char *title);
 void		init_image(t_data *data, int width, int height);
 void		put_pixel_to_image(t_data *data, int x, int y, int color);
-void		draw_3Dcoordenates(t_data *data, t_sizemap *map);
-t_scr3d		screen_3Dposition(float x, float y, float z, t_sizemap *map);
+void		draw_3dcoordenates(t_data *data, t_sizemap *map);
+void		draw_2dcoordenates(t_data *data, t_sizemap *map);
+t_scr3d		screen_3dposition(float x, float y, float z, t_sizemap *map);
+t_scr2d		screen_2dposition(t_sizemap *map);
 void		bresenham(t_data *data, t_scr3d pstart, t_scr3d pend, int color);
 void		draw(t_data *data, t_sizemap *map);
 
