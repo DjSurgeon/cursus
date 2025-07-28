@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:47:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/28 18:47:26 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/28 22:59:58 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ void	init_fdf(t_sizemap *map)
 	fdf_data = ft_calloc(1, sizeof(t_data));
 	if (!fdf_data)
 		return (print_error("Error: Failed to allocate FDF structure\n"));
+	fdf_data->map = map;
 	init_window(fdf_data, WIDTH, HEIGHT, TITLE);
 	init_image(fdf_data, WIDTH, HEIGHT);
 	draw(fdf_data, map);

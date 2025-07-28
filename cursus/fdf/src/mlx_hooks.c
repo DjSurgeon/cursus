@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 15:32:33 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/28 17:19:25 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/28 23:01:11 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
  */
 static int	close_window(t_data *data)
 {
+	free_map(data->map, data->map->height);
 	free_mlx(data);
 	exit(EXIT_SUCCESS);
 	return (0);
@@ -44,6 +45,7 @@ static int	key_press(int keycode, t_data *data)
 	ft_printf("%d\n", keycode);
 	if (keycode == 65307)
 	{
+		free_map(data->map, data->map->height);
 		free_mlx(data);
 		exit(EXIT_SUCCESS);
 	}

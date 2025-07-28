@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/30 17:20:40 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/28 18:30:48 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/28 23:19:52 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	free_map(t_sizemap *structure, int height)
 void	free_mlx(void *mlxdata)
 {
 	t_data	*data;
-	
+
 	data = (t_data *)mlxdata;
 	if (data->img->img_ptr)
 	{
@@ -100,8 +100,11 @@ void	free_mlx(void *mlxdata)
 		free(data->img);
 	}
 	if (data->win_ptr)
-		mlx_destroy_window(data->mlx_ptr,data->win_ptr);
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	if (data->mlx_ptr)
+	{
 		mlx_destroy_display(data->mlx_ptr);
+		free(data->mlx_ptr);
+	}
 	free(data);
 }

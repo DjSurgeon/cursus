@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/28 18:22:40 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/28 23:01:29 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,15 +170,17 @@ typedef struct s_img
  * @param img Pointer to image structure.
  * @param width Window width.
  * @param height Window height.
+ * @param map Pointer to map data structure.
  */
 typedef struct s_data
 {
-	void	*mlx_ptr;
-	void	*win_ptr;
-	t_img	*img;
-	int		width;
-	int		height;
-}			t_data;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	t_img		*img;
+	int			width;
+	int			height;
+	t_sizemap	*map;
+}				t_data;
 
 /* ---------------------------- MLX Module ---------------------------------- */
 
