@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 17:47:50 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/27 16:58:18 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/28 18:47:26 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	put_pixel_to_image(t_data *data, int x, int y, int color)
 	data->height = HEIGHT;
 	if (x < 0 || x >= data->width || y < 0 || y >= data->height)
 		return ;
-	offset = (y * data->img.line_len) + (x * (data->img.bpp / 8));
-	pixel = data->img.img_data + offset;
+	offset = (y * data->img->line_len) + (x * (data->img->bpp / 8));
+	pixel = data->img->img_data + offset;
 	*(int *)pixel = color;
 }
 
@@ -65,15 +65,19 @@ void	put_pixel_to_image(t_data *data, int x, int y, int color)
  */
 void	init_image(t_data *data, int width, int height)
 {
-	data->img.img_ptr = mlx_new_image(data->mlx_ptr, width, height);
-	if (!data->img.img_ptr)
+	data->img = ft_calloc(1, sizeof(t_img));
+	if (!data->img)
+		return (print_error("Error: Failed to allocate structure image\n"),
+			free_mlx(data));
+	data->img->img_ptr = mlx_new_image(data->mlx_ptr, width, height);
+	if (!data->img->img_ptr)
 		return (print_error("Error: Failed to create MLX image\n"),
-			free(data));
-	data->img.img_data = mlx_get_data_addr(data->img.img_ptr,
-			&data->img.bpp, &data->img.line_len, &data->img.endian);
-	if (!data->img.img_data)
+			free_mlx(data));
+	data->img->img_data = mlx_get_data_addr(data->img->img_ptr,
+			&data->img->bpp, &data->img->line_len, &data->img->endian);
+	if (!data->img->img_data)
 		return (print_error("Error: Failed to get image data address\n"),
-			free(data));
+			free_mlx(data));
 }
 
 /**
@@ -100,11 +104,11 @@ void	init_window(t_data *data, int width, int height, char *title)
 	data->mlx_ptr = mlx_init();
 	if (!data->mlx_ptr)
 		return (print_error("Error: Failed to initialize MLX connection\n"),
-			free(data));
+			free_mlx(data));
 	data->win_ptr = mlx_new_window(data->mlx_ptr, width, height, title);
 	if (!data->win_ptr)
 		return (print_error("Error: Failed to create MLX window"),
-			free(data));
+			free_mlx(data));
 }
 
 /**
@@ -133,16 +137,16 @@ void	init_fdf(t_sizemap *map)
 {
 	t_data	*fdf_data;
 
-	fdf_data = malloc(sizeof(t_data));
+	fdf_data = ft_calloc(1, sizeof(t_data));
 	if (!fdf_data)
 		return (print_error("Error: Failed to allocate FDF structure\n"));
 	init_window(fdf_data, WIDTH, HEIGHT, TITLE);
 	init_image(fdf_data, WIDTH, HEIGHT);
-	draw_2dcoordenates(fdf_data ,map);
-	//draw(fdf_data, map);
+	draw(fdf_data, map);
 	mlx_put_image_to_window(fdf_data->mlx_ptr, fdf_data->win_ptr,
-		fdf_data->img.img_ptr, 0, 0);
+		fdf_data->img->img_ptr, 0, 0);
 	fdf_hooks(fdf_data);
 	mlx_loop(fdf_data->mlx_ptr);
 	free(fdf_data);
+	free_map(map, HEIGHT);
 }

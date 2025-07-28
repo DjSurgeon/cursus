@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/22 23:25:45 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/27 16:52:39 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/07/28 18:22:40 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ typedef struct s_img
  * @brief Main data structure for MLX operations.
  * @param mlx_ptr Pointer to MLX instance.
  * @param win_ptr Pointer to window.
- * @param img Image structure.
+ * @param img Pointer to image structure.
  * @param width Window width.
  * @param height Window height.
  */
@@ -175,7 +175,7 @@ typedef struct s_data
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
-	t_img	img;
+	t_img	*img;
 	int		width;
 	int		height;
 }			t_data;
@@ -187,9 +187,7 @@ void		init_window(t_data *data, int width, int height, char *title);
 void		init_image(t_data *data, int width, int height);
 void		put_pixel_to_image(t_data *data, int x, int y, int color);
 void		draw_3dcoordenates(t_data *data, t_sizemap *map);
-void		draw_2dcoordenates(t_data *data, t_sizemap *map);
 t_scr3d		screen_3dposition(float x, float y, float z, t_sizemap *map);
-t_scr2d		screen_2dposition(t_sizemap *map);
 void		bresenham(t_data *data, t_scr3d pstart, t_scr3d pend, int color);
 void		draw(t_data *data, t_sizemap *map);
 
@@ -217,6 +215,7 @@ void		print_error(char *str);
 void		free_matrix(char **matrix);
 void		free_structure(t_coordinates **structure, int heght);
 void		free_map(t_sizemap *structure, int height);
+void		free_mlx(void *mlxdata);
 
 /* ---------------------------- Hooks Module -------------------------------- */
 
