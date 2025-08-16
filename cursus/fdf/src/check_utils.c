@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 14:16:29 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/23 16:37:37 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/08/16 12:53:59 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,10 @@ bool	is_valid_hexa(char *str)
 bool	is_valid_number(char *str)
 {
 	int	i;
+	int	len;
 
 	i = 0;
+	len = 0;
 	if (str[0] == '-' || str[0] == '+')
 		i = 1;
 	if (str[i] == '\0')
@@ -97,6 +99,9 @@ bool	is_valid_number(char *str)
 		if (ft_isdigit(str[i]) == 0)
 			return (print_error("Error: Non-digit character\n"), false);
 		i++;
+		len++;
+		if (len > 6)
+				return (print_error("Error: Too many digits\n"), false);
 	}
 	return (true);
 }

@@ -40,7 +40,19 @@ MLXFLAGS	:= -L$(MLX_DIR) -lmlx -lXext -lX11
 
 # Files ====================================================================== #
 
-SRC_FILES	:= $(wildcard $(SRC_DIR)/*.c)
+SRC_FILES	:=	$(SRC_DIR)/check_arguments.c \
+				$(SRC_DIR)/check_errors.c \
+				$(SRC_DIR)/check_map.c \
+				$(SRC_DIR)/check_utils.c \
+				$(SRC_DIR)/check_valid_map.c \
+				$(SRC_DIR)/create_map.c \
+				$(SRC_DIR)/free_structs.c \
+				$(SRC_DIR)/main.c \
+				$(SRC_DIR)/mlx_bresenham.c \
+				$(SRC_DIR)/mlx_draw.c \
+				$(SRC_DIR)/mlx_hooks.c \
+				$(SRC_DIR)/mlx_init.c \
+				$(SRC_DIR)/mlx_utils.c 
 
 # Objects ===================================================================== #
 

@@ -1,3 +1,0 @@
-Hola Mundo
-Hola 42
-Nuevalinea
