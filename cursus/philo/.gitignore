@@ -1,0 +1,5 @@
+*.o
+philo
+build/
+libft/build/
+test/
