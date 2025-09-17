@@ -6,7 +6,7 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/13 17:05:37 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/09/13 17:49:29 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/09/17 11:00:25 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ LIBFT_A		:= $(LIBFT_DIR)/libft.a
 # Compiler =================================================================== #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g -I$(INC_DIR) -I$(LIBFT_DIR)
+CFLAGS		:= -Wall -Wextra -Werror -g3 -I$(INC_DIR) -I$(LIBFT_DIR)
 
 # Files ====================================================================== #
 

@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   tester.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/13 17:08:26 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/17 12:12:33 by sergio-jime      ###   ########.fr       */
+/*   Created: 2025/09/17 11:59:01 by sergio-jime       #+#    #+#             */
+/*   Updated: 2025/09/17 12:29:13 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	main(int argc, char **argv)
+void	print_struct(t_philo *data_struct)
 {
-	t_philo	*data_philo;
-
-	data_philo = NULL;
-	if (argc == 5 || argc == 6)
-	{
-		data_philo = init_philo(argv);
-		if (!data_philo)
-			return (-1);
-		print_struct(data_philo);
-	}
-	else
-	{
-		printf("Usage: ./philo <n_philos> <tt_die> <tt_eat> ");
-		printf("<tt_sleep> [must_eat_count]\n");
-	}
-	free(data_philo);
-	return (0);
+	if (!data_struct)
+		printf("ERROR: Estructura Vacia\n");
+	printf("Number of philosophers: [%ld]\n", data_struct->n_philos);
+	printf("Time to die: [%ld]\n", data_struct->tt_die);
+	printf("Time to eat: [%ld]\n", data_struct->tt_eat);
+	printf("Time to sleep: [%ld]\n", data_struct->tt_sleep);
+	if (data_struct->eat_count)
+		printf("Time must eat: [%ld]\n", data_struct->eat_count);
 }
