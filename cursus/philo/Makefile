@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
+#    By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/13 17:05:37 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/09/17 11:00:25 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/11/04 14:08:36 by serjimen         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,13 +27,11 @@ NAME		:= philo
 SRC_DIR		:= src
 INC_DIR		:= include
 OBJ_DIR		:= build
-LIBFT_DIR	:= libft
-LIBFT_A		:= $(LIBFT_DIR)/libft.a
 
 # Compiler =================================================================== #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g3 -I$(INC_DIR) -I$(LIBFT_DIR)
+CFLAGS		:= -Wall -Wextra -Werror -g3 -I$(INC_DIR)
 
 # Files ====================================================================== #
 
@@ -45,14 +43,10 @@ OBJ_FILES	:= $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
 
 # Rules ====================================================================== #
 
-all: $(LIBFT_A) $(NAME)
-
-$(LIBFT_A):
-	@$(MAKE) -C $(LIBFT_DIR)
-	@printf "$(BGREEN)Compiling libft$(NC)\n"
+all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
-	@$(CC) $(CFLAGS) $(OBJ_FILES) $(LIBFT_A) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ_FILES) -o $(NAME)
 	@printf "$(BGREEN)Built!$(NC)\n"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/philo.h
@@ -62,12 +56,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/philo.h
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@$(MAKE) -C $(LIBFT_DIR) clean
 	@printf "$(RED)Clean objects$(NC)\n"
 
 fclean: clean
 	@rm -f $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
 	@printf "$(RED)Clean all$(NC)\n"
 
 re: fclean all

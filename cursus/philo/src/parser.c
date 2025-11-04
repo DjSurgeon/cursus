@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 10:50:12 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/09/17 12:35:09 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/04 14:15:36 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
