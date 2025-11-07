@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 10:42:13 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 12:47:21 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@
 
 /* ************************************************************************** */
 /* Structs ****************************************************************** */
+
+typedef struct s_philo
+{
+	size_t	id;
+	size_t	meals;
+	long	last_meal;
+}				t_philo;
+
 /**
  * @struct s_philo
  * @brief Main data structure holding simulation parameters.
@@ -55,14 +63,15 @@
  * elements like mutexes, threads, and the array of individual philosopher
  * structs.
  */
-typedef struct s_philo
+typedef struct s_data
 {
 	size_t	n_philos;
 	size_t	tt_die;
 	size_t	tt_eat;
 	size_t	tt_sleep;
 	size_t	eat_count;
-}				t_philo;
+	t_philo	*philos;
+}				t_data;
 
 /* ************************************************************************** */
 /* Utils ******************************************************************** */
@@ -95,11 +104,11 @@ bool	check_arguments(char **arr);
  * @note The returned pointer must be freed by the caller (i.e., main()).
  */
 
-t_philo	*init_philo(char **argv);
+t_data	*init_data(char **argv);
 
 /* ************************************************************************** */
 /* Tests ******************************************************************** */
 
-void	print_struct(t_philo *data_struct);
+void	print_struct(t_data *data);
 
 #endif

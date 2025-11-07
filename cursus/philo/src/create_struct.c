@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:49:31 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 11:03:09 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 13:07:22 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,21 @@
  * inputs into the structure fields.
  */
 #include "philo.h"
+
+static	t_data *init_philos(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->n_philos)
+	{
+		data->philos[i].id = i + 1;
+		data->philos[i].meals = 0;
+		data->philos[i].last_meal = 0;
+		i++;
+	}
+	return (data);
+}
 
 /**
  * @brief Initializes the main simulation data structure (@ref t_philo).
@@ -46,22 +61,28 @@
  * (including range and type checks) before `ft_atoi` is called.
  * If validation fails, the function returns prematurely.
  */
-t_philo	*init_philo(char **argv)
+t_data	*init_data(char **argv)
 {
-	t_philo	*data_struct;
+	t_data	*data;
 
-	data_struct = ft_calloc(1, sizeof(t_philo));
-	if (!data_struct)
+	data = ft_calloc(1, sizeof(t_data));
+	if (!data)
 		return (NULL);
 	if (!check_arguments(argv))
-		return (free(data_struct), NULL);
-	data_struct->n_philos = ft_atoi(argv[1]);
-	data_struct->tt_die = ft_atoi(argv[2]);
-	data_struct->tt_eat = ft_atoi(argv[3]);
-	data_struct->tt_sleep = ft_atoi(argv[4]);
+		return (free(data), NULL);
+	data->n_philos = ft_atoi(argv[1]);
+	data->tt_die = ft_atoi(argv[2]);
+	data->tt_eat = ft_atoi(argv[3]);
+	data->tt_sleep = ft_atoi(argv[4]);
 	if (argv[5])
-		data_struct->eat_count = ft_atoi(argv[5]);
+		data->eat_count = ft_atoi(argv[5]);
 	else
-		data_struct->eat_count = 0;
-	return (data_struct);
+		data->eat_count = 0;
+	data->philos = ft_calloc(data->n_philos, sizeof(t_philo));
+	if (!data->philos)
+		return (free(data), NULL);
+	data = init_philos(data);
+	if (!data)
+		return (free(data->philos), free(data), NULL);
+	return (data);
 }

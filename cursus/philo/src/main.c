@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:08:26 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 10:36:17 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 13:08:39 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,24 +47,25 @@
  * ./philo 5 800 200 200 7
  * 		// Same as above, but each philosopher must eat at least 7 times
  * @endcode
- */
+*/
 int	main(int argc, char **argv)
 {
-	t_philo	*data_philo;
+	t_data	*data_philo;
 
 	data_philo = NULL;
 	if (argc == 5 || argc == 6)
 	{
-		data_philo = init_philo(argv);
+		data_philo = init_data(argv);
 		if (!data_philo)
 			return (-1);
 		print_struct(data_philo);
+		free(data_philo->philos);
+		free(data_philo);
 	}
 	else
 	{
 		printf("Usage: ./philo <n_philos> <tt_die> <tt_eat> ");
 		printf("<tt_sleep> [must_eat_count]\n");
 	}
-	free(data_philo);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 10:50:12 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 11:23:57 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 11:31:08 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ static bool	validate_digits(size_t i, char **arr)
  * purely numeric.
  * 2. **Logic Check:** Calls @ref validate_cases to apply numerical (> 0) and
  * simulation constraints (time relationships, philosopher count restrictions).
- * The function stops and returns `false` upon the first validation error encountered.
+ * The function stops and returns `false` upon the first validation error
+ * encountered.
  * @param arr The array of argument strings (`argv`). Note: This array
  * starts with `argv[0]` (program name), so validation begins at index 1.
  * @return bool Returns true if ALL required arguments are valid, false if any
