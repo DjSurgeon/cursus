@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:08:26 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 13:08:39 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 18:31:30 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	main(int argc, char **argv)
 		data_philo = init_data(argv);
 		if (!data_philo)
 			return (-1);
-		print_struct(data_philo);
 		free(data_philo->philos);
 		free(data_philo);
 	}

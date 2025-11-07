@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:49:31 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 13:34:44 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 18:24:26 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  */
 #include "philo.h"
 
-t_data	*init_philos(t_data *data)
+static t_data	*init_philos(t_data *data)
 {
 	data->philos = ft_calloc(data->n_philos, sizeof(t_philo));
 	if (!data->philos)

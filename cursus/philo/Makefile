@@ -6,7 +6,7 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/13 17:05:37 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/11/07 13:26:52 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/11/07 18:17:12 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,7 @@ SRC_FILES	:=	$(SRC_DIR)/main.c\
 				$(SRC_DIR)/create_struct.c\
 				$(SRC_DIR)/fill_struct.c\
 				$(SRC_DIR)/philo_utils.c\
-				$(SRC_DIR)/tester.c
+				$(SRC_DIR)/time_utils.c\
 
 # **************************************************************************** #
 # Objects ==================================================================== #

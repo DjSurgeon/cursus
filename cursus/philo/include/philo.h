@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 13:27:39 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 18:24:47 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 
 /* ************************************************************************** */
 /* Standard Library Includes ************************************************ */
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
@@ -32,6 +33,7 @@
 # include <errno.h>
 # include <string.h>
 # include <fcntl.h>
+# include <sys/time.h>
 
 /* ************************************************************************** */
 /* Structs ****************************************************************** */
@@ -76,10 +78,10 @@ typedef struct s_data
 /* ************************************************************************** */
 /* Utils ******************************************************************** */
 
-void	*ft_calloc(size_t nmemb, size_t size);
-int		ft_atoi(const char *str);
-int		ft_isdigit(int c);
-int		ft_isspace(int c);
+void		*ft_calloc(size_t nmemb, size_t size);
+int			ft_atoi(const char *str);
+int			ft_isdigit(int c);
+int			ft_isspace(int c);
 
 /* ************************************************************************** */
 /* Parser ******************************************************************* */
@@ -90,7 +92,7 @@ int		ft_isspace(int c);
  * @return bool Returns true if all arguments are valid, false otherwise.
  */
 
-bool	check_arguments(char **arr);
+bool		check_arguments(char **arr);
 
 /* ************************************************************************** */
 /* Init ********************************************************************* */
@@ -104,13 +106,15 @@ bool	check_arguments(char **arr);
  * @note The returned pointer must be freed by the caller (i.e., main()).
  */
 
-t_data	*init_data(char **argv);
-t_data	*fill_data(char **argv, t_data *data);
-t_data	*fill_philos(t_data *data);
+t_data		*init_data(char **argv);
+t_data		*fill_data(char **argv, t_data *data);
+t_data		*fill_philos(t_data *data);
 
 /* ************************************************************************** */
-/* Tests ******************************************************************** */
+/* Time ********************************************************************* */
 
-void	print_struct(t_data *data);
+long long	get_time(void);
+void		ft_usleep(long long ms);
+long long	get_timestamp(long long start);
 
 #endif
