@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 18:24:47 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 18:34:23 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,10 @@
 
 typedef struct s_philo
 {
-	size_t	id;
-	size_t	meals;
-	long	last_meal;
+	size_t		id;
+	size_t		meals;
+	long long	last_meal;
+	long long	start_t;
 }				t_philo;
 
 /**

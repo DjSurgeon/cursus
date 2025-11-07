@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 13:26:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 13:28:42 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 18:34:57 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_data	*fill_philos(t_data *data)
 		data->philos[i].id = i + 1;
 		data->philos[i].meals = 0;
 		data->philos[i].last_meal = 0;
+		data->philos[i].start_t = 0;
 		i++;
 	}
 	return (data);
