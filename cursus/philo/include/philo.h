@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 12:47:21 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 13:27:39 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ bool	check_arguments(char **arr);
  */
 
 t_data	*init_data(char **argv);
+t_data	*fill_data(char **argv, t_data *data);
+t_data	*fill_philos(t_data *data);
 
 /* ************************************************************************** */
 /* Tests ******************************************************************** */

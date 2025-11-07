@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:49:31 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 13:07:22 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 13:34:44 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,12 @@
  */
 #include "philo.h"
 
-static	t_data *init_philos(t_data *data)
+t_data	*init_philos(t_data *data)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < data->n_philos)
-	{
-		data->philos[i].id = i + 1;
-		data->philos[i].meals = 0;
-		data->philos[i].last_meal = 0;
-		i++;
-	}
+	data->philos = ft_calloc(data->n_philos, sizeof(t_philo));
+	if (!data->philos)
+		return (NULL);
+	data = fill_philos(data);
 	return (data);
 }
 
@@ -70,17 +64,7 @@ t_data	*init_data(char **argv)
 		return (NULL);
 	if (!check_arguments(argv))
 		return (free(data), NULL);
-	data->n_philos = ft_atoi(argv[1]);
-	data->tt_die = ft_atoi(argv[2]);
-	data->tt_eat = ft_atoi(argv[3]);
-	data->tt_sleep = ft_atoi(argv[4]);
-	if (argv[5])
-		data->eat_count = ft_atoi(argv[5]);
-	else
-		data->eat_count = 0;
-	data->philos = ft_calloc(data->n_philos, sizeof(t_philo));
-	if (!data->philos)
-		return (free(data), NULL);
+	data = fill_data(argv, data);
 	data = init_philos(data);
 	if (!data)
 		return (free(data->philos), free(data), NULL);

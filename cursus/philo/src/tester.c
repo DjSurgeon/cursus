@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:59:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 13:04:57 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/07 13:31:17 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,11 @@ void	print_struct(t_data *data)
 	printf("Time to eat: [%ld]\n", data->tt_eat);
 	printf("Time to sleep: [%ld]\n", data->tt_sleep);
 	if (data->eat_count)
-		printf("Time must eat: [%ld]\n", data->eat_count);
+		printf("Times must eat: [%ld]\n", data->eat_count);
 	printf("Datos de Entrada de los Filosofos========\n");
 	while (i < data->n_philos)
 	{
-		printf("Memory: [%p] - Philo ID:[%ld] - Meals [%ld] - LastMeal [%ld]\n", (void *)&data->philos[i], \
-			data->philos[i].id, data->philos[i].meals, data->philos[i].last_meal);
+		printf("Memory: [%p] - Philo ID:[%ld] - Meals [%ld] - LastMeal [%ld]\n", (void *)&data->philos[i], data->philos[i].id, data->philos[i].meals, data->philos[i].last_meal);
 		i++;
 	}
 }
