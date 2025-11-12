@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_struct.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:49:31 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 22:56:58 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/12 11:27:46 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,40 @@
  * state setup before the simulation threads are created.
  */
 #include "philo.h"
+
+/**
+ * 
+ */
+static bool	init_mutex(t_data *data)
+{
+	if (pthread_mutex_init(&data->write_lock, NULL) != 0)
+		return (false);
+	if (pthread_mutex_init(&data->death_lock, NULL) != 0)
+	{
+		clean_mutex(data);
+		return (false);
+	}
+	if (pthread_mutex_init(&data->meal_lock, NULL)!= 0)
+	{
+		clean_mutex(data);
+		return (false);
+	}
+	return (true);
+}
+
+/**
+ * 
+ */
+static t_mutex	*init_forks(t_mutex *forks, t_data *data)
+{
+	forks = ft_calloc(data->n_philos, sizeof(t_mutex));
+	if (forks)
+		return (NULL);
+	if (!fill_forks(data))
+		return (NULL);
+	return (forks);
+}
+
 
 /**
  * @brief Allocates and initializes the array of @ref t_philo structures.
@@ -42,9 +76,10 @@
 static t_philo	*init_philos(t_philo *philos, t_data *data)
 {
 	philos = ft_calloc(data->n_philos, sizeof(t_philo));
-	if (!philos)
+	if (!data->philos)
 		return (NULL);
-	data = fill_philos(data);
+	if (!fill_philos(data))
+		return (NULL);
 	return (philos);
 }
 
@@ -81,8 +116,13 @@ t_data	*init_data(char **argv)
 	if (!check_arguments(argv))
 		return (free(data), NULL);
 	data = fill_data(argv, data);
+	if (!init_mutex(data))
+		return (free(data), NULL);
+	data->forks = init_forks(data->forks, data);
+	if (!data->forks)
+		return (free(data), NULL);
 	data->philos = init_philos(data->philos, data);
 	if (!data->philos)
-		return (free(data), NULL);
+		return (free(data->forks), free(data), NULL);
 	return (data);
 }

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/08 17:16:47 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/12 11:29:13 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,11 @@
 # include <pthread.h>
 
 /* ************************************************************************** */
+/* Alias * ****************************************************************** */
+
+typedef pthread_mutex_t t_mutex;
+
+/* ************************************************************************** */
 /* Structs ****************************************************************** */
 
 /**
@@ -58,11 +63,14 @@
  */
 typedef struct s_philo
 {
-	size_t		id;
-	size_t		meals;
-	long long	last_meal;
-	long long	start_t;
-}				t_philo;
+	size_t			id;
+	size_t			meals;
+	long long		last_meal;
+	pthread_t		thread;
+	t_mutex			*l_forks;
+	t_mutex			*r_forks;
+	struct s_data	*data;
+}					t_philo;
 
 /**
  * @brief Main data structure holding global simulation parameters and
@@ -87,13 +95,19 @@ typedef struct s_philo
  */
 typedef struct s_data
 {
-	size_t	n_philos;
-	size_t	tt_die;
-	size_t	tt_eat;
-	size_t	tt_sleep;
-	size_t	eat_count;
-	t_philo	*philos;
-}				t_data;
+	size_t			n_philos;
+	size_t			tt_die;
+	size_t			tt_eat;
+	size_t			tt_sleep;
+	size_t			eat_count;
+	t_mutex			*forks;
+	t_mutex			write_lock;
+	t_mutex			death_lock;
+	t_mutex			meal_lock;
+	t_philo			*philos;
+	bool			philo_died;
+	long long		start_t;
+}					t_data;
 
 /* ************************************************************************** */
 /* Utils ******************************************************************** */
@@ -113,7 +127,8 @@ bool		check_arguments(char **arr);
 
 t_data		*init_data(char **argv);
 t_data		*fill_data(char **argv, t_data *data);
-t_data		*fill_philos(t_data *data);
+bool		fill_philos(t_data *data);
+bool		fill_forks(t_data *data);
 
 /* ************************************************************************** */
 /* Time ********************************************************************* */
@@ -121,5 +136,10 @@ t_data		*fill_philos(t_data *data);
 long long	get_time(void);
 void		ft_usleep(long long ms);
 long long	get_timestamp(long long start);
+
+/* ************************************************************************** */
+/* Mutex ******************************************************************** */
+
+void		clean_mutex(t_data *data);
 
 #endif

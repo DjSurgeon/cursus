@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:08:26 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 18:39:45 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/11 13:40:33 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,16 @@
 */
 int	main(int argc, char **argv)
 {
-	t_data	*data_philo;
+	t_data	*data;
 
-	data_philo = NULL;
+	data = NULL;
 	if (argc == 5 || argc == 6)
 	{
-		data_philo = init_data(argv);
-		if (!data_philo)
+		data = init_data(argv);
+		if (!data)
 			return (-1);
-		free(data_philo->philos);
-		free(data_philo);
+		free(data->philos);
+		free(data);
 	}
 	else
 	{

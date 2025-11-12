@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 13:26:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/07 23:00:47 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/12 11:28:22 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,11 @@ t_data	*fill_data(char **argv, t_data *data)
 	if (argv[5])
 		data->eat_count = ft_atoi(argv[5]);
 	else
-		data->eat_count = 0;
+		data->eat_count = -1;
+	data->philos = NULL;
+	data->forks = NULL;
+	data->philo_died = false;
+	data->start_t = get_time();
 	return (data);
 }
 
@@ -67,18 +71,37 @@ t_data	*fill_data(char **argv, t_data *data)
  * but MUST be set to the actual simulation start timestamp (via @ref get_time)
  * immediately before launching the philosopher threads to ensure correct timing.
  */
-t_data	*fill_philos(t_data *data)
+bool	fill_philos(t_data *data)
 {
 	size_t	i;
 
 	i = 0;
+	if (!data || !data->philos)
+		return (false);
 	while (i < data->n_philos)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].meals = 0;
-		data->philos[i].last_meal = 0;
-		data->philos[i].start_t = 0;
+		data->philos[i].last_meal = data->start_t;
+		data->philos[i].l_forks = &data->forks[i];
+		data->philos[i].r_forks = &data->forks[(i + 1) % data->n_philos];
+		data->philos[i].data = data;
 		i++;
 	}
-	return (data);
+	return (true);
+}
+
+bool	fill_forks(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	if (!data || !data->forks)
+		return (false);
+	while (i < data->n_philos)
+	{
+		pthread_mutex_init(&data->forks[i], NULL);
+		i++;
+	}
+	return (true);
 }

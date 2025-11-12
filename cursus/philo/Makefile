@@ -6,7 +6,7 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/13 17:05:37 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/11/07 18:17:12 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/11/12 10:57:40 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,7 @@
 # This Makefile handles compilation, linking, and cleanup of the philosophers
 # simulation program. It supports incremental builds, colored output, and
 # progress tracking.
-# @note Follows 42 School norms with strict compiler flags
 # @note Creates build directory structure automatically
-# @warning Requires GCC or compatible compiler
 # @warning Object files are stored in separate build/ directory
 #
 
@@ -58,6 +56,7 @@ SRC_FILES	:=	$(SRC_DIR)/main.c\
 				$(SRC_DIR)/fill_struct.c\
 				$(SRC_DIR)/philo_utils.c\
 				$(SRC_DIR)/time_utils.c\
+				$(SRC_DIR)/mutex_utils.c\
 
 # **************************************************************************** #
 # Objects ==================================================================== #
