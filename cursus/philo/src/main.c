@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:08:26 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/12 12:45:21 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/12 23:50:14 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,11 @@ int	main(int argc, char **argv)
 		data = init_data(argv);
 		if (!data)
 			return (1);
+		if (!start_dinner(data))
+		{
+			final_clean(data);
+			return (1);
+		}
 		final_clean(data);
 	}
 	else

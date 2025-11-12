@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 13:26:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/12 14:31:06 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/13 00:09:02 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ t_data	*fill_data(char **argv, t_data *data)
 	data->philos = NULL;
 	data->forks = NULL;
 	data->philo_died = 0;
-	data->start_t = get_time();
+	data->start_t = 0;
+	data->monitor = 0;
 	return (data);
 }
 
@@ -84,9 +85,10 @@ bool	fill_philos(t_data *data, t_philo *philos)
 	{
 		philos[i].id = i + 1;
 		philos[i].meals = 0;
-		philos[i].last_meal = data->start_t;
+		philos[i].last_meal = 0;
 		philos[i].l_fork = &data->forks[i];
 		philos[i].r_fork = &data->forks[(i + 1) % data->n_philos];
+		philos[i].thread = 0;
 		philos[i].data = data;
 		i++;
 	}
