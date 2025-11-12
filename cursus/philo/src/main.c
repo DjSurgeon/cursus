@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:08:26 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/11 13:40:33 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/12 12:45:21 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
  * @brief Main entry point for the Philsophers project.
  * This file contains the primary execution flow for the dining philosophers
  * simulation. It handles argument validation, initializes the core data
- * structure using @ref init_philo, runs the simulation, and ensures all
+ * structure using @ref init_data, runs the simulation, and ensures all
  * allocated memory is properly freed.
  */
 #include "philo.h"
@@ -23,7 +23,7 @@
 /**
  * @brief Main function of the Philosophers simulation.
  * It validates the number of command-line arguments (must be 4 or 5
- * parameters), initializes the main simulation structure @ref t_philo,
+ * parameters), initializes the main simulation structure @ref t_data,
  * and executes the simulation. If initialization fails, it handles the error.
  * Finally, it ensures the cleanup of the allocated resources.
  * The expected arguments are:
@@ -35,12 +35,12 @@
  * @param argc The number of command-line arguments.
  * @param argv The array of command-line argument strings.
  * @return int Returns 0 on successful execution and cleanup.
- * Returns -1 if the simulation initialization fails (@ref init_philo).
- * @note This function is responsible for calling @ref init_philo to allocate
- * the main data structure and then **freeing** that structure
- * using `free(data_philo)` before exiting.
- * @warning The function relies on subsequent modules (like `print_struct`)
- * and the simulation logic (not visible here) to complete successfully.
+ * Returns 1 if the simulation initialization fails (@ref init_data).
+ * @note Initialization is performed by init_data() which creates and configures
+ * the complete simulation environment including philosophers, forks,
+ * and mutexes.
+ * @note Cleanup is handled by final_clean() which properly destroys all mutexes
+ * and frees all allocated memory.
  * @code
  * ./philo 5 800 200 200
  * 		// 5 philosophers, time to die: 800ms, eat: 200ms, sleep: 200ms
@@ -57,14 +57,14 @@ int	main(int argc, char **argv)
 	{
 		data = init_data(argv);
 		if (!data)
-			return (-1);
-		free(data->philos);
-		free(data);
+			return (1);
+		final_clean(data);
 	}
 	else
 	{
 		printf("Usage: ./philo <n_philos> <tt_die> <tt_eat> ");
 		printf("<tt_sleep> [must_eat_count]\n");
+		return (1);
 	}
 	return (0);
 }
