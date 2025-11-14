@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/13 00:18:24 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/14 13:03:20 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,15 @@
 # include <fcntl.h>
 # include <sys/time.h>
 # include <pthread.h>
+
+/* ************************************************************************** */
+/* Macros * ***************************************************************** */
+
+# define FORK "has taken a fork"
+# define EAT ". is eating ."
+# define THINK ".. is thinking .."
+# define SLEEP "... is sleeping ..."
+# define DIE "die"
 
 /* ************************************************************************** */
 /* Alias * ****************************************************************** */
@@ -166,5 +175,15 @@ void		final_clean(t_data *data);
 /* Simulation *************************************************************** */
 
 bool		start_dinner(t_data *data);
+void		*philo_routine(void *arg);
+void		*monitor_routine(void *arg);
+void		one_philo_routine(t_philo *philo);
+void		print_status(t_philo *philo, char *str);
+bool		check_death(t_data *data);
+void		philo_think(t_philo *philo);
+void		philo_sleep(t_philo *philo);
+void		philo_eat(t_philo *philo);
+void		drop_forks(t_philo *philo);
+bool		take_forks(t_philo *philo);
 
 #endif
