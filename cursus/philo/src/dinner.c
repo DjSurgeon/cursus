@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dinner.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 22:46:43 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 10:10:30 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 23:32:49 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ static bool	create_all_threads(t_data *data)
 	i = 0;
 	while (i < data->n_philos)
 	{
-		if (pthread_create(&data->philos[i].thread, \
-			NULL, &philo_routine, &data->philos[i]) != 0)
+		if (pthread_create(&data->philos[i].thread, NULL, &philo_routine, \
+	&data->philos[i]) != 0)
 		{
 			j = 0;
 			while (j < i)

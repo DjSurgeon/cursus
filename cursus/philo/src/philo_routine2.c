@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_routine2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:07:44 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 18:15:43 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 23:34:42 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,163 +22,34 @@
  */
 #include "philo.h"
 
-/**
- * @brief Fork acquisition strategy for odd-numbered philosophers.
- * This function implements the fork acquisition sequence for philosophers
- * with odd IDs (1, 3, 5, ...). The locking order is:
- * 1. Left fork first
- * 2. Right fork second
- * After acquiring each fork, the function checks if the simulation should
- * terminate due to a philosopher's death. If death is detected at any point,
- * all acquired forks are immediately released and the function returns false.
- * @param philo Pointer to the philosopher's individual data structure.
- * @return bool true if both forks are successfully acquired, false if
- * simulation termination is detected or acquisition fails.
- * @note Logs fork acquisition for each successfully taken fork.
- * @note Implements immediate cleanup on death detection to prevent
- * philosophers from holding forks after simulation termination.
- * @warning Death checking after each acquisition ensures quick termination.
- * @see check_death()
- * @see print_status()
- */
-// static bool	is_odd(t_philo *philo)
-// {
-// 	if (check_death(philo->data))
-// 		return (false);
-// 	pthread_mutex_lock(philo->l_fork);
-// 	print_status(philo, FORK);
-// 	if (check_death(philo->data))
-// 	{
-// 		pthread_mutex_unlock(philo->l_fork);
-// 		return (false);
-// 	}
-// 	if (check_death(philo->data))
-// 		return (false);
-// 	pthread_mutex_lock(philo->r_fork);
-// 	print_status(philo, FORK);
-// 	pthread_mutex_lock(&philo->meal_lock);
-// 	philo->last_meal = get_time();
-// 	pthread_mutex_unlock(&philo->meal_lock);
-// 	return (true);
-// }
+bool	take_forks(t_philo *philo)
+{
+	t_mutex	*first;
+	t_mutex	*second;
 
-/**
- * @brief Fork acquisition strategy for even-numbered philosophers.
- * This function implements the fork acquisition sequence for philosophers
- * with even IDs (2, 4, 6, ...). The locking order is:
- * 1. Right fork first
- * 2. Left fork second
- * This reverse order compared to odd philosophers prevents the circular
- * wait condition that leads to deadlocks. After acquiring each fork,
- * the function checks for simulation termination and releases all
- * acquired resources if death is detected.
- * @param philo Pointer to the philosopher's individual data structure.
- * @return bool true if both forks are successfully acquired, false if
- * simulation termination is detected or acquisition fails.
- * @note The different acquisition order for even vs odd philosophers
- * is a classic solution to the dining philosophers deadlock problem.
- * @note Ensures proper resource cleanup on partial acquisition failure.
- * @warning The locking order (right then left) must be consistent across
- * all even-numbered philosophers.
- * @warning This strategy works because there's no global ordering of
- * resources that all threads must follow.
- * @see check_death()
- * @see print_status()
- */
-// static bool	is_even(t_philo *philo)
-// {
-// 	if (check_death(philo->data))
-// 		return (false);
-// 	pthread_mutex_lock(philo->r_fork);
-// 	print_status(philo, FORK);
-// 	if (check_death(philo->data))
-// 	{
-// 		pthread_mutex_unlock(philo->r_fork);
-// 		return (false);
-// 	}
-// 	if (check_death(philo->data))
-// 		return (false);
-// 	pthread_mutex_lock(philo->l_fork);
-// 	print_status(philo, FORK);
-// 	pthread_mutex_lock(&philo->meal_lock);
-// 	philo->last_meal = get_time();
-// 	pthread_mutex_unlock(&philo->meal_lock);
-// 	return (true);
-// }
-
-/**
- * @brief Main fork acquisition function that delegates based on philosopher ID.
- * This function selects the appropriate fork acquisition strategy based on
- * whether the philosopher has an odd or even ID. This strategy ensures that
- * neighboring philosophers use different fork acquisition orders, preventing
- * the circular wait condition that causes deadlocks.
- * @param philo Pointer to the philosopher's individual data structure.
- * @return bool true if both forks are successfully acquired using the
- * appropriate strategy, false if acquisition fails or simulation terminates.
- * @note Odd philosophers (1, 3, 5...): acquire left fork then right fork
- * @note Even philosophers (2, 4, 6...): acquire right fork then left fork
- * @note This creates a "staggered" acquisition pattern that breaks potential
- * deadlock cycles.
- * @warning The strategy relies on consistent ID-based ordering across all
- * philosophers in the simulation.
- * @warning Returns false immediately if the selected strategy fails,
- * indicating that forks were not acquired.
- * @see is_odd()
- * @see is_even()
- */
-// bool	take_forks(t_philo *philo)
-// {
-// 	if (philo->id % 2 == 0)
-// 	{
-// 		if (!is_even(philo))
-// 			return (false);
-// 	}
-// 	else
-// 	{
-// 		if (!is_odd(philo))
-// 			return (false);
-// 	}
-// 	return (true);
-// }
-
-bool take_forks(t_philo *philo)
- {
-	 t_mutex *first;
-	 t_mutex *second;
-	 
-	 if (check_death(philo->data))
-		 return (false);
-	 
-	 // ✅ El ÚLTIMO filósofo toma en orden inverso
-	 if (philo->id == philo->data->n_philos)
-	 {
-		 first = philo->r_fork;
-		 second = philo->l_fork;
-	 }
-	 else  // Todos los demás: orden normal
-	 {
-		 first = philo->l_fork;
-		 second = philo->r_fork;
-	 }
-	 
-	 // Tomar primer tenedor
-	 pthread_mutex_lock(first);
-	 print_status(philo, FORK);
-	 
-	 if (check_death(philo->data))
-	 {
-		 pthread_mutex_unlock(first);
-		 return (false);
-	 }
-	 
-	 // Tomar segundo tenedor
-	 pthread_mutex_lock(second);
-	 print_status(philo, FORK);
-	 
-	 // ✅ Actualizar last_meal aquí
-	 pthread_mutex_lock(&philo->meal_lock);
-	 philo->last_meal = get_time();
-	 pthread_mutex_unlock(&philo->meal_lock);
-	 
-	 return (true);
- }
+	if (check_death(philo->data))
+		return (false);
+	if (philo->id == philo->data->n_philos)
+	{
+		first = philo->r_fork;
+		second = philo->l_fork;
+	}
+	else
+	{
+		first = philo->l_fork;
+		second = philo->r_fork;
+	}
+	pthread_mutex_lock(first);
+	print_status(philo, FORK);
+	if (check_death(philo->data))
+	{
+		pthread_mutex_unlock(first);
+		return (false);
+	}
+	pthread_mutex_lock(second);
+	print_status(philo, FORK);
+	pthread_mutex_lock(&philo->meal_lock);
+	philo->last_meal = get_time();
+	pthread_mutex_unlock(&philo->meal_lock);
+	return (true);
+}
