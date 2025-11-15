@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 02:06:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 17:40:17 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 18:22:11 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 void	philo_think(t_philo *philo)
 {
 	print_status(philo, THINK);
+	ft_usleep(60);
 }
 
 /**

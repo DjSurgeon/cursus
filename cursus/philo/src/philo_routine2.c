@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:07:44 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 17:41:05 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 18:15:43 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,26 @@
  * @see check_death()
  * @see print_status()
  */
-static bool	is_odd(t_philo *philo)
-{
-	if (check_death(philo->data))
-		return (false);
-	pthread_mutex_lock(philo->l_fork);
-	print_status(philo, FORK);
-	if (check_death(philo->data))
-	{
-		pthread_mutex_unlock(philo->l_fork);
-		return (false);
-	}
-	if (check_death(philo->data))
-		return (false);
-	pthread_mutex_lock(philo->r_fork);
-	print_status(philo, FORK);
-	pthread_mutex_lock(&philo->meal_lock);
-	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->meal_lock);
-	return (true);
-}
+// static bool	is_odd(t_philo *philo)
+// {
+// 	if (check_death(philo->data))
+// 		return (false);
+// 	pthread_mutex_lock(philo->l_fork);
+// 	print_status(philo, FORK);
+// 	if (check_death(philo->data))
+// 	{
+// 		pthread_mutex_unlock(philo->l_fork);
+// 		return (false);
+// 	}
+// 	if (check_death(philo->data))
+// 		return (false);
+// 	pthread_mutex_lock(philo->r_fork);
+// 	print_status(philo, FORK);
+// 	pthread_mutex_lock(&philo->meal_lock);
+// 	philo->last_meal = get_time();
+// 	pthread_mutex_unlock(&philo->meal_lock);
+// 	return (true);
+// }
 
 /**
  * @brief Fork acquisition strategy for even-numbered philosophers.
@@ -85,26 +85,26 @@ static bool	is_odd(t_philo *philo)
  * @see check_death()
  * @see print_status()
  */
-static bool	is_even(t_philo *philo)
-{
-	if (check_death(philo->data))
-		return (false);
-	pthread_mutex_lock(philo->r_fork);
-	print_status(philo, FORK);
-	if (check_death(philo->data))
-	{
-		pthread_mutex_unlock(philo->r_fork);
-		return (false);
-	}
-	if (check_death(philo->data))
-		return (false);
-	pthread_mutex_lock(philo->l_fork);
-	print_status(philo, FORK);
-	pthread_mutex_lock(&philo->meal_lock);
-	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->meal_lock);
-	return (true);
-}
+// static bool	is_even(t_philo *philo)
+// {
+// 	if (check_death(philo->data))
+// 		return (false);
+// 	pthread_mutex_lock(philo->r_fork);
+// 	print_status(philo, FORK);
+// 	if (check_death(philo->data))
+// 	{
+// 		pthread_mutex_unlock(philo->r_fork);
+// 		return (false);
+// 	}
+// 	if (check_death(philo->data))
+// 		return (false);
+// 	pthread_mutex_lock(philo->l_fork);
+// 	print_status(philo, FORK);
+// 	pthread_mutex_lock(&philo->meal_lock);
+// 	philo->last_meal = get_time();
+// 	pthread_mutex_unlock(&philo->meal_lock);
+// 	return (true);
+// }
 
 /**
  * @brief Main fork acquisition function that delegates based on philosopher ID.
@@ -126,17 +126,59 @@ static bool	is_even(t_philo *philo)
  * @see is_odd()
  * @see is_even()
  */
-bool	take_forks(t_philo *philo)
-{
-	if (philo->id % 2 == 0)
-	{
-		if (!is_even(philo))
-			return (false);
-	}
-	else
-	{
-		if (!is_odd(philo))
-			return (false);
-	}
-	return (true);
-}
+// bool	take_forks(t_philo *philo)
+// {
+// 	if (philo->id % 2 == 0)
+// 	{
+// 		if (!is_even(philo))
+// 			return (false);
+// 	}
+// 	else
+// 	{
+// 		if (!is_odd(philo))
+// 			return (false);
+// 	}
+// 	return (true);
+// }
+
+bool take_forks(t_philo *philo)
+ {
+	 t_mutex *first;
+	 t_mutex *second;
+	 
+	 if (check_death(philo->data))
+		 return (false);
+	 
+	 // ✅ El ÚLTIMO filósofo toma en orden inverso
+	 if (philo->id == philo->data->n_philos)
+	 {
+		 first = philo->r_fork;
+		 second = philo->l_fork;
+	 }
+	 else  // Todos los demás: orden normal
+	 {
+		 first = philo->l_fork;
+		 second = philo->r_fork;
+	 }
+	 
+	 // Tomar primer tenedor
+	 pthread_mutex_lock(first);
+	 print_status(philo, FORK);
+	 
+	 if (check_death(philo->data))
+	 {
+		 pthread_mutex_unlock(first);
+		 return (false);
+	 }
+	 
+	 // Tomar segundo tenedor
+	 pthread_mutex_lock(second);
+	 print_status(philo, FORK);
+	 
+	 // ✅ Actualizar last_meal aquí
+	 pthread_mutex_lock(&philo->meal_lock);
+	 philo->last_meal = get_time();
+	 pthread_mutex_unlock(&philo->meal_lock);
+	 
+	 return (true);
+ }
