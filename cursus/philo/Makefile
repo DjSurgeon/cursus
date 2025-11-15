@@ -6,7 +6,7 @@
 #    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/13 17:05:37 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/11/14 13:14:33 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/11/15 10:30:40 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,7 @@ SRC_FILES	:=	$(SRC_DIR)/main.c\
 				$(SRC_DIR)/routines.c\
 				$(SRC_DIR)/philo_routine.c\
 				$(SRC_DIR)/philo_routine2.c\
+				$(SRC_DIR)/monitor_routine.c\
 				$(SRC_DIR)/routine_utils.c
 
 # **************************************************************************** #

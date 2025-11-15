@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 01:03:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 10:22:31 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 11:04:54 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,27 +78,17 @@ void	*philo_routine(void *arg)
 void	*monitor_routine(void *arg)
 {
 	t_data	*data;
-	size_t	i;
 
 	data = (t_data *)arg;
 	while (1)
 	{
 		if (check_death(data))
 			return (NULL);
-		i = 0;
-		while (i < data->n_philos)
-		{
-			pthread_mutex_lock(&data->meal_lock);
-			if (get_time() - data->philos[i].last_meal >= (long long)data->tt_die)
-			{
-				print_status(&data->philos[i], DIE);
-				set_death(data);
-				pthread_mutex_unlock(&data->meal_lock);
-				return (NULL);
-			}
-			pthread_mutex_unlock(&data->meal_lock);
-			i++;
-		}
+		if (check_meals(data))
+			return (NULL);
+		if (check_tt_die(data))
+			return (NULL);
+		usleep(1000);
 	}
 	return (NULL);
 }
