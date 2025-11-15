@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/14 13:03:20 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 09:37:44 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,5 +185,6 @@ void		philo_sleep(t_philo *philo);
 void		philo_eat(t_philo *philo);
 void		drop_forks(t_philo *philo);
 bool		take_forks(t_philo *philo);
+void		set_death(t_data *data);
 
 #endif

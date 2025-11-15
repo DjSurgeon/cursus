@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 22:46:43 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/13 00:27:48 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 10:10:30 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static void	join_all_threads(t_data *data, bool join_monitor)
 		pthread_join(data->philos[i].thread, NULL);
 		i++;
 	}
-	if (join_monitor && data->monitor)
+	if (join_monitor)
 		pthread_join(data->monitor, NULL);
 }
 
@@ -134,10 +134,6 @@ static bool	create_monitor(t_data *data)
 {
 	if (pthread_create(&data->monitor, NULL, &monitor_routine, data) != 0)
 	{
-		pthread_mutex_lock(&data->death_lock);
-		data->philo_died = 1;
-		pthread_mutex_unlock(&data->death_lock);
-		// usleep(1000);
 		join_all_threads(data, false);
 		return (false);
 	}

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 10:36:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/14 14:18:07 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 09:36:49 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,11 @@ bool	check_death(t_data *data)
 		dead = true;
 	pthread_mutex_unlock(&data->death_lock);
 	return (dead);
+}
+
+void	set_death(t_data *data)
+{
+	pthread_mutex_lock(&data->death_lock);
+	data->philo_died = 1;
+	pthread_mutex_unlock(&data->death_lock);
 }
