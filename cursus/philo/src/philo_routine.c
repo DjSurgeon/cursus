@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 02:06:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 18:22:11 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 23:58:29 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ void	philo_eat(t_philo *philo)
 {
 	print_status(philo, EAT);
 	pthread_mutex_lock(&philo->meal_lock);
-	// philo->last_meal = get_time();
 	philo->meals++;
+	philo->last_meal = get_time();
 	pthread_mutex_unlock(&philo->meal_lock);
 	ft_usleep(philo->data->tt_eat);
 }

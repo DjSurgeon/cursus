@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:07:44 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 23:34:42 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/15 23:58:34 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,5 @@ bool	take_forks(t_philo *philo)
 	}
 	pthread_mutex_lock(second);
 	print_status(philo, FORK);
-	pthread_mutex_lock(&philo->meal_lock);
-	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->meal_lock);
 	return (true);
 }

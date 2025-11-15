@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 22:46:43 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 23:32:49 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/16 00:07:29 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ static bool	create_all_threads(t_data *data)
 	i = 0;
 	while (i < data->n_philos)
 	{
-		if (pthread_create(&data->philos[i].thread, NULL, &philo_routine, \
-	&data->philos[i]) != 0)
+		if (pthread_create(&data->philos[i].thread, NULL,
+				&philo_routine, &data->philos[i]) != 0)
 		{
 			j = 0;
 			while (j < i)

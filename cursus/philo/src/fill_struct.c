@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_struct.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 13:26:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 13:22:18 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/16 00:05:58 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,39 +95,10 @@ bool	fill_philos(t_data *data, t_philo *philos)
 	return (true);
 }
 
-/**
- * @brief Initializes all fork mutexes in the simulation.
- * This function initializes each mutex in the forks array, which represent
- * the forks on the table that philosophers must acquire to eat.
- * @param data Pointer to the main simulation data structure.
- * @param forks Pointer to the pre-allocated array of fork mutexes.
- * @return bool true if all mutexes are successfully initialized,
- * false if any initialization fails.
- * @note Initializes exactly data->n_philos mutexes.
- * @note If any mutex initialization fails, all previously initialized
- * mutexes are properly destroyed before returning.
- * @note Uses clean_mutex_forks() for cleanup on partial initialization failure.
- * @warning The forks array must be pre-allocated before calling this function.
- * @see clean_mutex_forks()
- */
-bool	fill_forks(t_data *data, t_mutex *forks)
+static bool	mutex_meals(t_data *data)
 {
-	size_t	i;
 	size_t	j;
 
-	i = 0;
-	if (!data || !forks)
-		return (false);
-	while (i < data->n_philos)
-	{
-		if (pthread_mutex_init(&forks[i], NULL) == 0)
-			i++;
-		else
-		{
-			clean_mutex_forks(forks, i);
-			return (false);
-		}
-	}
 	j = 0;
 	while (j < data->n_philos)
 	{
@@ -136,9 +107,38 @@ bool	fill_forks(t_data *data, t_mutex *forks)
 		else
 		{
 			clean_mutex_meal(data->philos, j);
-			clean_mutex_forks(forks, i);
+			clean_mutex_forks(data->forks, data->n_philos);
 			return (false);
 		}
 	}
+	return (true);
+}
+
+static bool	mutex_forks(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < data->n_philos)
+	{
+		if (pthread_mutex_init(&data->forks[i], NULL) == 0)
+			i++;
+		else
+		{
+			clean_mutex_forks(data->forks, i);
+			return (false);
+		}
+	}
+	return (true);
+}
+
+bool	fill_forks(t_data *data, t_mutex *forks)
+{
+	if (!data || !forks)
+		return (false);
+	if (!mutex_forks(data))
+		return (false);
+	if (!mutex_meals(data))
+		return (false);
 	return (true);
 }
