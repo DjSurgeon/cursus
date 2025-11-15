@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 01:03:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 11:04:54 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 17:38:29 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,15 @@ void	*philo_routine(void *arg)
 		return (NULL);
 	}
 	if (philo->id % 2 == 0)
-		ft_usleep(1);
+		ft_usleep(200);
 	while (!check_death(philo->data))
 	{
 		if (!take_forks(philo))
 			return (NULL);
 		philo_eat(philo);
 		drop_forks(philo);
+		if (philos_stop(philo))
+			return (NULL);
 		philo_sleep(philo);
 		philo_think(philo);
 	}
@@ -82,13 +84,13 @@ void	*monitor_routine(void *arg)
 	data = (t_data *)arg;
 	while (1)
 	{
-		if (check_death(data))
-			return (NULL);
 		if (check_meals(data))
 			return (NULL);
 		if (check_tt_die(data))
 			return (NULL);
-		usleep(1000);
+		if (check_death(data))
+			return (NULL);
+		usleep(100);
 	}
 	return (NULL);
 }

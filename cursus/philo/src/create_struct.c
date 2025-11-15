@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:49:31 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 15:14:40 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 15:41:08 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,9 @@ static t_philo	*init_philos(t_data *data)
 	data->philos = ft_calloc(data->n_philos, sizeof(t_philo));
 	if (!data->philos)
 		return (NULL);
+	data->forks = init_forks(data);
+	if (!data->forks)
+		return (clean_mutex_data(data), free(data->philos), free(data), NULL);
 	if (!fill_philos(data, data->philos))
 		return (free(data->philos), NULL);
 	return (data->philos);
@@ -137,8 +140,5 @@ t_data	*init_data(char **argv)
 	data->philos = init_philos(data);
 	if (!data->philos)
 		return (clean_mutex_data(data), free(data), NULL);
-	data->forks = init_forks(data);
-	if (!data->forks)	
-		return (clean_mutex_data(data), free(data->forks), free(data), NULL);
 	return (data);
 }

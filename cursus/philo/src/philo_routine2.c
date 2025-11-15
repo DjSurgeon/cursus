@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 13:07:44 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/14 14:12:22 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 17:41:05 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,22 @@
  */
 static bool	is_odd(t_philo *philo)
 {
+	if (check_death(philo->data))
+		return (false);
 	pthread_mutex_lock(philo->l_fork);
+	print_status(philo, FORK);
 	if (check_death(philo->data))
 	{
 		pthread_mutex_unlock(philo->l_fork);
 		return (false);
 	}
-	print_status(philo, FORK);
+	if (check_death(philo->data))
+		return (false);
 	pthread_mutex_lock(philo->r_fork);
-	if (check_death(philo->data))
-	{
-		pthread_mutex_unlock(philo->r_fork);
-		pthread_mutex_unlock(philo->l_fork);
-		return (false);
-	}
 	print_status(philo, FORK);
+	pthread_mutex_lock(&philo->meal_lock);
+	philo->last_meal = get_time();
+	pthread_mutex_unlock(&philo->meal_lock);
 	return (true);
 }
 
@@ -86,21 +87,22 @@ static bool	is_odd(t_philo *philo)
  */
 static bool	is_even(t_philo *philo)
 {
+	if (check_death(philo->data))
+		return (false);
 	pthread_mutex_lock(philo->r_fork);
+	print_status(philo, FORK);
 	if (check_death(philo->data))
 	{
 		pthread_mutex_unlock(philo->r_fork);
 		return (false);
 	}
-	print_status(philo, FORK);
+	if (check_death(philo->data))
+		return (false);
 	pthread_mutex_lock(philo->l_fork);
-	if (check_death(philo->data))
-	{
-		pthread_mutex_unlock(philo->l_fork);
-		pthread_mutex_unlock(philo->r_fork);
-		return (false);
-	}
 	print_status(philo, FORK);
+	pthread_mutex_lock(&philo->meal_lock);
+	philo->last_meal = get_time();
+	pthread_mutex_unlock(&philo->meal_lock);
 	return (true);
 }
 

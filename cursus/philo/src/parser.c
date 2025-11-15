@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 10:50:12 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/14 11:17:22 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 17:09:17 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static bool	validate_cases(size_t i, char **arr)
 		return (printf("ERROR: To shoort times\n"), false);
 	if (number <= 0)
 		return (printf("ERROR: Only positive numbers\n"), false);
-	else if (i == 1 && number == 2)
-		return (printf("ERROR: Especial case 2 philosophers\n"), false);
 	return (true);
 }
 

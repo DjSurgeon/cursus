@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 13:20:09 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 17:04:02 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,5 +189,6 @@ bool		take_forks(t_philo *philo);
 void		set_death(t_data *data);
 bool		check_tt_die(t_data *data);
 bool		check_meals(t_data *data);
+bool		philos_stop(t_philo *philo);
 
 #endif
