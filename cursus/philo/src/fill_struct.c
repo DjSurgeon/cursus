@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/07 13:26:01 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/13 00:09:02 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 13:22:18 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ bool	fill_philos(t_data *data, t_philo *philos)
 bool	fill_forks(t_data *data, t_mutex *forks)
 {
 	size_t	i;
+	size_t	j;
 
 	i = 0;
 	if (!data || !forks)
@@ -123,6 +124,18 @@ bool	fill_forks(t_data *data, t_mutex *forks)
 			i++;
 		else
 		{
+			clean_mutex_forks(forks, i);
+			return (false);
+		}
+	}
+	j = 0;
+	while (j < data->n_philos)
+	{
+		if (pthread_mutex_init(&data->philos[j].meal_lock, NULL) == 0)
+			j++;
+		else
+		{
+			clean_mutex_meal(data->philos, j);
 			clean_mutex_forks(forks, i);
 			return (false);
 		}

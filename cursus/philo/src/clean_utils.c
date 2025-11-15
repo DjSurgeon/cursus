@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 10:49:43 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/12 17:49:11 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 13:20:24 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@
  * avoid undefined behavior.
  */
 #include "philo.h"
+
+void	clean_mutex_meal(t_philo *philo, size_t initialized)
+{
+	size_t	i;
+	
+	i = 0;
+	while (i < initialized)
+	{
+		pthread_mutex_destroy(&philo->meal_lock);
+		i++;
+	}
+}
 
 /**
  * @brief Destroys a specified number of fork mutexes from an array.
@@ -76,7 +88,6 @@ void	clean_mutex_data(t_data *data)
 {
 	pthread_mutex_destroy(&data->write_lock);
 	pthread_mutex_destroy(&data->death_lock);
-	pthread_mutex_destroy(&data->meal_lock);
 }
 
 /**
@@ -103,6 +114,7 @@ void	final_clean(t_data *data)
 		return ;
 	clean_mutex_data(data);
 	clean_mutex_forks(data->forks, data->n_philos);
+	clean_mutex_meal(data->philos, data->n_philos);
 	if (data->philos)
 		free(data->philos);
 	data->philos = NULL;

@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:49:31 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/12 13:34:54 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 15:14:40 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,6 @@ static bool	init_mutex_data(t_data *data)
 	if (pthread_mutex_init(&data->death_lock, NULL) != 0)
 	{
 		pthread_mutex_destroy(&data->write_lock);
-		return (false);
-	}
-	if (pthread_mutex_init(&data->meal_lock, NULL) != 0)
-	{
-		pthread_mutex_destroy(&data->write_lock);
-		pthread_mutex_destroy(&data->death_lock);
 		return (false);
 	}
 	return (true);
@@ -140,11 +134,11 @@ t_data	*init_data(char **argv)
 	data = fill_data(argv, data);
 	if (!init_mutex_data(data))
 		return (free(data), NULL);
-	data->forks = init_forks(data);
-	if (!data->forks)
-		return (clean_mutex_data(data), free(data), NULL);
 	data->philos = init_philos(data);
 	if (!data->philos)
+		return (clean_mutex_data(data), free(data), NULL);
+	data->forks = init_forks(data);
+	if (!data->forks)	
 		return (clean_mutex_data(data), free(data->forks), free(data), NULL);
 	return (data);
 }

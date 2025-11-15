@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 10:50:39 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 13:20:09 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	t_mutex			*l_fork;
 	t_mutex			*r_fork;
+	t_mutex			meal_lock;
 	struct s_data	*data;
 }					t_philo;
 
@@ -129,7 +130,6 @@ typedef struct s_data
 	t_mutex			*forks;
 	t_mutex			write_lock;
 	t_mutex			death_lock;
-	t_mutex			meal_lock;
 	t_philo			*philos;
 	pthread_t		monitor;
 	int				philo_died;
@@ -169,6 +169,7 @@ long long	get_timestamp(long long start);
 
 void		clean_mutex_data(t_data *data);
 void		clean_mutex_forks(t_mutex *forks, size_t initialized);
+void		clean_mutex_meal(t_philo *philo, size_t initialized);
 void		final_clean(t_data *data);
 
 /* ************************************************************************** */

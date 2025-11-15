@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 02:06:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/14 14:06:10 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/15 13:12:43 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ void	philo_sleep(t_philo *philo)
 void	philo_eat(t_philo *philo)
 {
 	print_status(philo, EAT);
-	pthread_mutex_lock(&philo->data->meal_lock);
+	pthread_mutex_lock(&philo->meal_lock);
 	philo->last_meal = get_time();
 	philo->meals++;
-	pthread_mutex_unlock(&philo->data->meal_lock);
+	pthread_mutex_unlock(&philo->meal_lock);
 	ft_usleep(philo->data->tt_eat);
 }
 
