@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:08:26 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/12 23:50:14 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/16 01:24:21 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,15 @@
 
 /**
  * @brief Main function of the Philosophers simulation.
- * It validates the number of command-line arguments (must be 4 or 5
- * parameters), initializes the main simulation structure @ref t_data,
- * and executes the simulation. If initialization fails, it handles the error.
- * Finally, it ensures the cleanup of the allocated resources.
+ * This function orchestrates the entire simulation lifecycle:
+ * 1. **Argument Check:** Validates the number of command-line arguments
+ * (must be 4 or 5).
+ * 2. **Initialization:** Calls @ref init_data to allocate memory, parse
+ * arguments, and initialize all mutexes and structures.
+ * 3. **Execution:** Calls @ref start_dinner to create threads and run
+ * the simulation.
+ * 4. **Cleanup:** Calls @ref final_clean to destroy mutexes and free
+ * all memory.
  * The expected arguments are:
  * 1. number_of_philosophers (N)
  * 2. time_to_die (T_die)
@@ -35,12 +40,7 @@
  * @param argc The number of command-line arguments.
  * @param argv The array of command-line argument strings.
  * @return int Returns 0 on successful execution and cleanup.
- * Returns 1 if the simulation initialization fails (@ref init_data).
- * @note Initialization is performed by init_data() which creates and configures
- * the complete simulation environment including philosophers, forks,
- * and mutexes.
- * @note Cleanup is handled by final_clean() which properly destroys all mutexes
- * and frees all allocated memory.
+ * Returns 1 on error.
  * @code
  * ./philo 5 800 200 200
  * 		// 5 philosophers, time to die: 800ms, eat: 200ms, sleep: 200ms

@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 10:36:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 23:28:04 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/16 01:07:57 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	print_status(t_philo *philo, char *str)
 	if (!check_death(philo->data))
 	{
 		timestamp = get_time() - philo->data->start_t;
-		printf("[%lldms] - [philo: %zu] \"%s\"\n", timestamp, philo->id, str);
+		printf("[%lldms] - [%zu] \"%s\"\n", timestamp, philo->id, str);
 	}
 	pthread_mutex_unlock(&philo->data->write_lock);
 }

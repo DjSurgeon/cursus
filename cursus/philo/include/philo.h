@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 23:38:56 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/16 01:08:40 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
  * @file philo.h
  * @brief Main header file for the Philosophers simulation project.
  * This file contains all necessary standard library includes, project-specific
- * constants, the definition of key data structures (structs), and the
+ * constants, the definition of key data structures, and the
  * function prototypes required across the entire project.
  * It acts as the central hub for defining the simulation's data model and
  * available utilities.
@@ -26,24 +26,22 @@
 /* ************************************************************************** */
 /* Standard Library Includes ************************************************ */
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <errno.h>
-# include <string.h>
-# include <fcntl.h>
-# include <sys/time.h>
-# include <pthread.h>
+# include <unistd.h>	///< For write, usleep
+# include <stdlib.h>	///< For malloc, free
+# include <stdbool.h>	///< For bool type
+# include <stdio.h>		///< For printf
+# include <string.h>	///< For memset
+# include <sys/time.h>	///< For gettimeofday
+# include <pthread.h>	///< For multithreading: pthread_create, mutexes, join
 
 /* ************************************************************************** */
 /* Macros * ***************************************************************** */
 
 # define FORK "has taken a fork"
-# define EAT ". is eating ."
-# define THINK ".. is thinking .."
-# define SLEEP "... is sleeping ..."
-# define DIE "die"
+# define EAT "is eating"
+# define THINK "is thinking"
+# define SLEEP "is sleeping"
+# define DIE "died"
 
 /* ************************************************************************** */
 /* Alias * ****************************************************************** */
@@ -58,24 +56,27 @@ typedef pthread_mutex_t	t_mutex;
 
 /**
  * @brief Structure holding the dynamic state for a single philosopher.
- * This structure will eventually be used to manage each philosopher's thread
- * and their specific state variables during the simulation.
+ * This structure manages each philosopher's thread, local state, and
+ * resources.
  * @var t_philo::id
  * The unique identification number of the philosopher (1 to n_philos).
  * @var t_philo::meals
  * The count of how many times this philosopher has eaten.
  * @var t_philo::last_meal
  * The timestamp (in milliseconds) of when the philosopher last started eating.
- * Used to check for starvation.
+ * Used by the monitor to check for starvation.
  * @var t_philo::thread
  * The pthread_t handle for this philosopher's execution thread.
  * @var t_philo::l_fork
  * Pointer to the mutex representing the fork to the philosopher's left.
  * @var t_philo::r_fork
  * Pointer to the mutex representing the fork to the philosopher's right.
+ * @var t_philo::meal_lock
+ * Mutex used to protect this philosopher's `meals` count and `last_meal`
+ * timestamp from data races with the monitor thread.
  * @var t_philo::data
- * Pointer back to the main simulation data structure for accessing
- * global state.
+ * Pointer back to the main simulation data structure (@ref t_data) for
+ * accessing global state and parameters.
  */
 typedef struct s_philo
 {
@@ -93,8 +94,8 @@ typedef struct s_philo
  * @brief Main data structure holding global simulation parameters and
  * philosopher data.
  * This structure stores the configuration read from the command-line
- * arguments, the array of philosophers and fork (mutexes), and coordinates
- * global state like the death flag and timig.
+ * arguments, manages dynamic arrays, and coordinates global state
+ * using mutexes.
  * @var t_data::n_philos
  * The total number of philosophers (and forks) in the simulation.
  * @var t_data::tt_die
@@ -105,18 +106,21 @@ typedef struct s_philo
  * Time (in milliseconds) a philosopher spends sleeping.
  * @var t_data::eat_count
  * Optional argument: The minimum number of times each philosopher must eat.
+ * Value of -1 indicates "unlimited" meals (only dies from starvation).
  * @var t_data::forks
  * Array of mutexes representing the forks on the table.
  * @var t_data::write_lock
- * Mutex for synchronizing log output to prevent interleaved messages.
+ * Mutex for synchronizing log output (@ref print_status) to prevent interleaved
+ * messages.
  * @var t_data::death_lock
- * Mutex for protecting access to the philo_died flag.
- * @var t_data::meal_lock
- * Mutex for protecting access to meal-related data (last_meal, meals).
+ * Mutex for protecting access to the `philo_died` flag.
  * @var t_data::philos
  * Array of philosopher structures, one for each philosopher.
+ * @var t_data::monitor
+ * The pthread_t handle for the dedicated monitor thread.
  * @var t_data::philo_died
- * Flag indicating whether any philosopher has died, terminating the simulation.
+ * Flag (0 or 1) indicating whether any philosopher has died, terminating the
+ * simulation.
  * @var t_data::start_t
  * The starting timestamp (in milliseconds) of the entire simulation.
  */

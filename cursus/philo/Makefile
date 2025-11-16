@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
+#    By: sergio <sergio@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/13 17:05:37 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/11/15 10:30:40 by sergio-jime      ###   ########.fr        #
+#    Updated: 2025/11/16 00:39:45 by sergio           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,7 @@
 # This Makefile handles compilation, linking, and cleanup of the philosophers
 # simulation program. It supports incremental builds, colored output, and
 # progress tracking.
-# @note Creates build directory structure automatically
-# @warning Object files are stored in separate build/ directory
-#
+##
 
 # **************************************************************************** #
 # Color codes ================================================================ #
@@ -45,34 +43,29 @@ OBJ_DIR		:=	build
 # Compiler =================================================================== #
 
 CC			:=	cc
-CFLAGS		:=	-Wall -Wextra -Werror -g3 -I$(INC_DIR)
+CFLAGS		:=	-Wall -Wextra -Werror -I$(INC_DIR)
 
 # **************************************************************************** #
 # Files ====================================================================== #
 
 SRC_FILES	:=	$(SRC_DIR)/main.c\
-				$(SRC_DIR)/parser.c\
-				$(SRC_DIR)/create_struct.c\
-				$(SRC_DIR)/fill_struct.c\
-				$(SRC_DIR)/philo_utils.c\
-				$(SRC_DIR)/time_utils.c\
 				$(SRC_DIR)/clean_utils.c\
+				$(SRC_DIR)/create_struct.c\
 				$(SRC_DIR)/dinner.c\
-				$(SRC_DIR)/routines.c\
+				$(SRC_DIR)/fill_struct.c\
+				$(SRC_DIR)/monitor_routine.c\
+				$(SRC_DIR)/parser.c\
 				$(SRC_DIR)/philo_routine.c\
 				$(SRC_DIR)/philo_routine2.c\
-				$(SRC_DIR)/monitor_routine.c\
-				$(SRC_DIR)/routine_utils.c
+				$(SRC_DIR)/philo_utils.c\
+				$(SRC_DIR)/routine_utils.c\
+				$(SRC_DIR)/routines.c\
+				$(SRC_DIR)/time_utils.c
 
 # **************************************************************************** #
 # Objects ==================================================================== #
 
 OBJ_FILES	:=	$(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_FILES))
-
-# **************************************************************************** #
-# Progress variables ========================================================= #
-TOTAL_FILES := $(words $(SRC))
-COMPILED_FILES = 0
 
 # **************************************************************************** #
 # Rules ====================================================================== #
@@ -86,8 +79,7 @@ $(NAME): $(OBJ_FILES)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC_DIR)/philo.h
 	@mkdir -p $(OBJ_DIR)
-	@$(eval COMPILED_FILES=$(shell echo $$(($(COMPILED_FILES)+1))))
-	@printf "$(BLUE)[%2d/%2d]$(RESET) Compiling $<...\r" $(COMPILED_FILES) $(TOTAL_FILES)
+	@printf "$(BLUE)Compiling $<...$(RESET)\n"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
