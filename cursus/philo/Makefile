@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sergio <sergio@student.42.fr>              +#+  +:+       +#+         #
+#    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/09/13 17:05:37 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/11/16 00:39:45 by sergio           ###   ########.fr        #
+#    Updated: 2025/11/16 20:25:41 by sergio-jime      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,7 @@ SRC_FILES	:=	$(SRC_DIR)/main.c\
 				$(SRC_DIR)/philo_routine.c\
 				$(SRC_DIR)/philo_routine2.c\
 				$(SRC_DIR)/philo_utils.c\
+				$(SRC_DIR)/philo_utils2.c\
 				$(SRC_DIR)/routine_utils.c\
 				$(SRC_DIR)/routines.c\
 				$(SRC_DIR)/time_utils.c

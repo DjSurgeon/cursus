@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 02:06:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 23:58:29 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/16 20:09:19 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 void	philo_think(t_philo *philo)
 {
 	print_status(philo, THINK);
-	ft_usleep(60);
 }
 
 /**

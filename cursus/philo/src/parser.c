@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 10:50:12 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 17:09:17 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/16 19:38:06 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,13 @@
  */
 static bool	validate_cases(size_t i, char **arr)
 {
-	int	number;
+	long	number;
+	size_t	len;
 
-	number = ft_atoi(arr[i]);
-	if (ft_atoi(arr[2]) < ft_atoi(arr[3]))
-		return (printf("ERROR: To shoort times\n"), false);
+	len = ft_strlen(arr[i]);
+	number = ft_atol(arr[i]);
+	if (number > INT_MAX || len >= 11)
+		return (printf("ERROR: To large numbers\n"), false);
 	if (number <= 0)
 		return (printf("ERROR: Only positive numbers\n"), false);
 	return (true);

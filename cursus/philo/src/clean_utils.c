@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 10:49:43 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 15:41:48 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/16 19:12:44 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	clean_mutex_meal(t_philo *philo, size_t initialized)
 	i = 0;
 	while (i < initialized)
 	{
-		pthread_mutex_destroy(&philo->meal_lock);
+		pthread_mutex_destroy(&philo[i].meal_lock);
 		i++;
 	}
 }
