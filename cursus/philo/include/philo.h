@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/13 17:09:47 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/16 19:37:37 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/16 21:24:21 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # define THINK "is thinking"
 # define SLEEP "is sleeping"
 # define DIE "died"
+# define ERROR "Arguments Error"
 
 /* ************************************************************************** */
 /* Alias * ****************************************************************** */
@@ -149,7 +150,7 @@ int			ft_atoi(const char *str);
 int			ft_isdigit(int c);
 int			ft_isspace(int c);
 long		ft_atol(const char *str);
-size_t		ft_strlen(const char *s);
+int			ft_countstr(char *s);
 
 /* ************************************************************************** */
 /* Parser ******************************************************************* */

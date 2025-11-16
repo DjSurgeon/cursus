@@ -6,12 +6,29 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 20:24:36 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/16 20:25:14 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/16 23:05:55 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file philo_utils2.c
+ * @brief Contains essential utility functions (libft style) for the
+ * Philosophers project, including string conversion, and character checks.
+ */
 #include "philo.h"
 
+/**
+ * @brief Converts a string to a long integer (ASCII to Long).
+ * Parses the initial portion of a string and converts it to a standard
+ * `long` integer type, handling optional leading whitespace and sign
+ * character. This function is critical for safely checking command-line
+ * arguments against potential overflow before they are stored as `int`s in
+ * the simulation structure.
+ * @param str Null-terminated string to convert.
+ * @return long The converted long integer value.
+ * @note Leading whitespace is skipped using @ref ft_isspace.
+ * @note Requires the presence of @ref ft_isspace and @ref ft_isdigit.
+ */
 long	ft_atol(const char *str)
 {
 	size_t	i;
@@ -39,30 +56,32 @@ long	ft_atol(const char *str)
 }
 
 /**
- * @file ft_strlen.c
- * @brief Calculates the length of a null-terminated string.
- * Computes the number of characters in the string pointed to by 's',
- * excluding the terminating null byte ('\0'). The function iterates through
- * the string until it encounters the null terminator.
- * @note The input string must be properly null-terminated.
- * @note Returns 0 if NULL pointer is passed.
- * @note Safe for read-only strings.
- * @param s Pointer to the null-terminated string to measure.
- * @return size_t The number of characters in the string preceding the null
- * terminator.
- * @code
- * // Example
- * const char *str = "Hello world";
- * size_t len = ft_strlen(str); // len = 11
- * @endcode
+ * @brief Counts the number of significant digits in a string representation
+ * of a number.
+ * This function is designed to measure the true length of the numeric part of
+ * a string, skipping any optional sign ('+' or '-') and all leading zeros.
+ * This is typically used in conjunction with `ft_atol` to perform a secondary
+ * validation check for potential overflows.
+ * @param s The string containing the number.
+ * @return int The count of significant digits (excluding leading zeros).
+ * @note A number like "  +00420" returns 3 (for '4', '2', '0').
+ * @note Requires the presence of @ref ft_isdigit.
  */
-
-size_t	ft_strlen(const char *s)
+int	ft_countstr(char *s)
 {
-	size_t	i;
+	int	i;
+	int	count;
 
 	i = 0;
-	while (s[i] != '\0')
+	count = 0;
+	if (s[i] == '-' || s[i] == '+')
 		i++;
-	return (i);
+	while (s[i] == '0')
+		i++;
+	while (ft_isdigit(s[i]))
+	{
+		i++;
+		count++;
+	}
+	return (count);
 }

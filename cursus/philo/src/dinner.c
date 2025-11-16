@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dinner.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 22:46:43 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/16 00:07:29 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/16 23:17:00 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,13 @@
 
 /**
  * @brief Initializes the timing for all philosophers at the start of dinner.
- * This function sets the simulation start time and initializes the last meal
- * time for all philosophers to ensure consistent timing from the beginning
- * of the simulation.
+ * This function sets the global simulation start time (`data->start_t`) and
+ * initializes the last meal time for every philosopher to this same start time,
+ * ensuring consistent timing measurements from the very beginning.
  * @param data Pointer to the main simulation data structure.
- * @note Uses get_time() to get the current timestamp for simulation start.
- * @note All philosophers start with their last_meal set to the same start time.
+ * @note Uses @ref get_time() to retrieve the current timestamp.
  * @warning Must be called immediately before thread creation to ensure
- * accurate timing measurements.
+ * accurate death monitoring.
  * @see get_time()
  */
 static void	set_time_dinner(t_data *data)
@@ -50,20 +49,18 @@ static void	set_time_dinner(t_data *data)
 
 /**
  * @brief Creates all philosopher threads for the simulation.
- * This function creates one thread for each philosopher using the
- * philo_routine function. If any thread creation fails, it immediately
- * stops creation and joins all previously created threads to ensure
- * clean termination.
+ * This function attempts to create one thread for each philosopher using the
+ * @ref philo_routine function. It implements a critical **rollback cleanup**
+ * mechanism.
  * @param data Pointer to the main simulation data structure.
- * @return bool true if all threads are successfully created, false if any
- * thread creation fails.
- * @note Uses pthread_create to launch each philosopher's execution thread.
- * @note Implements rollback cleanup: if thread N fails to create,
- * threads 0 to N-1 are properly joined before returning.
- * @note Each thread receives a pointer to its individual philosopher structure.
- * @warning Thread creation failures trigger immediate cleanup of all
- * previously created threads.
+ * @return bool **true** if all threads are successfully created, **false**
+ * if any thread creation fails.
+ * @note **Rollback on Failure**: If thread creation fails at index `i`,
+ * the function immediately stops, and properly joins (`pthread_join`) all
+ * threads from 0 to `i-1` that were successfully created before
+ * returning `false`.
  * @see philo_routine()
+ * @see pthread_create()
  */
 static bool	create_all_threads(t_data *data)
 {
@@ -91,15 +88,13 @@ static bool	create_all_threads(t_data *data)
 
 /**
  * @brief Waits for all philosopher threads and optionally the monitor
- * to terminate.
- * This function performs the necessary joins to ensure all threads have
- * completed their execution before the main program continues.
+ * thread to terminate.
+ * This function blocks the main thread until all specified threads have
+ * completed their execution using `pthread_join`.
  * @param data Pointer to the main simulation data structure.
- * @param join_monitor If true, also joins the monitor thread.
- * @note Joins all philosopher threads in the order they were created.
- * @note Only joins the monitor thread if join_monitor is true and the
- * monitor thread exists.
- * @note This function blocks until all specified threads have terminated.
+ * @param join_monitor If **true**, the monitor thread (`data->monitor`)
+ * is also joined.
+ * @note Ensures a clean exit by guaranteeing no threads are left running.
  */
 static void	join_all_threads(t_data *data, bool join_monitor)
 {
@@ -118,16 +113,14 @@ static void	join_all_threads(t_data *data, bool join_monitor)
 /**
  * @brief Creates the monitor thread that supervises the simulation.
  * The monitor thread is responsible for checking philosopher states,
- * detecting deaths, and terminating the simulation when necessary.
+ * detecting death, and checking the termination condition (all meals eaten).
  * @param data Pointer to the main simulation data structure.
- * @return bool true if the monitor thread is successfully created,
- * false otherwise.
- * @note If monitor creation fails, it sets the death flag to terminate
- * all philosopher threads and joins them immediately.
- * @note The monitor runs monitor_routine and has access to all simulation data.
- * @warning On creation failure, triggers immediate simulation termination
- * by setting philo_died flag and joining all philosopher threads.
- * @warning The death_lock mutex must be held when modifying philo_died.
+ * @return bool **true** if the monitor thread is successfully created,
+ * **false** otherwise.
+ * @note **Failure Handling**: If monitor creation fails, it immediately calls
+ * @ref join_all_threads (with `join_monitor = false`) to clean up all
+ * philosopher threads before returning, ensuring that the main function can
+ * proceed with memory cleanup.
  * @see monitor_routine()
  */
 static bool	create_monitor(t_data *data)
@@ -142,18 +135,15 @@ static bool	create_monitor(t_data *data)
 
 /**
  * @brief Main function that starts and manages the entire dining simulation.
- * This function orchestrates the complete dinner simulation by:
- * 1. Setting initial timing for all philosophers
- * 2. Creating all philosopher threads
- * 3. Creating the monitor thread
- * 4. Waiting for all threads to complete
+ * This function orchestrates the complete dinner simulation lifecycle:
+ * 1. Initialize timing.
+ * 2. Create philosopher threads (with rollback on failure).
+ * 3. Create the monitor thread (with cleanup on failure).
+ * 4. Wait for all threads (philosophers and monitor) to finish.
  * @param data Pointer to the fully initialized simulation data structure.
- * @return bool true if the simulation starts and completes successfully,
- * false if thread creation fails at any stage.
- * @note The simulation runs until a philosopher dies or all philosophers
- * reach the required meal count (if specified).
- * @note Implements comprehensive error handling with proper cleanup at
- * each failure point.
+ * @return bool **true** if the simulation starts and completes successfully,
+ * **false** if thread creation fails at any stage.
+ * @note This is the final step before the main thread calls @ref final_clean.
  * @see set_time_dinner()
  * @see create_all_threads()
  * @see create_monitor()

@@ -6,9 +6,17 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/04 14:04:47 by serjimen          #+#    #+#             */
-/*   Updated: 2025/11/16 20:27:37 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/16 23:17:40 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/**
+ * @file philo_utils.c
+ * @brief Contains essential utility functions (libft style) for the
+ * Philosophers project, including memory allocation, string conversion, and
+ * character checks.
+ */
+#include "philo.h"
 
 /**
  * @file ft_calloc.c
@@ -34,9 +42,6 @@
  * }
  * @endcode
  */
-
-#include "philo.h"
-
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	size_t			i;
@@ -47,6 +52,8 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	if (nmemb == 0 || size == 0)
 		return (malloc(0));
 	total_size = nmemb * size;
+	if (nmemb != 0 && total_size / nmemb != size)
+		return (NULL);
 	memory_pointer = malloc(total_size);
 	if (!memory_pointer)
 		return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routines.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 01:03:48 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/15 23:27:50 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/16 23:29:36 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,25 @@
 
 /**
  * @brief Main execution routine for each philosopher thread.
- * This function represents the life cycle of a philosopher in the simulation.
- * Each philosopher continuously cycles through thinking, eating, and sleeping
- * states until the simulation ends (either by death or completion).
- * The routine implements several key strategies:
- * - Handles special case for single philosopher
- * - Implements staggered start for even-numbered philosophers to prevent
- * deadlock.
- * - Continuously checks for simulation termination via death flag
- * - Executes the full cycle: take forks → eat → drop forks → sleep → think.
- * @param arg Void pointer that will be cast to t_philo* representing
+ * This function represents the life cycle of a philosopher: continuously
+ * cycling through thinking, eating, and sleeping states until the
+ * simulation ends.
+ * @param arg Void pointer that will be cast to @ref t_philo* representing
  * the individual philosopher's data.
  * @return void* Always returns NULL (required by pthreads interface).
- * @note For single philosopher case, delegates to one_philo_routine().
- * @note Even-numbered philosophers start slightly delayed to prevent
- * all philosophers grabbing left forks simultaneously (deadlock prevention).
- * @note The death check is performed at the beginning of each cycle to
- * ensure quick termination when needed.
- * @warning This function runs in a separate thread and must be thread-safe.
- * @warning All state changes must be properly synchronized with mutexes.
+ * @note **Single Philosopher Case**: Delegates to @ref one_philo_routine()
+ * to handle the unique case where a single philosopher cannot eat.
+ * @note **Deadlock Prevention (Staggered Start)**: Even-numbered philosophers
+ * introduce a small delay (`ft_usleep(100)`) at the start to stagger fork
+ * acquisition and avoid simultaneous attempts to grab the left fork, which
+ * would lead to a circular wait deadlock.
+ * @note **Termination**: The loop condition `!check_death(philo->data)` and
+ * the intermediate check `philos_stop(philo)` ensure the philosopher stops
+ * immediately if another dies or if the required meal count is reached.
  * @see one_philo_routine()
- * @see check_death()
  * @see take_forks()
  * @see philo_eat()
- * @see drop_forks()
  * @see philo_sleep()
- * @see philo_think()
  */
 void	*philo_routine(void *arg)
 {
@@ -77,6 +70,31 @@ void	*philo_routine(void *arg)
 	return (NULL);
 }
 
+/**
+ * @brief Main execution routine for the simulation monitor thread.
+ * This function runs continuously in a separate thread, checking
+ * the state of all philosophers to determine if the simulation
+ * should terminate.
+ * @param arg Void pointer that will be cast to @ref t_data*.
+ * @return void* Always returns NULL (required by pthreads interface).
+ * @note **Termination Checks Order**: The monitor performs three sequential
+ * checks in a continuous loop, ensuring termination is handled correctly:
+ * 1. @ref check_meals: Checks if all philosophers have reached the mandatory
+ * meal count (`data->eat_count`). If true, the simulation ends gracefully.
+ * 2. @ref check_tt_die: Checks if any philosopher has starved
+ * (`time_to_die` expired).
+ * If a death is detected, it triggers the global death flag.
+ * 3. @ref check_death: Performs a final check on the global death flag, which
+ * will be set by `check_tt_die` or an external error, ensuring the monitor
+ * loop breaks.
+ * @warning The monitor must access shared data (last meal time, meal count)
+ * using the correct synchronization primitives (`meal_lock`) to avoid
+ * race conditions.
+ * The loop terminates and returns NULL as soon as any check returns true,
+ * signaling the end of the simulation.
+ * @see check_meals()
+ * @see check_tt_die()
+ */
 void	*monitor_routine(void *arg)
 {
 	t_data	*data;

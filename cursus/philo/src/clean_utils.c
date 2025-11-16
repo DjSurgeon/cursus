@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 10:49:43 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/16 19:12:44 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/16 21:05:02 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,29 @@
  * and freeing allocated memory to prevent resource leaks and ensure clean
  * program termination.
  * @note Implements safe cleanup procedures for both partial initialization
- * failures and normal program termination.
+ * failures (cascading cleanup) and normal program termination.
  * @warning All cleanup functions should be called in the correct order to
- * avoid undefined behavior.
+ * avoid undefined behavior (e.g., freeing memory before destroying mutexes).
  */
 #include "philo.h"
 
+/**
+ * @brief Destroys a specified number of local meal mutexes
+ * @ref t_philo::meal_lock.
+ * This function is primarily used for **cascading cleanup** when a failure
+ * occurs during the initialization of the `meal_lock` array, ensuring that
+ * only the mutexes that were successfully initialized are destroyed.
+ * @param philo Pointer to the array of philosopher structures.
+ * @param initialized The exact number of `meal_lock` mutexes that were
+ * successfully initialized and need to be destroyed.
+ * @note Safe to call with `initialized = 0`.
+ */
 void	clean_mutex_meal(t_philo *philo, size_t initialized)
 {
 	size_t	i;
 
+	if (!philo)
+		return ;
 	i = 0;
 	while (i < initialized)
 	{
@@ -37,30 +50,23 @@ void	clean_mutex_meal(t_philo *philo, size_t initialized)
 }
 
 /**
- * @brief Destroys a specified number of fork mutexes from an array.
+ * @brief Destroys a specified number of fork mutexes from the
+ * allocated array.
  * This function is used for cleanup during partial initialization failures
- * where some but not all fork mutexes were successfully initialized.
- * It destroys exactly the number of mutexes that were initialized before
- * the failure occurred.
+ * (like in @ref mutex_forks) where some, but not all, fork mutexes were
+ * successfully initialized. It ensures that only valid, initialized mutexes
+ * are destroyed.
  * @param forks Pointer to the array of fork mutexes to clean up.
- * @param initialized Number of mutexes that were successfully initialized
+ * @param initizalized Number of mutexes that were successfully initialized
  * and need to be destroyed.
- * @note Only destroys mutexes that were successfully initialized.
  * @note Typically used when fork initialization fails partway through.
- * @note Safe to call with initialized = 0 (no operation performed).
- * @warning Should not be called on uninitialized or already
- * destroyed mutexes.
- * @warning The forks array memory itself is not freed by this function.
- * @code
- * // Example: Cleanup after 3 out of 5 forks were initialized
- * clean_mutex_forks(forks, 3);
- * free(forks); // Then free the array memory
- * @endcode
  */
 void	clean_mutex_forks(t_mutex *forks, size_t initizalized)
 {
 	size_t	i;
 
+	if (!forks)
+		return ;
 	i = 0;
 	while (i < initizalized)
 	{
@@ -70,19 +76,13 @@ void	clean_mutex_forks(t_mutex *forks, size_t initizalized)
 }
 
 /**
- * @brief Destroys the global mutexes used for simulation synchronization.
- * This function cleans up the three main global mutexes that protect
- * different aspects of the simulation:
+ * @brief Destroys the global static mutexes used for simulation
+ * synchronization.
+ * This function cleans up the main global mutexes stored directly within
+ * the @ref t_data structure: `write_lock` and `death_lock`.
  * @param data Pointer to the main simulation data structure containing
  * the global mutexes to be destroyed.
- * @note Destroys mutexes in an order that doesn't matter since they
- * protect different resources.
  * @note Should be called before freeing the main data structure.
- * @note Safe to call even if some mutexes were not initialized (though
- * this indicates a programming error).
- * @warning Mutexes must not be locked when destroyed (undefined behavior).
- * @warning Should ensure all threads have finished using these mutexes
- * before calling this function.
  */
 void	clean_mutex_data(t_data *data)
 {
@@ -94,19 +94,17 @@ void	clean_mutex_data(t_data *data)
  * @brief Performs complete cleanup of all simulation resources.
  * This is the main cleanup function that should be called at program
  * termination to properly free all allocated resources and destroy
- * all mutexes. It handles the cleanup in the correct order:
- * 1. Destroy global mutexes
- * 2. Destroy all fork mutexes
- * 3. Free philosopher array
- * 4. Free fork array
- * 5. Free main data structure
+ * all mutexes. It executes cleanup in a precise, necessary order:
+ * 1. Destroy global mutexes (`write_lock`, `death_lock`).
+ * 2. Destroy all fork mutexes (`data->forks`).
+ * 3. Destroy all philosopher meal locks (`t_philo::meal_lock`).
+ * 4. Free philosopher array memory.
+ * 5. Free fork array memory.
+ * 6. Free main data structure memory.
  * @param data Pointer to the main simulation data structure to clean up.
- * @note Safe to call with NULL data (no operation performed).
- * @note Sets pointers to NULL after freeing to prevent double-free errors.
- * @note Handles partial allocation states gracefully.
- * @warning Should be called after all philosopher threads have terminated.
- * @warning Mutexes must not be locked when destroyed.
- * @warning This function should be the last operation on the data structure.
+ * @note Safe to call with a NULL pointer (performs a check at the start).
+ * @note Handles partial allocation states gracefully by checking pointers
+ * before freeing.
  */
 void	final_clean(t_data *data)
 {

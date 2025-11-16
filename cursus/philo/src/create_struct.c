@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_struct.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 11:49:31 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/16 01:53:29 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/16 20:41:14 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,10 @@ static t_philo	*init_philos(t_data *data)
 	if (!data->forks)
 		return (free(data->philos), NULL);
 	if (!fill_philos(data, data->philos))
+	{
+		clean_mutex_forks(data->forks, data->n_philos);
 		return (free(data->philos), free(data->forks), NULL);
+	}
 	return (data->philos);
 }
 

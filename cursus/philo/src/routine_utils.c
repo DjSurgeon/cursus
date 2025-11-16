@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 10:36:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/16 01:07:57 by sergio           ###   ########.fr       */
+/*   Updated: 2025/11/17 00:09:27 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,11 @@
 
 /**
  * @brief Special routine for simulations with only one philosopher.
- * This function handles the edge case where there is only one philosopher
- * at the table. Since there's only one fork available, the philosopher
- * cannot eat (requires two forks) and will eventually die from starvation.
- * The routine:
- * 1. Logs that the philosopher picks up the single available fork
- * 2. Waits for the time_to_die duration
- * 3. The philosopher dies without ever eating
+ * This function handles the edge case where N=1. The philosopher takes the
+ * single available fork, logs the action, and then waits for the entire
+ * `time_to_die` duration before the monitor thread detects the inevitable
+ * starvation and death.
  * @param philo Pointer to the philosopher's individual data structure.
- * @note This is a terminal routine - the philosopher thread will exit
- * after completing this function.
- * @note The philosopher never gets to eat because there's no second fork.
- * @note The death will be detected by the monitor thread after tt_die ms.
  * @see print_status()
  * @see ft_usleep()
  */
@@ -46,21 +39,18 @@ void	one_philo_routine(t_philo *philo)
 /**
  * @brief Thread-safe function for printing philosopher status messages.
  * This function safely logs philosopher state changes to stdout while
- * preventing interleaved output from multiple threads. It ensures that:
- * - Messages are not printed after simulation termination (death detected)
- * - Output from different philosophers doesn't get mixed together
- * - Timestamps are calculated relative to simulation start
+ * preventing interleaved output from multiple threads. It ensures atomicity
+ * and prevents messages from being printed after the simulation has terminated
+ * by death.
  * @param philo Pointer to the philosopher's individual data structure.
- * @param str String describing the philosopher's current state/action.
- * Expected values: "is thinking", "is eating", "is sleeping", 
- * "has taken a fork", "died"
- * @note Checks for death condition twice: before and during lock acquisition
- * to ensure no messages are printed after simulation termination.
- * @note Uses write_lock mutex to ensure atomic output operations.
- * @note Calculates relative timestamp from simulation start for
+ * @param str String describing the philosopher's current state/action
+ * (e.g., "is thinking", "died").
+ * @note Uses `data->write_lock` mutex to guarantee that only one thread can
+ * write to stdout at a time.
+ * @note Calculates the relative timestamp (`get_time() - data->start_t`) for
  * accurate logging.
- * @warning This function should be used for all simulation output to maintain
- * consistency and prevent race conditions in log messages.
+ * @warning The death check before and inside the lock ensures that the output
+ * stops immediately when the global death flag is set.
  * @see check_death()
  * @see get_time()
  */
@@ -74,7 +64,7 @@ void	print_status(t_philo *philo, char *str)
 	if (!check_death(philo->data))
 	{
 		timestamp = get_time() - philo->data->start_t;
-		printf("[%lldms] - [%zu] \"%s\"\n", timestamp, philo->id, str);
+		printf("%lld %zu %s\n", timestamp, philo->id, str);
 	}
 	pthread_mutex_unlock(&philo->data->write_lock);
 }
@@ -82,23 +72,13 @@ void	print_status(t_philo *philo, char *str)
 /**
  * @brief Safely checks if the simulation should terminate due to a
  * philosopher's death.
- * This function provides thread-safe access to the global death flag that
- * indicates whether any philosopher has died and the simulation should end.
- * It uses the death_lock mutex to ensure atomic read operations on the
- * philo_died flag.
+ * Provides thread-safe access to the global `data->philo_died` flag.
  * @param data Pointer to the main simulation data structure.
- * @return bool true if a philosopher has died and simulation should terminate,
- * false otherwise.
- * @note This function should be called frequently in philosopher routines
- * to ensure quick termination when death occurs.
- * @note The death_lock mutex protects against race conditions when multiple
- * threads check the death flag simultaneously.
- * @note The monitor thread is responsible for setting the philo_died flag
- * when death conditions are detected.
- * @warning This function provides a consistent view of the death state
- * but doesn't prevent the "check-then-act" race condition on its own.
- * @warning Callers should use additional synchronization if they need to
- * perform multiple operations based on the death state.
+ * @return bool **true** if a philosopher has died and simulation
+ * should terminate, **false** otherwise.
+ * @note The `death_lock` mutex protects the `philo_died` flag against race
+ * conditions during simultaneous read/write access from the monitor and
+ * philosopher threads.
  */
 bool	check_death(t_data *data)
 {
@@ -112,6 +92,17 @@ bool	check_death(t_data *data)
 	return (dead);
 }
 
+/**
+ * @brief Safely sets the global simulation termination flag.
+ * This function is used by the monitor thread when a philosopher's death
+ * is detected, signaling all other threads to terminate.
+ * @param data Pointer to the main simulation data structure.
+ * @note Uses the `death_lock` mutex to ensure the update to `philo_died`
+ * is atomic and immediately visible to all other threads.
+ * @warning Should only be called by the monitor thread (or during thread
+ * creation error handling) to manage simulation termination.
+ * @see check_death()
+ */
 void	set_death(t_data *data)
 {
 	pthread_mutex_lock(&data->death_lock);
@@ -119,6 +110,18 @@ void	set_death(t_data *data)
 	pthread_mutex_unlock(&data->death_lock);
 }
 
+/**
+ * @brief Checks if a philosopher has completed their mandatory number of meals.
+ * This function determines if the optional `eat_count` argument has been
+ * satisfied for the current philosopher. If satisfied, the philosopher
+ * thread should terminate gracefully.
+ * @param philo Pointer to the philosopher's individual data structure.
+ * @return bool **true** if `eat_count` is defined and `philo->meals` has
+ * reached the limit, **false** otherwise.
+ * @note If `data->eat_count` is -1, the check is skipped, and the
+ * philosopher runs indefinitely (until death).
+ * @note Uses `philo->meal_lock` to safely read the `philo->meals` counter.
+ */
 bool	philos_stop(t_philo *philo)
 {
 	if (philo->data->eat_count == -1)

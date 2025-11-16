@@ -6,7 +6,7 @@
 /*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/17 10:50:12 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/16 19:38:06 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/16 21:26:16 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,50 +16,54 @@
  * command-line arguments before starting the simulation.
  * This module ensures that all input parameters (number of philosophers,
  * timings, and optional eat count) are correctly formatted and adhere to
- * the logical constraints of the Philosophers problem.
+ * the numerical constraints required for the simulation.
  */
 #include "philo.h"
 
 /**
  * @brief Checks numerical constraints and logical rules for the arguments.
  * This static helper function validates:
- * 1. That all time/count parameters are strictly **positive** ( > 0).
- * 2. That the crucial simulation time constraint is respected:
- * `time_to_die` must be greater than or equal to `time_to_eat` to give the
- * philosopher a chance to survive.
+ * 1. That the number does not exceed the `INT_MAX` limit or its string
+ * length is too large (potential overflow check, assuming `ft_atol`
+ * converts to `long`).
+ * 2. That all time/count parameters are strictly **positive** ( > 0).
  * @param i The index of the argument in `argv` (1 to 5).
  * @param arr The array of argument strings (`argv`).
- * @return static bool Returns true if the argument passes all logical checks,
- * false otherwise.
- * @warning The checks for N=1 and N=2 philosophers are often not required by the
- * subject and might disable valid test cases. They are kept here based on the
- * original code structure but documented as non-standard restrictions.
+ * @return static bool Returns **true** if the argument passes all logical
+ * checks, **false** otherwise. Prints an error message on failure.
+ * @note Assumes the argument string has already been successfully converted
+ * to a long for the check, implying a dependency on an external `ft_atol`
+ * utility.
+ * @warning The crucial logic that `time_to_die >= time_to_eat` is currently
+ * missing in this function but should ideally be included in logical checks.
  */
 static bool	validate_cases(size_t i, char **arr)
 {
 	long	number;
-	size_t	len;
+	int		len;
 
-	len = ft_strlen(arr[i]);
+	len = ft_countstr(arr[i]);
 	number = ft_atol(arr[i]);
 	if (number > INT_MAX || len >= 11)
-		return (printf("ERROR: To large numbers\n"), false);
+		return (printf("%s\n", ERROR), false);
 	if (number <= 0)
-		return (printf("ERROR: Only positive numbers\n"), false);
+		return (printf("%s\n", ERROR), false);
 	return (true);
 }
 
 /**
  * @brief Checks if an argument string consists only of decimal digits.
- * Iterates through the characters of an argument string at index `i` to ensure
- * that every character is a valid decimal digit (`0` through `9`). This
- * prevents non-numeric or malformed input from being passed to @ref ft_atoi.
- * @param i The index of the argument in `argv`.
+ * Iterates through the characters of an argument string at index `i` to
+ * ensure that every character is a valid decimal digit (`0` through `9`).
+ * This prevents non-numeric or malformed input from being passed to
+ * conversion functions.
+ * @param i The index of the argument in `argv` (1 to 5).
  * @param arr The array of argument strings (`argv`).
- * @return static bool Returns true if the argument contains only digits,
- * false otherwise.
- * @note This function strictly requires **pure digits** and will reject leading
- * signs ('+' or '-'), enforcing a very strict input format.
+ * @return static bool Returns **true** if the argument contains only digits,
+ * **false** otherwise. Prints an error message on failure.
+ * @note This function strictly requires **pure digits** and will reject signs
+ * ('+' or '-').
+ * @see ft_isdigit()
  */
 static bool	validate_digits(size_t i, char **arr)
 {
@@ -69,7 +73,7 @@ static bool	validate_digits(size_t i, char **arr)
 	while (arr[i][j])
 	{
 		if (!ft_isdigit(arr[i][j]))
-			return (printf("ERROR: Only digits\n"), false);
+			return (printf("%s\n", ERROR), false);
 		j++;
 	}
 	return (true);
@@ -78,18 +82,20 @@ static bool	validate_digits(size_t i, char **arr)
 /**
  * @brief Main function to check all command-line arguments passed to
  * the program.
- * Iterates through all input arguments (starting from argv[1]) and applies
- * two sequential levels of validation:
+ * Iterates through all input arguments (starting from `argv[1]`) and
+ * applies two sequential levels of validation:
  * 1. **Format Check:** Calls @ref validate_digits to ensure the input is
  * purely numeric.
- * 2. **Logic Check:** Calls @ref validate_cases to apply numerical (> 0) and
- * simulation constraints (time relationships, philosopher count restrictions).
+ * 2. **Logic Check:** Calls @ref validate_cases to apply numerical (> 0)
+ * and overflow constraints.
  * The function stops and returns `false` upon the first validation error
  * encountered.
- * @param arr The array of argument strings (`argv`). Note: This array
- * starts with `argv[0]` (program name), so validation begins at index 1.
- * @return bool Returns true if ALL required arguments are valid, false if any
- * check fails.
+ * @param arr The array of argument strings (`argv`). Validation begins at
+ * index 1.
+ * @return bool Returns **true** if ALL required arguments are valid, **false**
+ * if any check fails, printing an error message in the process.
+ * @see validate_digits()
+ * @see validate_cases()
  */
 bool	check_arguments(char **arr)
 {
