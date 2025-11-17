@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 02:06:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/16 23:41:49 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/17 10:26:16 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 void	philo_think(t_philo *philo)
 {
 	print_status(philo, THINK);
+	ft_usleep(100);
 }
 
 /**
@@ -95,7 +96,7 @@ void	philo_eat(t_philo *philo)
  */
 void	drop_forks(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
+	if (philo->id == philo->data->n_philos)
 	{
 		pthread_mutex_unlock(philo->l_fork);
 		pthread_mutex_unlock(philo->r_fork);

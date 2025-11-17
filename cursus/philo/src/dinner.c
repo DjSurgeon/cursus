@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dinner.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 22:46:43 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/16 23:17:00 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/11/17 10:22:34 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ static bool	create_all_threads(t_data *data)
 		}
 		i++;
 	}
+	ft_usleep(100);
 	return (true);
 }
 
