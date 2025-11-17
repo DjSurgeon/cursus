@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 02:06:24 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/11/17 10:26:16 by serjimen         ###   ########.fr       */
+/*   Updated: 2025/11/17 11:58:01 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@
 void	philo_think(t_philo *philo)
 {
 	print_status(philo, THINK);
-	ft_usleep(100);
+	if (philo->data->n_philos % 2 != 0)
+		ft_usleep(100);
 }
 
 /**
