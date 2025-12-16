@@ -7,3 +7,9 @@
 [submodule "cursus/cursus/minishell"]
 	path = cursus/cursus/minishell
 	url = git@github.com:vjan-nie/Minishell.git
+[submodule "cursus/cube"]
+	path = cursus/cube
+	url = git@github.com:DjSurgeon/cub3D.git
+[submodule "cursus/mini"]
+	path = cursus/mini
+	url = git@github.com:vjan-nie/Minishell.git
