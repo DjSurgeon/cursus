@@ -1,3 +1,9 @@
 [submodule "cursus/philo/cursus/minishell/Minishell"]
 	path = cursus/philo/cursus/minishell/Minishell
 	url = https://github.com/V-J-N/Minishell
+[submodule "cursus/cursus/cube"]
+	path = cursus/cursus/cube
+	url = git@github.com:DjSurgeon/cub3D.git
+[submodule "cursus/cursus/minishell"]
+	path = cursus/cursus/minishell
+	url = git@github.com:vjan-nie/Minishell.git
