@@ -1,0 +1,109 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    ideas_tests                                        :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: vjan-nie <vjan-nie@student.42madrid.com    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/08/26 16:16:32 by vjan-nie          #+#    #+#              #
+#    Updated: 2025/08/27 11:27:04 by vjan-nie         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+ORIGINAL PIPE
+
+echo $SHELL
+
+comando de bash:
+
+< file1 cmd1 | cmd2 >file2
+
+-----------------------------------------------------
+
+Pruebas comunes:
+
+echo hola mundo | wc -w
+
+ls | grep mini | wc -l
+
+
+< infile ls -l | wc -l > outfile (debe crear outfile si no está)
+
+
+< infile grep a1 | wc -w > outfile (sobreescribe si ya hay outfile)
+
+
+Pruebas errores:
+
+No file:
+
+< infil ls -l | wc -l > outfile
+"bash: infil: No existe el archivo o el directorio" (pero crea outfile)
+
+
+No command:
+
+< infile lx -l | wx -l > outfile
+"lx: no se encontró la orden
+wx: no se encontró la orden"
+
+
++ Valgrind!
+valgrind --trace-children=yes
+
+MÁS:
+
+Comando que existe y está en el PATH:
+
+< infile grep ee | wc -w > outfile
+
+Comando con ruta relativa válida:
+
+< infile "./a.out" | cat > outfile
+(impresión prueba en outfile, se ignora infile porque execve ha ejecutado correctamente a.out, con lo que el proceso hijo es reemplazado por el ejecutable)
+
+Comando con ruta absoluta válida: (realpath ./a.out)
+
+< infile "/ruta_absoluta" | cat > outfile
+
+Ruta o comando inválidos:
+
+< infile gre ee | wc -w > outfile
+"Orden «gre» no encontrada."
+
+
+< infile "./no_existe" | cat > outfile
+"bash: ./no_existe: No existe el archivo o el directorio"
+
+
+Múltiples pipes:
+
+< infile ls -l | wc -l | cat > outfile
+
+Here_doc:
+
+ls -l << stop | wc -l | cat >> outfile
+
+Pruebas locas:
+
+< infile ls -l | wc -l | << cat | ls -l > outfile
+("cat" se toma como limitador, entra en el proceso here_doc, y luego al terminar hace un ls -l del directorio: parece que los procesos hijos de los pipes van independientemente, y si no se transmite la información no pasa nada. Out devuelve el último ls -l)
+
+
+< infile ls -l | wc -l | > outfile | cat > outfile
+(crea un archivo outfile vacío, supongo que porque el último comando hace cat sin introducir nada, o porque se haya creado en el penúltimo comando de append)
+
+< infile ls -l | wc -l | > outfile | < outfile | cat > outfile
+(igual que el caso anterior)
+
+< infile ls -l | wc -l | > outfile | < infile | cat > outfile
+(igual)
+
+
+Extra:
+
+- sleep (para ver que todo se sincroniza)
+- unset PATH
+- ulimit -n 4 (sólo podemos usar 4 fds?)
+- ls y algún otro puede tener bytes still reachable!
+- nm -u ./ejecutable (muestra funciones utilizadas)
