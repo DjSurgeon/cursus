@@ -6,35 +6,24 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/03 16:50:46 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/03 18:03:56 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/09 23:12:34 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <string>
+#include <cctype>
 
 void	megaphone(int argc, char *argv[])
 {
-	size_t		i;
-	size_t		j;
-	size_t		size;
-	char		c;
-	std::string	str;
-
-	for(i = 1; i < (size_t)argc; i++)
+	for (int i = 1; i < argc; i++)
 	{
-		str = argv[i];
-		size = str.size();
-		for (j = 0; j < size; j++)
-		{
-			c = argv[i][j];
-			str[j] = toupper(c);
-		}
-		if (i == (size_t)argc - 1)
-			std::cout << str << std::endl;
-		else
-			std::cout << str;
+		std::string	str = argv[i];
+		for (size_t j = 0; j < str.size(); j++)
+			str[j] = std::toupper(str[j]);
+		std::cout << str;
 	}
+	std::cout << std::endl;
 }
 
 int	main(int argc, char *argv[])

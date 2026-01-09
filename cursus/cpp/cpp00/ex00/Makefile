@@ -6,7 +6,7 @@
 #    By: sergio <sergio@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/03 13:37:35 by sergio            #+#    #+#              #
-#    Updated: 2026/01/03 15:29:01 by sergio           ###   ########.fr        #
+#    Updated: 2026/01/09 22:57:14 by sergio           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,21 +41,34 @@ SRC := megaphone.cpp
 OBJ := $(SRC:%.cpp=%.o)
 
 # **************************************************************************** #
+# Colors
+GREEN	:= \033[0;32m
+RED		:= \033[0;31m
+BLUE	:= \033[0;34m
+RESET	:= \033[0m
+
+# **************************************************************************** #
 # Rules
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CXX) $(CXXSTD) $(CXXFLAGS) $(OBJ) -o $(NAME)
+	@$(CXX) $(CXXSTD) $(CXXFLAGS) $(OBJ) -o $(NAME)
+	@echo -e "$(GREEN)✓ $(NAME) compiled successfully!$(RESET)"
 
 %.o: %.cpp
-	$(CXX) $(CXXSTD) $(CXXFLAGS) -c $< -o $@
+	@$(CXX) $(CXXSTD) $(CXXFLAGS) -c $< -o $@
+	@echo -e "$(BLUE)Compiling: $<$(RESET)"
 
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
+	@echo -e "$(RED)✗ Object files removed$(RESET)"
 
 fclean: clean
 
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo -e "$(RED)✗ $(NAME) removed$(RESET)"
+
+re: fclean all
 
 .PHONY: all clean fclean re
