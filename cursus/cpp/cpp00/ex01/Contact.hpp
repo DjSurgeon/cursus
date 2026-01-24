@@ -6,14 +6,14 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 00:04:17 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/17 19:06:59 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/24 17:01:36 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CONTACT_HPP
 # define CONTACT_HPP
 
-#include <string>
+# include <string>
 
 class Contact
 {

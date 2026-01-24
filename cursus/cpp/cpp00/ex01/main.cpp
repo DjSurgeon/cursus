@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 00:14:37 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/17 18:19:53 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/24 20:55:00 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	phonebook()
 	std::getline(std::cin, command);
 	if (command == "ADD")
 	{
-		Contact	person;
+		PhoneBook	person;
 		person.add_contact();
 	}
 	else if (command == "SEARCH")
@@ -40,7 +40,7 @@ void	phonebook()
 	}
 	else if (command == "EXIT")
 	{
-		
+		return ;
 	}
 	else
 	{
