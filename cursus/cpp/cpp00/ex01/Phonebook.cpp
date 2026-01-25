@@ -6,13 +6,14 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 00:03:22 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/24 21:05:03 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/25 02:12:56 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Phonebook.hpp"
 #include <iostream>
 #include <iomanip>
+#include <cstdlib>
 
 PhoneBook::PhoneBook()
 {
@@ -43,32 +44,28 @@ void	PhoneBook::_display_contact(size_t index)
 {
 	std::string temp;
 
-	std::cout << std::setw(10);
-	std::cout << index + "|";
-	std::cout << std::setw(10);
+	std::cout << std::setw(10) << index << "|";
 	if (_contacts[index].get_first().length() > 10)
 	{
 		temp = _contacts[index].get_first();
-		std::cout << temp.replace(7, 3, 3, '.') + "|";
+		std::cout << std::setw(10) << temp.substr(0, 10).replace(7, 3, 3, '.') << "|";
 	}
 	else
-		std::cout << _contacts[index].get_first() + "|";
-	std::cout << std::setw(10);
+		std::cout << std::setw(10) << _contacts[index].get_first() << "|";
 	if (_contacts[index].get_last().length() > 10)
 	{
 		temp = _contacts[index].get_last();
-		std::cout << temp.replace(7, 3, 3, '.') + "|";
+		std::cout << std::setw(10) << temp.substr(0, 10).replace(7, 3, 3, '.') << "|";
 	}
 	else
-		std::cout << _contacts[index].get_last() + "|";
-	std::cout << std::setw(10);
+		std::cout << std::setw(10) << _contacts[index].get_last() << "|";
 	if (_contacts[index].get_nick().length() > 10)
 	{
 		temp = _contacts[index].get_nick();
-		std::cout << temp.replace(7, 3, 3, '.') + "|" << std::endl;
+		std::cout << std::setw(10) << temp.substr(0, 10).replace(7, 3, 3, '.') << "|" << std::endl;
 	}
 	else
-		std::cout << _contacts[index].get_nick() + "|" << std::endl;
+		std::cout << std::setw(10) << _contacts[index].get_nick() << "|" << std::endl;
 }
 
 void	PhoneBook::add_contact()
@@ -80,20 +77,21 @@ void	PhoneBook::add_contact()
 	_contacts[_index].set_phone(_set_data("Insert phone number"));
 	_contacts[_index].set_dark(_set_data("Insert darkest secret"));
 	std::cout << "New contact succesfully added." << std::endl;
-	_count++;
+	if (_count < 8)
+		_count++;
 	_index = (_index + 1) % 8;
 }
 
 void	PhoneBook::search_contact(int index)
 {
-	if (_count == 0)
+	if (index < 0)
 	{
-		std::cout << "PhoneBook empty, please add a contact." << std::endl;
+		std::cout << "Index out of range." << std::endl;
 		return ;
 	}
-	if (index > _index || index < 0)
+	if (_count < 8 && index >= (int)_index)
 	{
-		std::cout << "Index out of range, please try again." << std::endl;
+		std::cout << "Index out of range." << std::endl;
 		return ;
 	}
 	_display_contact(index);
@@ -101,35 +99,17 @@ void	PhoneBook::search_contact(int index)
 
 void	PhoneBook::display_data()
 {
-	std::string temp;
+	std::string	index;
 
-	for (size_t i = 0; i < _index; i++)
+	for (size_t i = 0; i < _count; i++)
+		_display_contact(i);
+	std::cout << "Please enter index to display" << std::endl;
+	std::getline(std::cin, index);
+	if (std::isdigit(index[0]))
 	{
-		std::cout << std::setw(10);
-		std::cout << i + "|";
-		std::cout << std::setw(10);
-		if (_contacts[i].get_first().length() > 10)
-		{
-			temp = _contacts[i].get_first();
-			std::cout << temp.replace(7, 3, 3, '.') + "|";
-		}
-		else
-			std::cout << _contacts[i].get_first() + "|";
-		std::cout << std::setw(10);
-		if (_contacts[i].get_last().length() > 10)
-		{
-			temp = _contacts[i].get_last();
-			std::cout << temp.replace(7, 3, 3, '.') + "|";
-		}
-		else
-			std::cout << _contacts[i].get_last() + "|";
-		std::cout << std::setw(10);
-		if (_contacts[i].get_nick().length() > 10)
-		{
-			temp = _contacts[i].get_nick();
-			std::cout << temp.replace(7, 3, 3, '.') + "|" << std::endl;
-		}
-		else
-			std::cout << _contacts[i].get_nick() + "|" << std::endl;
+		int j = std::atoi(index.c_str());
+		search_contact(j);
 	}
+	else
+		std::cout << "Incorrect index." << std::endl;
 }

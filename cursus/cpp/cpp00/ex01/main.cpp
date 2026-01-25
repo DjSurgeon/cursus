@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 00:14:37 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/24 20:55:00 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/25 01:49:52 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,39 @@ void	instructions()
 
 void	phonebook()
 {
-	instructions();
+	PhoneBook	person;
 	std::string	command;
-	std::getline(std::cin, command);
-	if (command == "ADD")
+	std::string	index;
+
+	instructions();
+	while (1)
 	{
-		PhoneBook	person;
-		person.add_contact();
-	}
-	else if (command == "SEARCH")
-	{
-		
-	}
-	else if (command == "EXIT")
-	{
-		return ;
-	}
-	else
-	{
-		instructions();
+		std::getline(std::cin, command);
+		if (command == "ADD")
+		{
+			person.add_contact();
+			continue ;
+		}
+		else if (command == "SEARCH")
+		{
+			person.display_data();
+			continue ;
+		}
+		else if (command == "EXIT")
+		{
+			break ;
+		}
+		else
+		{
+			std::cout << "Unkown command, try again" << std::endl;
+			instructions();
+		}
 	}
 }
 
 int	main(void)
 {
-	while (1)
-	{
-		phonebook();
-	}
+	phonebook();
+
 	return (0);
 }
