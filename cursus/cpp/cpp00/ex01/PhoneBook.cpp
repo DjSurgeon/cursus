@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Phonebook.cpp                                      :+:      :+:    :+:   */
+/*   PhoneBook.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 00:03:22 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/25 02:12:56 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/26 15:03:29 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Phonebook.hpp"
+#include "PhoneBook.hpp"
 #include <iostream>
 #include <iomanip>
 #include <cstdlib>
@@ -29,15 +29,22 @@ std::string	PhoneBook::_set_data(const std::string& data)
 {
 	std::string	temp;
 
-	std::cout << data << std::endl;
+	std::cout << data << ": ";
 	std::getline(std::cin, temp);
 	while (temp.empty())
 	{
+		if (std::cin.eof())
+			exit(-1);
 		std::cout << "Error!" << std::endl;
 		std::cout << "Please insert data for your new contact" << std::endl;
 		std::getline(std::cin, temp);
 	}
 	return (temp);
+}
+
+std::string	PhoneBook::_truncate(const std::string& str)
+{
+	return (str.substr(0, 9) + ".");
 }
 
 void	PhoneBook::_display_contact(size_t index)
@@ -48,21 +55,21 @@ void	PhoneBook::_display_contact(size_t index)
 	if (_contacts[index].get_first().length() > 10)
 	{
 		temp = _contacts[index].get_first();
-		std::cout << std::setw(10) << temp.substr(0, 10).replace(7, 3, 3, '.') << "|";
+		std::cout << std::setw(10) << _truncate(temp) << "|";
 	}
 	else
 		std::cout << std::setw(10) << _contacts[index].get_first() << "|";
 	if (_contacts[index].get_last().length() > 10)
 	{
 		temp = _contacts[index].get_last();
-		std::cout << std::setw(10) << temp.substr(0, 10).replace(7, 3, 3, '.') << "|";
+		std::cout << std::setw(10) << _truncate(temp) << "|";
 	}
 	else
 		std::cout << std::setw(10) << _contacts[index].get_last() << "|";
 	if (_contacts[index].get_nick().length() > 10)
 	{
 		temp = _contacts[index].get_nick();
-		std::cout << std::setw(10) << temp.substr(0, 10).replace(7, 3, 3, '.') << "|" << std::endl;
+		std::cout << std::setw(10) << _truncate(temp) << "|" << std::endl;
 	}
 	else
 		std::cout << std::setw(10) << _contacts[index].get_nick() << "|" << std::endl;
@@ -76,7 +83,7 @@ void	PhoneBook::add_contact()
 	_contacts[_index].set_nick(_set_data("Insert nick name"));
 	_contacts[_index].set_phone(_set_data("Insert phone number"));
 	_contacts[_index].set_dark(_set_data("Insert darkest secret"));
-	std::cout << "New contact succesfully added." << std::endl;
+	std::cout << "New contact successfully added." << std::endl;
 	if (_count < 8)
 		_count++;
 	_index = (_index + 1) % 8;
@@ -84,12 +91,7 @@ void	PhoneBook::add_contact()
 
 void	PhoneBook::search_contact(int index)
 {
-	if (index < 0)
-	{
-		std::cout << "Index out of range." << std::endl;
-		return ;
-	}
-	if (_count < 8 && index >= (int)_index)
+	if (index < 0 || index >= static_cast<int>(_count))
 	{
 		std::cout << "Index out of range." << std::endl;
 		return ;
@@ -101,11 +103,16 @@ void	PhoneBook::display_data()
 {
 	std::string	index;
 
+	if (_count == 0)
+	{
+		std::cout << "PhoneBook is empty" << std::endl;
+		return ;
+	}
 	for (size_t i = 0; i < _count; i++)
 		_display_contact(i);
 	std::cout << "Please enter index to display" << std::endl;
 	std::getline(std::cin, index);
-	if (std::isdigit(index[0]))
+	if (index.length() == 1 && std::isdigit(index[0]))
 	{
 		int j = std::atoi(index.c_str());
 		search_contact(j);

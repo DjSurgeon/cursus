@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 23:50:09 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/24 20:31:45 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/26 14:29:25 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ private:
 	size_t		_index;
 	size_t		_count;
 	std::string	_set_data(const std::string& data);
+	std::string	_truncate(const std::string& str);
 	void		_display_contact(size_t index);
 public:
 	PhoneBook();

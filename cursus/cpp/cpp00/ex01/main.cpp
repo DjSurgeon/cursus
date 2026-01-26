@@ -6,16 +6,16 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 00:14:37 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/25 01:49:52 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/26 15:03:24 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Contact.hpp"
-#include "Phonebook.hpp"
+#include "PhoneBook.hpp"
 #include <iostream>
 #include <iomanip>
 
-void	instructions()
+void	instructions(void)
 {
 	std::cout << "Welcome to the 80's awesome phonebook." << std::endl;
 	std::cout << "Use: \"ADD\": to add a contact." <<std::endl;
@@ -24,16 +24,14 @@ void	instructions()
 	std::cout << "Enjoy!!." <<std::endl;
 }
 
-void	phonebook()
+void	phonebook(void)
 {
 	PhoneBook	person;
 	std::string	command;
-	std::string	index;
 
 	instructions();
-	while (1)
+	while (std::getline(std::cin, command))
 	{
-		std::getline(std::cin, command);
 		if (command == "ADD")
 		{
 			person.add_contact();
@@ -50,7 +48,7 @@ void	phonebook()
 		}
 		else
 		{
-			std::cout << "Unkown command, try again" << std::endl;
+			std::cout << "Unknown command, try again" << std::endl;
 			instructions();
 		}
 	}
