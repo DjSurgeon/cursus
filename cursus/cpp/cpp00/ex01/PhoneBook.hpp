@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Phonebook.hpp                                      :+:      :+:    :+:   */
+/*   PhoneBook.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 23:50:09 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/26 14:29:25 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/26 19:04:45 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,27 @@
 # define PHONEBOOK_HPP
 
 # include "Contact.hpp"
+# include <iostream>
+# include <iomanip>
+# include <cstdlib>
 
+/// @brief Manages the phonebook with a maximum of 8 contacts.
 class PhoneBook
 {
-private:
-	Contact		_contacts[8];
-	size_t		_index;
-	size_t		_count;
-	std::string	_set_data(const std::string& data);
-	std::string	_truncate(const std::string& str);
-	void		_display_contact(size_t index);
 public:
 	PhoneBook();
 	~PhoneBook();
-	void		add_contact();
-	void		search_contact(int index);
-	void		display_data();
+	void		addContact();
+	void		displayData();
+private:
+	Contact		_contacts[8];
+	size_t		_index;
+	size_t		_counter;
+	std::string	_setData(const std::string& input);
+	void		_searchContact();
+	std::string	_truncate(const std::string& info);
+	void		_displayContact(size_t index);
+	void		_displayAllContactInfo(size_t index);
 };
 
 #endif

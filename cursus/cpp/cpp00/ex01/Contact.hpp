@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/17 00:04:17 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/24 17:01:36 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/26 18:37:28 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,28 @@
 
 # include <string>
 
+/// @brief Represents a single phonebook contact with personal details.
 class Contact
 {
-private:
-	std::string	_first_name;
-	std::string	_last_name;
-	std::string	_nickname;
-	std::string	_phone_number;
-	std::string	_darkest_secret;
 public:
 	Contact();
 	~Contact();
-	void		set_first(const std::string& first_name);
-	void		set_last(const std::string& last_name);
-	void		set_nick(const std::string& nickname);
-	void		set_phone(const std::string& phone_number);
-	void		set_dark(const std::string& darkest_secret);
-	std::string	get_first() const;
-	std::string	get_last() const;
-	std::string	get_nick() const;
+	void		setFirstName(const std::string& firstName);
+	void		setLastName(const std::string& lastName);
+	void		setNickName(const std::string& nickName);
+	void		setPhoneNumber(const std::string& phoneNumber);
+	void		setDarkestSecret(const std::string& darkestSecret);
+	std::string	getFirstName() const;
+	std::string	getLastName() const;
+	std::string	getNickName() const;
+	std::string	getPhoneNumber() const;
+	std::string	getDarkestSecret() const;
+private:
+	std::string	_firstName;
+	std::string	_lastName;
+	std::string	_nickName;
+	std::string	_phoneNumber;
+	std::string	_darkestSecret;
 };
 
 #endif
