@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Zombie.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:52:37 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/29 12:50:55 by serjimen         ###   ########.fr       */
+/*   Updated: 2026/01/29 14:08:11 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ Zombie::Zombie()
 
 Zombie::Zombie(const std::string& zombieName) : _name(zombieName)
 {
-	std::cout << "Hi!! I'm the Zombie! 🧟" << _name << std::endl;
 }
 
 Zombie::~Zombie()

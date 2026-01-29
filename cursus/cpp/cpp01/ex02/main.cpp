@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   zombieHorde.cpp                                    :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/29 10:29:53 by serjimen          #+#    #+#             */
-/*   Updated: 2026/01/29 14:06:57 by sergio           ###   ########.fr       */
+/*   Created: 2026/01/29 14:10:30 by sergio            #+#    #+#             */
+/*   Updated: 2026/01/29 14:13:32 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Zombie.hpp"
+#include <iostream>
+#include <string>
 
-Zombie*	zombieHorde(int n, std::string name)
+int main(void)
 {
-	if (n <= 0)
-		return (NULL);
-	Zombie* horde = new Zombie[n];
-	for (int i = 0; i < n; i++)
-	{
-		std::cout << "Zombie number: " << i + 1 << std::endl;
-		horde[i].setName(name);
-		horde[i].announce();
-	}
-	std::cout << n << " Zombies created..." << std::endl;
-	return (horde);
+	std::string str = "HI THIS IS BRAIN";
+
+	std::string stringPTR* = str;
+	std::string stringREF& = str;
 }
