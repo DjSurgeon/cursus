@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 14:43:44 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/29 11:34:00 by serjimen         ###   ########.fr       */
+/*   Created: 2026/01/29 10:44:16 by serjimen          #+#    #+#             */
+/*   Updated: 2026/01/29 11:49:05 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,8 @@
 
 int	main(void)
 {
-	randomChump("Stack 1");
-	Zombie* heap1 = newZombie("Heap 1");
-	randomChump("Stack 2");
-	Zombie* heap2 = newZombie("Heap 2");
-	delete heap1;
-	randomChump("Stack 3");
-	delete heap2;
+	Zombie* horde = zombieHorde(5, "Bob");
+	std::cout << horde << std::endl;
+	delete[] horde;
 	return (0);
 }

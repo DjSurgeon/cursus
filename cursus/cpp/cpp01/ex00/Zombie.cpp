@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Zombie.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:52:37 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/27 14:58:04 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/29 11:33:06 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
 
-Zombie::Zombie(std::string zombieName) : _name(zombieName)
+Zombie::Zombie(const std::string& zombieName) : _name(zombieName)
 {
 	std::cout << "Hi!! I'm a Zombie! 🧟" << std::endl;
 }

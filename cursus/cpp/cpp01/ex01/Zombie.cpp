@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Zombie.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 14:43:44 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/29 11:34:00 by serjimen         ###   ########.fr       */
+/*   Created: 2026/01/27 13:52:37 by sergio            #+#    #+#             */
+/*   Updated: 2026/01/29 11:50:00 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
 
-int	main(void)
+Zombie::Zombie()
 {
-	randomChump("Stack 1");
-	Zombie* heap1 = newZombie("Heap 1");
-	randomChump("Stack 2");
-	Zombie* heap2 = newZombie("Heap 2");
-	delete heap1;
-	randomChump("Stack 3");
-	delete heap2;
-	return (0);
+}
+
+Zombie::Zombie(std::string zombieName) : _name(zombieName)
+{
+	std::cout << "Hi!! I'm the Zombie! 🧟" << _name << std::endl;
+}
+
+Zombie::~Zombie()
+{
+	std::cout << "🧠 zombie say goodbye!! His brain was broken." << std::endl;
 }
