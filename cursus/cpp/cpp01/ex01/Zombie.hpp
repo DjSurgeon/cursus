@@ -6,7 +6,7 @@
 /*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:52:21 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/29 11:41:39 by serjimen         ###   ########.fr       */
+/*   Updated: 2026/01/29 12:45:26 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ class Zombie
 {
 public:
 	Zombie();
-	Zombie(std::string zombieName);
+	Zombie(const std::string&	zombieName);
 	~Zombie();
+	void		announce() const;
+	void		setName(const std::string& name);
 private:
 	std::string	_name;
 };
