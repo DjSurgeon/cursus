@@ -775,3 +775,88 @@ int main() {
     return 0;
 }
 ```
+
+### 1. ¿Qué es una dirección de memoria?
+La memoria del ordenador se organiza como un conjunto de **celdas**, típicamente de 1 byte, donde cada una tiene una **dirección** asociada única que permite acceder a su ubicación. Es el lugar físico dentro de la memoria (como el *Stack* o el *Heap*) donde se aloja el contenido de una variable. Estas direcciones suelen representarse como valores hexadecimales (por ejemplo, `0x28ff0c`),.
+
+### 2. ¿Qué guarda un puntero?
+Un puntero es una variable cuyo contenido es la **dirección de memoria** de otra variable,,. A diferencia de una variable normal que guarda un dato (como un `int` o `char`), el puntero guarda la ubicación donde reside ese dato, permitiendo acceder a él indirectamente. Un puntero puede no apuntar a nada válido si se le asigna el valor `nullptr` (o `NULL`),.
+
+### 3. ¿Qué es un alias?
+En C++, una referencia es técnicamente un **alias**: un nombre alternativo para una variable que ya existe,,. No es una copia del dato, sino otra etiqueta para acceder a la misma posición de memoria. Una vez definida, la referencia y la variable original son indistinguibles,.
+
+### 4. ¿Por qué una referencia no puede ser NULL?
+Una referencia **debe inicializarse** obligatoriamente en el momento de su declaración, vinculándose a un objeto válido,. No existe el concepto de "referencia nula" en C++; debe existir un objeto al cual referirse desde el principio,. Esto proporciona un contrato de seguridad implícito de que el valor existe, a diferencia de los punteros que pueden ser nulos y causar errores si no se verifican.
+
+### 5. ¿Por qué una referencia no se puede reasignar?
+El enlace entre una referencia y su objeto es **inmutable**; una vez que una referencia se inicializa con una variable, queda ligada a ella para siempre,. Si intentas asignar una nueva variable a la referencia (`ref = otraVariable`), no cambias a "quién" apunta la referencia, sino que cambias el **valor** de la variable original a la que la referencia estaba ligada. Los punteros, en cambio, sí pueden "re-apuntar" a diferentes direcciones durante su vida útil.
+
+### 6. Diferencia entre `&` en declaración y `&` en expresión
+El símbolo `&` tiene significados opuestos según el contexto:
+*   **En una declaración (`int& ref`):** Define el **tipo** de la variable como una referencia. Indica que se está creando un alias,.
+*   **En una expresión (`&variable`):** Actúa como el **operador de dirección** (address-of operator). Se utiliza para obtener la dirección de memoria de una variable (algo necesario, por ejemplo, para inicializar un puntero),,.
+
+### 7. Diferencia entre pasar por referencia y por valor
+*   **Paso por valor:** Se crea una **copia** del argumento en la pila de la función. Los cambios realizados dentro de la función no afectan a la variable original fuera de ella,.
+*   **Paso por referencia:** Se pasa la dirección de memoria (el alias), no una copia. La función opera directamente sobre la variable original, por lo que cualquier cambio dentro de la función se refleja fuera,,. Es más eficiente para objetos grandes porque evita la copia.
+
+---
+
+### Ejemplo de Código Completo
+
+```cpp
+#include <iostream>
+
+// Función paso por VALOR (copia)
+void pasoPorValor(int x) {
+    x = 100; // Solo modifica la copia local 'x'
+    std::cout << "Dentro de pasoPorValor: " << x << " (dir: " << &x << ")" << std::endl;
+}
+
+// Función paso por REFERENCIA (alias)
+void pasoPorReferencia(int& x) { // El '&' aquí indica DECLARACIÓN de referencia
+    x = 200; // Modifica la variable original
+    std::cout << "Dentro de pasoPorReferencia: " << x << " (dir: " << &x << ")" << std::endl;
+}
+
+int main() {
+    int numero = 10;
+    
+    // --- CONCEPTOS DE DIRECCIÓN Y PUNTERO ---
+    // '&' en expresión: Operador de dirección
+    std::cout << "Valor de numero: " << numero << std::endl;
+    std::cout << "Direccion de memoria (&numero): " << &numero << std::endl;
+
+    // Puntero: Guarda la dirección
+    int* puntero = &numero; 
+    std::cout << "Valor del puntero (direccion): " << puntero << std::endl;
+    std::cout << "Valor apuntado (*puntero): " << *puntero << std::endl;
+
+    // --- CONCEPTO DE ALIAS (REFERENCIA) ---
+    // '&' en declaración: Define una referencia
+    int& alias = numero; 
+    
+    // Demostración: alias y numero comparten dirección
+    std::cout << "Direccion de alias: " << &alias << std::endl; // Misma que &numero
+
+    // --- REASIGNACIÓN (IMPOSIBLE EN REFERENCIAS) ---
+    int otroNumero = 50;
+    alias = otroNumero; 
+    // ¡OJO! Esto NO hace que 'alias' apunte a 'otroNumero'.
+    // Esto asigna el VALOR 50 a la variable original 'numero'.
+    std::cout << "Nuevo valor de numero tras (alias = 50): " << numero << std::endl;
+
+    // --- PASO POR VALOR VS REFERENCIA ---
+    std::cout << "\n--- Pruebas de funciones ---" << std::endl;
+    
+    numero = 0;
+    pasoPorValor(numero);
+    std::cout << "Main despues de Valor: " << numero << " (Sin cambios)" << std::endl;
+
+    pasoPorReferencia(numero);
+    std::cout << "Main despues de Referencia: " << numero << " (Cambio reflejado)" << std::endl;
+
+    return 0;
+}
+```
+

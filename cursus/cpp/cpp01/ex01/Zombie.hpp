@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Zombie.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:52:21 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/29 12:45:26 by serjimen         ###   ########.fr       */
+/*   Updated: 2026/01/30 23:20:53 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ private:
 	std::string	_name;
 };
 
-Zombie*		zombieHorde(int n, std::string name);
+Zombie*		zombieHorde(int n, const std::string& name);
 
 #endif

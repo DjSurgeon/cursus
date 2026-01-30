@@ -6,13 +6,17 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 10:29:53 by serjimen          #+#    #+#             */
-/*   Updated: 2026/01/29 14:06:57 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/30 23:30:51 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Zombie.hpp"
 
-Zombie*	zombieHorde(int n, std::string name)
+/// @brief Allocates N zombies in a single allocation.
+/// @param n The number of zombies to create.
+/// @param name The name to give to each zombie.
+/// @return A pointer to the first zombie of the horde.
+Zombie*	zombieHorde(int n, const std::string& name)
 {
 	if (n <= 0)
 		return (NULL);
@@ -21,7 +25,6 @@ Zombie*	zombieHorde(int n, std::string name)
 	{
 		std::cout << "Zombie number: " << i + 1 << std::endl;
 		horde[i].setName(name);
-		horde[i].announce();
 	}
 	std::cout << n << " Zombies created..." << std::endl;
 	return (horde);
