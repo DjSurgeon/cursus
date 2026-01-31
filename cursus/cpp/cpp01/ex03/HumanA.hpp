@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 00:27:54 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/31 03:02:12 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/31 09:19:42 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 # include "Weapon.hpp"
 
+/// @brief Represents a human that IS ALWAYS ARMED.
 class HumanA
 {
 public:
-	HumanA(std::string name, Weapon& type);
+	HumanA(const std::string& name, Weapon& weapon);
 	~HumanA();
 	void	attack() const;
-	const std::string& getName() const;
 private:
 	std::string	_name;
-	Weapon&		_type;
+	Weapon&		_weapon;
 };
 
 #endif

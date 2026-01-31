@@ -859,4 +859,144 @@ int main() {
     return 0;
 }
 ```
+## A. File Streams (`<fstream>`)
 
+C++ maneja los archivos como flujos de datos (*streams*), utilizando la biblioteca `<fstream>`. Esto permite usar operadores como `<<` y `>>` de la misma forma que con `cin` y `cout`,.
+
+### 1. `std::ifstream` (Input File Stream)
+Es la clase utilizada para **leer** el contenido de un archivo.
+*   **Método `.open()`:** Asocia el objeto stream con un archivo físico. A menudo se hace directamente en el constructor, pero se puede llamar explícitamente. Si el archivo no existe, la apertura fallará.
+*   **Método `.is_open()`:** Verifica si el archivo se ha abierto correctamente y está listo para operaciones de lectura. Es fundamental comprobar esto antes de intentar leer para evitar errores,.
+*   **Método `.rdbuf()`:** Devuelve un puntero al búfer del archivo (file buffer). Es un "truco" muy eficiente para volcar todo el contenido de un archivo en otro stream (como `std::stringstream` o `std::cout`) sin tener que leer línea por línea.
+
+### 2. `std::ofstream` (Output File Stream)
+Es la clase utilizada para **crear y escribir** en archivos,.
+*   Por defecto, si el archivo no existe, lo crea. Si existe, lo trunca (borra su contenido anterior) a menos que se especifique el modo `std::ios::app`,.
+
+**Ejemplo de Código: Lectura y Escritura con Streams**
+
+```cpp
+#include <iostream>
+#include <fstream> // Necesario para ifstream, ofstream
+#include <sstream> // Necesario para stringstream
+
+int main() {
+    // 1. Abrir archivo para LECTURA
+    std::ifstream archivoEntrada("original.txt");
+
+    // 2. Verificar apertura con .is_open()
+    if (!archivoEntrada.is_open()) {
+        std::cerr << "Error: No se pudo abrir el archivo original." << std::endl;
+        return 1;
+    }
+
+    // 3. Uso de .rdbuf() para cargar todo el contenido
+    // Cargamos el buffer del archivo en un stringstream
+    std::stringstream buffer;
+    buffer << archivoEntrada.rdbuf(); 
+    
+    // Convertimos el stream a un std::string para manipularlo
+    std::string contenido = buffer.str(); 
+
+    // Cerramos el archivo de entrada ya que tenemos los datos
+    archivoEntrada.close();
+
+    // --- (Aquí iría la lógica de manipulación de strings) ---
+
+    // 4. Abrir archivo para ESCRITURA (.replace)
+    // std::ofstream crea el archivo si no existe
+    std::ofstream archivoSalida("original.replace");
+    
+    if (archivoSalida.is_open()) {
+        archivoSalida << contenido; // Escribimos el contenido
+        archivoSalida.close();      // Cerramos al terminar
+    }
+
+    return 0;
+}
+```
+
+---
+
+## B. Manipulación de Strings (Sin `replace`)
+
+Dado que el sujeto prohíbe `std::string::replace`, debemos construir nuestra propia lógica de "buscar y reemplazar" utilizando herramientas más básicas proporcionadas por la clase `std::string`.
+
+### Herramientas permitidas
+
+1.  **`find(string, pos)`:** Busca la primera aparición de una subcadena.
+    *   Devuelve la posición (índice, `size_t`) donde comienza la subcadena.
+    *   Si no encuentra nada, devuelve la constante `std::string::npos`,.
+    *   El parámetro `pos` indica desde dónde empezar a buscar.
+
+2.  **`erase(pos, len)`:** Elimina una porción de la cadena actual.
+    *   `pos`: Índice donde empezar a borrar.
+    *   `len`: Cantidad de caracteres a borrar,.
+
+3.  **`insert(pos, string)`:** Inserta una nueva cadena en una posición específica, desplazando el contenido existente hacia la derecha,.
+
+4.  **`substr(pos, len)`:** Crea y devuelve una *nueva* cadena que es una copia de un fragmento de la original. Útil si quisiéramos construir el resultado en una variable nueva en lugar de modificar la existente,.
+
+### Algoritmo de Sustitución Manual
+La lógica para reemplazar todas las ocurrencias de `s1` por `s2` en un texto es:
+1.  Buscar `s1` en el texto.
+2.  Si se encuentra, borrar `s1` (usando su longitud).
+3.  Insertar `s2` en la misma posición.
+4.  Actualizar la posición de búsqueda para continuar *después* de la inserción (esto evita bucles infinitos si `s2` contiene a `s1`).
+
+**Ejemplo de Código: Buscar y Reemplazar Manual**
+
+```cpp
+#include <iostream>
+#include <string> //
+
+void customReplace(std::string& texto, const std::string& buscar, const std::string& reemplazar) {
+    if (buscar.empty()) return; // Evitar bucles infinitos si la cadena a buscar es vacía
+
+    size_t pos = 0;
+    
+    // Bucle: Buscamos 'buscar' empezando desde 'pos'
+    // find devuelve std::string::npos si no encuentra nada
+    while ((pos = texto.find(buscar, pos)) != std::string::npos) {
+        
+        // 1. Borramos la palabra antigua
+        // erase(posición, longitud)
+        texto.erase(pos, buscar.length());
+
+        // 2. Insertamos la palabra nueva en el hueco
+        // insert(posición, nueva_cadena)
+        texto.insert(pos, reemplazar);
+
+        // 3. Avanzamos el índice 'pos'.
+        // Importante: sumamos la longitud del reemplazo para no volver a encontrar 
+        // lo que acabamos de insertar (evita recursión infinita).
+        pos += reemplazar.length();
+    }
+}
+
+int main() {
+    std::string data = "El perro corre en el parque. El perro es rapido.";
+    std::string s1 = "perro";
+    std::string s2 = "gato";
+
+    std::cout << "Original: " << data << std::endl;
+
+    customReplace(data, s1, s2);
+
+    std::cout << "Reemplazado: " << data << std::endl;
+    
+    // Ejemplo rápido de substr (no usado en la lógica anterior, pero solicitado):
+    // Extrae "gato" de la cadena modificada
+    // Supongamos que "El " ocupa 3 chars, "gato" empieza en índice 3 y mide 4.
+    std::string sub = data.substr(3, 4); 
+    std::cout << "Substr ejemplo: " << sub << std::endl; // Imprime "gato"
+
+    return 0;
+}
+```
+
+### Resumen de la Lógica Combinada
+Al unir ambos conceptos para tu ejercicio:
+1.  Usas `ifstream` y `.rdbuf()` para leer todo el archivo en un `std::string`.
+2.  Aplicas el algoritmo de bucle `find` + `erase` + `insert` sobre ese string.
+3.  Usas `ofstream` para volcar el string modificado al archivo `.replace`.

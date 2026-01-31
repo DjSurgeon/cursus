@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 00:56:50 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/31 03:02:31 by sergio           ###   ########.fr       */
+/*   Updated: 2026/01/31 09:35:25 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 
 #include "Weapon.hpp"
 
+/// @brief Represents a human that MAY or MAY NOT have a weapon.
 class HumanB
 {
 public:
-	HumanB(std::string name);
+	HumanB(const std::string& name);
 	~HumanB();
 	void				attack() const;
-	const std::string&	getName() const;
-	void				setWeapon(Weapon& type);
+	void				setWeapon(Weapon& weapon);
 private:
 	std::string	_name;
-	Weapon*		_type;
+	Weapon*		_weapon;
 };
 
 #endif
