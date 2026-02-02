@@ -1053,3 +1053,242 @@ buffer << infile.rdbuf();
 
 **¿Por qué es eficiente?**
 Este método evita los bucles explícitos (como `while(getline(...))`) y la reasignación constante de memoria de las cadenas. Copia el bloque de memoria del archivo directamente al búfer del string en una sola operación optimizada. Una vez hecho esto, puedes obtener el string completo con `buffer.str()`.
+
+---
+
+### 1. Declaración de un puntero a función miembro (void, sin parámetros)
+
+Para declarar un puntero a una función miembro que no devuelve nada (`void`) y no recibe parámetros, se debe especificar el tipo de retorno, el ámbito de la clase con `::`, el asterisco `*` junto al nombre del puntero y la lista de argumentos vacía.
+
+*   **Sintaxis:** `void (NombreClase::*NombrePuntero)();`,.
+*   **Asignación:** Se debe usar el operador `&` y el nombre calificado de la clase: `puntero = &NombreClase::Metodo;`,,.
+
+**Ejemplo:**
+```cpp
+class Tarea {
+public:
+    void ejecutar() { std::cout << "Ejecutando..." << std::endl; }
+};
+
+int main() {
+    // Declaración
+    void (Tarea::*ptrFunc)();
+    
+    // Asignación (Note el uso de & y el nombre de la clase)
+    ptrFunc = &Tarea::ejecutar; 
+    
+    return 0;
+}
+```
+
+### 2. Diferencia entre `obj.*ptr` y `obj->*ptr`
+
+La diferencia radica en cómo se accede al objeto sobre el cual se invocará la función miembro:
+
+*   **`obj.*ptr` (Operador `.*`)**: Se utiliza cuando tienes una **instancia** directa del objeto o una referencia al mismo,,.
+*   **`obj->*ptr` (Operador `->*`)**: Se utiliza cuando tienes un **puntero** al objeto,,.
+
+**Nota crítica de sintaxis:** Debido a que el operador de llamada a función `()` tiene mayor precedencia que `.*` y `->*`, es **obligatorio** usar paréntesis alrededor de la expresión del puntero para invocar la función: `(objeto.*puntero)()`,,.
+
+**Ejemplo:**
+```cpp
+Tarea tarea;           // Instancia
+Tarea* ptrTarea = &tarea; // Puntero a instancia
+void (Tarea::*ptrFunc)() = &Tarea::ejecutar;
+
+// Caso 1: Instancia
+(tarea.*ptrFunc)();    // Uso de .*
+
+// Caso 2: Puntero
+(ptrTarea->*ptrFunc)(); // Uso de ->*
+```
+
+### 3. Inicialización de un array de punteros a funciones miembro
+
+C++ permite crear arrays de punteros. Para funciones miembro, esto es útil para seleccionar qué método ejecutar basándose en un índice. Se inicializa utilizando llaves `{}` y las direcciones de los métodos de la clase,.
+
+**Ejemplo:**
+```cpp
+#include <iostream>
+#include <string>
+
+class Harl {
+public:
+    void debug() { std::cout << "Debug msg" << std::endl; }
+    void info() { std::cout << "Info msg" << std::endl; }
+    void warning() { std::cout << "Warning msg" << std::endl; }
+    void error() { std::cout << "Error msg" << std::endl; }
+
+    void quejarse(int nivel) {
+        // Declaración e inicialización del array de punteros a miembro
+        void (Harl::*funciones[])() = {
+            &Harl::debug,
+            &Harl::info,
+            &Harl::warning,
+            &Harl::error
+        };
+
+        // Ejecución usando el array y el puntero 'this'
+        (this->*funciones[nivel])(); 
+    }
+};
+```
+
+### 4. Búsqueda de un string en un array de estructuras
+
+Para asociar cadenas de texto (niveles como "DEBUG", "INFO") con funciones, se suele usar un array de estructuras. Cada estructura contiene el nombre (`std::string`) y el puntero a la función correspondiente. Se recorre el array comparando el string buscado con el almacenado,.
+
+**Ejemplo:**
+```cpp
+struct Nivel {
+    std::string nombre;
+    void (Harl::*funcion)();
+};
+
+void Harl::buscarYEjecutar(std::string nivelEntrada) {
+    // Array de estructuras para mapear texto -> función
+    Nivel niveles[] = {
+        {"DEBUG", &Harl::debug},
+        {"INFO", &Harl::info},
+        {"WARNING", &Harl::warning},
+        {"ERROR", &Harl::error}
+    };
+
+    for (int i = 0; i < 4; i++) {
+        // Usamos compare() u operator== para buscar el string
+        if (niveles[i].nombre == nivelEntrada) {
+            (this->*niveles[i].funcion)();
+            return;
+        }
+    }
+    std::cout << "Nivel no encontrado" << std::endl;
+}
+```
+
+### 5. ¿Qué pasa si el usuario introduce un nivel que no existe?
+
+Si el usuario introduce un nivel que no coincide con ninguna de las opciones en el array:
+
+1.  **En una búsqueda lineal (string):** Si el bucle termina sin encontrar coincidencias, el programa simplemente continúa. Es buena práctica implementar un mensaje de error o un comportamiento por defecto (como en el ejemplo anterior) para informar al usuario,.
+2.  **En acceso directo por índice (int):** Si intentas acceder a `funciones[nivel]` y `nivel` está fuera del rango del array (por ejemplo, índice 5 en un array de 4), ocurrirá un **comportamiento indefinido** o una violación de segmento (*segmentation fault*). Esto sucede porque estás intentando leer o ejecutar una dirección de memoria que no pertenece al array, lo cual puede contener basura o estar protegida por el sistema operativo,,.
+
+**Prevención:** Siempre se debe validar que el índice esté dentro de los límites o manejar el caso "no encontrado" antes de intentar desreferenciar el puntero.
+
+---
+
+### 1. Estructura de `switch`
+
+La sentencia `switch` es una estructura de control condicional múltiple que permite ejecutar diferentes bloques de código basándose en el valor de una expresión. Es una alternativa más limpia a múltiples `if-else if` cuando se evalúa una misma variable contra constantes específicas.
+
+**Sintaxis Básica:**
+```cpp
+switch (expresion) {
+    case valor_constante1:
+        // instrucciones
+        break;
+    case valor_constante2:
+        // instrucciones
+        break;
+    default:
+        // instrucciones por defecto si no hay coincidencia
+        break;
+}
+```
+
+**Reglas Importantes:**
+*   **Tipos permitidos:** La `expresion` evaluada debe ser de un **tipo integral** (`int`, `char`, `long`, `enum`). En C++ (especialmente en C++98), **no se puede hacer un `switch` directo sobre `std::string`** ni cadenas de texto,.
+*   **Constantes:** Los valores de los `case` deben ser expresiones constantes conocidas en tiempo de compilación y únicas dentro del switch,.
+
+**Aplicación para Harl (Strings):**
+Dado que `switch` no acepta strings, para el ejercicio "Harl filter" primero debes convertir el nivel de texto ("DEBUG", "INFO", etc.) a una representación entera (0, 1, 2, 3) comparando el string de entrada con los niveles conocidos.
+
+---
+
+### 2. Break y "Fall-Through" (Caída en cascada)
+
+Este es el concepto clave para el filtro de niveles jerárquicos.
+
+*   **Break:** La instrucción `break` detiene la ejecución dentro del bloque `switch` y salta fuera de él. Si se omite, el programa continúa ejecutando las instrucciones del siguiente `case`, independientemente de si la condición de ese siguiente caso se cumple o no,.
+*   **Fall-Through:** Es la ejecución continuada hacia los casos inferiores por la ausencia de `break`. Aunque a menudo es un error lógico, es una **característica deseada** para niveles jerárquicos,.
+
+**Lógica del Filtro Harl:**
+Si quieres mostrar mensajes desde un nivel específico hacia arriba (por ejemplo, si el nivel es "INFO", mostrar INFO, WARNING y ERROR), utilizas el *fall-through*:
+1.  Encuentras el caso "INFO".
+2.  Imprimes el mensaje de INFO.
+3.  **No pones break.**
+4.  El código "cae" al caso WARNING, lo imprime, sigue cayendo a ERROR, y finalmente termina.
+
+---
+
+### 3. Default
+
+La etiqueta `default` es opcional y se ejecuta si el valor de la expresión no coincide con ninguno de los casos definidos,.
+En el contexto de Harl, se usa para gestionar entradas inválidas (niveles que no existen), imprimiendo el mensaje genérico como "[ Probably complaining about insignificant problems ]".
+
+---
+
+### Ejemplo de Código: Filtro Harl
+
+Este ejemplo simula cómo resolver la limitación de `switch` con strings y cómo usar el *fall-through* para la jerarquía de logs.
+
+```cpp
+#include <iostream>
+#include <string>
+
+class Harl {
+public:
+    void complain(std::string level) {
+        // 1. Mapeo de String a Entero (necesario porque switch no acepta strings)
+        std::string niveles[] = { "DEBUG", "INFO", "WARNING", "ERROR" };
+        int nivel_detectado = -1;
+
+        for (int i = 0; i < 4; i++) {
+            if (niveles[i] == level) {
+                nivel_detectado = i;
+                break;
+            }
+        }
+
+        // 2. Switch con Fall-Through para jerarquía
+        switch (nivel_detectado) {
+            case 0: // DEBUG
+                std::cout << "[ DEBUG ]" << std::endl;
+                std::cout << "Me encanta tener tocino extra...\n" << std::endl;
+                // SIN BREAK: Cae al siguiente nivel automáticamente
+
+            case 1: // INFO
+                std::cout << "[ INFO ]" << std::endl;
+                std::cout << "No puedo creer que cueste más dinero...\n" << std::endl;
+                // SIN BREAK: Cae a WARNING
+
+            case 2: // WARNING
+                std::cout << "[ WARNING ]" << std::endl;
+                std::cout << "Creo que merezco tener tocino extra gratis...\n" << std::endl;
+                // SIN BREAK: Cae a ERROR
+
+            case 3: // ERROR
+                std::cout << "[ ERROR ]" << std::endl;
+                std::cout << "Esto es inaceptable, quiero hablar con el gerente.\n" << std::endl;
+                break; // Aquí sí usamos break para no ejecutar default si era ERROR
+
+            default: // Caso para entradas inválidas
+                std::cout << "[ Probably complaining about insignificant problems ]" << std::endl;
+        }
+    }
+};
+
+int main() {
+    Harl harl;
+    
+    std::cout << "--- Nivel INFO (Debería imprimir INFO, WARNING y ERROR) ---" << std::endl;
+    harl.complain("INFO"); 
+    
+    std::cout << "--- Nivel Desconocido ---" << std::endl;
+    harl.complain("QUEJAS");
+
+    return 0;
+}
+```
+
+**Análisis del flujo en el ejemplo:**
+Si pasas `"INFO"`, `nivel_detectado` será `1`. El `switch` salta al `case 1`. Imprime el mensaje de INFO. Como no hay `break`, la ejecución "cae" (fall-through) al `case 2`, imprime WARNING, cae al `case 3`, imprime ERROR y ahí encuentra un `break`, terminando la ejecución. Esto cumple con el requisito de imprimir mensajes "desde ese nivel y superiores".
