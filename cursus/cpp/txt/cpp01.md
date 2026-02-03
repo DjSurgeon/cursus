@@ -1292,3 +1292,110 @@ int main() {
 
 **Análisis del flujo en el ejemplo:**
 Si pasas `"INFO"`, `nivel_detectado` será `1`. El `switch` salta al `case 1`. Imprime el mensaje de INFO. Como no hay `break`, la ejecución "cae" (fall-through) al `case 2`, imprime WARNING, cae al `case 3`, imprime ERROR y ahí encuentra un `break`, terminando la ejecución. Esto cumple con el requisito de imprimir mensajes "desde ese nivel y superiores".
+
+---
+
+- 1. Enumeraciones (enum) en C++
+¿Qué son? Una enumeración es un tipo de dato definido por el usuario que consiste en un conjunto de constantes enteras con nombre, llamadas enumeradores,,. Internamente, C++ asigna un número entero a cada nombre (empezando por 0 por defecto), pero para el programador es una forma de usar palabras legibles en lugar de "números mágicos",.
+Tipos de enum:
+- 1. Enum clásico (enum): Los nombres son visibles globalmente en el ámbito y se convierten implícitamente a enteros (int),.
+- 2. Enum con ámbito (enum class - C++11): Son más seguros ("strongly typed"). No se convierten automáticamente a enteros y debes usar el nombre del tipo para acceder a ellos (ej. Color::Rojo),,.
+¿Cuándo vienen bien?
+• Legibilidad: Cuando tienes un conjunto fijo de valores relacionados (días de la semana, estados de un proceso, colores, direcciones),.
+• Mantenimiento: Es más fácil entender if (estado == JUGANDO) que if (estado == 1).
+• Seguridad: Restringen los valores que una variable puede tomar a solo los definidos en la lista.
+
+--------------------------------------------------------------------------------
+Ejemplo: Uso de enum class con switch
+Este ejemplo simula una máquina de estados de un semáforo. Usamos enum class por ser la práctica moderna recomendada.
+
+```c++
+#include <iostream>
+
+// Definición de la enumeración (Scoped Enum)
+enum class Semaforo {
+    ROJO,       // Valor interno: 0
+    AMARILLO,   // Valor interno: 1
+    VERDE       // Valor interno: 2
+};
+
+void actuarSegunSemaforo(Semaforo estado) {
+    switch (estado) {
+        // Debemos usar el nombre completo: Semaforo::ROJO
+        case Semaforo::ROJO:
+            std::cout << "¡Alto! No cruzar." << std::endl;
+            break; // El break evita que se ejecuten los siguientes casos
+            
+        case Semaforo::AMARILLO:
+            std::cout << "Precaución, prepararse para parar." << std::endl;
+            break;
+            
+        case Semaforo::VERDE:
+            std::cout << "Adelante, puede cruzar." << std::endl;
+            break;
+            
+        default:
+            std::cout << "Estado desconocido (Semáforo averiado)." << std::endl;
+    }
+}
+
+int main() {
+    Semaforo miSemaforo = Semaforo::ROJO;
+    actuarSegunSemaforo(miSemaforo);
+    
+    return 0;
+}
+```
+--------------------------------------------------------------------------------
+2. Concepto de FALL-THROUGH (Caída en cascada)
+Definición El fall-through ocurre dentro de una estructura switch cuando se omite la sentencia break al final de un case. Como resultado, el control del programa "cae" y continúa ejecutando las instrucciones del siguiente case, independientemente de si la condición de ese segundo caso coincide o no,,.
+¿Cuándo usarlo? (Casos favorables)
+1. Agrupar casos idénticos: Cuando múltiples opciones deben ejecutar exactamente el mismo código.
+2. Lógica jerárquica o acumulativa: Cuando un nivel superior implica ejecutar también los niveles inferiores (como en el ejercicio Harl Filter que mencionaste antes).
+¿Cuándo NO usarlo?
+• Por accidente: Es una fuente común de errores (bugs). Si olvidas el break cuando querías separar la lógica, el programa hará cosas inesperadas.
+• Sin documentación: Si usas fall-through intencionalmente en lógica compleja, debes indicarlo claramente. En C++17 se introdujo el atributo [[fallthrough]]; para decirle al compilador (y a otros humanos) que la caída es intencional y evitar advertencias.
+
+--------------------------------------------------------------------------------
+Ejemplo de Fall-Through: Correcto vs. Incorrecto
+```c++
+#include <iostream>
+
+void clasificarCaracter(char c) {
+    std::cout << "El caracter '" << c << "' es: ";
+
+    switch (c) {
+        // --- CASO 1: USO CORRECTO (Agrupación) ---
+        // Queremos que 'a', 'e', 'i', 'o', 'u' hagan lo mismo.
+        // Usamos fall-through para no repetir el cout 5 veces.
+        case 'a':
+        case 'e':
+        case 'i':
+        case 'o':
+        case 'u':
+            std::cout << "Una vocal minúscula." << std::endl;
+            break; // Aquí paramos.
+
+        // --- CASO 2: USO JERÁRQUICO (Como Harl) ---
+        // Supongamos niveles de alerta: 1 (Bajo) a 3 (Crítico).
+        // Crítico activa las alarmas de todos los niveles inferiores.
+        case '3': 
+            std::cout << "[ALARMA NUCLEAR] ";
+            [[fallthrough]]; // C++17: Indica que caer es intencional
+        case '2':
+            std::cout << "[Sirenas sonando] ";
+            [[fallthrough]];
+        case '1':
+            std::cout << "[Notificación por email enviado]" << std::endl;
+            break;
+
+        default:
+            std::cout << "Una consonante u otro símbolo." << std::endl;
+    }
+}
+
+int main() {
+    clasificarCaracter('e'); // Imprime: Una vocal minúscula.
+    
+    std::cout << "\nProbando Alerta Nivel 3:"
+```
