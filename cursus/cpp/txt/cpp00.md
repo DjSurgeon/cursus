@@ -307,3 +307,218 @@ int main() {
 **Nota sobre la implementación:**
 Si no defines un destructor, el compilador genera uno predeterminado. Sin embargo, este destructor predeterminado no libera memoria asignada con `new` ni cierra archivos abiertos manualmente; en esos casos (como en el ejemplo de `GestorTexto`), estás obligado a definir el tuyo propio para evitar fugas de recursos,.
 
+---
+
+Aquí tienes la explicación detallada de los conceptos teóricos sobre miembros estáticos versus de instancia, junto con sus restricciones y ejemplos de código, basada en las fuentes proporcionadas.
+
+### A. Miembros Estáticos (`static`) vs. De Instancia
+
+La diferencia fundamental radica en la **propiedad** y el **ciclo de vida**. Los miembros de una clase pueden pertenecer a una instancia específica (un objeto concreto) o a la clase en sí misma (compartidos por todos los objetos).
+
+#### 1. Variables de Instancia
+Son los miembros de datos "normales" de una clase.
+*   **Comportamiento:** Cada vez que creas un objeto de la clase, se crea una **nueva copia** de estas variables en la memoria.
+*   **Acceso:** Pertenecen a un objeto específico, por lo que para acceder a ellas necesitas una instancia de la clase (`objeto.miembro`).
+*   **Estado:** Cada objeto mantiene su propio estado independiente. Si cambias el valor en un objeto, no afecta a los demás.
+
+#### 2. Variables Estáticas
+Se declaran con la palabra clave `static`.
+*   **Comportamiento:** Pertenecen a la **clase** en lugar de a un objeto. Solo existe **una única copia** de la variable estática en memoria, independientemente de cuántos objetos de esa clase se creen (incluso si no se crea ninguno),.
+*   **Inicialización:** Deben definirse e inicializarse fuera de la declaración de la clase (en el ámbito de archivo), generalmente en el archivo `.cpp`, para asignarles almacenamiento,.
+*   **Uso:** Son ideales para contadores compartidos, constantes globales de la clase o configuraciones que afectan a todas las instancias,.
+
+**Ejemplo de Código (Variables):**
+
+```cpp
+#include <iostream>
+#include <string>
+
+class Usuario {
+public:
+    // Variable de Instancia: Cada usuario tiene su propio nombre
+    std::string nombre; 
+
+    // Variable Estática: Compartida por TODOS los usuarios
+    // Cuenta cuántos usuarios existen en total
+    static int contadorUsuarios; 
+
+    Usuario(std::string n) : nombre(n) {
+        contadorUsuarios++; // Al crear un usuario, incrementamos el contador compartido
+    }
+};
+
+// Inicialización de la variable estática (obligatorio hacerlo fuera de la clase)
+int Usuario::contadorUsuarios = 0; //
+
+int main() {
+    Usuario u1("Luis");
+    Usuario u2("Ana");
+
+    // Acceso a variables de instancia (específicas de cada objeto)
+    std::cout << "Usuario 1: " << u1.nombre << std::endl; // Imprime Luis
+    
+    // Acceso a variable estática (a través de la clase)
+    // Imprime 2, porque u1 y u2 comparten la misma variable contador
+    std::cout << "Total Usuarios: " << Usuario::contadorUsuarios << std::endl; //
+
+    return 0;
+}
+```
+
+---
+
+### B. Funciones Estáticas
+
+Las funciones miembro estáticas son métodos que operan a nivel de clase y no sobre un objeto específico.
+
+*   **Definición:** Se declaran con `static`. Al igual que las variables estáticas, son independientes de los objetos de la clase.
+*   **Acceso:** Se pueden llamar sin necesidad de crear un objeto, utilizando el operador de resolución de ámbito `::` (ej. `Clase::Funcion()`), aunque también se pueden llamar desde una instancia,.
+
+#### Restricciones de las Funciones Estáticas
+Dado que una función estática no está vinculada a ninguna instancia específica, tiene limitaciones estrictas:
+
+1.  **Sin puntero `this`:** Las funciones estáticas no tienen el puntero implícito `this`, ya que este puntero apunta al objeto actual, y en una función estática no hay "objeto actual",.
+2.  **Acceso limitado a miembros:**
+    *   **Solo pueden acceder a miembros estáticos** (otras funciones estáticas o variables estáticas) de la clase,.
+    *   **No pueden acceder a miembros de instancia** (no estáticos) directamente. Si intentas usar una variable de instancia dentro de una función estática, obtendrás un error de compilación porque la función no sabe a *qué* objeto pertenece esa variable,.
+3.  **Prohibición de calificadores:** No pueden declararse como `virtual`, `const` o `volatile`.
+
+**Ejemplo de Código (Funciones y Restricciones):**
+
+```cpp
+#include <iostream>
+
+class Convertidor {
+private:
+    double factor; // Variable de instancia (requiere un objeto)
+    static double tasaGlobal; // Variable estática (compartida)
+
+public:
+    Convertidor(double f) : factor(f) {}
+
+    // Función Estática
+    static void SetTasaGlobal(double nuevaTasa) {
+        tasaGlobal = nuevaTasa; // OK: Accede a miembro estático
+        
+        // factor = 1.5; // ERROR: No puede acceder a 'factor' (miembro de instancia) 
+                         // porque no hay puntero 'this'
+    }
+
+    static double GetTasaGlobal() {
+        return tasaGlobal;
+    }
+
+    // Función de instancia (No estática)
+    void MostrarCalculo() {
+        // Puede acceder a AMBOS: estáticos y de instancia
+        std::cout << "Calculo: " << factor * tasaGlobal << std::endl; 
+    }
+};
+
+// Inicialización de miembro estático
+double Convertidor::tasaGlobal = 1.0;
+
+int main() {
+    // Llamada a función estática sin crear objetos
+    Convertidor::SetTasaGlobal(2.5); //
+    
+    std::cout << "Tasa actual: " << Convertidor::GetTasaGlobal() << std::endl;
+
+    Convertidor conv(10.0);
+    conv.MostrarCalculo(); // Usa el factor (instancia) y la tasa (estática)
+
+    return 0;
+}
+```
+
+---
+
+## Ingenieria inversa
+
+**Definición y Propósito**
+La ingeniería inversa es un proceso utilizado para deconstruir el diseño, la estructura del código fuente y la arquitectura de un software. Su objetivo principal suele ser la modificación de código propietario en situaciones donde el código fuente original no está disponible. Esto ocurre frecuentemente porque el código fuente es propiedad intelectual de las empresas y los clientes solo reciben el paquete ejecutable.
+
+**Casos de Uso**
+Es una metodología necesaria cuando un cliente necesita modificar definiciones de software, pero la empresa desarrolladora original ya no está en el negocio. En estos escenarios, las modificaciones para satisfacer al cliente se realizan directamente en el código binario.
+
+**Proceso Técnico e Identificación de Binarios**
+La metodología implica trabajar con los archivos objeto y binarios del programa. Para identificar binarios de C++, es necesario comprender el proceso de generación del software:
+*   Comienza con el preprocesamiento del código y la compilación del resultado en **código ensamblador**.
+*   A partir del ensamblador se crean los **archivos de objetos**, que contienen los binarios necesarios para instalar un programa sin necesidad de compilar el código fuente nuevamente.
+*   Estos binarios incluyen elementos críticos como datos, código ejecutable, información de enlaces dinámicos, datos de depuración, tablas de símbolos e información de reubicación.
+
+---
+
+### Biblioteca `<ctime>`
+El encabezado `<ctime>` es la adaptación en C++ de la biblioteca estándar de C `time.h`. Proporciona funciones para obtener y manipular información de fechas y horas, así como tipos definidos para este propósito.
+
+#### Tipo de dato `time_t`
+Es un alias de un tipo aritmético fundamental capaz de representar tiempos,.
+*   Por razones históricas, generalmente se implementa como un valor entero que representa el número de segundos transcurridos desde las 00:00 horas del 1 de enero de 1970 UTC (conocido como *timestamp* Unix).
+*   Se aconseja que los programas portables no usen valores de este tipo directamente, sino que confíen en las funciones de la biblioteca estándar para traducirlos.
+
+#### Función `time()`
+La función `time` devuelve el tiempo de calendario actual como un objeto `time_t`.
+
+*   **Parámetros:** Acepta un puntero a un objeto de tipo `time_t` (llamado `timer`) donde se almacenará el valor del tiempo. Alternativamente, este parámetro puede ser un puntero nulo, en cuyo caso no se usa.
+*   **Valor de retorno:**
+    *   Devuelve el tiempo actual.
+    *   Si el argumento no es un puntero nulo, el valor de retorno es el mismo que el almacenado en la ubicación apuntada por el argumento.
+    *   Si la función no puede recuperar el tiempo, devuelve `-1`.
+
+#### Estructura `struct tm` y otras funciones
+Las fuentes listan `struct tm` como uno de los tipos definidos en `<ctime>`, junto con `clock_t` y `size_t`. También se enumeran funciones relacionadas como `localtime`, `gmtime`, `ctime`, `asctime`, `difftime`, `mktime` y `strftime`.
+
+***
+
+**Nota:** Las fuentes proporcionadas listan la existencia de la estructura `struct tm` y funciones como `localtime`, pero no detallan los miembros internos de la estructura (como `tm_year`, `tm_mon`, etc.) ni proveen un ejemplo de código funcional específico en los extractos.
+
+A continuación, presento información complementaria y un ejemplo de código estándar (información externa a las fuentes) para ilustrar cómo se utilizan estos componentes en conjunto.
+
+### Información Complementaria (Externa a las fuentes)
+
+Para usar estas herramientas, el flujo habitual es obtener el tiempo crudo con `time()`, y luego convertirlo a una estructura legible (`struct tm`) usando `localtime()`.
+
+**Ejemplo de Código:**
+
+```cpp
+#include <iostream>
+#include <ctime> // Necesario para time(), localtime(), struct tm, time_t
+
+int main() {
+    // 1. Obtener el tiempo actual
+    // Se puede pasar nullptr si no necesitamos almacenar el resultado en una variable externa
+    std::time_t tiempo_actual = std::time(nullptr);
+
+    // Verificar errores (si time devuelve -1)
+    if (tiempo_actual == -1) {
+        std::cerr << "Error al obtener el tiempo." << std::endl;
+        return 1;
+    }
+
+    // Imprimir el timestamp (segundos desde 1970)
+    std::cout << "Tiempo Unix (time_t): " << tiempo_actual << std::endl;
+
+    // 2. Convertir time_t a struct tm (tiempo local)
+    // localtime devuelve un puntero a una estructura tm estática interna
+    std::tm* tiempo_local = std::localtime(&tiempo_actual);
+
+    // 3. Acceder a los miembros de struct tm
+    // tm_year: años desde 1900
+    // tm_mon: meses desde enero (0-11)
+    std::cout << "Fecha actual: " 
+              << tiempo_local->tm_mday << "/" 
+              << (tiempo_local->tm_mon + 1) << "/" 
+              << (tiempo_local->tm_year + 1900) << std::endl;
+
+    std::cout << "Hora actual: " 
+              << tiempo_local->tm_hour << ":" 
+              << tiempo_local->tm_min << ":" 
+              << tiempo_local->tm_sec << std::endl;
+
+    // Uso de asctime para una impresión rápida formateada
+    std::cout << "Cadena formateada (asctime): " << std::asctime(tiempo_local);
+
+    return 0;
+}
+```
