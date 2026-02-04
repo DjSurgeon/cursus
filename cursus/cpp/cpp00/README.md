@@ -1,13 +1,14 @@
 # CPP Module 00 - Fundamentos de C++ y POO
 
+<div align="center">
+
 > **Primer módulo de la piscina de C++** - Escuela 42  
 > Introducción a la Programación Orientada a Objetos en C++98
 
 [![42 School](https://img.shields.io/badge/42-School-000000?style=flat&logo=42&logoColor=white)](https://www.42.fr/)
 [![C++98](https://img.shields.io/badge/C++-98-00599C?style=flat&logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
-![Last Commit](https://img.shields.io/github/last-commit/DjSurgeon/cursus/tree/main/cursus/cpp/cpp00)
 
----
+</div>
 
 ## Tabla de Contenidos
 
@@ -43,6 +44,7 @@ Este módulo representa **mi transición de C a C++**, introduciendo los fundame
 ---
 
 ### 01 - My Awesome PhoneBook
+
 **Conceptos**: Clases, encapsulación, arrays estáticos, I/O formatting
 
 **Estructura del proyecto**:
@@ -70,6 +72,7 @@ public:
     std::string getFirstName() const;            // Getter const
 };
 ```
+---
 
 ### 02 - The Job Of Your Dreams
 
