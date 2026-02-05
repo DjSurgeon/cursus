@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   FileReplacer.cpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/31 12:35:28 by sergio            #+#    #+#             */
-/*   Updated: 2026/01/31 16:48:53 by sergio           ###   ########.fr       */
+/*   Updated: 2026/02/05 13:44:41 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ std::string	FileReplacer::_replaceString(std::string buffer)
 		buffer.erase(position, len1);
 		buffer.insert(position, _s2);
 		position += _s2.length();
-		position = buffer.find(_s1);
+		position = buffer.find(_s1, position);
 	}
 	return (buffer);
 }
