@@ -809,3 +809,306 @@ Fixed res = Fixed::min(a, c);      // Funciona: Solo leo el resultado.
 
 ---
 
+**Binary Space Partitioning (BSP)**, o Partición Binaria del Espacio, es una técnica informática utilizada para organizar objetos en un espacio n-dimensional (generalmente 2D o 3D) subdividiéndolo recursivamente en conjuntos convexos. Esta estructura permite realizar operaciones espaciales, como determinar la visibilidad o detectar colisiones, de manera muy eficiente.
+
+A continuación, explico el concepto detalladamente basándome en las fuentes proporcionadas.
+
+### 1. Concepto Fundamental
+La idea central del BSP es tomar un espacio y dividirlo en dos mitades utilizando un "hiperplano":
+*   En un **espacio 2D**, el hiperplano es una **línea**.
+*   En un **espacio 3D**, el hiperplano es un **plano**.
+
+Este proceso de división crea una estructura de datos en forma de **árbol (BSP Tree)**. Cada nodo del árbol representa un plano de división y tiene dos ramas: una para lo que está "delante" del plano y otra para lo que está "detrás",.
+
+### 2. ¿Cómo se construye un Árbol BSP? (El proceso de Generación)
+El proceso es recursivo y se realiza generalmente antes de ejecutar la aplicación (pre-cálculo), especialmente para escenarios estáticos,.
+
+Los pasos son los siguientes,:
+1.  **Selección:** Se elige un polígono o línea de la escena para que actúe como el plano de partición (la raíz del árbol).
+2.  **Partición:** Se clasifican todos los demás polígonos de la escena en relación con ese plano:
+    *   **Frente:** Polígonos que están completamente delante del plano.
+    *   **Detrás:** Polígonos que están completamente detrás.
+    *   **Coincidentes:** Polígonos que yacen sobre el mismo plano.
+    *   **Atraviesan (Spanning):** Si un polígono cruza el plano, **debe ser dividido** en dos fragmentos. Una parte va a la lista del "frente" y la otra a la de "atrás",.
+3.  **Recursión:** Se repite el proceso para la lista del "frente" y la lista de "atrás", creando nuevos nodos hijos, hasta que solo queden polígonos convexos simples en las hojas del árbol.
+
+**Ejemplo Visual Simplificado:**
+Imagina una habitación cuadrada vista desde arriba (2D).
+1.  Trazas una línea (A) por la mitad. Tienes el Nodo A.
+2.  Todo lo que quedó a la izquierda es el sub-árbol izquierdo; todo lo de la derecha es el sub-árbol derecho.
+3.  Si tenías una mesa que cruzaba esa línea A, la cortas en dos pedazos virtualmente.
+4.  Luego, en la mitad izquierda, trazas otra línea (B) para dividirla de nuevo.
+5.  Repites hasta aislar cada objeto o pared.
+
+### 3. Principales Usos y Ventajas
+
+#### A. Renderizado y el Algoritmo del Pintor
+Uno de los usos históricos más importantes, popularizado por juegos como **Doom** y **Quake**, es determinar en qué orden dibujar los objetos,.
+Para dibujar una escena 3D en una pantalla 2D correctamente, necesitas saber qué está delante de qué. El árbol BSP permite recorrer la escena en **tiempo lineal** desde cualquier punto de vista arbitrario.
+
+*   **Back-to-Front (De atrás hacia adelante):** El algoritmo recorre el árbol para dibujar primero los polígonos más lejanos al observador y luego los cercanos. Esto garantiza que los objetos cercanos "tapen" a los lejanos (como un pintor que pinta el fondo y luego las figuras encima),.
+*   **Front-to-Back (De adelante hacia atrás):** Se dibujan primero los objetos cercanos. Es más eficiente porque evita dibujar píxeles que luego serán tapados (evita el *overdraw*), pero requiere un mecanismo para recordar qué partes de la pantalla ya se han llenado,.
+
+#### B. Optimización (Culling)
+El BSP permite descartar rápidamente grandes porciones del mapa que no son visibles. Si el jugador está mirando hacia el "frente" de un plano raíz y todo el nodo "trasero" está fuera del campo de visión, el motor gráfico puede ignorar instantáneamente todo ese sub-árbol sin procesar cada polígono individualmente.
+
+#### C. Sombras y Colisiones
+También se utiliza para generar volúmenes de sombra (Shadow Volumes) y para la detección de colisiones en robótica y videojuegos, ya que simplifica la geometría compleja en subespacios convexos fáciles de calcular,.
+
+### 4. Limitaciones: Estático vs. Dinámico
+La gran desventaja del BSP es que **generar el árbol es costoso computacionalmente**.
+*   **Escenarios Estáticos:** Es ideal para la geometría fija de un nivel (paredes, suelos, techos) porque se calcula una sola vez antes de jugar.
+*   **Objetos Dinámicos:** No es bueno para objetos que se mueven (personajes, puertas). Si un objeto se mueve, el árbol tendría que reconstruirse, lo cual es muy lento. Por eso, juegos como Doom usaban BSP para el mapa (estático) y otro sistema (como Z-Buffer) para los enemigos,.
+
+### Resumen del Ejemplo de Recorrido
+Si tienes una cámara (punto de vista) en una posición específica:
+1.  El algoritmo mira el nodo raíz (plano A).
+2.  Determina: ¿Está la cámara delante o detrás del plano A?
+3.  Si está **delante**:
+    *   Recorre primero el hijo "trasero" (lo más lejano).
+    *   Dibuja los polígonos del plano A.
+    *   Recorre el hijo "delantero" (lo más cercano).
+4.  Esto asegura automáticamente el orden correcto de visibilidad sin tener que ordenar cada polígono en cada cuadro (frame),.
+
+---
+
+### 1. ¿Qué es la Inmutabilidad?
+
+En programación, un **objeto inmutable** es aquel cuyo estado no puede ser modificado una vez que ha sido creado. Esto significa que sus campos o atributos se establecen durante la construcción del objeto y permanecen constantes durante todo su ciclo de vida.
+
+Es el opuesto a un objeto **mutable**, el cual permite cambiar sus valores internos (por ejemplo, mediante métodos *setters*) después de haber sido instanciado.
+
+*   **Inmutabilidad Fuerte:** El objeto no permite ninguna modificación ni extensión.
+*   **Inmutabilidad Débil:** Algunas partes del objeto no pueden cambiar, pero otras sí, o el objeto parece inmutable desde fuera aunque cambie internamente (ver *mutable* más abajo).
+
+---
+
+### 2. ¿Para qué sirve? (Ventajas)
+
+La inmutabilidad ofrece beneficios críticos en el diseño de software:
+
+*   **Seguridad en Hilos (Thread Safety):** Es la ventaja más destacada. Dado que el estado del objeto no cambia, múltiples hilos pueden acceder a él simultáneamente sin riesgo de condiciones de carrera (*race conditions*) y sin necesidad de bloqueos o sincronización compleja.
+*   **Facilidad de Razonamiento y Depuración:** Al saber que un objeto no cambiará "mágicamente" en otra parte del código, es más fácil entender el flujo del programa y rastrear errores.
+*   **Seguridad de Referencias:** Permite pasar referencias de objetos a funciones sin miedo a que la función llamada modifique el objeto original. Esto evita copias costosas de objetos grandes.
+*   **Uso como Claves:** Los objetos inmutables son ideales para ser usados como claves en estructuras de datos como mapas (hash maps), ya que su valor hash no cambiará.
+
+---
+
+### 3. Cómo implementar la inmutabilidad en C++
+
+C++ es un lenguaje mutable por defecto, pero ofrece herramientas robustas para forzar la inmutabilidad, principalmente a través de la palabra clave `const`.
+
+#### A. Variables y Punteros (`const` y `constexpr`)
+
+La forma más básica es declarar variables como constantes.
+
+*   **Variables simples:**
+    ```cpp
+    const int limite = 100; // Inmutable en tiempo de ejecución
+    // limite = 200; // Error de compilación: no se puede reasignar
+    ```
+    También existe `constexpr` (desde C++11), que garantiza que el valor es constante y se calcula en tiempo de compilación.
+
+*   **Punteros y Referencias Constantes:**
+    Es vital distinguir qué es lo inmutable cuando se usan punteros:
+    1.  **Puntero a constante (`const int* ptr`):** No puedes cambiar el *valor* al que apuntas, pero puedes hacer que el puntero apunte a otra dirección.
+    2.  **Puntero constante (`int* const ptr`):** No puedes cambiar la *dirección* a la que apunta, pero sí el valor del objeto apuntado.
+    3.  **Puntero constante a constante (`const int* const ptr`):** Ni la dirección ni el valor pueden cambiar.
+
+#### B. Objetos Inmutables (Clases)
+
+Para crear una clase que se comporte como un objeto inmutable en C++, debes seguir la **Forma Canónica** o estrategias de diseño específicas:
+
+1.  **Atributos Privados:** Los datos deben estar encapsulados (`private`) para evitar acceso directo.
+2.  **Inicialización en el Constructor:** Todos los valores deben asignarse en el momento de la creación, preferiblemente usando la lista de inicialización.
+3.  **Métodos `const` (Solo lectura):** Solo se deben proveer métodos "getters" (observadores) que estén marcados como `const`, garantizando que no modifican el objeto. No debe haber "setters".
+
+**Ejemplo de una clase inmutable en C++:**
+
+```cpp
+#include <iostream>
+#include <string>
+
+class PersonaInmutable {
+private:
+    // Atributos constantes para asegurar que no cambien internamente
+    const std::string nombre; 
+    const int edad;
+
+public:
+    // 1. Constructor: Inicializa todo. Una vez creado, así se queda.
+    PersonaInmutable(const std::string& n, int e) : nombre(n), edad(e) { }
+
+    // 2. Métodos accesores marcados como 'const'
+    // La referencia const (&) en el retorno evita copias innecesarias pero protege el dato
+    const std::string& getNombre() const { 
+        return nombre; 
+    }
+
+    int getEdad() const { 
+        return edad; 
+    }
+
+    // No existen métodos setNombre() o setEdad()
+};
+
+int main() {
+    // Creación del objeto inmutable
+    const PersonaInmutable p("Ana", 30);
+    
+    std::cout << p.getNombre() << std::endl;
+    
+    // p.edad = 31; // Error: es privado y const
+    // p.setEdad(31); // Error: no existe el método
+    
+    return 0;
+}
+```
+
+#### C. Paso de Parámetros por Referencia Constante (`const Type&`)
+
+Esta es una práctica estándar en C++ para eficiencia e inmutabilidad. Al pasar un objeto a una función:
+*   Si lo pasas **por valor**, se crea una copia (ineficiente para objetos grandes).
+*   Si lo pasas **por referencia (`&`)**, la función podría modificarlo.
+*   Si lo pasas **por referencia constante (`const &`)**, obtienes la eficiencia de la referencia (no hay copia) y la seguridad de la inmutabilidad (la función no puede tocarlo).
+
+```cpp
+// Función que promete no modificar 'str'
+void imprimirMensaje(const std::string& str) {
+    std::cout << str << std::endl;
+    // str = "Nuevo"; // Error: str es const
+}
+```
+
+#### D. La excepción: `mutable`
+
+C++ permite una flexibilidad interesante con la palabra clave `mutable`. Esto permite modificar un miembro específico de una clase incluso dentro de un método marcado como `const`.
+
+¿Por qué harías esto en un objeto "inmutable"?
+Para la **inmutabilidad lógica vs. física**. A veces un objeto es lógicamente inmutable (su estado visible no cambia), pero necesita cambiar internamente, por ejemplo, para un mecanismo de caché o *memoización* (guardar un cálculo costoso para no repetirlo).
+
+```cpp
+class Calculadora {
+private:
+    int dato;
+    // 'cache' puede cambiar incluso en métodos const
+    mutable int cache = -1; 
+    mutable bool cacheValido = false;
+
+public:
+    Calculadora(int d) : dato(d) {}
+
+    // El método es const, parece inmutable para el usuario
+    int calculoCostoso() const {
+        if (!cacheValido) {
+            // Modificamos atributos internos (mutable)
+            cache = dato * 100; // Supongamos una operación compleja
+            cacheValido = true;
+        }
+        return cache;
+    }
+};
+```
+
+### Resumen
+
+En el entorno de C++, la inmutabilidad se gestiona explícitamente:
+1.  Usa **`const`** para variables y métodos que no deben cambiar.
+2.  Usa **referencias constantes (`const &`)** para pasar objetos grandes de forma segura y eficiente.
+3.  Diseña clases con **constructores completos** y sin *setters* para crear tipos de datos inmutables.
+4.  Usa **`constexpr`** para valores que son constantes desde la compilación.
+
+---
+
+Para determinar si un punto $P$ está dentro de un triángulo definido por los vértices $A, B, C$, el método del **Producto Cruzado (Cross Product)** es una técnica estándar en geometría computacional, gráficos por computadora (para la rasterización) y física (detección de colisiones).
+
+### 1. El Concepto: Orientación y Signos
+
+El producto cruzado de dos vectores $\vec{a}$ y $\vec{b}$ en 3D da como resultado un vector perpendicular a ambos,. Sin embargo, en **2D** (donde $z=0$), el producto cruzado se comporta como un escalar que representa la magnitud del vector resultante en el eje $Z$.
+
+Lo crucial para este problema no es la magnitud, sino el **signo** del resultado:
+*   **Signo Positivo:** Indica que el punto está a la "izquierda" del vector (o sentido antihorario).
+*   **Signo Negativo:** Indica que el punto está a la "derecha" del vector (o sentido horario).
+*   **Cero:** Los puntos son colineales (el punto está sobre la línea).
+
+**La Lógica del Triángulo:**
+Para que un punto $P$ esté dentro del triángulo $ABC$, debe estar en el **mismo lado** de los tres vectores que forman los bordes del triángulo ($\vec{AB}$, $\vec{BC}$ y $\vec{CA}$).
+Si recorremos el triángulo en sentido antihorario, $P$ debe estar a la izquierda de $\vec{AB}$, a la izquierda de $\vec{BC}$ y a la izquierda de $\vec{CA}$. Matemáticamente, esto significa que los tres productos cruzados deben tener el mismo signo.
+
+### 2. La Fórmula Matemática
+
+Dado un vector que va del punto $A$ al $B$, y otro del punto $A$ al $P$, el producto cruzado en 2D se calcula así:
+
+$$ \vec{AB} \times \vec{AP} = (B_x - A_x)(P_y - A_y) - (B_y - A_y)(P_x - A_x) $$
+
+Esta fórmula se deriva de la definición del determinante o componente $Z$ del producto cruzado 3D,:
+$$ \text{Cross}(U, V) = U_x V_y - U_y V_x $$
+
+### 3. Algoritmo Paso a Paso
+
+1.  Calcula el producto cruzado entre el lado $\vec{AB}$ y el vector al punto $\vec{AP}$.
+2.  Calcula el producto cruzado entre el lado $\vec{BC}$ y el vector al punto $\vec{BP}$.
+3.  Calcula el producto cruzado entre el lado $\vec{CA}$ y el vector al punto $\vec{CP}$.
+4.  **Verificación:** Si los tres resultados son positivos O los tres son negativos, el punto está dentro. Si hay mezcla de signos, está fuera.
+
+### 4. Ejemplo en C++
+
+```cpp
+#include <iostream>
+
+struct Point {
+    float x, y;
+};
+
+// Función para calcular el producto cruzado 2D
+// Referencias const para evitar copias innecesarias
+float crossProduct(const Point& a, const Point& b, const Point& p) {
+    // Vector AB = (b.x - a.x, b.y - a.y)
+    // Vector AP = (p.x - a.x, p.y - a.y)
+    // Fórmula: (b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x)
+    return (b.x - a.x) * (p.y - a.y) - (b.y - a.y) * (p.x - a.x);
+}
+
+bool isPointInTriangle(const Point& p, const Point& a, const Point& b, const Point& c) {
+    // Calcular la orientación para cada lado
+    float cp1 = crossProduct(a, b, p);
+    float cp2 = crossProduct(b, c, p);
+    float cp3 = crossProduct(c, a, p);
+
+    // Comprobar si todos tienen el mismo signo
+    bool has_neg = (cp1 < 0) || (cp2 < 0) || (cp3 < 0);
+    bool has_pos = (cp1 > 0) || (cp2 > 0) || (cp3 > 0);
+
+    // Si tiene mezcla de positivos y negativos, está fuera.
+    // !(has_neg && has_pos) devuelve true si todos son del mismo signo (o cero)
+    return !(has_neg && has_pos);
+}
+
+int main() {
+    Point A = {0, 0};
+    Point B = {10, 30};
+    Point C = {20, 0};
+    Point P = {10, 15}; // Punto dentro
+    Point Q = {30, 30}; // Punto fuera
+
+    if (isPointInTriangle(P, A, B, C)) {
+        std::cout << "El punto P está DENTRO del triángulo." << std::endl;
+    } else {
+        std::cout << "El punto P está FUERA del triángulo." << std::endl;
+    }
+
+    if (isPointInTriangle(Q, A, B, C)) {
+        std::cout << "El punto Q está DENTRO del triángulo." << std::endl;
+    } else {
+        std::cout << "El punto Q está FUERA del triángulo." << std::endl;
+    }
+
+    return 0;
+}
+```
+
+### 5. ¿Por qué se usa en Gráficos y Física?
+
+1.  **Rasterización (Gráficos):** Al renderizar un triángulo en pantalla, la GPU debe saber qué píxeles están "dentro" de los vértices proyectados para pintarlos. El test del producto cruzado es extremadamente rápido y paralelizable.
+2.  **Detección de Colisiones (Física):** Para saber si un objeto ha entrado en una zona triangular (como un "trigger" en un juego o una malla de navegación), este cálculo es más eficiente que calcular la suma de ángulos o usar fórmulas de área,.
+3.  **Culling (Descarte):** La misma lógica de orientación (regla de la mano derecha) se usa para determinar si una cara de un objeto 3D está mirando hacia la cámara o hacia atrás (back-face culling),. Si el producto cruzado de los lados es negativo respecto a la vista, la cara no se dibuja.
