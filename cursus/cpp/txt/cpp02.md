@@ -334,3 +334,478 @@ La Forma Canónica Ortodoxa es esencial en los siguientes escenarios:
 
 4.  **La "Regla de los Tres":**
     En C++98 (y vigente hoy si manejas recursos manuales), existe una regla empírica derivada de la OCF: Si necesitas definir explícitamente **uno** de los tres (Destructor, Constructor de Copia o Asignación), es casi seguro que necesitas definir **los tres** para garantizar la seguridad de la memoria.
+
+--- 
+
+### Dudas tecnicas
+
+### 1. La duda: `this->` vs `this.`
+
+Preguntas: *"¿Se supone que iría un punto en vez de la flecha ya que no son punteros no?"*
+
+**Respuesta: `this` ES un puntero.**
+
+En C++, dentro de una clase, la palabra clave `this` es siempre un **puntero al objeto actual**.
+
+* Tipo de `this`: `Fixed* const` (Un puntero constante a un objeto Fixed).
+
+Por eso:
+
+* ❌ `this._fixedValue`: Incorrecto. No puedes usar `.` con un puntero.
+* ✅ `this->_fixedValue`: Correcto. La flecha es el operador para acceder a miembros desde un puntero.
+* ✅ `(*this)._fixedValue`: Correcto pero feo. Desreferencias el puntero (lo conviertes en objeto) y usas el punto.
+
+**Resumen visual:**
+
+`this` (puntero) ➡️ `->` ➡️ Miembro
+`*this` (objeto) ➡️ `.` ➡️ Miembro
+
+---
+
+### 2. `getRawBits()` vs `_fixedValue` en el `operator=`
+
+Dices: *"El uso de getrawbits viene dado por el main que nos dieron... sino la otra manera seria más canónica"*
+
+Tienes toda la razón.
+
+* **En el mundo real:** Dentro de la clase `Fixed`, tienes acceso a los privados de `other`. Lo más eficiente y limpio sería `this->_fixedValue = other._fixedValue;`.
+* 
+**En el ejercicio:** El subject muestra en el *log de salida esperado*  que al hacer una asignación, se imprime "getRawBits member function called".
+
+
+* Por tanto, **estás obligado** a usar `other.getRawBits()` dentro del `operator=` para que tu programa pase la evaluación automática (o visual del evaluador) al coincidir exactamente los mensajes.
+
+---
+
+### 3. Independencia de las copias
+
+Preguntas: *"¿Qué pasaría si destruyo a? ¿b es independiente no?"*
+
+**Respuesta: Sí, son totalmente independientes.**
+
+Como tu clase maneja un tipo de dato simple (`int _fixedValue`), estamos ante una **Copia de Valor** (Deep Copy automática para primitivos).
+
+Imagina esto en la memoria (Stack):
+
+1. **`Fixed a;`** -> Se reserva memoria para `a`. `a._fixedValue` vale 0.
+2. **`Fixed b(a);`** -> Se reserva memoria **NUEVA** y distinta para `b`. El constructor de copia lee el 0 de `a` y lo escribe en la memoria de `b`.
+3. **Si cambias `b`:** `b.setRawBits(42)`. La memoria de `b` cambia a 42. La memoria de `a` sigue en 0.
+4. **Si destruyes `a`:** Se libera la memoria de `a`. La memoria de `b` sigue intacta con su 42.
+
+**Analogía:**
+Es como fotocopiar un papel.
+
+* `a` es el original.
+* `b` es la fotocopia.
+* Si escribes en la fotocopia (`b`), el original (`a`) no se mancha.
+* Si quemas el original (`a`), la fotocopia (`b`) sigue existiendo en tu mano.
+
+---
+
+### Análisis de tu Main personalizado
+
+Tu código comentado demuestra que has entendido el objetivo:
+
+```cpp
+Fixed a;
+a.setRawBits(42);       // a tiene 42
+Fixed b(a);             // b nace copiando a a (b tiene 42)
+b.setRawBits(19);       // b cambia a 19. ¿Cambia a? NO. a sigue en 42.
+a = b;                  // a copia el valor de b. Ahora a tiene 19.
+
+```
+---
+
+### 1. La Lógica de los Bits Fraccionales (`_fractionalBits`)
+
+El concepto central de tu clase `Fixed` es que almacena números decimales (reales) usando solo un tipo entero (`int _fixedValue`). Esto se conoce como **aritmética de punto fijo**.
+
+*   **El Factor de Escala:** Tienes `static const int _fractionalBits = 8;`. Esto significa que los últimos 8 bits del entero se reservan para la parte decimal.
+*   **Desplazamiento de Bits (Bit Shifting):**
+    *   La expresión `1 << _fractionalBits` es equivalente a calcular $2^8$, que es **256**.
+    *   Este es tu **factor de escala**.
+    *   Para la computadora, mover bits es mucho más rápido que multiplicar o dividir, por eso se usan potencias de 2.
+
+Imagina que el número "real" es 1.0. En tu sistema, se guarda como `1 * 256 = 256`.
+Si tienes el número entero `256` guardado en `_fixedValue`, para tu clase `Fixed`, eso representa el número `1.0`.
+
+---
+
+### 2. Constructores: Convirtiendo a Punto Fijo
+
+Aquí es donde se aplica el factor de escala para guardar los datos.
+
+#### Constructor de Entero (`const int value`)
+```cpp
+Fixed::Fixed(const int value) {
+    _fixedValue = value << _fractionalBits;
+    // ...
+}
+```
+*   **Funcionamiento:** Toma un entero (ej. 5) y lo desplaza 8 bits a la izquierda.
+*   **Matemática:** $5 \times 2^8 = 5 \times 256 = 1280$.
+*   **Resultado:** Guarda `1280` en la memoria interna. No hay pérdida de precisión porque un `int` ya es un número entero exacto.
+
+#### Constructor de Flotante (`const float value`)
+```cpp
+Fixed::Fixed(const float value) {
+    _fixedValue = (int)roundf(value * (1 << _fractionalBits));
+    // ...
+}
+```
+*   **Funcionamiento:**
+    1.  Multiplica el float por 256 (`1 << _fractionalBits`) para mover la parte decimal a la zona entera.
+    2.  Usa `roundf` para redondear al entero más cercano (importante para la precisión).
+    3.  Lo convierte (cast) a `int` para guardarlo en `_fixedValue`.
+*   **Ejemplo:** Si recibes `2.5`:
+    $2.5 \times 256 = 640$. Se guarda `640`.
+
+---
+
+### 3. Métodos de Conversión Inversa
+
+Estos métodos hacen lo contrario para recuperar el valor original legible.
+
+#### `toInt(void)`
+```cpp
+int Fixed::toInt(void) const {
+    return _fixedValue >> _fractionalBits;
+}
+```
+*   **Funcionamiento:** Desplaza los bits a la derecha 8 posiciones.
+*   **Efecto:** Equivale a una división entera por 256. Esto **descarta** la parte fraccional (trunca el número).
+*   **Ejemplo:** Si tienes `640` (que es 2.5), `640 >> 8` resulta en `2`.
+
+#### `toFloat(void)`
+```cpp
+float Fixed::toFloat(void) const {
+    return (float)_fixedValue / (float)(1 << _fractionalBits);
+}
+```
+*   **Funcionamiento:** Convierte el valor interno a `float` y lo divide por 256.
+*   **Importante:** Es necesario el cast `(float)` antes de dividir. Si dividieras entero entre entero, perderías los decimales.
+*   **Ejemplo:** `640 / 256.0` resulta en `2.5`.
+
+---
+
+### 4. Sobrecarga del Operador de Inserción (`<<`)
+
+Esta es la parte clave para que puedas imprimir tu objeto directamente con `std::cout`.
+
+```cpp
+std::ostream & operator<<(std::ostream & output, Fixed const & value)
+{
+    output << value.toFloat();
+    return output;
+}
+```
+
+**¿Qué está pasando aquí?**
+
+1.  **Sintaxis:** Estás definiendo cómo se comporta el operador `<<` cuando a su izquierda tiene un flujo de salida (`std::ostream`, como `cout`) y a su derecha un objeto de tu clase `Fixed`.
+2.  **No es miembro:** Observa que esta función está definida **fuera** de la clase `Fixed` (aunque se declara el prototipo en el `.hpp`). No lleva `Fixed::` delante del nombre. Esto es necesario porque el primer operando (el de la izquierda) es `std::ostream`, no tu clase.
+3.  **Representación:** Cuando intentas imprimir el objeto (ej. `std::cout << a`), la función llama a `value.toFloat()`. Esto significa que la representación "humana" por defecto de tu número de punto fijo será su valor flotante.
+4.  **Retorno:** Devuelve la referencia a `output` (`return output`). Esto permite el "encadenamiento" de operadores.
+    *   Ejemplo: `std::cout << a << " es el valor" << std::endl;`. Si no devolvieras el objeto `output`, no podrías poner otro `<<` después.
+
+### Resumen del Flujo de Datos
+
+1.  Usuario escribe: `Fixed a(12.34f);` -> Constructor Float: Guarda `12.34 * 256` = `3159` (aprox) en `_fixedValue`.
+2.  Usuario escribe: `std::cout << a;` -> Llama al operador `<<`.
+3.  Operador `<<`: Llama a `a.toFloat()`.
+4.  `toFloat()`: Calcula `3159 / 256.0` = `12.339...`.
+5.  Consola muestra: `12.3398`.
+
+---
+
+Ciclo de vida en el ejemplo del main a = Fixed( 1234.4321f );
+
+Esta es una de las líneas más interesantes del `main` porque condensa **tres pasos cruciales** del ciclo de vida de un objeto en una sola instrucción. Es una pregunta de examen clásica en las defensas de 42.
+
+La línea es:
+`a = Fixed( 1234.4321f );`
+
+Aquí tienes el desglose paso a paso de lo que ocurre "bajo el capó" para que puedas explicarlo con total seguridad:
+
+### 1. Creación del Objeto Temporal (Nacimiento)
+
+Lo primero que evalúa C++ es la parte derecha del igual: `Fixed( 1234.4321f )`.
+
+* **Qué ocurre:** Se llama al **Constructor de Flotante**.
+* **Detalle:** El compilador crea un objeto `Fixed` **anónimo y temporal** en la pila (stack). Este objeto no tiene nombre (no es `a`, ni `b`, es "invisible").
+* **Salida:** Verás impreso `Float constructor called`.
+* **Estado:** Este objeto temporal guarda internamente el valor convertido de `1234.4321f`.
+
+### 2. Asignación al Objeto `a` (Copia)
+
+Una vez creado el temporal, se ejecuta el operador de asignación (`=`).
+
+* **Qué ocurre:** Se llama al **Copy Assignment Operator** (`operator=`).
+* **Detalle:** El objeto `a` (que ya existía desde el principio del main) "absorbe" el valor del objeto temporal.
+* `this` es `a`.
+* `other` es el objeto temporal.
+
+
+* **Salida:** Verás impreso `Copy assignment operator called`.
+* **Importante:** Aquí **NO** se llama al Constructor de Copia, porque `a` ya existía. Es una **asignación**, no una inicialización.
+
+### 3. Destrucción del Temporal (Muerte)
+
+La instrucción termina en el punto y coma `;`.
+
+* **Qué ocurre:** El objeto temporal anónimo ya ha cumplido su función (pasar su valor a `a`). Como nadie más lo referencia, C++ lo elimina inmediatamente.
+* **Detalle:** Se llama al **Destructor** del objeto temporal.
+* **Salida:** Verás impreso `Destructor called`.
+* **Ojo:** Este destructor **NO** es el de `a` (que sigue vivo), ni el de `b`. Es exclusivamente para ese objeto efímero que nació y murió en la misma línea.
+
+---
+
+### Resumen Visual para la Defensa
+
+Si te piden explicar esa línea, puedes decir:
+
+> *"En esta línea ocurren tres eventos secuenciales:*
+> 1. *Se llama al **Constructor de Float** para crear un objeto temporal con el valor 1234.4321.*
+> 2. *Se llama al **Operador de Asignación** para copiar ese valor dentro del objeto 'a'.*
+> 3. *Se llama al **Destructor** para destruir el objeto temporal, ya que su vida útil termina al finalizar la instrucción."*
+> 
+> 
+
+---
+
+### 🧠 Clase Teórica: ¿Por qué `const`, `&` o `Valor`?
+
+Esta es la parte vital para entender C++ en profundidad.
+
+#### 1. ¿Cuándo usar `const` al final de la función?
+
+`bool operator>(...) const;`
+
+* **Significado:** "Esta función promete no modificar el objeto `this`".
+* **Por qué:** Al comparar `a > b`, no quieres que `a` cambie de valor. Solo quieres leerlo.
+* **Regla:** Si la función solo lee (`getters`, comparaciones, operaciones aritméticas que devuelven uno nuevo), ponle `const`.
+
+#### 2. ¿Cuándo devolver por Referencia (`Fixed&`)?
+
+`Fixed& operator++(void);` // Pre-incremento (++a)
+
+* **Qué hace:** Incrementa el objeto y devuelve **al mismo objeto**.
+* **Por qué:**
+* Eficiencia: No se crea ninguna copia.
+* Comportamiento esperado: Si hago `(++a) = b`, estoy asignando a `a`.
+* Permite encadenar: `min(a, b) = c` (si min devuelve referencia).
+
+
+
+#### 3. ¿Cuándo devolver por Valor (`Fixed`)?
+
+`Fixed operator+(const Fixed& value) const;`
+
+* **El problema:** Si haces `Fixed c = a + b;`, el resultado es un número nuevo.
+* **¿Por qué no referencia?** Si devolvieras una referencia, tendrías que referenciar una variable creada dentro de la función `operator+`. Esa variable local se destruye al terminar la función. Si devuelves una referencia a algo destruido -> **Crash**.
+* **Solución:** Devuelves una **copia** del resultado (un objeto nuevo).
+
+#### 4. El caso especial del `const Fixed&` (Min/Max)
+
+`static const Fixed& min(const Fixed& a, const Fixed& b);`
+
+* Aquí entran objetos de "solo lectura" (`const`).
+* La función debe devolver uno de los dos.
+* Si devolviera `Fixed&` (sin const), estarías dando "permiso de escritura" sobre un objeto que entró con "solo lectura". El compilador te gritará.
+* **Regla:** "Lo que entra como const, sale como const".
+
+¿Tiene sentido ahora la diferencia entre `Fixed operator++(int)` (copia) y `Fixed& operator++()` (referencia)?
+
+---
+
+La clave está en entender la **línea temporal**: ¿Cuándo cambia el valor? ¿Antes o después de usarlo?
+
+
+### 1. El PRE-incremento (`++a`)
+
+**Lógica:** "Incrementa primero, entrega después".
+El objeto cambia inmediatamente y trabajamos con el valor nuevo.
+
+```cpp
+// Devuelve una REFERENCIA (Fixed&) porque devolvemos el objeto original
+Fixed& Fixed::operator++(void)
+{
+    // 1. Modificamos el valor interno del objeto actual
+    this->_fixedValue++;
+    
+    // 2. Devolvemos el propio objeto (*this) YA MODIFICADO
+    return (*this);
+}
+
+```
+
+* **¿Por qué `(void)`?** Porque es el operador por defecto.
+* **¿Por qué `Fixed&` (Referencia)?**
+* **Eficiencia:** No creamos copias.
+* **Encadenamiento:** Permite hacer cosas raras como `++++a` (incrementar dos veces el mismo objeto).
+* **Seguridad:** Como devolvemos el objeto original (`this`) que sigue vivo al salir de la función, es seguro devolver una referencia.
+
+
+
+---
+
+### 2. El POST-incremento (`a++`)
+
+**Lógica:** "Entrega una foto de como eras antes, y luego incrementate en secreto".
+Aquí es donde la cosa se complica.
+
+```cpp
+// Devuelve una COPIA (Fixed) porque devolvemos un objeto temporal
+// Recibe un (int) inútil solo para diferenciarse del anterior
+Fixed Fixed::operator++(int)
+{
+    // 1. Sacamos una "foto" (copia) del estado actual antes de tocar nada
+    Fixed temp(*this);
+
+    // 2. Modificamos el objeto original (la copia 'temp' sigue valiendo lo antiguo)
+    this->_fixedValue++;
+
+    // 3. Devolvemos la "foto" antigua
+    return temp;
+}
+
+```
+
+* **¿Por qué `(int)`?** Es un **truco sucio del compilador**.
+* Como las funciones se llaman igual (`operator++`), C++ necesita una forma de distinguirlas.
+* Si escribes `++a`, C++ busca la versión `(void)`.
+* Si escribes `a++`, C++ busca la versión que acepta un `int` (y le pasa un 0 invisible). Ese `int` no se usa para nada, es solo una bandera o etiqueta.
+
+
+* **¿Por qué devuelve `Fixed` (Valor) y NO Referencia?**
+* Esto es crítico. `temp` es una variable **local** que nace dentro de la función.
+* Cuando la función termina (en el `return`), `temp` se destruye.
+* Si devolvieras una referencia a `temp` (`Fixed&`), estarías devolviendo una dirección de memoria muerta -> **Crash seguro**.
+* Por eso devolvemos una **copia** (Valor).
+
+
+
+---
+
+### 3. Resumen Visual de la Diferencia
+
+Imagina que `a` vale 5.
+
+**Caso A: `b = ++a` (Pre)**
+
+1. `a` se incrementa a 6.
+2. `b` recibe a `a` (que vale 6).
+3. **Resultado:** `a=6`, `b=6`.
+
+**Caso B: `b = a++` (Post)**
+
+1. Se crea una copia temporal (`temp`) que vale 5.
+2. `a` se incrementa a 6.
+3. `b` recibe a `temp` (que vale 5).
+4. **Resultado:** `a=6`, `b=5`.
+
+### 4. ¿Por qué es más lento `a++`?
+
+Si te fijas en tu código, el post-incremento hace más trabajo:
+
+1. Crea un objeto `Fixed` (Constructor de copia).
+2. Incrementa.
+3. Devuelve el objeto (otra copia al salir).
+4. Destruye el objeto temporal.
+
+El pre-incremento (`++a`) solo incrementa y devuelve referencia.
+**Consejo Pro:** En bucles `for`, intenta acostumbrarte a usar `++i` en lugar de `i++` cuando trabajes con clases (iteradores de la STL, tu clase Fixed, etc.), porque ahorras copias innecesarias.
+
+---
+
+Tenemos **sobrecarga** (dos funciones con el mismo nombre) porque necesitamos cubrir dos escenarios distintos de uso.
+
+### 1. ¿Por qué la versión NO-CONST? (`Fixed&`)
+
+```cpp
+static Fixed& min(Fixed& value1, Fixed& value2);
+
+```
+
+* **Entrada:** Acepta objetos normales (modificables).
+* **Salida:** Devuelve una referencia al objeto original **con permiso de escritura**.
+* **El superpoder:** Te permite hacer cosas locas como modificar al ganador directamente.
+* Ejemplo: `Fixed::min(a, b) = Fixed(0);` (Pone a 0 el menor de los dos).
+* Si esta función devolviera `const`, ¡no podrías hacer esa asignación!
+
+
+
+### 2. ¿Por qué la versión CONST? (`const Fixed&`)
+
+```cpp
+static const Fixed& min(const Fixed& value1, const Fixed& value2);
+
+```
+
+Esta versión es obligatoria por dos razones:
+
+1. **Objetos Constantes:** Si tienes `const Fixed a(10)`, C++ te prohíbe pasarlo a la primera función (porque la primera función pide permiso de escritura y `a` es de solo lectura). Necesitas una función que acepte "solo lectura".
+2. **Objetos Temporales:** Si haces `Fixed::min(Fixed(5.5f), Fixed(2.2f))`, esos objetos son temporales. En C++, **los temporales NO se pueden unir a referencias no-const**, pero SÍ a referencias const. Sin esta versión, no podrías pasar números literales ni resultados de operaciones.
+
+---
+
+### ✅ Implementación Correcta
+
+La lógica dentro es **idéntica**. Solo cambian los "permisos" de los tipos de retorno y argumentos.
+
+```cpp
+// 1. Versión para objetos modificables (Devuelve referencia modificable)
+Fixed& Fixed::min(Fixed& value1, Fixed& value2)
+{
+    // Usamos el operador < que ya sobrecargaste (es más limpio que getRawBits)
+    if (value1 < value2)
+        return (value1);
+    return (value2);
+}
+
+// 2. Versión para constantes/temporales (Devuelve referencia de solo lectura)
+const Fixed& Fixed::min(const Fixed& value1, const Fixed& value2)
+{
+    if (value1 < value2)
+        return (value1);
+    return (value2);
+}
+
+// 3. Max Modificable
+Fixed& Fixed::max(Fixed& value1, Fixed& value2)
+{
+    if (value1 > value2)
+        return (value1);
+    return (value2);
+}
+
+// 4. Max Constante
+const Fixed& Fixed::max(const Fixed& value1, const Fixed& value2)
+{
+    if (value1 > value2)
+        return (value1);
+    return (value2);
+}
+
+```
+
+### 🧪 Ejemplo para entenderlo (Defensa)
+
+```cpp
+Fixed a(10);
+Fixed b(20);
+const Fixed c(30);
+
+// CASO 1: Usa la versión NO-CONST
+Fixed::min(a, b).setRawBits(0); // Funciona: puedo modificar el resultado (a ahora vale 0)
+
+// CASO 2: Usa la versión CONST
+// Fixed::min(a, c).setRawBits(0); // ERROR: Devuelve const, no puedo modificarlo.
+Fixed res = Fixed::min(a, c);      // Funciona: Solo leo el resultado.
+
+```
+
+¿Ves la diferencia? Una da "permisos de administrador" (escritura) y la otra solo "permisos de lectura".
+
+---
+

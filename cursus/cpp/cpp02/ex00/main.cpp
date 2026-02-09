@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:54:00 by sergio            #+#    #+#             */
-/*   Updated: 2026/02/06 14:14:50 by sergio           ###   ########.fr       */
+/*   Updated: 2026/02/06 14:17:40 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	main( void )
 	// c.setRawBits(-10);
 	// b = c;
 	// std::cout << "b: " << b.getRawBits() << std::endl;
+	// std::cout << "a: " << a.getRawBits() << std::endl;
 
 	return (0);
 }
