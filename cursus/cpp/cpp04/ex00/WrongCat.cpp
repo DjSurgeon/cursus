@@ -1,44 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Cat.cpp                                            :+:      :+:    :+:   */
+/*   WrongCat.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 10:05:18 by sergio            #+#    #+#             */
-/*   Updated: 2026/02/11 10:50:09 by sergio           ###   ########.fr       */
+/*   Updated: 2026/02/11 10:50:12 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Cat.hpp"
+#include "WrongCat.hpp"
 #include <iostream>
 
-Cat::Cat()
+WrongCat::WrongCat()
 {
-	this->_type = "Cat";
-	std::cout << _type << " was born." << std::endl;
+	this->_type = "WrongCat";
+	std::cout << _type << "was born." << std::endl;
 }
 
-Cat::Cat(const Cat& other) : Animal(other)
+WrongCat::WrongCat(const WrongCat& other) : WrongAnimal(other)
 {
 	std::cout << "Copy " << _type << " was born." << std::endl;
 }
 
-Cat& Cat::operator=(const Cat& other)
+WrongCat& WrongCat::operator=(const WrongCat& other)
 {
-	Animal::operator=(other);
+	WrongAnimal::operator=(other);
 	std::cout << "Other "<< _type << " was born." << std::endl;
 	return *this;
 }
 
-Cat::~Cat()
+WrongCat::~WrongCat()
 {
 	std::cout << "The "<< _type << " walks away..." << std::endl;
 }
 
-void	Cat::makeSound() const
+void	WrongCat::makeSound() const
 {
-	std::cout << _type << " makes meow meow ..." << std::endl;
+	std::cout << _type << " makes wrong meow meow ..." << std::endl;
 }
 
 

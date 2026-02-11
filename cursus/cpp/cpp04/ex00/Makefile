@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: serjimen <serjimen@student.42.fr>          +#+  +:+       +#+         #
+#    By: sergio <sergio@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/03 13:37:35 by sergio            #+#    #+#              #
-#    Updated: 2026/02/10 12:59:30 by serjimen         ###   ########.fr        #
+#    Updated: 2026/02/11 10:47:53 by sergio           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,10 +33,12 @@ CXXFLAGS := -Wall -Wextra -Werror
 # **************************************************************************** #
 # Sources
 
-SRC :=	main.cpp \
-		Animal.cpp \
+SRC :=	Animal.cpp \
+		Cat.cpp \
 		Dog.cpp \
-		Cat.cpp
+		WrongAnimal.cpp \
+		WrongCat.cpp \
+		main.cpp
 
 # **************************************************************************** #
 # Objects
