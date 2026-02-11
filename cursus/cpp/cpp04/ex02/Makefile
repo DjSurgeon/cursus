@@ -6,14 +6,14 @@
 #    By: sergio <sergio@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/03 13:37:35 by sergio            #+#    #+#              #
-#    Updated: 2026/02/11 12:15:47 by sergio           ###   ########.fr        #
+#    Updated: 2026/02/11 12:16:22 by sergio           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # **************************************************************************** #
 # Program
 
-NAME := like_intelligent_animals
+NAME := like_abstract_animals
 
 # **************************************************************************** #
 # Compiler
@@ -33,7 +33,7 @@ CXXFLAGS := -Wall -Wextra -Werror
 # **************************************************************************** #
 # Sources
 
-SRC :=	Animal.cpp \
+SRC :=	AAnimal.cpp \
 		Cat.cpp \
 		Dog.cpp \
 		WrongAnimal.cpp \

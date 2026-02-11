@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/11 10:41:45 by sergio            #+#    #+#             */
-/*   Updated: 2026/02/11 12:05:33 by sergio           ###   ########.fr       */
+/*   Updated: 2026/02/11 12:15:15 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int main()
 
 	telma->setIdea(0, "... Wrong!! ... I love fish ...");
 
-	std::cout << telma->getIdea(0) << std::endl;
 	std::cout << garfield->getIdea(0) << std::endl;
+	std::cout << telma->getIdea(0) << std::endl;
 
 	delete garfield;
 	delete telma;
