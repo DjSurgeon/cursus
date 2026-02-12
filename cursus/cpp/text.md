@@ -1,7 +1,0 @@
-Hola, ayer estuve muy agusto con el grupo y estoy encantado con el proyecto.
-Pero quiero ser sincero y transparente con todo el grupo para evitar problemas futuros.
-Yo me comprometo con el trabajo y con el proyecto pero mi prioridades y mi tiempo es limitado mi 200% no es el mismo 200% que otra persona. Tengo prioridades familiares que son innegociables que estan por encima. Por ejemplo:
-Ayer Dylan comento si salen un "HelpMe" se deberia resolver en 24/48 horas.
-Si ese HelpMe sale un sabado por la tarde y yo el domingo estoy con tareas familiares hasta el lunes soy incapaz de sentarme en el ordenador a resolverlo, por lo que no quiero que ese tipo de eventos sea un problema.
-Y la otra duda que tengo es mi base formativa, es mucho menor y se que si avanzo muchisimo con IA no aprendo me viene pasando con el common core, necesito un tiempo distinto para interiorizar los conceptos y necesito trabajarlos mas. Por lo que quiero hacer que transcendence sea un aprendizaje verdadero pero con conocimiento adquirido. no una plantilla realizada por la IA.
-Por eso quiero plantear todos mis problemas y dudas personales antes de seguir y quiero saber si todo el grupo esta de acuerdo ya que se que esta es mi mochila y cada uno tiene la suya, pero considero que la mis puede ser una carga para el grupo en ciertos casos
