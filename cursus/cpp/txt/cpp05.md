@@ -229,3 +229,125 @@ int main() {
     *   **`override`**: (C++11) Asegura al compilador que estamos sobrescribiendo una función virtual existente.
 4.  **`CuentaBancaria::FondosInsuficientes`**: En el bloque `catch` del `main`, debemos usar el nombre completo con el operador `::` porque la clase anidada está oculta dentro del ámbito de `CuentaBancaria`,.
 
+# Dudas
+
+¡Claro que sí! Estas dos dudas son fundamentales para entender "el porqué" de lo que estás escribiendo, más allá de simplemente hacer que compile. Vamos a desglosarlo con analogías sencillas.
+
+---
+
+### 1. ¿Qué significa ese `throw()` al final?
+
+Verás esto en tu código:
+
+```cpp
+virtual const char* what() const throw();
+
+```
+
+En C++98 (el estándar que usas en 42), esto se llama **Especificación de Excepciones**. Es como un "contrato" o una "promesa" que le hace la función al compilador.
+
+* `void func() throw(int)`: Prometo que solo lanzaré excepciones de tipo `int`.
+* `void func() throw(A, B)`: Prometo que solo lanzaré excepciones de tipo `A` o `B`.
+* **`void func() throw()`: Prometo que NO lanzaré ninguna excepción.**
+
+**¿Por qué es obligatorio ponerlo aquí?**
+Porque la función `what()` original (la que está dentro de la clase padre `std::exception`) está definida así.
+Al heredar y sobrescribir (`override`) una función, **no puedes ser menos restrictivo que el padre**.
+
+* Si el padre (`std::exception`) prometió **no fallar nunca** (no lanzar nada), tú (`Bureaucrat`) estás obligado a mantener esa promesa en tu versión de la función.
+
+> **Resumen:** `throw()` significa "Esta función es segura, te prometo que nunca fallará ni lanzará errores".
+
+---
+
+### 2. Clases Anidadas: ¿Por qué una clase dentro de otra?
+
+Has definido esto:
+
+```cpp
+class Bureaucrat {
+    public:
+        class GradeTooHighException : public std::exception { ... };
+};
+
+```
+
+Esto se llama **Nested Class** (Clase Anidada).
+
+#### A. Sentido de Pertenencia (Contexto)
+
+Imagina que tienes una excepción llamada `Error`. Es un nombre muy genérico.
+
+* Si la declaras fuera, es un error global.
+* Si la declaras dentro, es un error **exclusivo de los Burócratas**.
+
+Al hacerlo así, el nombre completo de tu excepción es:
+`Bureaucrat::GradeTooHighException`
+
+Esto le dice a cualquiera que lea tu código: *"Este error de 'nota demasiado alta' pertenece a la lógica de los Burócratas, no a la de los Formularios ni a la de los Animales"*.
+
+#### B. Evitar conflictos de nombres (Scope)
+
+En el siguiente ejercicio (Ex01), crearás la clase `Form`. Los formularios **también** tienen notas y también pueden tener notas demasiado altas.
+
+* Si declaras las excepciones fuera, tendrías que llamar a una `BureaucratGradeTooHigh` y a la otra `FormGradeTooHigh` para que no choquen.
+* Al anidarlas, puedes llamar a ambas `GradeTooHighException`, pero el compilador las distingue por su "apellido":
+1. `Bureaucrat::GradeTooHighException`
+2. `Form::GradeTooHighException`
+
+
+
+#### C. Encapsulación
+
+Es una forma de ordenar. Si esa excepción solo se va a usar cuando interactúas con un burócrata, ¿para qué tenerla "tirada" por ahí en medio del código global? La guardas dentro de la caja del Burócrata para mantener el código limpio.
+
+---
+
+### 💡 En resumen
+
+1. **`throw()`**: Es una promesa de seguridad. "Esta función (`what`) solo devuelve un mensaje de texto, te juro que no va a explotar".
+2. **Clases Anidadas**: Es para ponerle "apellidos" a tus clases. Ayuda a saber que ese error es culpa exclusiva del Burócrata y permite que otras clases (como `Form`) tengan errores con el mismo nombre sin que se peleen.
+
+Entiendo perfectamente la confusión. Estás mezclando "definir una herramienta" con "usar la herramienta". Vamos a separarlo con dos analogías muy claras, porque esto es la base de todo el manejo de errores en C++.
+
+### 1. ¿Por qué tengo que lanzar (`throw`) la excepción si ya creé la clase?
+
+Imagina que estás diseñando un sistema contra incendios para un edificio.
+
+1. **Crear la clase (`class FireAlarm`)**: Es como **fabricar un botón de alarma** en una fábrica. Tienes el aparato físico, sabes que es rojo y que hace ruido.
+2. **Instanciar la clase (`new FireAlarm()`)**: Es como **instalar el botón** en la pared. Ahí está el botón, colgado. ¿Está sonando la alarma? **No**. El edificio sigue tranquilo.
+3. **Lanzar la excepción (`throw FireAlarm()`)**: Es **romper el cristal y PULSARA el botón**.
+
+**En programación:**
+
+* Si solo escribes `if (grade < 1) { Bureaucrat::GradeTooHighException(); }`, lo único que haces es crear un objeto temporal en la memoria y destruirlo inmediatamente. El programa sigue ejecutándose como si nada hubiera pasado. ¡El error se ignora!
+* Cuando escribes **`throw`**, le dices a la CPU: *"DETÉN todo lo que estás haciendo ahora mismo, deja de ejecutar la siguiente línea y salta hacia atrás hasta encontrar a alguien (un `catch`) que sepa manejar esta emergencia"*.
+
+### 2. ¿Por qué tengo que sobrescribir `what()`?
+
+Aquí entra en juego el **Polimorfismo** (la herencia).
+
+Imagina que en tu `main` tienes un bloque `catch` genérico, porque quieres capturar cualquier error que pase, sea de memoria, de matemáticas o de tus burócratas:
+
+```cpp
+try {
+    // Código peligroso...
+}
+catch (std::exception &e) { // <--- Aquí atrapamos al PADRE genérico
+    std::cout << e.what() << std::endl;
+}
+
+```
+
+* **El problema:** `std::exception` es una clase genérica que viene con C++. Su método `what()` original no sabe nada de "Burócratas" ni de "Grados". Si no lo sobrescribes, devolverá un mensaje genérico ("std::exception") o nada.
+* **La solución:** Al sobrescribir `what()`, estás usando la magia de las funciones `virtual`.
+Aunque el `catch` reciba una referencia genérica (`std::exception &e`), al llamar a `e.what()`, el programa busca en tiempo de ejecución **de qué tipo es realmente** esa excepción.
+* Si es `GradeTooHigh`, ejecutará **TU** versión de `what()` y dirá: "Grade is too high!".
+
+
+
+**Resumen:**
+
+1. **`throw`**: Es el acto de "pulsar el botón de pánico". Sin él, la clase excepción es solo un objeto inerte.
+2. **`what()`**: Es la forma de "meter una nota dentro de la botella". Como el `catch` suele atrapar excepciones genéricas, necesitas este método estandarizado para poder leer el mensaje de error específico que tú definiste.
+

@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 18:41:22 by sergio            #+#    #+#             */
-/*   Updated: 2026/02/14 18:42:29 by sergio           ###   ########.fr       */
+/*   Updated: 2026/02/16 11:52:50 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ int main()
 		std::cout << bob << std::endl;
 
 		bob.incrementGrade(); // Error!
+
+		bob.decrementGrade();
+		std::cout << bob << std::endl;
+
+		bob.decrementGrade();
+		std::cout << bob << std::endl;
 	}
 	catch (std::exception &e)
 	{
