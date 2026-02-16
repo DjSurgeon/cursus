@@ -351,3 +351,206 @@ Aunque el `catch` reciba una referencia genérica (`std::exception &e`), al llam
 1. **`throw`**: Es el acto de "pulsar el botón de pánico". Sin él, la clase excepción es solo un objeto inerte.
 2. **`what()`**: Es la forma de "meter una nota dentro de la botella". Como el `catch` suele atrapar excepciones genéricas, necesitas este método estandarizado para poder leer el mensaje de error específico que tú definiste.
 
+----
+
+### 🔄 1. ¿Qué es una Dependencia Circular?
+
+Imagina dos amigos, Ana y Beto:
+
+* **Ana** dice: "No puedo presentarme hasta que **Beto** llegue".
+* **Beto** dice: "No puedo presentarme hasta que **Ana** llegue".
+
+Resultado: **Nadie llega nunca.** Se quedan bloqueados esperando al otro.
+
+En C++, el compilador lee los archivos de arriba a abajo.
+
+1. Empieza a leer `Bureaucrat.hpp`.
+2. Ve `#include "Form.hpp"`. Paufsa y va a leer `Form.hpp`.
+3. Empieza a leer `Form.hpp`.
+4. Ve `#include "Bureaucrat.hpp"`.
+5. Intenta leer `Bureaucrat.hpp` otra vez...
+
+Gracias a los **Include Guards** (`#ifndef`), el compilador no entra en un bucle infinito, PERO ocurre algo peor: **ignora la segunda inclusión**.
+
+* Resultado: Cuando `Form` intenta usar `Bureaucrat`, el compilador dice: *"¿Bureaucrat? No sé qué es eso, todavía no he terminado de leer su archivo porque estaba ocupado leyendo el tuyo"*.
+
+---
+
+### 🛠️ 2. La Solución: "Forward Declaration" (Declaración Adelantada)
+
+La solución es decirle al compilador: *"Oye, existe una clase llamada Bureaucrat. No te doy los detalles ahora (no te doy el `.hpp` completo), pero confía en mí, existe. Te daré los detalles más tarde en el `.cpp`"*.
+
+Esto se hace con la línea: `class NombreDeLaClase;`
+
+#### Regla de Oro:
+
+* En el **`.hpp`**: Usa **Forward Declaration** siempre que solo necesites usar la clase como puntero (`Class*`) o referencia (`Class&`) en los argumentos de una función.
+* En el **`.cpp`**: Usa el **`#include`** real, porque ahí es donde necesitas acceder a las funciones internas (como `.getGrade()`).
+
+---
+
+### 💻 3. Cómo arreglar tu código (Paso a Paso)
+
+Vamos a aplicar esto a tus dos archivos.
+
+#### Archivo A: `Bureaucrat.hpp`
+
+El Burócrata necesita firmar un `Form`.
+
+```cpp
+#ifndef BUREAUCRAT_HPP
+# define BUREAUCRAT_HPP
+
+# include <string>
+# include <iostream>
+# include <exception>
+
+// 1. FORWARD DECLARATION
+// "Prometo que Form existe, no preguntes más por ahora"
+class Form; 
+
+class Bureaucrat
+{
+    // ... tus atributos y constructores ...
+
+    // 2. USO DE LA REFERENCIA
+    // Como usamos 'Form&', al compilador le basta con saber que Form existe.
+    // No necesita saber cuánto pesa ni qué métodos tiene todavía.
+    void signForm(Form& form); 
+};
+
+// ...
+#endif
+
+```
+
+#### Archivo B: `Form.hpp`
+
+El Formulario necesita ser firmado por un `Bureaucrat`.
+
+```cpp
+#ifndef FORM_HPP
+# define FORM_HPP
+
+# include <string>
+# include <iostream>
+# include <exception>
+
+// 1. FORWARD DECLARATION
+// "Prometo que Bureaucrat existe"
+class Bureaucrat; 
+
+class Form
+{
+    // ... atributos ...
+
+    // 2. USO DE LA REFERENCIA
+    void beSigned(const Bureaucrat& bureaucrat);
+};
+
+// ...
+#endif
+
+```
+
+#### Archivo C: `Bureaucrat.cpp` (La Implementación)
+
+Aquí es donde realmente "usamos" al formulario (llamamos a sus métodos), así que aquí SÍ necesitamos el include.
+
+```cpp
+#include "Bureaucrat.hpp"
+#include "Form.hpp" // <--- AQUÍ SÍ ponemos el include real
+
+// ... constructores ...
+
+void Bureaucrat::signForm(Form& form)
+{
+    try 
+    {
+        // Aquí necesitamos ver el código de Form para llamar a beSigned
+        form.beSigned(*this); 
+        std::cout << _name << " signed " << form.getName() << std::endl;
+    }
+    catch (std::exception &e)
+    {
+        std::cout << _name << " couldn't sign " << form.getName() 
+                  << " because " << e.what() << std::endl;
+    }
+}
+
+```
+
+#### Archivo D: `Form.cpp` (La Implementación)
+
+```cpp
+#include "Form.hpp"
+#include "Bureaucrat.hpp" // <--- AQUÍ SÍ ponemos el include real
+
+// ... constructores ...
+
+void Form::beSigned(const Bureaucrat& bureaucrat)
+{
+    // Aquí necesitamos ver el código de Bureaucrat para llamar a getGrade
+    if (bureaucrat.getGrade() > _signGrade)
+    {
+        throw Form::GradeTooLowException();
+    }
+    _isSigned = true;
+}
+
+```
+
+### 🎯 Resumen para tu "Cheat Sheet"
+
+1. **En los `.hpp**`: Evita `#include "LaOtraClase.hpp"` si puedes. Usa `class LaOtraClase;`.
+2. **En los `.cpp**`: Pon todos los `#include` que necesites para que el código funcione.
+
+---
+
+> **"Una vez virtual, siempre virtual".**
+
+### 1. La Herencia de la Virtualidad
+
+La clase padre, `std::exception`, ya declaró la función `what()` como `virtual`.
+En C++, cuando una función es virtual en el padre, **automáticamente se vuelve virtual en todos los hijos**, nietos y bisnietos, **aunque tú no escribas la palabra `virtual**`.
+
+Por eso, poner `virtual` en tu clase `GradeTooHighException` es **opcional** para el compilador (porque ya lo sabe), pero es **buena práctica** para el programador (para que tú sepas que estás sobrescribiendo algo).
+
+### 2. ¿Qué pasaría si el padre NO fuera virtual?
+
+Aquí es donde está la magia. Si `std::exception::what()` **no** fuera virtual (hipotéticamente), tu programa se rompería en el `main` al intentar capturar la excepción de forma genérica.
+
+Mira este ejemplo:
+
+```cpp
+try {
+    // Lanzamos tu excepción específica
+    throw Bureaucrat::GradeTooHighException();
+}
+catch (std::exception &e) { // <--- ATRAPAMOS COMO PADRE GENÉRICO
+    // Aquí ocurre la magia del polimorfismo
+    std::cout << e.what() << std::endl;
+}
+
+```
+
+* **Caso A (Con `virtual`):**
+El programa dice: "Tengo una referencia a `std::exception`, pero voy a mirar en la memoria a ver qué objeto es *realmente*. ¡Ah, es un `GradeTooHighException`! Ejecuto **su** versión de `what()`".
+* *Salida:* "Grade is too high!"
+
+
+* **Caso B (Sin `virtual` en el padre):**
+El programa diría: "Tengo una referencia a `std::exception`. Como `what` no es virtual, ejecuto la versión de `std::exception` y me da igual lo que sea el objeto real".
+* *Salida:* "std::exception" (o un mensaje genérico inútil).
+
+
+
+### 3. ¿Por qué lo escribimos entonces?
+
+Aunque el compilador lo haga implícito, lo escribimos explícitamente por dos razones:
+
+1. **Legibilidad:** Le dices a quien lea tu código: *"Ojo, esta función no es nueva, está modificando el comportamiento de mi padre"*.
+2. **Seguridad (En C++11 y superior):** Aunque en 42 usáis C++98, en C++ moderno se usa la palabra clave `override` al final (`virtual ... what() const override`) para que el compilador te avise si te has equivocado al escribir el nombre de la función.
+
+---
+
