@@ -554,3 +554,202 @@ Aunque el compilador lo haga implícito, lo escribimos explícitamente por dos r
 
 ---
 
+Basado en las fuentes proporcionadas, el **Template Method** (Método Plantilla) es un patrón de diseño de comportamiento fundamental en la programación orientada a objetos y C++.
+
+Aquí tienes la explicación detallada de qué son, cómo funcionan y un ejemplo práctico.
+
+### ¿Qué es el Template Method?
+
+El **Template Method** define el **esqueleto de un algoritmo** en una operación de la clase base (generalmente una clase abstracta), postergando la definición de algunos de sus pasos a las subclases.
+
+La idea central es que la **Clase Base** define la **estructura** general del algoritmo (el orden en que se ejecutan las cosas) y garantiza que esta estructura no cambie, mientras que permite a las **Clases Derivadas** redefinir o implementar ciertos pasos específicos sin alterar el flujo general.
+
+### ¿Cómo funciona en una Clase Abstracta?
+
+En el contexto de C++, esto se implementa mediante una combinación de métodos no virtuales (el esqueleto) y métodos virtuales (los pasos personalizables):
+
+1.  **El Método Plantilla (Template Method):** Es un método público en la clase base que contiene la lógica de control. Llama a otros métodos en un orden específico. Generalmente, este método no debería ser sobrescrito por las clases hijas para proteger la estructura del algoritmo.
+2.  **Operaciones Primitivas (Pasos Abstractos):** Son funciones virtuales puras (`virtual ... = 0`) declaradas en la clase base. Las subclases **están obligadas** a implementarlas para dar cuerpo a los detalles del algoritmo.
+3.  **Ganchos (Hooks):** Son funciones virtuales que tienen una implementación vacía o por defecto en la clase base. Las subclases pueden sobrescribirlas si desean extender el comportamiento en puntos cruciales, pero no es obligatorio.
+
+### Ejemplo de Código (El Héroe de un Juego)
+
+Basado en el ejemplo de las fuentes, imaginemos la lógica de ataque de un héroe en un videojuego. La estructura del ataque es siempre la misma (verificar si puede atacar, luego atacar), pero la forma de atacar cambia según si es un Guerrero o un Arquero.
+
+```cpp
+#include <iostream>
+
+// CLASE ABSTRACTA (Define el esqueleto)
+class Heroe {
+public:
+    // 1. EL TEMPLATE METHOD
+    // Define el esqueleto del algoritmo.
+    // Nótese que no es virtual, para que los hijos no cambien el orden.
+    void Atacar() {
+        if (PuedeAtacar()) {      // Paso 1: Verificación
+            EjecutarAtaque();     // Paso 2: La acción concreta
+            GritoDeGuerra();      // Paso 3: Un 'Hook' opcional
+        }
+    }
+
+protected:
+    // 2. OPERACIONES PRIMITIVAS (Abstractas)
+    // Los hijos DEBEN implementar estos pasos.
+    virtual bool PuedeAtacar() const = 0;
+    virtual void EjecutarAtaque() const = 0;
+
+    // 3. HOOK (Gancho)
+    // Tiene una implementación por defecto (vacía o genérica).
+    // Los hijos PUEDEN sobrescribirlo si quieren.
+    virtual void GritoDeGuerra() const {
+        std::cout << "(Silencio...)" << std::endl;
+    }
+    
+    // Destructor virtual necesario en clases base
+    virtual ~Heroe() = default; 
+};
+
+// CLASE CONCRETA 1
+class Guerrero : public Heroe {
+protected:
+    bool PuedeAtacar() const override {
+        // Lógica específica del guerrero (ej. tiene estamina)
+        return true; 
+    }
+
+    void EjecutarAtaque() const override {
+        std::cout << "¡El guerrero golpea con su espada!" << std::endl;
+    }
+    
+    // Sobrescribe el Hook
+    void GritoDeGuerra() const override {
+        std::cout << "¡POR EL REY!" << std::endl;
+    }
+};
+
+// CLASE CONCRETA 2
+class Arquero : public Heroe {
+protected:
+    bool PuedeAtacar() const override {
+        // Lógica específica del arquero (ej. tiene flechas)
+        return true;
+    }
+
+    void EjecutarAtaque() const override {
+        std::cout << "¡El arquero dispara una flecha!" << std::endl;
+    }
+    
+    // El Arquero NO sobrescribe el Hook, usará el defecto (silencio).
+};
+
+int main() {
+    Guerrero g;
+    Arquero a;
+
+    std::cout << "--- Turno del Guerrero ---" << std::endl;
+    g.Atacar(); // Llama al Template Method de la base
+
+    std::cout << "\n--- Turno del Arquero ---" << std::endl;
+    a.Atacar(); // Llama al Template Method de la base
+
+    return 0;
+}
+```
+
+### Ventajas y Consideraciones
+
+1.  **Inversión de Control:** Es la clase padre la que llama a los métodos de los hijos ("Don't call us, we'll call you"). El padre decide *cuándo* se ejecutan los pasos; el hijo decide *cómo* se ejecutan.
+2.  **Evita Duplicación:** La estructura general del flujo de trabajo se implementa una sola vez en la clase abstracta. No tienes que copiar y pegar la lógica del `if (PuedeAtacar())` en cada héroe.
+3.  **Extensibilidad:** Los *hooks* proporcionan puntos de extensión seguros sin romper la lógica central del algoritmo.
+
+Este patrón es extremadamente común en frameworks de C++, donde el framework te da una clase base y te pide que implementes solo métodos específicos (como `setup()` o `loop()` en Arduino, o `Start()` y `Update()` en motores de juegos) mientras el motor controla el flujo principal.
+
+----
+
+Basado en las fuentes proporcionadas, aquí tienes una explicación detallada sobre el uso de `rand()` en C++ y cómo implementar una probabilidad del 50%.
+
+### ¿Qué es la función `rand()`?
+
+La función `rand()` (parte de la librería `<cstdlib>`) genera un número entero **pseudoaleatorio** en el rango comprendido entre **0** y una constante llamada **`RAND_MAX`** (cuyo valor suele ser al menos 32767).
+
+Es importante entender que `rand()` genera una secuencia conocida basada en un valor inicial llamado "semilla" (*seed*). Si no cambias la semilla, el programa generará la misma secuencia de números cada vez que lo ejecutes.
+
+---
+
+### Cómo ejecutar algo con el 50% de probabilidad
+
+Para obtener un resultado binario (Cara/Cruz, Verdadero/Falso) con un 50% de probabilidad, la técnica estándar con `rand()` es utilizar el **operador módulo (`%`)** con el número 2.
+
+La lógica es: `rand() % 2` divide el número aleatorio generado entre 2 y devuelve el residuo. Los únicos residuos posibles al dividir por 2 son **0** y **1**, ambos con aproximadamente la misma probabilidad de aparecer.
+
+#### Ejemplo de Código (Estilo Clásico)
+
+Este ejemplo muestra cómo simular el lanzamiento de una moneda:
+
+```cpp
+#include <iostream>
+#include <cstdlib> // Necesario para rand() y srand()
+#include <ctime>   // Necesario para time()
+
+int main() {
+    // 1. Inicializar la semilla (Seed)
+    // Usamos la hora actual para asegurar que la secuencia cambie en cada ejecución.
+    std::srand(std::time(NULL)); 
+
+    // 2. Generar el número y aplicar el módulo
+    // rand() % 2 devolverá 0 o 1
+    int resultado = std::rand() % 2; 
+
+    // 3. Ejecutar lógica basada en el 50%
+    if (resultado == 0) {
+        std::cout << "Ha salido CARA (Opción A)" << std::endl;
+        // Ejecutar código del caso A
+    } else {
+        std::cout << "Ha salido CRUZ (Opción B)" << std::endl;
+        // Ejecutar código del caso B
+    }
+
+    return 0;
+}
+```
+
+
+**Puntos Clave del Ejemplo:**
+1.  **`std::srand(std::time(NULL));`**: Esto se llama **una sola vez** al inicio del programa. Si omites esta línea, `rand()` se comportará como si la semilla fuera 1, repitiendo siempre los mismos números.
+2.  **`% 2`**: Restringe el rango de 0 a `RAND_MAX` al rango 0 a 1.
+
+---
+
+### Alternativa Moderna (C++11 en adelante)
+
+Aunque `rand()` es común en ejemplos sencillos, tiene limitaciones estadísticas (su distribución no es perfectamente uniforme en todos los rangos) y no es segura para criptografía.
+
+Para aplicaciones modernas y robustas, C++11 introdujo la librería `<random>`, que ofrece generadores de mayor calidad como el *Mersenne Twister* (`mt19937`).
+
+**Ejemplo Moderno (Recomendado para calidad):**
+
+```cpp
+#include <iostream>
+#include <random> // Librería moderna
+
+int main() {
+    // Inicializar el dispositivo aleatorio y el generador
+    std::random_device rd; 
+    std::mt19937 gen(rd()); 
+    
+    // Definir una distribución uniforme entre 0 y 1 (enteros)
+    std::uniform_int_distribution<> dis(0, 1);
+
+    // Generar el número (0 o 1)
+    if (dis(gen) == 0) {
+        std::cout << "Ejecutar lógica A (50%)" << std::endl;
+    } else {
+        std::cout << "Ejecutar lógica B (50%)" << std::endl;
+    }
+
+    return 0;
+}
+```
+
+----
+

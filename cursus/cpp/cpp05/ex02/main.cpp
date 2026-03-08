@@ -6,7 +6,7 @@
 /*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/14 18:41:22 by sergio            #+#    #+#             */
-/*   Updated: 2026/02/16 23:26:19 by sergio           ###   ########.fr       */
+/*   Updated: 2026/02/16 23:35:28 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
-
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 int main()
 {
+	std::srand(std::time(NULL)); 
 	Bureaucrat boss("Big Boss", 1);
 	Bureaucrat middle("Manager", 50);
 	Bureaucrat intern("Intern", 148);
