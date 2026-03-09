@@ -63,6 +63,8 @@ SOURCE = 	ft_atoi.c \
 
 OBJ = $(SOURCE:%.c=%.o)
 
+# Rules ====================================================================== #
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
@@ -79,4 +81,17 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+test: all
+	@chmod +x test/test_libft.sh
+	@cd test && ./test_libft.sh
+
+help:
+	@echo "Libft Makefile Help:"
+	@echo "  all     : Compiles the library (libft.a)"
+	@echo "  clean   : Removes object files"
+	@echo "  fclean  : Removes object files and the library"
+	@echo "  re      : Performs a full re-compilation (fclean + all)"
+	@echo "  test    : Compiles the library and runs the test suite"
+	@echo "  help    : Shows this help message"
+
+.PHONY: all clean fclean re bonus test help
