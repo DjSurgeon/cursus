@@ -3,42 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 10:31:59 by serjimen          #+#    #+#             */
-/*   Updated: 2025/03/28 10:39:30 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2025/03/09 11:00:00 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: convert a string to int (ascii to int)
-**	parameters: a pointer to string
-**	return: a int
-*/
+/**
+ * @brief Converts a string to an integer (ASCII to Int).
+ *
+ * Skips leading whitespace characters, handles an optional sign,
+ * and converts subsequent digits into an integer value.
+ *
+ * @param str The string to convert.
+ * @return The converted integer value.
+ */
 
 #include "libft.h"
 
 int	ft_atoi(const char *str)
 {
-	size_t	i;
 	int		sign;
-	int		result;
+	long	result;
 
-	i = 0;
 	result = 0;
 	sign = 1;
-	while (ft_isspace(str[i]) == 1)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	while (ft_isspace(*str))
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		if (str[i] == '-')
+		if (*str == '-')
 			sign = -1;
-		i++;
+		str++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
+	while (*str >= '0' && *str <= '9')
 	{
-		result = result * 10 + (str[i] - '0');
-		i++;
+		result = result * 10 + (*str - '0');
+		str++;
 	}
-	return (result * sign);
+	return ((int)(result * sign));
 }

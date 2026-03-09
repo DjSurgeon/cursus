@@ -10,22 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: calculate the length of the string
-**	parameter: pointer to the string
-**	return: the length of the string
-*/
+/**
+ * @brief Calculates the length of a null-terminated string.
+ *
+ * Iterates through the string 's' to determine the number of characters
+ * it contains, excluding the terminating null byte ('\0').
+ *
+ * @param s A pointer to the string to be measured.
+ * @return The number of characters in the string. If 's' is NULL, returns 0.
+ */
 
 #include "libft.h"
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	i;
+	const char	*start;
 
-	i = 0;
-	while (s[i] != '\0')
-	{
-		i++;
-	}
-	return (i);
+	if (!s)
+		return (0);
+	start = s;
+	while (*s != '\0')
+		s++;
+	return (s - start);
 }

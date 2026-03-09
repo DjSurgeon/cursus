@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_countchar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/01 17:37:30 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/06/01 17:38:00 by sergio-jime      ###   ########.fr       */
+/*   Created: 2025/06/01 17:37:30 by serjimen          #+#    #+#             */
+/*   Updated: 2026/03/09 11:15:00 by serjimen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+/**
+ * @brief Writes a character to the standard output and counts it.
+ *
+ * @param c The character to be written.
+ * @return The number of characters written (always 1 if successful).
+ */
 
-/*
-**	description: write the char and count it
-**	parameters: a char
-**	return: the number of char printed
-*/
+#include "libft.h"
 
 int	ft_countchar(char c)
 {

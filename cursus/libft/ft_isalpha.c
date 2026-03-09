@@ -10,11 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: check if c is an alphabetic value
-**	parameter: int or ascci value
-**	return: 1 if is alphabetic 0 if not
-*/
+/**
+ * @brief Checks for an alphabetic character.
+ *
+ * Checks if the character is a letter, either uppercase or lowercase.
+ *
+ * @param c The character to be checked.
+ * @return 1 if the character is alphabetic, 0 otherwise.
+ */
 
 int	ft_isalpha(int c)
 {

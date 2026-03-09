@@ -10,11 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: allocate an array of nmemb elementes of size to 0
-**	parameters: number os elements and size of elements
-**	return: void pointer to allocated memory
-*/
+/**
+ * @brief Allocates memory for an array of nmemb elements of size bytes each 
+ * and returns a pointer to the allocated memory.
+ *
+ * The memory is set to zero. If nmemb or size is 0, it returns a unique 
+ * pointer value that can later be successfully passed to free().
+ *
+ * @param nmemb Number of elements to allocate.
+ * @param size Size of each element.
+ * @return A pointer to the allocated memory, or NULL if the allocation fails.
+ */
 
 #include "libft.h"
 

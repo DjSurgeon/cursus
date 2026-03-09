@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: convert n bytes of pointer *s into '\0'
-**	parameters: a void pointer and number of bytes
-**	return: none
-*/
+/**
+ * @brief Erases the data in the n bytes of the memory starting at the location 
+ * pointed to by s.
+ *
+ * @param s A pointer to the memory area to be zeroed.
+ * @param n The number of bytes to be zeroed.
+ */
 
 #include "libft.h"
 
