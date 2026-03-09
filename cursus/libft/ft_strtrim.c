@@ -10,11 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**  description: delete all set characters in the string s
-**  parameters: the string and the chars
-**  return: the new string without set characters
-*/
+/**
+ * @brief Allocates and returns a copy of 's1' with the characters specified 
+ * in 'set' removed from the beginning and the end of the string.
+ *
+ * @param s1 The string to be trimmed.
+ * @param set The reference set of characters to trim.
+ * @return The trimmed string. NULL if the allocation fails.
+ */
 
 #include "libft.h"
 
@@ -38,13 +41,13 @@ char	*ft_strtrim(const char *s1, const char *set)
 	size_t	start;
 	size_t	end;
 
-	start = 0;
 	if (!s1 || !set)
 		return (NULL);
+	start = 0;
 	while (s1[start] != '\0' && ft_char_in_set(s1[start], set) == 1)
 		start++;
 	end = ft_strlen(s1);
-	while (end > 0 && ft_char_in_set(s1[end - 1], set) == 1)
+	while (end > start && ft_char_in_set(s1[end - 1], set) == 1)
 		end--;
 	new_string = ft_substr(s1, start, (size_t)end - start);
 	return (new_string);

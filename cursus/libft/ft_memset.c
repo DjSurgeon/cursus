@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: put the character c in s for n bytes
-**	parameters: character, destiny and number of bytes
-**	return: pointer to destiny
-*/
+/**
+ * @brief Fills the first n bytes of the memory area pointed to by s with 
+ * the constant byte c.
+ *
+ * @param s A pointer to the memory area.
+ * @param c The character to be used for filling.
+ * @param n The number of bytes to be filled.
+ * @return A pointer to the memory area s.
+ */
 
 #include "libft.h"
 

@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: generate a string equal to int value
-**	parameter: int positive or negative
-**	return: the string of int value or NULL if malloc fail
-*/
+/**
+ * @brief Allocates and returns a string representing the integer received as 
+ * an argument. Negative numbers must be handled.
+ *
+ * @param n The integer to convert.
+ * @return The string representing the integer. NULL if the allocation fails.
+ */
 
 #include "libft.h"
 
@@ -24,9 +26,7 @@ static size_t	intlen(long n)
 
 	count = 0;
 	if (n <= 0)
-	{
 		count++;
-	}
 	while (n != 0)
 	{
 		n = n / 10;
@@ -43,15 +43,13 @@ static void	reverse_string(char *s, size_t len)
 
 	start = 0;
 	end = len - 1;
+	while (start < end)
 	{
-		while (start < end)
-		{
-			swap = s[start];
-			s[start] = s[end];
-			s[end] = swap;
-			start++;
-			end--;
-		}
+		swap = s[start];
+		s[start] = s[end];
+		s[end] = swap;
+		start++;
+		end--;
 	}
 }
 
@@ -95,9 +93,7 @@ char	*ft_itoa(int n)
 	}
 	aux_itoa(result, num);
 	if (negative != 1)
-	{
 		result[len - 1] = '-';
-	}
 	reverse_string(result, len);
 	result[len] = '\0';
 	return (result);

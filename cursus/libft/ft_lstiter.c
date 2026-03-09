@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstiter_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_lstiter.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: iterate over the list and apply the function
-**	parameters: pointer to the first node, the function
-**	return: nothing
-*/
+/**
+ * @brief Iterates the list 'lst' and applies the function 'f' on the content 
+ * of each node.
+ *
+ * @param lst The address of a pointer to a node.
+ * @param f The address of the function used to iterate on the list.
+ */
 
 #include "libft.h"
 

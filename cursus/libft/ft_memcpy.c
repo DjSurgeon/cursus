@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: copy n portion of memory from source to destination
-**	parameters: source an destiny and number of bytes
-**	return: pointer to destiny
-*/
+/**
+ * @brief Copies n bytes from memory area src to memory area dest. 
+ * The memory areas must not overlap.
+ *
+ * @param dest A pointer to the destination memory area.
+ * @param src A pointer to the source memory area.
+ * @param n The number of bytes to be copied.
+ * @return A pointer to dest.
+ */
 
 #include "libft.h"
 

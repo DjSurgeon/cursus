@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: copy strings for a determinate size
-**	parameters: two strings and size
-**	return: the length of the source string
-*/
+/**
+ * @brief Copies up to size - 1 characters from the string src to dst, 
+ * NUL-terminating the result if size is not 0.
+ *
+ * @param dst The destination string.
+ * @param src The source string.
+ * @param size The size of the destination buffer.
+ * @return The total length of the string they tried to create.
+ */
 
 #include "libft.h"
 

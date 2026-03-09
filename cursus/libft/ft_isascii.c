@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: check if c is an ascii value
-**	parameter: int or ascci value
-**	return: 1 if is ascii 0 if not
-*/
+/**
+ * @brief Checks whether c is a 7-bit unsigned char value that fits into the 
+ * ASCII character set.
+ *
+ * @param c The character to be checked.
+ * @return 1 if the character is an ASCII character, 0 otherwise.
+ */
 
 int	ft_isascii(int c)
 {

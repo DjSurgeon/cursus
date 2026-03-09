@@ -10,11 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: duplicate a string
-**	parameters: the string to duplicate
-**	return: the duplicate string
-*/
+/**
+ * @brief Returns a pointer to a new string which is a duplicate of the string s.
+ *
+ * @param s The string to be duplicated.
+ * @return A pointer to the duplicated string, or NULL if insufficient memory 
+ * was available.
+ */
 
 #include "libft.h"
 

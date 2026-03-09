@@ -10,20 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: uppercase the char
-**	parameter: char c in ascii
-**	return: the char in uppercase
-*/
+/**
+ * @brief Converts a lowercase letter to the corresponding uppercase letter.
+ *
+ * @param c The character to convert.
+ * @return The converted character if it was a lowercase letter, or c 
+ * if it was not.
+ */
 
 #include "libft.h"
 
 int	ft_toupper(int c)
 {
 	if (c >= 'a' && c <= 'z')
-	{
-		c -= 32;
-		return (c);
-	}
+		return (c - 32);
 	return (c);
 }

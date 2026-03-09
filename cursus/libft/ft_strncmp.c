@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: compare two strings for n size
-**	parameters: the two strings and the size
-**	result: 0 if the strings are equal, -1 and 1 if s2 < s1 and s2 > s1
-*/
+/**
+ * @brief Lexicographically compares the null-terminated strings s1 and s2.
+ *
+ * @param s1 The first string to be compared.
+ * @param s2 The second string to be compared.
+ * @param n The maximum number of characters to compare.
+ * @return An integer greater than, equal to, or less than 0, according as 
+ * the string s1 is greater than, equal to, or less than the string s2.
+ */
 
 #include "libft.h"
 

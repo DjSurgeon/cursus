@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: print a string in file descriptor number
-**	parameters: string and file descriptor
-**	return:  none
-*/
+/**
+ * @brief Outputs the string 's' to the given file descriptor.
+ *
+ * @param s The string to output.
+ * @param fd The file descriptor on which to write.
+ */
 
 #include "libft.h"
 
@@ -22,10 +23,12 @@ void	ft_putstr_fd(char *s, int fd)
 {
 	size_t	i;
 
+	if (!s)
+		return ;
 	i = 0;
 	while (s[i] != '\0')
 	{
-		write (fd, &s[i], 1);
+		write(fd, &s[i], 1);
 		i++;
 	}
 }

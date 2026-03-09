@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: count the nodes of the list
-**	parameters: the first node
-**	return: the number of nodes
-*/
+/**
+ * @brief Counts the number of nodes in a list.
+ *
+ * @param lst The beginning of the list.
+ * @return The length of the list.
+ */
 
 #include "libft.h"
 

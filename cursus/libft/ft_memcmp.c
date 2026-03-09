@@ -10,11 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: compare memoria areas
-**	parameters: 2 strings and n bytes
-**	return:	0 if strings are equals, 1 or -1 if s1 > s2 or s1 < s2
-*/
+/**
+ * @brief Compares the first n bytes of the memory areas s1 and s2.
+ *
+ * @param s1 A pointer to the first memory area.
+ * @param s2 A pointer to the second memory area.
+ * @param n The number of bytes to be compared.
+ * @return An integer less than, equal to, or greater than zero if the first n 
+ * bytes of s1 is found, respectively, to be less than, to match, or be 
+ * greater than the first n bytes of s2.
+ */
 
 #include "libft.h"
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
+/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: free the content of the node first and the free the node
-**	parameter: the node, the function who free the node
-**	return: nothing
-*/
+/**
+ * @brief Takes as a parameter a node and frees the memory of the node’s 
+ * content using the function 'del' given as a parameter and free the node.
+ *
+ * The memory of 'next' must not be freed.
+ *
+ * @param lst The node to free.
+ * @param del The address of the function used to delete the content.
+ */
 
 #include "libft.h"
 

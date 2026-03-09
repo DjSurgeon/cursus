@@ -10,11 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: concatenate strings for a determinate size
-**	parameters: two strings and size
-**	return: the length of the concatenation
-*/
+/**
+ * @brief Appends string src to the end of dst. It will append at most 
+ * size - strlen(dst) - 1 characters. It will then NUL-terminate, unless 
+ * size is 0 or the original dst string was longer than size.
+ *
+ * @param dst The destination string.
+ * @param src The source string.
+ * @param size The size of the destination buffer.
+ * @return The total length of the string they tried to create.
+ */
 
 #include "libft.h"
 

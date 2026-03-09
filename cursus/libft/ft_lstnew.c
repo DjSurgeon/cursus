@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: create a new node
-**	parameters: the content of the new node
-**	return: the new node, with variable content->content and next->NULL
-*/
+/**
+ * @brief Allocates and returns a new node.
+ *
+ * The member variable 'content' is initialized with the value of the 
+ * parameter 'content'. The variable 'next' is initialized to NULL.
+ *
+ * @param content The content to create the node with.
+ * @return The new node.
+ */
 
 #include "libft.h"
 

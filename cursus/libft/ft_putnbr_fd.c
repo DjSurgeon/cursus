@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: print a number in file descriptor number
-**	parameters: int number and file descriptor
-**	return:  none
-*/
+/**
+ * @brief Outputs the integer 'n' to the given file descriptor.
+ *
+ * @param n The integer to output.
+ * @param fd The file descriptor on which to write.
+ */
 
 #include "libft.h"
 

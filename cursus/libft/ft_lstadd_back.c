@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: add the node new, at the end of the list
-**	parameters: the first node and the new node
-**	return: nothing
-*/
+/**
+ * @brief Adds the node 'new' at the end of the list.
+ *
+ * @param lst A pointer to the first node of a list.
+ * @param new A pointer to the node to be added to the list.
+ */
 
 #include "libft.h"
 

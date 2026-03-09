@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: check if c is a printable value
-**	parameter: int or ascci value
-**	return: 1 if is printable 0 if not
-*/
+/**
+ * @brief Checks for any printable character including space.
+ *
+ * @param c The character to be checked.
+ * @return 1 if the character is printable, 0 otherwise.
+ */
 
 int	ft_isprint(int c)
 {

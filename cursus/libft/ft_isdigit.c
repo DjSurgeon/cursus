@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: check if c is a numeric value
-**	parameter: int or ascci value
-**	return: 1 if is numeric 0 if not
-*/
+/**
+ * @brief Checks for a digit (0 through 9).
+ *
+ * @param c The character to be checked.
+ * @return 1 if the character is a digit, 0 otherwise.
+ */
 
 int	ft_isdigit(int c)
 {

@@ -10,15 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: print a character in file descriptor number
-**	parameters: char and file descriptor
-**	return:  none
-*/
+/**
+ * @brief Outputs the character 'c' to the given file descriptor.
+ *
+ * @param c The character to output.
+ * @param fd The file descriptor on which to write.
+ */
 
 #include "libft.h"
 
 void	ft_putchar_fd(char c, int fd)
 {
-	write (fd, &c, 1);
+	write(fd, &c, 1);
 }

@@ -10,11 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: add the new node to the front of the list
-**	parameters: pointer to the memory direction of the first node, the new node
-**	return: nothing
-*/
+/**
+ * @brief Adds the node 'new' at the beginning of the list.
+ *
+ * @param lst A pointer to the first node of a list.
+ * @param new A pointer to the node to be added to the list.
+ */
 
 #include "libft.h"
 

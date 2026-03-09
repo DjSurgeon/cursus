@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: free the node and the next nodes
-**	parameters: the pointer to a node, the function to free the nodes
-**	return: nothing
-*/
+/**
+ * @brief Deletes and frees the given node and every successor of that node, 
+ * using the function 'del' and free().
+ *
+ * Finally, the pointer to the list must be set to NULL.
+ *
+ * @param lst A pointer to a node.
+ * @param del The address of the function used to delete the content of the node.
+ */
 
 #include "libft.h"
 

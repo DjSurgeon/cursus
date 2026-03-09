@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: create a subtring from start of size len
-**	parameters: initial string, the start position and the length
-**	return: the new substring
-*/
+/**
+ * @brief Allocates and returns a substring from the string 's'. 
+ * The substring begins at index 'start' and is of maximum size 'len'.
+ *
+ * @param s The string from which to create the substring.
+ * @param start The start index of the substring in the string 's'.
+ * @param len The maximum length of the substring.
+ * @return The substring. NULL if the allocation fails.
+ */
 
 #include "libft.h"
 

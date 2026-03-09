@@ -10,11 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: look for a character in a string for n bytes
-**	parameters: the string, the character in ascii and the number of bytes
-**	return: pointer to coincidence byte if find it NULL if not
-*/
+/**
+ * @brief Scans the initial n bytes of the memory area pointed to by s for 
+ * the first instance of c.
+ *
+ * @param s A pointer to the memory area.
+ * @param c The character to be searched.
+ * @param n The number of bytes to be scanned.
+ * @return A pointer to the matching byte or NULL if the character does not 
+ * occur in the given memory area.
+ */
 
 #include "libft.h"
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_lstlast.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: serjimen <serjimen@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,24 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: the last node of the list
-**	parameters: hte begining of the list
-**	return: the last node of the list
-*/
+/**
+ * @brief Returns the last node of the list.
+ *
+ * @param lst The beginning of the list.
+ * @return The last node of the list.
+ */
 
 #include "libft.h"
 
 t_list	*ft_lstlast(t_list *lst)
 {
-	t_list	*last;
-
 	if (!lst)
 		return (NULL);
 	while (lst->next != NULL)
 	{
 		lst = lst->next;
 	}
-	last = lst;
-	return (last);
+	return (lst);
 }

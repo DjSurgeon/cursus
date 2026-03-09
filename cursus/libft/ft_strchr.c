@@ -10,11 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**  description: look for a first char coincidence in a string
-**  parameters: the string and a character in ascii
-**  return: pointer to string if exits NULL if not
-*/
+/**
+ * @brief Locates the first occurrence of c in the string pointed to by s.
+ *
+ * @param s The string to be searched.
+ * @param c The character to be located.
+ * @return A pointer to the first occurrence of the character c in the string s, 
+ * or NULL if the character is not found.
+ */
 
 #include "libft.h"
 
@@ -30,9 +33,7 @@ char	*ft_strchr(const char *s, int c)
 	while (s[i] != '\0')
 	{
 		if (s[i] == c)
-		{
 			return ((char *)&s[i]);
-		}
 		i++;
 	}
 	return (NULL);

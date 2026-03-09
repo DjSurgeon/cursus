@@ -10,13 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: locate the first ocurrence of the string little,
-** in the big string
-**	parameters: two string and the length to look for
-**	return: if little is NULL return big, if little don't exit in
-** big return NULL and if exits pointer to first character of little
-*/
+/**
+ * @brief Locates the first occurrence of the null-terminated string little 
+ * in the string big, where not more than len characters are searched.
+ *
+ * @param big The string to be searched.
+ * @param little The string to be located.
+ * @param len The maximum number of characters to search.
+ * @return If little is an empty string, big is returned; if little occurs 
+ * nowhere in big, NULL is returned; otherwise a pointer to the first 
+ * character of the first occurrence of little is returned.
+ */
 
 #include "libft.h"
 
@@ -25,10 +29,9 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	size_t	i;
 	size_t	j;
 
-	i = 0;
-	j = 0;
-	if (little[i] == '\0')
+	if (little[0] == '\0')
 		return ((char *)big);
+	i = 0;
 	while (big[i] != '\0' && i < len)
 	{
 		j = 0;

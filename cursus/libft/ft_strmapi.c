@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-**	description: apply a function at every character of the string
-**	parameters:	the string and the function
-**	return: the string with the funciton apply
-*/
+/**
+ * @brief Applies the function f to each character of the string s to create 
+ * a new string resulting from successive applications of f.
+ *
+ * @param s The string on which to iterate.
+ * @param f The function to apply to each character.
+ * @return The string created from the successive applications of f. 
+ * NULL if the allocation fails.
+ */
 
 #include "libft.h"
 
@@ -24,7 +28,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	size_t	i;
 	char	*new_string;
 
-	if (s == NULL)
+	if (s == NULL || f == NULL)
 		return (NULL);
 	new_string_len = ft_strlen(s);
 	i = 0;
