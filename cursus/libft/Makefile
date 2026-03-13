@@ -82,8 +82,8 @@ fclean: clean
 re: fclean all
 
 test: all
-	@chmod +x test/test_libft.sh
-	@cd test && ./test_libft.sh
+	@chmod +x test/scripts/test_libft.sh
+	@cd test/scripts && ./test_libft.sh
 
 help:
 	@echo "Libft Makefile Help:"
