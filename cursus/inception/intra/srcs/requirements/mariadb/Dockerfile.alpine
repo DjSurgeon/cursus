@@ -1,0 +1,20 @@
+# 1. Imagen base
+FROM alpine:3.22
+
+# 2. Instalación de dependencias
+RUN apk update && apk add \
+	--no-cache mariadb \
+	mariadb-client
+
+# 3. Copia de archivos de configuración y scripts
+COPY conf/my.cnf /etc/my.cnf.d/mariadb-server.cnf
+COPY tools/db-setup.alpine.sh /usr/local/bin/db-setup.sh
+
+# 4. Permisos de ejecución
+RUN chmod +x /usr/local/bin/db-setup.sh
+
+# 5. Puerto de escucha
+EXPOSE 3306
+
+# 6. Arranque del contenedor (PID 1)
+ENTRYPOINT ["/usr/local/bin/db-setup.sh"]
