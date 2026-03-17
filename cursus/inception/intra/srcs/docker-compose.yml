@@ -16,22 +16,22 @@ services:
     restart: always
 
   # ── WORDPRESS + PHP-FPM (To be implemented) ──────────────────
-  # wordpress:
-  #   build:
-  #     context: ./requirements/wordpress
-  #     dockerfile: Dockerfile.alpine
-  #   container_name: wordpress
-  #   env_file: .env
-  #   secrets:
-  #     - db_password
-  #     - credentials
-  #   volumes:
-  #     - wp_data:/var/www/html
-  #   networks:
-  #     - inception
-  #   restart: always
-  #   depends_on:
-  #     - mariadb
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile.alpine
+    container_name: wordpress
+    env_file: .env
+    secrets:
+      - db_password
+      - credentials
+    volumes:
+      - wp_data:/var/www/html
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - mariadb
 
   # ── NGINX (Reverse Proxy) (To be implemented) ───────────────
   # nginx:
@@ -55,8 +55,8 @@ secrets:
     file: ../secrets/db_password.txt
   db_root_password:
     file: ../secrets/db_root_password.txt
-  # credentials:
-  #   file: ../secrets/credentials.txt
+  credentials:
+    file: ../secrets/credentials.txt
 
 # Persistent storage on the host machine
 volumes:
@@ -66,12 +66,12 @@ volumes:
       type: none
       o: bind
       device: /home/serjimen/data/mariadb
-  # wp_data:
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     o: bind
-  #     device: /home/serjimen/data/wordpress
+  wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/serjimen/data/wordpress
 
 # Private virtual network for internal communication
 networks:

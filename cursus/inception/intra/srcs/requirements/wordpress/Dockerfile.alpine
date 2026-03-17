@@ -1,0 +1,39 @@
+# 1. Imagen base
+FROM alpine:3.22
+
+# 2. Instalación de dependencias (PHP 8.2 y extensiones para WordPress)
+RUN apk update && apk add --no-cache \
+    php82 \
+    php82-fpm \
+    php82-mysqli \
+    php82-curl \
+    php82-dom \
+    php82-exif \
+    php82-fileinfo \
+    php82-mbstring \
+    php82-openssl \
+    php82-xml \
+    php82-zip \
+    php82-phar \
+    wget \
+    mariadb-client
+
+# 3. Instalación de WP-CLI (Herramienta oficial para instalar WP desde terminal)
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
+
+# 4. Copiar configuraciones y script de arranque
+COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
+COPY tools/wp-setup.sh /usr/local/bin/wp-setup.sh
+RUN chmod +x /usr/local/bin/wp-setup.sh
+
+# 5. Crear la carpeta donde vivirán los archivos web
+RUN mkdir -p /var/www/html
+WORKDIR /var/www/html
+
+# 6. Exponer el puerto por donde PHP-FPM escuchará a NGINX
+EXPOSE 9000
+
+# 7. Ejecutar el script como PID 1
+ENTRYPOINT ["/usr/local/bin/wp-setup.sh"]

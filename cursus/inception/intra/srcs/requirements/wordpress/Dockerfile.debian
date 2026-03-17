@@ -1,0 +1,49 @@
+FROM debian:bookworm
+
+# Install PHP 8.2, php-fpm and all extensions WordPress needs
+# Each extension has a specific purpose:
+# php8.2-fpm      → FastCGI Process Manager — the service that runs PHP
+# php8.2-mysql    → connects PHP to MariaDB
+# php8.2-curl     → WordPress needs curl for HTTP requests (updates, APIs)
+# php8.2-gd       → image manipulation (thumbnails, resizing)
+# php8.2-mbstring → multibyte string support (non-ASCII characters)
+# php8.2-xml      → XML parsing (RSS feeds, sitemaps)
+# php8.2-zip      → install/update plugins and themes
+# wget            → download WP-CLI
+RUN apt-get update && apt-get install -y \
+    php8.2 \
+    php8.2-fpm \
+    php8.2-mysql \
+    php8.2-curl \
+    php8.2-gd \
+    php8.2-mbstring \
+    php8.2-xml \
+    php8.2-zip \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install WP-CLI — command line tool to manage WordPress without a browser
+# It allows us to download, configure and install WordPress via script
+RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
+    && chmod +x wp-cli.phar \
+    && mv wp-cli.phar /usr/local/bin/wp
+
+# Copy php-fpm pool configuration
+# This file defines how php-fpm listens and manages processes
+COPY conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
+
+# Copy the WordPress setup script
+COPY tools/wp-setup.sh /usr/local/bin/wp-setup.sh
+RUN chmod +x /usr/local/bin/wp-setup.sh
+
+# Create the directory where WordPress files will live
+# This directory will be mounted as a shared volume with NGINX
+RUN mkdir -p /var/www/html
+
+WORKDIR /var/www/html
+
+# php-fpm listens on port 9000 for FastCGI connections from NGINX
+EXPOSE 9000
+
+# Start the setup script as PID 1
+ENTRYPOINT ["/usr/local/bin/wp-setup.sh"]
