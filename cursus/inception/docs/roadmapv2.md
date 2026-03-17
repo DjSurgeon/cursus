@@ -231,7 +231,7 @@ The subject requires the **penultimate stable version**. As of 2025:
 | Distro  | Latest Stable  | Penultimate (use this) |
 |---------|----------------|------------------------|
 | Debian  | Debian 13 (Trixie) | **Debian 12 (Bookworm)** |
-| Alpine  | Alpine 3.21    | **Alpine 3.20**        |
+| Alpine  | Alpine 3.23    | **Alpine 3.22**        |
 
 > ⚠️ Always verify the current penultimate version before starting — these change over time.
 

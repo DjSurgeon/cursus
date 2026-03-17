@@ -1,20 +1,22 @@
-# 1. Imagen base
+# Base image (Penultimate stable version as per roadmap)
 FROM alpine:3.22
 
-# 2. Instalación de dependencias
-RUN apk update && apk add \
-	--no-cache mariadb \
-	mariadb-client
+# Dependencies
+# Using --no-cache avoids storing the index and keeps the image small
+RUN apk add --no-cache mariadb mariadb-client
 
-# 3. Copia de archivos de configuración y scripts
+# Configuration files & scripts
+# Custom configuration to allow connections from the WordPress container
 COPY conf/my.cnf /etc/my.cnf.d/mariadb-server.cnf
+# Initialization script to setup DB, users and root password
 COPY tools/db-setup.alpine.sh /usr/local/bin/db-setup.sh
 
-# 4. Permisos de ejecución
+# Execute permission
 RUN chmod +x /usr/local/bin/db-setup.sh
 
-# 5. Puerto de escucha
+# Listen port (MySQL standard)
 EXPOSE 3306
 
-# 6. Arranque del contenedor (PID 1)
+# Run container as PID 1
+# ENTRYPOINT handles signals and lifecycle management correctly
 ENTRYPOINT ["/usr/local/bin/db-setup.sh"]
