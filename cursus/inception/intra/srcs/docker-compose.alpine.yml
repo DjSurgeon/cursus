@@ -52,11 +52,11 @@ services:
 # Mapped to RAM files in /run/secrets/ inside containers
 secrets:
   db_password:
-    file: ../secrets/db_password.txt
+    file: ~/secrets/db_password.txt
   db_root_password:
-    file: ../secrets/db_root_password.txt
+    file: ~/secrets/db_root_password.txt
   credentials:
-    file: ../secrets/credentials.txt
+    file: ~/secrets/credentials.txt
 
 # Persistent storage on the host machine
 volumes:

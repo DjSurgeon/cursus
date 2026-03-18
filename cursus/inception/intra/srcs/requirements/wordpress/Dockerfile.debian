@@ -22,6 +22,8 @@ RUN apt-get update && apt-get install -y \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
+RUN ln -s /usr/bin/php82 /usr/bin/php
+
 # Install WP-CLI — command line tool to manage WordPress without a browser
 # It allows us to download, configure and install WordPress via script
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
@@ -30,10 +32,10 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 
 # Copy php-fpm pool configuration
 # This file defines how php-fpm listens and manages processes
-COPY conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
+COPY conf/debian.www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
 # Copy the WordPress setup script
-COPY tools/wp-setup.sh /usr/local/bin/wp-setup.sh
+COPY tools/wp-setup.debian.sh /usr/local/bin/wp-setup.sh
 RUN chmod +x /usr/local/bin/wp-setup.sh
 
 # Create the directory where WordPress files will live

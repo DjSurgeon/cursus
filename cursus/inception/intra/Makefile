@@ -1,7 +1,9 @@
 # Variables
 LOGIN       ?= serjimen
 DATA_PATH    = /home/$(LOGIN)/data
-COMPOSE_FILE = srcs/docker-compose.yml
+COMPOSE_ALPINE = srcs/docker-compose.alpine.yml
+COMPOSE_DEBIAN = srcs/docker-compose.debian.yml
+COMPOSE_FILE  ?= $(COMPOSE_ALPINE)
 D_COMPOSE    = docker compose -f $(COMPOSE_FILE)
 
 # Colors
@@ -21,21 +23,29 @@ help:
 	@echo -e "$(YELLOW)Usage:$(NC) make [target]"
 	@echo -e ""
 	@echo -e "$(YELLOW)Targets:$(NC)"
-	@echo -e "  $(GREEN)up$(NC)        Create data directories and start containers (build if needed)"
-	@echo -e "  $(GREEN)down$(NC)      Stop and remove containers and networks"
-	@echo -e "  $(GREEN)restart$(NC)   Restart all services"
-	@echo -e "  $(GREEN)ps$(NC)        List containers and their status"
-	@echo -e "  $(GREEN)logs$(NC)      Show real-time logs for all services"
-	@echo -e "  $(GREEN)clean$(NC)     Stop and remove containers, networks, images, and volumes"
-	@echo -e "  $(GREEN)fclean$(NC)    Full clean: clean + remove host data directories ($(RED)DANGER$(NC))"
-	@echo -e "  $(GREEN)re$(NC)        Full restart (fclean + up)"
+	@echo -e "  $(GREEN)up-alpine$(NC)   Start the Alpine-based environment (Recommended)"
+	@echo -e "  $(GREEN)up-debian$(NC)   Start the Debian-based environment"
+	@echo -e "  $(GREEN)up$(NC)          Start the default environment (Alpine)"
+	@echo -e "  $(GREEN)down$(NC)        Stop and remove containers and networks"
+	@echo -e "  $(GREEN)restart$(NC)     Restart all services"
+	@echo -e "  $(GREEN)ps$(NC)          List containers and their status"
+	@echo -e "  $(GREEN)logs$(NC)        Show real-time logs for all services"
+	@echo -e "  $(GREEN)clean$(NC)       Stop and remove containers, networks, images, and volumes"
+	@echo -e "  $(GREEN)fclean$(NC)      Full clean: clean + remove host data directories ($(RED)DANGER$(NC))"
+	@echo -e "  $(GREEN)re$(NC)          Full restart (fclean + up-alpine)"
 
 # Infrastructure management
+up-alpine:
+	@$(MAKE) up COMPOSE_FILE=$(COMPOSE_ALPINE)
+
+up-debian:
+	@$(MAKE) up COMPOSE_FILE=$(COMPOSE_DEBIAN)
+
 up:
 	@echo -e "$(BLUE)Creating data volumes at $(DATA_PATH)...$(NC)"
 	@mkdir -p $(DATA_PATH)/mariadb
 	@mkdir -p $(DATA_PATH)/wordpress
-	@echo -e "$(BLUE)Building and starting containers...$(NC)"
+	@echo -e "$(BLUE)Building and starting containers using $(COMPOSE_FILE)...$(NC)"
 	@$(D_COMPOSE) up -d --build
 
 down:
@@ -62,6 +72,6 @@ fclean: clean
 	@echo -e "$(RED)Removing host data directories...$(NC)"
 	@sudo rm -rf $(DATA_PATH)
 
-re: fclean up
+re: fclean up-alpine
 
-.PHONY: all help up down restart ps logs clean fclean re
+.PHONY: all help up-alpine up-debian up down restart ps logs clean fclean re

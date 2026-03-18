@@ -1,0 +1,79 @@
+services:
+  # ── MARIADB (Database Service) ──────────────────────────────
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      dockerfile: Dockerfile.debian
+    container_name: mariadb
+    env_file: .env
+    secrets:
+      - db_password
+      - db_root_password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - inception
+    restart: always
+
+  # ── WORDPRESS + PHP-FPM (To be implemented) ──────────────────
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile.debian
+    container_name: wordpress
+    env_file: .env
+    secrets:
+      - db_password
+      - credentials
+    volumes:
+      - wp_data:/var/www/html
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - mariadb
+
+  # ── NGINX (Reverse Proxy) (To be implemented) ───────────────
+  # nginx:
+  #   build:
+  #     context: ./requirements/nginx
+  #     dockerfile: Dockerfile.alpine
+  #   container_name: nginx
+  #   ports:
+  #     - "443:443"
+  #   volumes:
+  #     - wp_data:/var/www/html
+  #   networks:
+  #     - inception
+  #   restart: always
+  #   depends_on:
+  #     - wordpress
+
+# Mapped to RAM files in /run/secrets/ inside containers
+secrets:
+  db_password:
+    file: ~/secrets/db_password.txt
+  db_root_password:
+    file: ~/secrets/db_root_password.txt
+  credentials:
+    file: ~/secrets/credentials.txt
+
+# Persistent storage on the host machine
+volumes:
+  db_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/serjimen/data/mariadb
+  wp_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/serjimen/data/wordpress
+
+# Private virtual network for internal communication
+networks:
+  inception:
+    driver: bridge

@@ -18,6 +18,8 @@ RUN apk update && apk add --no-cache \
     wget \
     mariadb-client
 
+RUN ln -s /usr/bin/php82 /usr/bin/php
+
 # 3. Instalación de WP-CLI (Herramienta oficial para instalar WP desde terminal)
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
@@ -25,7 +27,7 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 
 # 4. Copiar configuraciones y script de arranque
 COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
-COPY tools/wp-setup.sh /usr/local/bin/wp-setup.sh
+COPY tools/wp-setup.alpine.sh /usr/local/bin/wp-setup.sh
 RUN chmod +x /usr/local/bin/wp-setup.sh
 
 # 5. Crear la carpeta donde vivirán los archivos web

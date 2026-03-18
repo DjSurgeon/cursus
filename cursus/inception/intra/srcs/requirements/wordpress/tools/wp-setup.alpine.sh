@@ -4,8 +4,8 @@ set -e
 # 1. Leer secretos
 DB_PASSWORD=$(cat /run/secrets/db_password)
 # Suponiendo que en credentials.txt tienes "ADMIN_PASS=tuclave" y "WP_USER_PASS=otra"
-ADMIN_PASSWORD=$(grep ADMIN_PASS /run/secrets/credentials.txt | cut -d '=' -f2)
-USER_PASSWORD=$(grep WP_USER_PASS /run/secrets/credentials.txt | cut -d '=' -f2)
+ADMIN_PASSWORD=$(grep ADMIN_PASS /run/secrets/credentials | cut -d '=' -f2)
+USER_PASSWORD=$(grep WP_USER_PASS /run/secrets/credentials | cut -d '=' -f2)
 
 # 2. Bucle de espera: WordPress no puede instalarse si la base de datos no está lista
 echo "Esperando a que MariaDB esté lista..."
@@ -21,7 +21,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
     echo "Descargando e instalando WordPress..."
     
     # Descargar archivos base de WordPress
-    wp core download --allow-root
+    php -d memory_limit=512M /usr/local/bin/wp core download --allow-root
 
     # Crear el archivo de configuración con los datos de MariaDB
     wp config create \

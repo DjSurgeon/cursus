@@ -27,6 +27,11 @@ Our test suite now integrates advanced analysis tools to ensure maximum reliabil
   - `test_ft_isprint.sh`: Individual test script for `ft_isprint`.
   - `test_ft_isspace.sh`: Individual test script for `ft_isspace`.
   - `test_ft_itoa.sh`: Individual test script for `ft_itoa`.
+  - `test_ft_lstadd_back.sh`: Individual test script for `ft_lstadd_back`.
+  - `test_ft_lstadd_front.sh`: Individual test script for `ft_lstadd_front`.
+  - `test_ft_lstclear.sh`: Individual test script for `ft_lstclear`.
+  - `test_ft_lstdelone.sh`: Individual test script for `ft_lstdelone`.
+  - `test_ft_lstiter.sh`: Individual test script for `ft_lstiter`.
   - `test_ft_memchr.sh`: Individual test script for `ft_memchr`.
   - `test_ft_memcmp.sh`: Individual test script for `ft_memcmp`.
   - `test_ft_memcpy.sh`: Individual test script for `ft_memcpy`.
@@ -43,6 +48,11 @@ Our test suite now integrates advanced analysis tools to ensure maximum reliabil
   - `test_isprint_runner.c`: Compares `ft_isprint` results against the standard `isprint`.
   - `test_isspace_runner.c`: Compares `ft_isspace` results against the standard `isspace`.
   - `test_itoa_runner.c`: Verifies `ft_itoa` integer to string conversion.
+  - `test_lstadd_back_runner.c`: Verifies `ft_lstadd_back` linked list addition.
+  - `test_lstadd_front_runner.c`: Verifies `ft_lstadd_front` linked list addition.
+  - `test_lstclear_runner.c`: Verifies `ft_lstclear` linked list clearing.
+  - `test_lstdelone_runner.c`: Verifies `ft_lstdelone` linked list node deletion.
+  - `test_lstiter_runner.c`: Verifies `ft_lstiter` linked list iteration and function application.
   - `test_memchr_runner.c`: Compares `ft_memchr` results against the standard `memchr`.
   - `test_memcmp_runner.c`: Compares `ft_memcmp` results against the standard `memcmp`.
   - `test_memcpy_runner.c`: Compares `ft_memcpy` results against the standard `memcpy`.
@@ -71,6 +81,11 @@ cd test/scripts
 ./test_ft_isprint.sh
 ./test_ft_isspace.sh
 ./test_ft_itoa.sh
+./test_ft_lstadd_back.sh
+./test_ft_lstadd_front.sh
+./test_ft_lstclear.sh
+./test_ft_lstdelone.sh
+./test_ft_lstiter.sh
 ./test_ft_memchr.sh
 ./test_ft_memcmp.sh
 ./test_ft_memcpy.sh

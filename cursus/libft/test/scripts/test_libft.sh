@@ -27,6 +27,11 @@ chmod +x test_ft_isdigit.sh
 chmod +x test_ft_isprint.sh
 chmod +x test_ft_isspace.sh
 chmod +x test_ft_itoa.sh
+chmod +x test_ft_lstadd_back.sh
+chmod +x test_ft_lstadd_front.sh
+chmod +x test_ft_lstclear.sh
+chmod +x test_ft_lstdelone.sh
+chmod +x test_ft_lstiter.sh
 chmod +x test_ft_memchr.sh
 chmod +x test_ft_memcmp.sh
 chmod +x test_ft_memcpy.sh
@@ -65,6 +70,21 @@ FT_ISSPACE_RES=$?
 ./test_ft_itoa.sh
 FT_ITOA_RES=$?
 
+./test_ft_lstadd_back.sh
+FT_LSTADD_BACK_RES=$?
+
+./test_ft_lstadd_front.sh
+FT_LSTADD_FRONT_RES=$?
+
+./test_ft_lstclear.sh
+FT_LSTCLEAR_RES=$?
+
+./test_ft_lstdelone.sh
+FT_LSTDELONE_RES=$?
+
+./test_ft_lstiter.sh
+FT_LSTITER_RES=$?
+
 ./test_ft_memchr.sh
 FT_MEMCHR_RES=$?
 
@@ -81,7 +101,7 @@ echo -e "\n${BOLD}${CYAN}==================================================${NC}
 echo -e "${BOLD}${CYAN}                GLOBAL RESULTS                    ${NC}"
 echo -e "${BOLD}${CYAN}==================================================${NC}"
 
-TOTAL_FAILED=$((FT_ATOI_RES + FT_BZERO_RES + FT_CALLOC_RES + FT_COUNTCHAR_RES + FT_ISALNUM_RES + FT_ISALPHA_RES + FT_ISASCII_RES + FT_ISDIGIT_RES + FT_ISPRINT_RES + FT_ISSPACE_RES + FT_ITOA_RES + FT_MEMCHR_RES + FT_MEMCMP_RES + FT_MEMCPY_RES + FT_STRJOIN_RES))
+TOTAL_FAILED=$((FT_ATOI_RES + FT_BZERO_RES + FT_CALLOC_RES + FT_COUNTCHAR_RES + FT_ISALNUM_RES + FT_ISALPHA_RES + FT_ISASCII_RES + FT_ISDIGIT_RES + FT_ISPRINT_RES + FT_ISSPACE_RES + FT_ITOA_RES + FT_LSTADD_BACK_RES + FT_LSTADD_FRONT_RES + FT_LSTCLEAR_RES + FT_LSTDELONE_RES + FT_LSTITER_RES + FT_MEMCHR_RES + FT_MEMCMP_RES + FT_MEMCPY_RES + FT_STRJOIN_RES))
 
 if [ $TOTAL_FAILED -eq 0 ]; then
     echo -e "${BOLD}${GREEN}  ${ICON_STAR}  CONGRATULATIONS! ALL TESTS PASSED!  ${ICON_STAR}  ${NC}"
