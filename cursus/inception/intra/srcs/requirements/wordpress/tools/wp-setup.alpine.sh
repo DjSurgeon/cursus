@@ -10,7 +10,7 @@ USER_PASSWORD=$(grep WP_USER_PASS /run/secrets/credentials | cut -d '=' -f2)
 # 2. Bucle de espera: WordPress no puede instalarse si la base de datos no está lista
 echo "Esperando a que MariaDB esté lista..."
 while ! mariadb -h mariadb -u ${MYSQL_USER} -p${DB_PASSWORD} ${MYSQL_DATABASE} -e "SELECT 1;" >/dev/null 2>&1; do
-    sleep 2
+    sleep 8
     echo "Reintentando conexión a MariaDB..."
 done
 echo "¡MariaDB está lista!"

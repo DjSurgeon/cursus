@@ -82,4 +82,5 @@ fi
 # If MariaDB hangs, the container dies gracefully (fulfilling the rule
 # of not using hacks like 'tail -f' or infinite loops).
 echo -e "${BLUE}Starting MariaDB...${NC}"
-exec mysqld --user=mysql
+
+exec mysqld --user=mysql --bind-address=0.0.0.0

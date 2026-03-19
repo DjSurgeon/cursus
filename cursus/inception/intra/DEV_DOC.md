@@ -5,10 +5,25 @@ This document provides technical details for developers to set up, manage, and e
 ---
 
 ## 🚀 Current Status
-- **Core Orchestration:** `Makefile` and `srcs/docker-compose.yml` are fully functional and optimized for multi-shell compatibility.
-- **MariaDB Service:** Implemented using `alpine:3.22` (penultimate stable version). Secured with Docker Secrets and enhanced with a color-coded pedagogic initialization script.
+- **Core Orchestration:** The `Makefile` supports dual environments (**Alpine 3.22** and **Debian Bookworm**) with **High-Performance BuildKit optimizations**.
+- **MariaDB Service:** Fully implemented and consistent across both distributions.
+- **WordPress Service:** Configuration and setup scripts are prepared for both distributions.
 - **Networking:** Private `bridge` network `inception` is configured.
-- **Persistence:** Local bind mounts are ready for MariaDB and WordPress data.
+- **Persistence:** Local bind mounts are configured for `${LOGIN}/data/...`.
+
+---
+
+## 🏗️ Performance & Build Optimization
+
+To ensure the fastest possible build times during development and evaluation, the following features have been implemented:
+
+1.  **Docker BuildKit:**
+    - Enabled via `export DOCKER_BUILDKIT=1` in the `Makefile`.
+    - Benefits: Faster builds, improved layer caching, and parallel stage execution.
+2.  **Parallel Building:**
+    - Using `--parallel` in the `up` target allows MariaDB and WordPress to build simultaneously.
+3.  **Build Context Filtering:**
+    - A `.dockerignore` file in `srcs/` prevents documentation, secrets, and local logs from being uploaded to the Docker daemon.
 
 ---
 
@@ -28,32 +43,23 @@ This document provides technical details for developers to set up, manage, and e
   DOMAIN_NAME=serjimen.42.fr
   MYSQL_DATABASE=wordpress
   MYSQL_USER=wpuser
-  # Note: Passwords are NOT here.
   ```
 
 ### 3. Secrets Management
-The project uses **Docker Secrets** to avoid exposing sensitive data in environment variables.
-- Create a `secrets/` directory at the project root (ignored by Git).
-- Required files:
-  - `db_password.txt`: Database user password.
-  - `db_root_password.txt`: MariaDB root password.
-  - `credentials.txt`: WordPress admin and user credentials.
+The project uses **Docker Secrets** to avoid exposing sensitive data.
+- Create a `secrets/` directory at the project root.
+- Required files: `db_password.txt`, `db_root_password.txt`, `credentials.txt`.
 
 ---
 
 ## 🚀 Building and Launching
 
-The infrastructure is managed entirely via the `intra/Makefile`.
+The infrastructure is managed via the `intra/Makefile`.
 
 ```bash
-cd intra
-make up        # Build images and start containers in detached mode
+make up-alpine  # Launches using Dockerfile.alpine (High speed)
+make up-debian  # Launches using Dockerfile.debian
 ```
-
-This command:
-1. Creates local directories for persistence (`/home/serjimen/data/...`).
-2. Builds custom images from local `Dockerfiles` (specifically `Dockerfile.alpine`).
-3. Orchestrates the startup sequence (MariaDB -> WordPress -> NGINX).
 
 ---
 
@@ -61,29 +67,16 @@ This command:
 
 | Command | Action |
 | :--- | :--- |
-| `make help` | Show the color-coded help menu with all available targets. |
+| `make up-alpine` | Start containers using Alpine-based images (Default). |
+| `make up-debian` | Start containers using Debian-based images. |
 | `make ps` | Check container health and port mapping. |
-| `make logs` | Stream real-time logs with color support (essential for debugging). |
-| `make restart` | Soft restart of all services. |
-| `make clean` | Stop containers and remove images/volumes. |
+| `make logs` | Stream real-time logs for all services. |
 | `make fclean` | **Total Wipe:** Includes physical deletion of host data folders. |
 
 ---
 
-## 💾 Data Persistence & Storage
+## 🔍 Technical Implementation Details
 
-To comply with the subject's persistence requirements, we use **Local Bind Mounts**.
-
-- **MariaDB Data:** Stored at `/home/serjimen/data/mariadb/`. Maps to `/var/lib/mysql` inside the container.
-- **WordPress Data:** Stored at `/home/serjimen/data/wordpress/`. Maps to `/var/www/html` inside the container.
-
-**Technical Note:** Data persists even if containers are removed (`make down`). Only `make fclean` (which uses `sudo rm -rf`) will permanently delete the volumes.
-
----
-
-## 🔍 Technical Implementation Details (Hito 1: MariaDB)
-
-- **PID 1 Logic:** The `db-setup.sh` script concludes with `exec mysqld`. This ensures `mysqld` inherits PID 1, allowing it to receive termination signals directly from Docker.
-- **Security & Validation:** Scripts now include validation checks to ensure secrets exist in `/run/secrets/` before execution, preventing silent failures.
-- **Observability:** Initialization scripts feature color-coded output (Blue for progress, Green for success, Red for errors) for better clarity during the evaluation and debugging.
-- **Network Isolation:** MariaDB is configured with `bind-address = 0.0.0.0` in `my.cnf`, but it is only reachable by other containers on the internal `inception` bridge network. No ports are exposed to the host machine.
+- **PID 1 Logic:** Every setup script ends with `exec <service>`, ensuring the service receives signals directly.
+- **Distro Consistency:** We maintain parallel `Dockerfile.alpine`/`Dockerfile.debian` to offer OS flexibility.
+- **Security:** Validation checks ensure secrets are present in `/run/secrets/` before initialization.

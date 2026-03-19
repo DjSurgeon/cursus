@@ -34,20 +34,20 @@ services:
       - mariadb
 
   # ── NGINX (Reverse Proxy) (To be implemented) ───────────────
-  # nginx:
-  #   build:
-  #     context: ./requirements/nginx
-  #     dockerfile: Dockerfile.alpine
-  #   container_name: nginx
-  #   ports:
-  #     - "443:443"
-  #   volumes:
-  #     - wp_data:/var/www/html
-  #   networks:
-  #     - inception
-  #   restart: always
-  #   depends_on:
-  #     - wordpress
+  nginx:
+    build:
+      context: ./requirements/nginx
+      dockerfile: Dockerfile.alpine
+    container_name: nginx
+    ports:
+      - "443:443"
+    volumes:
+      - wp_data:/var/www/html
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - wordpress
 
 # Mapped to RAM files in /run/secrets/ inside containers
 secrets:

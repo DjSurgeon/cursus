@@ -1,0 +1,21 @@
+# Ignore secrets and local config
+.env
+.env.example
+secrets/
+
+# Ignore documentation and git
+.git
+.gitignore
+README.md
+DEV_DOC.md
+USER_DOC.md
+
+# Ignore OS/Editor noise
+**/.DS_Store
+**/.vscode/
+**/.idea/
+**/*.swp
+**/*.log
+
+# Ignore host data directories if they leak into srcs
+data/

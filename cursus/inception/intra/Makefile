@@ -1,3 +1,7 @@
+# Enable Docker BuildKit (Parallel layer building and smarter caching)
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+
 # Variables
 LOGIN       ?= serjimen
 DATA_PATH    = /home/$(LOGIN)/data
@@ -46,7 +50,7 @@ up:
 	@mkdir -p $(DATA_PATH)/mariadb
 	@mkdir -p $(DATA_PATH)/wordpress
 	@echo -e "$(BLUE)Building and starting containers using $(COMPOSE_FILE)...$(NC)"
-	@$(D_COMPOSE) up -d --build
+	@$(D_COMPOSE) up -d --build --parallel
 
 down:
 	@echo -e "$(YELLOW)Stopping containers...$(NC)"

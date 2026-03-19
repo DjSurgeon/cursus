@@ -16,13 +16,10 @@ WP_USER_PASSWORD=$(grep WP_USER_PASS /run/secrets/credentials | cut -d= -f2)
 # We loop until MariaDB accepts connections
 # This replaces the need for depends_on with health checks
 echo "Waiting for MariaDB to be ready..."
-until wp db check \
-    --dbhost=mariadb \
-    --dbname=${MYSQL_DATABASE} \
-    --dbuser=${MYSQL_USER} \
-    --dbpass=${DB_PASSWORD} \
-    --allow-root 2>/dev/null; do
-    sleep 2
+until mysqladmin ping -h mariadb -u ${MYSQL_USER} -p${DB_PASSWORD} \
+    --silent 2>/dev/null; do
+    echo "Retrying MariaDB connection..."
+    sleep 8
 done
 echo "MariaDB is ready"
 

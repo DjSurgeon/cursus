@@ -20,9 +20,8 @@ RUN apt-get update && apt-get install -y \
     php8.2-xml \
     php8.2-zip \
     wget \
+    default-mysql-client \
     && rm -rf /var/lib/apt/lists/*
-
-RUN ln -s /usr/bin/php82 /usr/bin/php
 
 # Install WP-CLI — command line tool to manage WordPress without a browser
 # It allows us to download, configure and install WordPress via script
