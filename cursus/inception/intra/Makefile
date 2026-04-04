@@ -3,7 +3,8 @@ export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 
 # Variables
-LOGIN       ?= serjimen
+# Usamos ?= para permitir sobreescribir desde la línea de comandos
+LOGIN       ?= $(shell whoami)
 DATA_PATH    = /home/$(LOGIN)/data
 COMPOSE_ALPINE = srcs/docker-compose.alpine.yml
 COMPOSE_DEBIAN = srcs/docker-compose.debian.yml
@@ -29,7 +30,7 @@ help:
 	@echo -e "$(YELLOW)Targets:$(NC)"
 	@echo -e "  $(GREEN)up-alpine$(NC)   Start the Alpine-based environment (Recommended)"
 	@echo -e "  $(GREEN)up-debian$(NC)   Start the Debian-based environment"
-	@echo -e "  $(GREEN)up$(NC)          Start the default environment (Alpine)"
+	@echo -e "  $(GREEN)up$(NC)          Start the default environment"
 	@echo -e "  $(GREEN)down$(NC)        Stop and remove containers and networks"
 	@echo -e "  $(GREEN)restart$(NC)     Restart all services"
 	@echo -e "  $(GREEN)ps$(NC)          List containers and their status"
@@ -47,10 +48,11 @@ up-debian:
 
 up:
 	@echo -e "$(BLUE)Creating data volumes at $(DATA_PATH)...$(NC)"
-	@mkdir -p $(DATA_PATH)/mariadb
-	@mkdir -p $(DATA_PATH)/wordpress
+	@sudo mkdir -p $(DATA_PATH)/mariadb
+	@sudo mkdir -p $(DATA_PATH)/wordpress
+	@sudo chown -R $(shell whoami):$(shell whoami) $(DATA_PATH)
 	@echo -e "$(BLUE)Building and starting containers using $(COMPOSE_FILE)...$(NC)"
-	@$(D_COMPOSE) up -d --build --parallel
+	@$(D_COMPOSE) up -d --build
 
 down:
 	@echo -e "$(YELLOW)Stopping containers...$(NC)"

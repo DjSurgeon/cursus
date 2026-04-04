@@ -1,260 +1,137 @@
 #!/bin/bash
 # =============================================================================
-# Inception — Setup Script v2
-# Uso: bash setup.sh <tu_login_de_42>
+# Inception — Environment Setup Script (Ubuntu 24.04)
+# Uso: bash phase01.sh <tu_login_de_42>
 # =============================================================================
 
-# NO usamos set -e global — manejamos errores por sección
-LOGIN=$1
+# Salir inmediatamente si ocurre un error
+set -e
 
 # ── Colores para output ───────────────────────────────────────────────────────
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-ok()   { echo -e "${GREEN}[OK]${NC} $1"; }
-warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
-fail() { echo -e "${RED}[FAIL]${NC} $1"; }
+ok()    { echo -e "${GREEN}[OK]${NC} $1"; }
+warn()  { echo -e "${YELLOW}[WARN]${NC} $1"; }
+fail()  { echo -e "${RED}[FAIL]${NC} $1"; }
+info()  { echo -e "${BLUE}[INFO]${NC} $1"; }
 
 # ── Validación de argumentos ──────────────────────────────────────────────────
+LOGIN=$1
 if [ -z "$LOGIN" ]; then
     fail "Debes pasar tu login de 42 como argumento"
-    echo "Uso: bash setup.sh <login>"
+    echo "Uso: bash phase01.sh <login>"
     exit 1
 fi
 
-echo "========================================"
-echo " Inception Setup v2 — login: $LOGIN"
-echo "========================================"
+echo "===================================================="
+echo "  Inception Environment Setup — Login: $LOGIN"
+echo "===================================================="
 
-# =============================================================================
-# PASO 1 — Actualizar el sistema
-# # =============================================================================
-# echo ""
-# echo "[1/7] Actualizando el sistema..."
-# if sudo apt-get update -y && sudo apt-get upgrade -y; then
-#     ok "Sistema actualizado"
-# else
-#     warn "Actualización con errores — continuando igualmente"
-# fi
+# ── 1. Actualización del Sistema y Herramientas ──────────────────────────────
+info "Actualizando el sistema e instalando herramientas base..."
+sudo apt-get update -y
+sudo apt-get install -y \
+    curl wget git make ca-certificates gnupg lsb-release \
+    build-essential
+ok "Sistema actualizado y herramientas instaladas."
 
-# # =============================================================================
-# # PASO 2 — Herramientas básicas
-# # =============================================================================
-# echo ""
-# echo "[2/7] Instalando herramientas básicas..."
-# if sudo apt-get install -y curl wget git vim make ca-certificates gnupg; then
-#     ok "Herramientas básicas instaladas"
-# else
-#     fail "Error instalando herramientas básicas"
-#     exit 1  # Esto sí es crítico — sin curl no podemos seguir
-# fi
+# ── 2. Instalación de Docker (Repositorio Oficial) ───────────────────────────
+info "Instalando Docker Engine y Docker Compose Plugin..."
 
-# # =============================================================================
-# # PASO 3 — Docker
-# # Estrategia: intentamos el método oficial primero.
-# # Si falla, instalamos Docker Compose manualmente como binario.
-# # =============================================================================
-# echo ""
-# echo "[3/7] Instalando Docker..."
+# Configurar la llave GPG de Docker
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg --yes
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
 
-# # Añadir GPG key y repositorio (esto no suele fallar)
-# sudo install -m 0755 -d /etc/apt/keyrings
-# curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-#     sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg 2>/dev/null
-# sudo chmod a+r /etc/apt/keyrings/docker.gpg
+# Añadir el repositorio a las fuentes de Apt
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# echo "deb [arch=$(dpkg --print-architecture) \
-#     signed-by=/etc/apt/keyrings/docker.gpg] \
-#     https://download.docker.com/linux/ubuntu \
-#     $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-#     sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update -y
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-# sudo apt-get update -y
+# Gestionar permisos del usuario actual
+if ! getent group docker > /dev/null; then
+    sudo groupadd docker
+fi
+sudo usermod -aG docker "$USER"
+ok "Docker instalado. Usuario añadido al grupo 'docker'."
 
-# # Intentar instalar todo junto
-# if sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin 2>/dev/null; then
-#     ok "Docker instalado via apt (método oficial)"
-# else
-#     warn "Fallo con docker-compose-plugin — instalando Docker sin el plugin..."
+# ── 3. Configuración de Infraestructura (Hosts y Volúmenes) ──────────────────
+info "Configurando dominio y directorios de volúmenes..."
 
-#     # Limpiar estado roto de dpkg
-#     sudo dpkg --configure -a 2>/dev/null
-#     sudo apt-get install -f -y 2>/dev/null
-
-#     # Instalar solo el motor de Docker
-#     sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-
-#     # Instalar Docker Compose manualmente como binario
-#     warn "Instalando Docker Compose como binario independiente..."
-#     COMPOSE_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest \
-#         | grep '"tag_name"' | cut -d'"' -f4)
-
-#     sudo mkdir -p /usr/local/lib/docker/cli-plugins
-#     sudo curl -SL \
-#         "https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-linux-x86_64" \
-#         -o /usr/local/lib/docker/cli-plugins/docker-compose
-#     sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-# fi
-
-# # Verificar que Docker quedó operativo — esto sí falla el script si no está
-# if docker --version > /dev/null 2>&1; then
-#     ok "Docker: $(docker --version)"
-# else
-#     fail "Docker no quedó instalado correctamente — abortando"
-#     exit 1
-# fi
-
-# if docker compose version > /dev/null 2>&1; then
-#     ok "Docker Compose: $(docker compose version)"
-# else
-#     fail "Docker Compose no quedó instalado — abortando"
-#     exit 1
-# fi
-
-# # Añadir usuario al grupo docker
-# sudo usermod -aG docker "$LOGIN"
-# ok "Usuario $LOGIN añadido al grupo docker"
-
-# =============================================================================
-# PASO 4 — Directorios de datos para volúmenes
-# =============================================================================
-echo ""
-echo "[4/7] Creando directorios de datos..."
-mkdir -p /home/"$LOGIN"/data/wordpress
-mkdir -p /home/"$LOGIN"/data/mariadb
-ok "Directorios de datos creados en /home/$LOGIN/data/"
-
-# =============================================================================
-# PASO 5 — /etc/hosts
-# =============================================================================
-echo ""
-echo "[5/7] Configurando dominio local..."
+# Mapeo del dominio local
 DOMAIN="${LOGIN}.42.fr"
-
 if grep -q "$DOMAIN" /etc/hosts; then
-    warn "Dominio $DOMAIN ya existe en /etc/hosts — omitiendo"
+    warn "El dominio $DOMAIN ya existe en /etc/hosts."
 else
-    echo "127.0.0.1    $DOMAIN" | sudo tee -a /etc/hosts > /dev/null
-    ok "Dominio $DOMAIN añadido a /etc/hosts"
+    echo "127.0.0.1  $DOMAIN" | sudo tee -a /etc/hosts > /dev/null
+    ok "Dominio $DOMAIN añadido a /etc/hosts."
 fi
 
-# =============================================================================
-# PASO 6 — Estructura del proyecto
-# =============================================================================
-echo ""
-echo "[6/7] Creando estructura del proyecto..."
-cd /home/"$LOGIN"
+# Directorios de datos (Requisito del Subject)
+DATA_PATH="/home/${LOGIN}/data"
+info "Creando directorios de volúmenes en $DATA_PATH..."
+sudo mkdir -p "$DATA_PATH/mariadb"
+sudo mkdir -p "$DATA_PATH/wordpress"
+# Asegurar permisos si el usuario coincide con el login o si estamos en la VM
+sudo chown -R "$USER":"$USER" "/home/${LOGIN}" 2>/dev/null || true
+ok "Volúmenes de datos preparados."
 
-mkdir -p srcs/requirements/nginx/{conf,tools}
-mkdir -p srcs/requirements/wordpress/{conf,tools}
-mkdir -p srcs/requirements/mariadb/{conf,tools}
-mkdir -p secrets
-ok "Directorios del proyecto creados"
+# Directorio de Secretos (Para Docker Secrets)
+mkdir -p "$HOME/secrets"
+ok "Directorio de secretos creado en $HOME/secrets"
 
-touch Makefile
-touch srcs/docker-compose.yml
-ok "Archivos base creados"
+# ── 4. Inicialización de Configuración (.env y Secretos) ──────────────────────
+info "Inicializando archivos de configuración..."
 
-# .gitignore
-cat > /home/"$LOGIN"/.gitignore << EOF
-# Secrets — NEVER in the repository
-secrets/
-srcs/.env
+# Detectar la raíz del proyecto (asumiendo que se ejecuta desde scripts/ o la raíz)
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
-# Volume data
-/home/*/data/
+# Generar .env desde el ejemplo si existe la carpeta intra/srcs
+if [ -d "$PROJECT_ROOT/intra/srcs" ]; then
+    ENV_FILE="$PROJECT_ROOT/intra/srcs/.env"
+    ENV_EXAMPLE="$PROJECT_ROOT/intra/srcs/.env.example"
 
-# System files
-.DS_Store
-*.swp
-*~
-EOF
-ok ".gitignore creado"
+    if [ -f "$ENV_EXAMPLE" ] && [ ! -f "$ENV_FILE" ]; then
+        sed "s/serjimen/$LOGIN/g" "$ENV_EXAMPLE" > "$ENV_FILE"
+        ok ".env generado en intra/srcs/ (revisar valores manualmente)."
+    else
+        warn ".env ya existe o no se encontró .env.example."
+    fi
+fi
 
-# .env
-cat > /home/"$LOGIN"/srcs/.env << EOF
-# Domain
-DOMAIN_NAME=${LOGIN}.42.fr
-
-# MariaDB
-MYSQL_DATABASE=wordpress
-MYSQL_USER=wpuser
-
-# WordPress users
-WP_ADMIN_USER=supervisor
-WP_ADMIN_EMAIL=supervisor@${LOGIN}.42.fr
-WP_USER=reader
-WP_USER_EMAIL=reader@${LOGIN}.42.fr
-EOF
-ok "srcs/.env creado"
-
-# Secrets con placeholders
-echo "CHANGEME_wp_db_password" > /home/"$LOGIN"/secrets/db_password.txt
-echo "CHANGEME_root_password"  > /home/"$LOGIN"/secrets/db_root_password.txt
-cat > /home/"$LOGIN"/secrets/credentials.txt << EOF
-ADMIN_PASS=CHANGEME_admin_pass
-WP_USER_PASS=CHANGEME_user_pass
-EOF
-ok "Archivos de secrets creados (con placeholders — recuerda cambiarlos)"
-
-# =============================================================================
-# PASO 7 — Verificación final
-# =============================================================================
-echo ""
-echo "[7/7] Verificación final..."
-echo ""
-echo "── Docker ──────────────────────────────────────"
-docker --version
-docker compose version
-
-echo ""
-echo "── Directorios de datos ────────────────────────"
-ls -la /home/"$LOGIN"/data/
-
-echo ""
-echo "── Estructura del proyecto ─────────────────────"
-find /home/"$LOGIN" \
-    -not -path '*/.git/*' \
-    -not -path '*/data/*' \
-    -not -path '*/.cache/*' \
-    -not -path '*/.ssh/*' \
-    -not -name '.bash*' \
-    -not -name '.profile' \
-    | sort
-
-echo ""
-echo "── /etc/hosts ──────────────────────────────────"
-grep "42.fr" /etc/hosts
-
-echo ""
-echo "========================================"
-echo -e "${GREEN} Setup completado para: $LOGIN ${NC}"
-echo "========================================"
-echo ""
-echo -e "${YELLOW}PASOS MANUALES PENDIENTES:${NC}"
-echo "  1. Edita los secrets con contraseñas reales:"
-echo "     nano ~/secrets/db_password.txt"
-echo "     nano ~/secrets/db_root_password.txt"
-echo "     nano ~/secrets/credentials.txt"
-echo ""
-echo "  2. Cierra sesión y vuelve a entrar para"
-echo "     activar el grupo docker:"
-echo "     exit  →  ssh de nuevo"
-echo ""
-echo "  3. Añade $DOMAIN a /etc/hosts de tu HOST"
-echo "     (tu máquina física, no la VM)"
-echo "========================================"
-
-echo "wp_db_p4ssw0rd" > ~/secrets/db_password.txt
-echo "r00t_db_p4ssw0rd" > ~/secrets/db_root_password.txt
-cat > ~/secrets/credentials.txt << EOF
+# Generar secretos de marcador de posición (PLACEHOLDERS)
+if [ ! -f "$HOME/secrets/db_password.txt" ]; then
+    echo "wp_db_p4ssw0rd" > "$HOME/secrets/db_password.txt"
+    echo "r00t_db_p4ssw0rd" > "$HOME/secrets/db_root_password.txt"
+    cat > "$HOME/secrets/credentials.txt" << EOF
 ADMIN_PASS=Sup3rv1s0r_pass
 WP_USER_PASS=R3ad3r_pass
 EOF
+    ok "Secretos temporales creados en $HOME/secrets/ (¡CÁMBIALOS!)"
+fi
 
-# Verifica que tienen contenido
-cat ~/secrets/db_password.txt
-cat ~/secrets/db_root_password.txt
-cat ~/secrets/credentials.txt
+# ── 5. Verificación Final ─────────────────────────────────────────────────────
+echo ""
+info "Resumen de instalación:"
+docker --version
+docker compose version
+echo -e "Dominio: $(grep "$DOMAIN" /etc/hosts)"
+echo -e "Volúmenes: $DATA_PATH"
+
+echo ""
+echo "===================================================="
+echo -e "${GREEN}  ¡Configuración completada para $LOGIN!  ${NC}"
+echo "===================================================="
+echo -e "${YELLOW}PRÓXIMOS PASOS:${NC}"
+echo "  1. Reinicia tu sesión: 'newgrp docker' o cierra/abre sesión."
+echo "  2. Edita los secretos en ~/secrets/ con tus contraseñas reales."
+echo "  3. Despliegue: 'cd intra && make up-alpine'"
+echo "===================================================="

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
+#    By: sergio <sergio@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/28 23:41:16 by serjimen          #+#    #+#              #
-#    Updated: 2025/06/01 17:41:17 by sergio-jime      ###   ########.fr        #
+#    Updated: 2026/04/04 11:38:50 by sergio           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,7 @@ re: fclean
 
 # Deep Static Analysis with a "AI-like" Spinner
 analyze:
-	@printf "$(MAGENTA)🧠 IA is analyzing your code... $(DEF_COLOR)"
+	@printf "$(MAGENTA)🧠 analyzing your code... $(DEF_COLOR)"
 	@# Small script to simulate a spinner while cc runs
 	@($(CC) $(CFLAGS) -fanalyzer -c $(SOURCE) > /dev/null 2>&1 && printf "$(GREEN)DONE! ✅\n$(DEF_COLOR)" || printf "$(RED)FAILED! ❌\n$(DEF_COLOR)") & \
 	PID=$$!; \
@@ -95,7 +95,7 @@ help:
 	@printf "  $(CYAN)fclean  $(DEF_COLOR): Removes object directory and the library\n"
 	@printf "  $(CYAN)re      $(DEF_COLOR): Performs a full re-compilation\n"
 	@printf "  $(CYAN)test    $(DEF_COLOR): Compiles and runs the test suite\n"
-	@printf "  $(CYAN)analyze $(DEF_COLOR): Performs a deep static analysis with a spinner\n"
+	@printf "  $(CYAN)analyze $(DEF_COLOR): Performs a deep static analysis\n"
 	@printf "\n"
 	@printf "$(GRAY)Tip: Use 'make -j\$$(nproc)' for fast parallel compilation.$(DEF_COLOR)\n"
 
