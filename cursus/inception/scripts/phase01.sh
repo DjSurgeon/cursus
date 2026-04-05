@@ -56,12 +56,26 @@ echo \
 sudo apt-get update -y
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+# Verificar Buildx (Crucial para evitar el aviso de Bake)
+if docker buildx version > /dev/null 2>&1; then
+    ok "Docker Buildx detectado correctamente."
+else
+    warn "Buildx no detectado. Intentando vincular manualmente..."
+    mkdir -p ~/.docker/cli-plugins
+    ln -s /usr/libexec/docker/cli-plugins/docker-buildx ~/.docker/cli-plugins/docker-buildx 2>/dev/null || true
+fi
+
 # Gestionar permisos del usuario actual
 if ! getent group docker > /dev/null; then
     sudo groupadd docker
 fi
 sudo usermod -aG docker "$USER"
-ok "Docker instalado. Usuario añadido al grupo 'docker'."
+
+# Asegurar que el servicio está corriendo y habilitado (PID 1 del host)
+info "Habilitando y arrancando el servicio Docker..."
+sudo systemctl enable --now docker
+sudo systemctl start docker
+ok "Docker instalado, permisos configurados y servicio activo."
 
 # ── 3. Configuración de Infraestructura (Hosts y Volúmenes) ──────────────────
 info "Configurando dominio y directorios de volúmenes..."

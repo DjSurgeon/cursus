@@ -20,7 +20,14 @@ fi
 
 # Ruta del archivo (asumiendo ejecución desde la raíz o scripts/)
 PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-ENV_FILE="$PROJECT_ROOT/intra/srcs/.env"
+ENV_DIR="$PROJECT_ROOT/intra/srcs"
+ENV_FILE="$ENV_DIR/.env"
+
+# Asegurar que el directorio existe
+if [ ! -d "$ENV_DIR" ]; then
+    mkdir -p "$ENV_DIR"
+    ok "Directorio $ENV_DIR creado."
+fi
 
 echo -e "${BLUE}Generando archivo .env en $ENV_FILE...${NC}"
 
