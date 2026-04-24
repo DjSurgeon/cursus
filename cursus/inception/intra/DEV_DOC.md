@@ -5,60 +5,58 @@ This document provides technical details for developers to set up, manage, and e
 ---
 
 ## 🚀 Current Status
-- **Core Orchestration:** The `Makefile` supports dual environments (**Alpine 3.22** and **Debian Bookworm**) with **High-Performance BuildKit optimizations**.
-- **MariaDB Service:** Fully implemented and consistent across both distributions.
-- **WordPress Service:** Configuration and setup scripts are prepared for both distributions.
-- **Networking:** Private `bridge` network `inception` is configured.
-- **Persistence:** Local bind mounts are configured for `${LOGIN}/data/...`.
+- **Core Orchestration:** The `Makefile` manages the complete stack (**Alpine 3.22**) with high-speed **Docker Buildx / Bake optimizations**.
+- **MariaDB Service:** Fully implemented (v10.11+) with secure Docker Secrets.
+- **WordPress Service:** Fully implemented with PHP-FPM 8.2 and WP-CLI installation.
+- **NGINX Service:** Secure TLS entry point (v1.2/1.3) fully configured.
+- **Networking:** Private `bridge` network `inception` for internal communication.
+- **Persistence:** High-performance local bind mounts in `/home/${LOGIN}/data/...`.
 
 ---
 
 ## 🏗️ Performance & Build Optimization
 
-To ensure the fastest possible build times during development and evaluation, the following features have been implemented:
+To ensure the fastest possible build times, the following features have been implemented:
 
-1.  **Docker BuildKit:**
-    - Enabled via `export DOCKER_BUILDKIT=1` in the `Makefile`.
-    - Benefits: Faster builds, improved layer caching, and parallel stage execution.
+1.  **Docker Buildx & Bake:**
+    - Integrated with **BuildKit** for parallel layer building and smarter caching.
+    - Automated detection and setup via `phase01.sh`.
 2.  **Parallel Building:**
-    - Using `--parallel` in the `up` target allows MariaDB and WordPress to build simultaneously.
+    - Services build simultaneously by default in Docker Compose V2.
 3.  **Build Context Filtering:**
-    - A `.dockerignore` file in `srcs/` prevents documentation, secrets, and local logs from being uploaded to the Docker daemon.
+    - A `.dockerignore` file in `srcs/` ensures only necessary source files are sent to the Docker daemon.
 
 ---
 
-## 🏗️ Environment Setup
+## 🏗️ Environment Setup (Zero to Hero)
 
-### 1. Prerequisites
-- **OS:** Linux (Ubuntu/Debian recommended) or a VM as per 42 subject rules.
-- **Tools:** `docker` (v20.10+), `docker-compose-plugin`, and `make`.
-- **Domain Mapping:** Add the following to your `/etc/hosts`:
-  ```text
-  127.0.0.1  serjimen.42.fr
-  ```
+If you are on a clean Ubuntu 24.04 environment, follow these steps for an automated setup:
 
-### 2. Configuration Files
-- **`.env`:** Create `intra/srcs/.env` based on `.env.example`.
-  ```bash
-  DOMAIN_NAME=serjimen.42.fr
-  MYSQL_DATABASE=wordpress
-  MYSQL_USER=wpuser
-  ```
+### 1. System Preparation
+Run the system setup script to install Docker, Buildx, and configure volumes:
+```bash
+bash scripts/phase01.sh <your_login>
+```
 
-### 3. Secrets Management
-The project uses **Docker Secrets** to avoid exposing sensitive data.
-- Create a `secrets/` directory at the project root.
-- Required files: `db_password.txt`, `db_root_password.txt`, `credentials.txt`.
+### 2. Configuration & Secrets
+Generate the required environment variables and secrets:
+1.  **Generate `.env`:** `bash scripts/phase03.sh <your_login>`
+2.  **Generate Secrets:** `bash scripts/phase.sh` (Creates passwords in `~/secrets`).
+
+### 3. Domain Mapping
+Ensure your host's `/etc/hosts` maps the local domain:
+```text
+127.0.0.1  serjimen.42.fr
+```
 
 ---
 
 ## 🚀 Building and Launching
 
-The infrastructure is managed via the `intra/Makefile`.
+The infrastructure is managed via the optimized `intra/Makefile`.
 
 ```bash
-make up-alpine  # Launches using Dockerfile.alpine (High speed)
-make up-debian  # Launches using Dockerfile.debian
+make up-alpine  # Recommended: Launches Alpine 3.22-based images
 ```
 
 ---
@@ -68,15 +66,15 @@ make up-debian  # Launches using Dockerfile.debian
 | Command | Action |
 | :--- | :--- |
 | `make up-alpine` | Start containers using Alpine-based images (Default). |
-| `make up-debian` | Start containers using Debian-based images. |
 | `make ps` | Check container health and port mapping. |
 | `make logs` | Stream real-time logs for all services. |
-| `make fclean` | **Total Wipe:** Includes physical deletion of host data folders. |
+| `make clean` | Stop and remove containers and volumes. |
+| `make fclean` | **Total Wipe:** Full clean + physical deletion of data folders. |
 
 ---
 
 ## 🔍 Technical Implementation Details
 
 - **PID 1 Logic:** Every setup script ends with `exec <service>`, ensuring the service receives signals directly.
-- **Distro Consistency:** We maintain parallel `Dockerfile.alpine`/`Dockerfile.debian` to offer OS flexibility.
-- **Security:** Validation checks ensure secrets are present in `/run/secrets/` before initialization.
+- **Security:** Validation checks ensure secrets are present in `/run/secrets/` before service initialization.
+- **Stack Versions:** Alpine 3.22, MariaDB 10.11+, PHP 8.2, NGINX.
