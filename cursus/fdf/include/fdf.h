@@ -142,7 +142,15 @@ typedef struct s_sizemap
 	int				width;
 	int				height;
 	t_coordinates	**matrix;
+	int				z_min;
+	int				z_max;
 }					t_sizemap;
+
+typedef struct s_row_node
+{
+	t_coordinates		*row;
+	struct s_row_node	*next;
+}						t_row_node;
 
 /**
  * @struct s_img
@@ -213,9 +221,7 @@ void		render_frame(t_data *data);
 /* ----------------------- Map Parsing Module ------------------------------- */
 
 t_sizemap	*check_map(char *str, t_sizemap *map);
-t_sizemap	*validate_map(char *finalpath, int fd, t_sizemap *map);
-t_sizemap	*create_coordinates(t_sizemap *map, int fd);
-bool		validate_format(char *line, t_sizemap *map);
+t_sizemap	*validate_map(int fd, t_sizemap *map);
 
 /* --------------------------- Utils Module --------------------------------- */
 
@@ -235,6 +241,7 @@ void		free_matrix(char **matrix);
 void		free_structure(t_coordinates **structure, int heght);
 void		free_map(t_sizemap *structure, int height);
 void		free_mlx(void *mlxdata);
+void		cleanup_list(t_row_node *head, bool free_rows);
 
 /* ---------------------------- Hooks Module -------------------------------- */
 

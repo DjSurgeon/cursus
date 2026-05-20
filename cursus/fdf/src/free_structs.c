@@ -108,3 +108,24 @@ void	free_mlx(void *mlxdata)
 	}
 	free(data);
 }
+
+/**
+ * @file free_structs.c
+ * @brief Deallocates a linked list of row nodes.
+ * @param head Pointer to the head of the row list.
+ * @param free_rows Boolean flag indicating whether to free row arrays.
+ */
+void	cleanup_list(t_row_node *head, bool free_rows)
+{
+	t_row_node	*tmp;
+
+	while (head)
+	{
+		tmp = head->next;
+		if (free_rows)
+			free(head->row);
+		free(head);
+		head = tmp;
+	}
+}
+

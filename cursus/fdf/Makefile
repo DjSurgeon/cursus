@@ -34,7 +34,7 @@ MLX_DIR		:= minilibx-linux
 # Compiler =================================================================== #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
+CFLAGS		:= -Wall -Wextra -Werror -g -D BUFFER_SIZE=4096 -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
 LDFLAGS		:= -lm
 MLXFLAGS	:= -L$(MLX_DIR) -lmlx -lXext -lX11
 
@@ -42,17 +42,15 @@ MLXFLAGS	:= -L$(MLX_DIR) -lmlx -lXext -lX11
 
 SRC_FILES	:=	$(SRC_DIR)/check_arguments.c \
 				$(SRC_DIR)/check_errors.c \
-				$(SRC_DIR)/check_map.c \
 				$(SRC_DIR)/check_utils.c \
-				$(SRC_DIR)/check_valid_map.c \
-				$(SRC_DIR)/create_map.c \
 				$(SRC_DIR)/free_structs.c \
 				$(SRC_DIR)/main.c \
 				$(SRC_DIR)/mlx_bresenham.c \
 				$(SRC_DIR)/mlx_draw.c \
 				$(SRC_DIR)/mlx_hooks.c \
 				$(SRC_DIR)/mlx_init.c \
-				$(SRC_DIR)/mlx_utils.c 
+				$(SRC_DIR)/mlx_utils.c \
+				$(SRC_DIR)/parse_map.c
 
 # Objects ===================================================================== #
 

@@ -95,7 +95,7 @@ t_sizemap	*check_map(char *str, t_sizemap *map)
 		return (free(map), free(finalpath), NULL);
 	else if (!check_extension(finalpath))
 		return (free(map), close(fd), free(finalpath), NULL);
-	map = validate_map(finalpath, fd, map);
+	map = validate_map(fd, map);
 	if (map == NULL)
 		return (free(map), close(fd), free(finalpath), NULL);
 	return (close(fd), free(finalpath), map);

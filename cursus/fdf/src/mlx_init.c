@@ -113,13 +113,29 @@ void	init_window(t_data *data, int width, int height, char *title)
 
 static void	init_fdf_params(t_data *data)
 {
+	double	z_range;
+	double	max_dim;
+
 	data->zoom = 1.0;
 	data->offset_x = 0;
 	data->offset_y = 0;
 	data->angle_x = 0.0;
 	data->angle_y = 0.0;
 	data->angle_z = 0.0;
-	data->z_scale = 1.0;
+	z_range = data->map->z_max - data->map->z_min;
+	if (z_range == 0.0)
+		data->z_scale = 1.0;
+	else
+	{
+		max_dim = data->map->width;
+		if (data->map->height > max_dim)
+			max_dim = data->map->height;
+		data->z_scale = (max_dim / z_range) * 0.15;
+		if (data->z_scale < 0.05)
+			data->z_scale = 0.05;
+		if (data->z_scale > 10.0)
+			data->z_scale = 10.0;
+	}
 	data->projection_mode = 0;
 }
 
