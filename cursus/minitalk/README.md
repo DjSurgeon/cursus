@@ -238,3 +238,17 @@ function main():
 	Bucle infinito:
 		pause() // Esperar señales
 ```
+## Mejora y Bonus Implementados
+
+### Optimización O(1) y async‑signal‑safe
+- El servidor ya no usa `malloc`/`free` ni `ft_strjoin`/`ft_strdup` dentro del handler.
+- Cada carácter se imprime inmediatamente con `write(1, &c, 1)`.
+- El manejador es 100 % async‑signal‑safe y utiliza solo memoria estática.
+
+### Bonus: Acknowledgement (ACK) y soporte Unicode
+- El cliente espera una señal `SIGUSR1` de confirmación tras enviar cada bit.
+- El servidor envía esta señal de vuelta al cliente (`kill(info->si_pid, SIGUSR1)`).
+- La transmisión bit‑a‑bit permite cualquier secuencia UTF‑8, por lo que se pueden enviar emojis y otros caracteres Unicode sin problema.
+
+### Documentación Doxygen
+- Todos los archivos fuente (`minitalk.h`, `client.c`, `server.c`) ahora incluyen comentarios Doxygen completos, siguiendo el estilo de `minitalk_utils.c` y `minitalk_prints.c`.
