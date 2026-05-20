@@ -107,17 +107,17 @@ static void	draw_aux(t_data *data, t_sizemap *map, int row, int col)
 	t_scr3d			p1;
 
 	c0 = map->matrix[row][col];
-	p0 = screen_3dposition(c0.axis_x, c0.axis_y, c0.axis_z, map);
+	p0 = screen_3dposition(c0.axis_x, c0.axis_y, c0.axis_z, data);
 	if (col + 1 < map->width)
 	{
 		c1 = map->matrix[row][col + 1];
-		p1 = screen_3dposition(c1.axis_x, c1.axis_y, c1.axis_z, map);
+		p1 = screen_3dposition(c1.axis_x, c1.axis_y, c1.axis_z, data);
 		bresenham(data, p0, p1, c0.color);
 	}
 	if (row + 1 < map->height)
 	{
 		c1 = map->matrix[row + 1][col];
-		p1 = screen_3dposition(c1.axis_x, c1.axis_y, c1.axis_z, map);
+		p1 = screen_3dposition(c1.axis_x, c1.axis_y, c1.axis_z, data);
 		bresenham(data, p0, p1, c0.color);
 	}
 }

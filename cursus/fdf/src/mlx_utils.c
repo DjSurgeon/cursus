@@ -40,7 +40,7 @@ void	draw_3dcoordenates(t_data *data, t_sizemap *map)
 		while (j < map->width)
 		{
 			screen = screen_3dposition(map->matrix[i][j].axis_x,
-					map->matrix[i][j].axis_y, map->matrix[i][j].axis_z, map);
+					map->matrix[i][j].axis_y, map->matrix[i][j].axis_z, data);
 			put_pixel_to_image(data, screen.x_screen,
 				screen.y_screen, map->matrix[i][j].color);
 			j++;

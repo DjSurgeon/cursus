@@ -205,9 +205,10 @@ void		init_window(t_data *data, int width, int height, char *title);
 void		init_image(t_data *data, int width, int height);
 void		put_pixel_to_image(t_data *data, int x, int y, int color);
 void		draw_3dcoordenates(t_data *data, t_sizemap *map);
-t_scr3d		screen_3dposition(float x, float y, float z, t_sizemap *map);
+t_scr3d		screen_3dposition(float x, float y, float z, t_data *data);
 void		bresenham(t_data *data, t_scr3d pstart, t_scr3d pend, int color);
 void		draw(t_data *data, t_sizemap *map);
+void		render_frame(t_data *data);
 
 /* ----------------------- Map Parsing Module ------------------------------- */
 

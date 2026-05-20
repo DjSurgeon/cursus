@@ -156,9 +156,7 @@ void	init_fdf(t_sizemap *map)
 	init_fdf_params(fdf_data);
 	init_window(fdf_data, WIDTH, HEIGHT, TITLE);
 	init_image(fdf_data, WIDTH, HEIGHT);
-	draw(fdf_data, map);
-	mlx_put_image_to_window(fdf_data->mlx_ptr, fdf_data->win_ptr,
-		fdf_data->img->img_ptr, 0, 0);
+	render_frame(fdf_data);
 	fdf_hooks(fdf_data);
 	mlx_loop(fdf_data->mlx_ptr);
 	free(fdf_data);

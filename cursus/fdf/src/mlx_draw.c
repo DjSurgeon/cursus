@@ -14,38 +14,92 @@
 
 /**
  * @file mlx_draw.c
+ * @brief Performs 3D rotation around the X axis.
+ * @param y Pointer to Y coordinate.
+ * @param z Pointer to Z coordinate.
+ * @param angle Rotation angle in radians.
+ */
+static void	rotate_x(double *y, double *z, double angle)
+{
+	double	prev_y;
+
+	prev_y = *y;
+	*y = prev_y * cos(angle) - *z * sin(angle);
+	*z = prev_y * sin(angle) + *z * cos(angle);
+}
+
+/**
+ * @file mlx_draw.c
+ * @brief Performs 3D rotation around the Y axis.
+ * @param x Pointer to X coordinate.
+ * @param z Pointer to Z coordinate.
+ * @param angle Rotation angle in radians.
+ */
+static void	rotate_y(double *x, double *z, double angle)
+{
+	double	prev_x;
+
+	prev_x = *x;
+	*x = prev_x * cos(angle) + *z * sin(angle);
+	*z = -prev_x * sin(angle) + *z * cos(angle);
+}
+
+/**
+ * @file mlx_draw.c
+ * @brief Performs 3D rotation around the Z axis.
+ * @param x Pointer to X coordinate.
+ * @param y Pointer to Y coordinate.
+ * @param angle Rotation angle in radians.
+ */
+static void	rotate_z(double *x, double *y, double angle)
+{
+	double	prev_x;
+
+	prev_x = *x;
+	*x = prev_x * cos(angle) - *y * sin(angle);
+	*y = prev_x * sin(angle) + *y * cos(angle);
+}
+
+/**
+ * @file mlx_draw.c
  * @brief Project 3D world coordinates to 2D screen space with
- * isometric transformation.
- * Performs aa complete 3D to 2D projection pipeline:
- * 1 - Calculates scaling factors based on window and map dimensions.
- * 2 - Determines optimal uniform scale (40% of min scale).
- * 3 - Computes centering offsets.
- * 4 - Applies isometric trnasformation (30° angle).
- * 5 - Scales and positions the final screen coordinates.
- * @note Uses standard isometric projection (30° angle).
- * @note Maintains aspect radio with uniform scaling.
- * @note Magic number 0.5236 radians = 30°.
+ * rotation, scaling, offsets, and projection selection.
+ * Performs a complete 3D to 2D projection pipeline:
+ * 1 - Offsets coordinate to center of map.
+ * 2 - Applies elevation scaling.
+ * 3 - Performs 3D rotations on X, Y, Z axes.
+ * 4 - Applies either Isometric (30° visual angle) or Parallel projection.
+ * 5 - Scales and translates coordinates according to zoom and offsets.
  * @param x World X coordinate (column index).
  * @param y World Y coordinate (row index).
  * @param z World Z coordinate (height value).
- * @param map Pointer to map structure containing dimensions.
- * @return t_scr3d Structure containing:
- * - Final screen coordinates.
- * - Intermediate calculate values.
- * - Scale and offset parameters.
+ * @param data Pointer to main application data structure.
+ * @return t_scr3d Structure containing final screen coordinates.
  */
-t_scr3d	screen_3dposition(float x, float y, float z, t_sizemap *map)
+t_scr3d	screen_3dposition(float x, float y, float z, t_data *data)
 {
 	t_scr3d	screen;
+	double	rx;
+	double	ry;
+	double	rz;
+	double	scale;
 
-	screen.scale_x = (float)WIDTH / (map->width);
-	screen.scale_y = (float)HEIGHT / (map->height);
-	screen.scale = fmin(screen.scale_x, screen.scale_y) * 0.40;
-	screen.offset_x = (WIDTH - ((map->width - 1) * screen.scale)) / 2;
-	screen.offset_y = (HEIGHT - ((map->height -1) * screen.scale)) / 2;
-	screen.iso_x = (x - y) * cos(0.5236);
-	screen.iso_y = (x + y) * sin(0.5236) - z;
-	screen.x_screen = screen.offset_x + screen.iso_x * screen.scale;
-	screen.y_screen = screen.offset_y + screen.iso_y * screen.scale;
+	rx = x - (double)(data->map->width - 1) / 2.0;
+	ry = y - (double)(data->map->height - 1) / 2.0;
+	rz = z * data->z_scale;
+	rotate_x(&ry, &rz, data->angle_x);
+	rotate_y(&rx, &rz, data->angle_y);
+	rotate_z(&rx, &ry, data->angle_z);
+	screen.iso_x = rx;
+	screen.iso_y = ry;
+	if (data->projection_mode == 0)
+	{
+		screen.iso_x = (rx - ry) * cos(0.5236);
+		screen.iso_y = (rx + ry) * sin(0.5236) - rz;
+	}
+	scale = fmin((double)WIDTH / data->map->width,
+			(double)HEIGHT / data->map->height) * 0.40 * data->zoom;
+	screen.x_screen = (WIDTH / 2) + (int)(screen.iso_x * scale) + data->offset_x;
+	screen.y_screen = (HEIGHT / 2) + (int)(screen.iso_y * scale) + data->offset_y;
 	return (screen);
 }
