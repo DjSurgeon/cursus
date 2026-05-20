@@ -111,6 +111,18 @@ void	init_window(t_data *data, int width, int height, char *title)
 			free_mlx(data));
 }
 
+static void	init_fdf_params(t_data *data)
+{
+	data->zoom = 1.0;
+	data->offset_x = 0;
+	data->offset_y = 0;
+	data->angle_x = 0.0;
+	data->angle_y = 0.0;
+	data->angle_z = 0.0;
+	data->z_scale = 1.0;
+	data->projection_mode = 0;
+}
+
 /**
  * @file mlx.init.c
  * @brief Initializes and runs the FDF visualization.
@@ -141,6 +153,7 @@ void	init_fdf(t_sizemap *map)
 	if (!fdf_data)
 		return (print_error("Error: Failed to allocate FDF structure\n"));
 	fdf_data->map = map;
+	init_fdf_params(fdf_data);
 	init_window(fdf_data, WIDTH, HEIGHT, TITLE);
 	init_image(fdf_data, WIDTH, HEIGHT);
 	draw(fdf_data, map);

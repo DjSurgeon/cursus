@@ -171,6 +171,14 @@ typedef struct s_img
  * @param width Window width.
  * @param height Window height.
  * @param map Pointer to map data structure.
+ * @param zoom Zoom factor.
+ * @param offset_x Horizontal translation offset.
+ * @param offset_y Vertical translation offset.
+ * @param angle_x Rotation angle around X axis.
+ * @param angle_y Rotation angle around Y axis.
+ * @param angle_z Rotation angle around Z axis.
+ * @param z_scale Altitude/elevation scaling factor.
+ * @param projection_mode Projection visualization mode.
  */
 typedef struct s_data
 {
@@ -180,6 +188,14 @@ typedef struct s_data
 	int			width;
 	int			height;
 	t_sizemap	*map;
+	double		zoom;
+	int			offset_x;
+	int			offset_y;
+	double		angle_x;
+	double		angle_y;
+	double		angle_z;
+	double		z_scale;
+	int			projection_mode;
 }				t_data;
 
 /* ---------------------------- MLX Module ---------------------------------- */
