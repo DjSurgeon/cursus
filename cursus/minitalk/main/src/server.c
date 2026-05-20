@@ -12,58 +12,60 @@
 
 #include "minitalk.h"
 
-static t_buffer	g_buffer = {0};
-
-static void	reset_buffer(void)
-{
-	free(g_buffer.str);
-	g_buffer.str = ft_strdup("");
-	g_buffer.bit_count = 0;
-	g_buffer.current_char = 0;
-	g_buffer.client_pid = 0;
-}
-
-static void	get_str(void)
-{
-	char	temp[2];
-	char	*result;
-
-	if (g_buffer.current_char == '\0')
-	{
-		write(1, g_buffer.str, ft_strlen(g_buffer.str));
-		write(1, "\n", 1);
-		reset_buffer();
-	}
-	else
-	{
-		temp[0] = g_buffer.current_char;
-		temp[1] = '\0';
-		result = ft_strjoin(g_buffer.str, temp);
-		free(g_buffer.str);
-		g_buffer.str = result;
-	}
-	g_buffer.bit_count = 0;
-	g_buffer.current_char = 0;
-}
-
+/**
+** @brief Signal handler for reconstructing bytes from incoming signal bits.
+** @param signum The signal received (SIGUSR1 for bit 0, SIGUSR2 for bit 1).
+** @param info Pointer to siginfo_t containing details about the signal sender.
+** @param context User context (unused).
+**
+** Reconstructs characters bit-by-bit. Once 8 bits are received, the completed
+** character is written immediately to standard output. If the character is '\0',
+** a newline is written.
+** After processing each bit, the handler sends a confirmation signal (SIGUSR1)
+** back to the client's process ID.
+**
+** @note Maintains a static buffer for the current char, bit count, and sender PID.
+** Uses O(1) memory and is completely async-signal-safe.
+*/
 static void	handler_signs(int signum, siginfo_t *info, void *context)
 {
+	static unsigned char	current_char = 0;
+	static int				bit_count = 0;
+	static pid_t			client_pid = 0;
+
 	(void)context;
-	if (g_buffer.client_pid != info->si_pid)
+	if (info->si_pid != client_pid)
 	{
-		reset_buffer();
-		g_buffer.client_pid = info->si_pid;
+		current_char = 0;
+		bit_count = 0;
+		client_pid = info->si_pid;
 	}
-	g_buffer.current_char = (g_buffer.current_char << 1);
+	current_char = (current_char << 1);
 	if (signum == SIGUSR2)
-		g_buffer.current_char |= 1;
-	g_buffer.bit_count++;
-	if (g_buffer.bit_count == 8)
+		current_char |= 1;
+	bit_count++;
+	if (bit_count == 8)
 	{
-		get_str();
+		if (current_char == '\0')
+			write(1, "\n", 1);
+		else
+			write(1, &current_char, 1);
+		current_char = 0;
+		bit_count = 0;
 	}
+	if (info->si_pid > 0)
+		kill(info->si_pid, SIGUSR1);
 }
 
+/**
+** @brief Entry point for the minitalk server program.
+**
+** Sets up the sigaction configuration for SIGUSR1 and SIGUSR2, ensuring
+** that the signals are blocked while the handler is executing to prevent reentrancy.
+** Prints its own Process ID (PID) and runs in an infinite loop waiting for signals.
+**
+** @return EXIT_SUCCESS if terminated normally, or exits on error.
+*/
 int	main(void)
 {
 	struct sigaction	sa;
@@ -72,6 +74,8 @@ int	main(void)
 	sa.sa_sigaction = handler_signs;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
 	pid = getpid();
 	if (sigaction(SIGUSR1, &sa, NULL) == -1)
 		exit(EXIT_FAILURE);
