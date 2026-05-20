@@ -8,8 +8,6 @@
 /*   Created: 2026/05/20 12:25:00 by sergio-jime       #+#    #+#             */
 /*   Updated: 2026/05/20 12:25:00 by sergio-jime      ###   ########.fr       */
 /*                                                                            */
-/*   Updated: 2026/05/20 12:25:00 by sergio-jime      ###   ########.fr       */
-/*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
@@ -61,6 +59,7 @@ static bool	parse_line_to_row(char *line, t_coordinates *row, int w, int r_idx)
 	}
 	return (true);
 }
+
 static void	compute_z_bounds(t_sizemap *map)
 {
 	int	r;

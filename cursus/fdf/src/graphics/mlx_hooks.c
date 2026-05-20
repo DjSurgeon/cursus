@@ -88,6 +88,7 @@ void	render_frame(t_data *data)
 	draw(data, data->map);
 	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr,
 		data->img->img_ptr, 0, 0);
+	draw_instructions(data);
 }
 
 /**

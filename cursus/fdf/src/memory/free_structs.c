@@ -128,4 +128,3 @@ void	cleanup_list(t_row_node *head, bool free_rows)
 		head = tmp;
 	}
 }
-

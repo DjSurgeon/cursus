@@ -21,7 +21,7 @@
  * 2 - Drawing each point as a single pixel.
  * 3 - Preserving the original color data.
  * @note Uses isometric projection.
- * @note Draws each point individually.
+ * @note Draws each point dynamically.
  * @param data Pointer to main application data structure.
  * @param map Pointer to populated map structure.
  * @return void.
@@ -47,4 +47,28 @@ void	draw_3dcoordenates(t_data *data, t_sizemap *map)
 		}
 		i++;
 	}
+}
+
+void	draw_instructions(t_data *data)
+{
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 30, 40, 0x00FFFF,
+		"FDF - Controls Guide");
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 30, 55, 0x555555,
+		"--------------------");
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 30, 75, 0xCCCCCC,
+		"Move Map      : Arrow Keys");
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 30, 95, 0xCCCCCC,
+		"Zoom          : + / -");
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 30, 115, 0xCCCCCC,
+		"Rotate X      : W / S");
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 30, 135, 0xCCCCCC,
+		"Rotate Y      : A / D");
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 30, 155, 0xCCCCCC,
+		"Rotate Z      : Q / E");
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 30, 175, 0xCCCCCC,
+		"Height Scale  : [ / ]");
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 30, 195, 0xCCCCCC,
+		"Projection    : P (Iso / Parallel)");
+	mlx_string_put(data->mlx_ptr, data->win_ptr, 30, 215, 0xFF5555,
+		"Exit          : ESC");
 }
