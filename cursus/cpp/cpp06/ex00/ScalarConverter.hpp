@@ -8,6 +8,7 @@
 # include <cfloat>
 # include <iomanip>
 # include <cmath>
+# include <limits>
 
 class ScalarConverter {
 public:
@@ -35,10 +36,16 @@ private:
     static bool isDouble(const std::string& literal);
     static bool isSpecial(const std::string& literal);
 
-    static void printChar(double d, bool isSpecial);
-    static void printInt(double d, bool isSpecial);
-    static void printFloat(double d);
+    static void printChar(char c, double valueAsDouble, bool isSpecial);
+    static void printInt(int i, double valueAsDouble, bool isSpecial);
+    static void printFloat(float f, double valueAsDouble);
     static void printDouble(double d);
+
+    static void convertFromChar(const std::string& literal);
+    static void convertFromInt(const std::string& literal);
+    static void convertFromFloat(const std::string& literal);
+    static void convertFromDouble(const std::string& literal);
+    static void convertFromSpecial(const std::string& literal);
 };
 
 #endif
