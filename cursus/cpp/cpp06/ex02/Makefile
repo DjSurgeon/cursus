@@ -1,0 +1,47 @@
+# Program
+NAME := identify
+
+# Compiler
+CXX := c++
+
+# Standard
+CXXSTD := -std=c++98
+
+# Flags
+CXXFLAGS := -Wall -Wextra -Werror
+
+# Sources
+SRC :=	Base.cpp \
+		main.cpp
+
+# Objects
+OBJ := $(SRC:%.cpp=%.o)
+
+# Colors
+GREEN	:= \033[0;32m
+RED		:= \033[0;31m
+BLUE	:= \033[0;34m
+RESET	:= \033[0m
+
+# Rules
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	@$(CXX) $(CXXSTD) $(CXXFLAGS) $(OBJ) -o $(NAME)
+	@echo -e "$(GREEN)✓ $(NAME) compiled successfully!$(RESET)"
+
+%.o: %.cpp
+	@$(CXX) $(CXXSTD) $(CXXFLAGS) -c $< -o $@
+	@echo -e "$(BLUE)Compiling: $<$(RESET)"
+
+clean:
+	@rm -f $(OBJ)
+	@echo -e "$(RED)✗ Object files removed$(RESET)"
+
+fclean: clean
+	@rm -f $(NAME)
+	@echo -e "$(RED)✗ $(NAME) removed$(RESET)"
+
+re: fclean all
+
+.PHONY: all clean fclean re
