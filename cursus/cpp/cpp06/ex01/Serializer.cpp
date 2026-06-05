@@ -6,13 +6,9 @@ Serializer& Serializer::operator=(const Serializer& other) { (void)other; return
 Serializer::~Serializer() {}
 
 uintptr_t Serializer::serialize(Data* ptr) {
-    // Lógica pendiente
-    (void)ptr;
-    return 0; 
+    return reinterpret_cast<uintptr_t>(ptr);
 }
 
 Data* Serializer::deserialize(uintptr_t raw) {
-    // Lógica pendiente
-    (void)raw;
-    return NULL; 
+    return reinterpret_cast<Data*>(raw);
 }
