@@ -32,8 +32,8 @@ else
 fi
 
 # ── Initialization — only the first time ─────────────────────────────────────
-# Check if the user database exists.
-if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
+# Check if the system database directory exists.
+if [ ! -d "/var/lib/mysql/mysql" ]; then
 
     echo -e "${BLUE}First run — initializing MariaDB in Alpine...${NC}"
 
