@@ -49,6 +49,18 @@ services:
     depends_on:
       - wordpress
 
+  # ── REDIS (Cache Service Bonus) ──────────────────────────────
+  redis:
+    build:
+      context: ../srcs/requirements/bonus/redis
+      dockerfile: Dockerfile
+    container_name: redis
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - wordpress
+
 # Mapped to RAM files in /run/secrets/ inside containers
 secrets:
   db_password:
