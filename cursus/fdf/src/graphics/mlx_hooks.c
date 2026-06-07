@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_hooks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+        */
+/*   By: sergio <sergio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 15:32:33 by sergio-jime       #+#    #+#             */
-/*   Updated: 2025/07/28 23:01:11 by sergio-jime      ###   ########.fr       */
+/*   Updated: 2026/05/20 22:33:01 by sergio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ static int	key_press(int keycode, t_data *data)
  */
 bool	fdf_hooks(t_data *data)
 {
-	mlx_hook(data->win_ptr, 2, (1L << 0), key_press, data);
-	mlx_hook(data->win_ptr, 17, (1L << 8), close_window, data);
+	mlx_hook(data->win_ptr, 2, (1L << 0), (void *)key_press, data);
+	mlx_hook(data->win_ptr, 17, (1L << 8), (void *)close_window, data);
 	return (true);
 }

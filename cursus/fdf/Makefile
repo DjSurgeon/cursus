@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: sergio-jimenez <sergio-jimenez@student.    +#+  +:+       +#+         #
+#    By: sergio <sergio@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/06/22 23:22:18 by sergio-jime       #+#    #+#              #
-#    Updated: 2025/06/24 00:04:31 by sergio-jime      ###   ########.fr        #
+#    Updated: 2026/05/20 22:36:20 by sergio           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ MLX_DIR		:= minilibx-linux
 # Compiler =================================================================== #
 
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror -g -D BUFFER_SIZE=4096 -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
+CFLAGS		:= -Wall -Wextra -Werror -g -std=gnu99 -D BUFFER_SIZE=4096 -I$(INC_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
 LDFLAGS		:= -lm
 MLXFLAGS	:= -L$(MLX_DIR) -lmlx -lXext -lX11
 

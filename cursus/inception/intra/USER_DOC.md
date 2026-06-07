@@ -18,7 +18,7 @@ The stack provides a secure, containerized web environment consisting of:
 ## 🕹️ Managing the Project
 All management is done through the `Makefile` in the `intra/` directory.
 
-- **To Start:** Run `make up-alpine`. Starts the services using Alpine Linux 3.22 (High-speed build).
+- **To Start:** Run `make up`. Starts the services using Alpine Linux 3.22 (High-speed build).
 - **To Stop:** Run `make down`.
 - **Live Logs:** Run `make logs` to monitor the initialization and server activity.
 - **Full Reset:** Run `make re`.

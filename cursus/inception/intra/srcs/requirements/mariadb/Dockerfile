@@ -9,7 +9,7 @@ RUN apk add --no-cache mariadb mariadb-client
 # Custom configuration to allow connections from the WordPress container
 COPY conf/my.cnf /etc/my.cnf.d/mariadb-server.cnf
 # Initialization script to setup DB, users and root password
-COPY tools/db-setup.alpine.sh /usr/local/bin/db-setup.sh
+COPY tools/db-setup.sh /usr/local/bin/db-setup.sh
 
 # Execute permission
 RUN chmod +x /usr/local/bin/db-setup.sh

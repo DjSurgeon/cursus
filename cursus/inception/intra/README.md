@@ -33,7 +33,7 @@ If you are on a clean Ubuntu 24.04 machine, use the provided automation scripts 
 1.  **Launch:**
     ```bash
     cd intra
-    make up-alpine  # Starts the entire stack (Recommended)
+    make up  # Starts the entire stack
     ```
 
 ---
@@ -57,6 +57,6 @@ This project is optimized for rapid deployment:
 
 ### AI Usage
 AI (Gemini CLI) was used in this project for the following tasks:
-- **Orchestration:** Implementing a dual-OS `Makefile` strategy for Alpine/Debian environments.
+- **Orchestration:** Implementing a robust `Makefile` strategy for orchestration.
 - **Optimization:** Refactoring `Dockerfiles` and setup scripts for cross-distro compatibility and implementing high-speed build flags (BuildKit, Parallelism).
 - **Documentation:** Assisting in the synthesis of technical concepts for `README.md`, `DEV_DOC.md`, and `USER_DOC.md`.

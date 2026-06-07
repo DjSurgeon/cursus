@@ -9,9 +9,3 @@ srcs/.env
 .DS_Store
 *.swp
 *~
-
-# Debian Environment
-*.debian
-*.debian.yml
-*.debian.sh
-*debian.www.conf

@@ -56,7 +56,7 @@ Ensure your host's `/etc/hosts` maps the local domain:
 The infrastructure is managed via the optimized `intra/Makefile`.
 
 ```bash
-make up-alpine  # Recommended: Launches Alpine 3.22-based images
+make up  # Recommended: Launches Alpine 3.22-based images
 ```
 
 ---
@@ -65,7 +65,7 @@ make up-alpine  # Recommended: Launches Alpine 3.22-based images
 
 | Command | Action |
 | :--- | :--- |
-| `make up-alpine` | Start containers using Alpine-based images (Default). |
+| `make up` | Start containers using Alpine-based images (Default). |
 | `make ps` | Check container health and port mapping. |
 | `make logs` | Stream real-time logs for all services. |
 | `make clean` | Stop and remove containers and volumes. |
