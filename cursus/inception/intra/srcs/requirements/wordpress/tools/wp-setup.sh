@@ -48,6 +48,19 @@ if [ ! -f /var/www/html/wp-config.php ]; then
         --user_pass=${USER_PASSWORD} \
         --allow-root
 
+    # --- BONUS: REDIS CACHE SETUP ---
+    echo "Configurando Redis Object Cache..."
+    
+    # Añadir constantes al wp-config.php
+    wp config set WP_REDIS_HOST redis --allow-root
+    wp config set WP_REDIS_PORT 6379 --raw --allow-root
+
+    # Instalar y activar el plugin
+    wp plugin install redis-cache --activate --allow-root
+    
+    # Habilitar el Object Cache
+    wp redis enable --allow-root
+
     echo "WordPress instalado y configurado con éxito."
 else
     echo "WordPress ya está instalado."
