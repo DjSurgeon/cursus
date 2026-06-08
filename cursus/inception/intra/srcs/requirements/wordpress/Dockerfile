@@ -15,6 +15,7 @@ RUN apk update && apk add --no-cache \
     php82-xml \
     php82-zip \
     php82-phar \
+    php82-pecl-redis \
     wget \
     mariadb-client
 
@@ -27,7 +28,7 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 
 # 4. Copiar configuraciones y script de arranque
 COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
-COPY tools/wp-setup.alpine.sh /usr/local/bin/wp-setup.sh
+COPY tools/wp-setup.sh /usr/local/bin/wp-setup.sh
 RUN chmod +x /usr/local/bin/wp-setup.sh
 
 # 5. Crear la carpeta donde vivirán los archivos web

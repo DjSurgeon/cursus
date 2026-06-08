@@ -1,10 +1,11 @@
-#!/bin/bash
-# The shebang indicates this script is executed by 'bash'.
-# On Debian-based systems, bash is the standard shell and is included by default.
+#!/bin/sh
+# The shebang indicates this script is executed by 'sh' (ash).
+# IMPORTANT FOR THE DEFENSE: We use 'sh' and not 'bash' because Alpine Linux
+# is ultra‑light and does not include bash by default to save space.
 
 set -e
 # If any command fails, the script stops immediately.
-# Prevents the container from starting in a corrupted state if initialization fails.
+# Prevents the container from starting in a corrupted state if installation fails.
 
 # ── Colors ───────────────────────────────────────────────────────────────────
 GREEN='\033[0;32m'
@@ -13,7 +14,7 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Create the socket directory — MariaDB needs it to create mysqld.sock
-# It doesn't exist by default in the Debian base image
+# It doesn't exist by default in the Alpine base image
 mkdir -p /run/mysqld
 chown mysql:mysql /run/mysqld
 
@@ -31,10 +32,10 @@ else
 fi
 
 # ── Initialization — only the first time ─────────────────────────────────────
-# Check if the user database exists.
-if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
+# Check if the system database directory exists.
+if [ ! -d "/var/lib/mysql/mysql" ]; then
 
-    echo -e "${BLUE}First run — initializing MariaDB in Debian...${NC}"
+    echo -e "${BLUE}First run — initializing MariaDB in Alpine...${NC}"
 
     # 1. Initialize MariaDB system tables
     # --skip-test-db removes unnecessary test databases for a cleaner setup.
@@ -77,10 +78,9 @@ fi
 
 # ── Start MariaDB in foreground as PID 1 ─────────────────────────────────────
 # THE EVALUATOR WILL ASK: What does the 'exec' keyword do and why is it mandatory?
-# ANSWER: 'exec' destroys this script (bash) and replaces it with the 'mysqld' process.
+# ANSWER: 'exec' destroys this script (sh) and replaces it with the 'mysqld' process.
 # This ensures that MariaDB becomes PID 1 of the container.
 # If MariaDB hangs, the container dies gracefully (fulfilling the rule
 # of not using hacks like 'tail -f' or infinite loops).
 echo -e "${BLUE}Starting MariaDB...${NC}"
-
-exec mysqld --user=mysql --bind-address=0.0.0.0
+exec /usr/bin/mysqld --user=mysql

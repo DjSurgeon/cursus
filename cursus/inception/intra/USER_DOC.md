@@ -1,49 +1,48 @@
 # 📖 User Documentation - Inception
 
-*This project has been created as part of the 42 curriculum by serjimen.*
+This document is intended for end users and administrators who need to understand, start, stop, and manage the Inception web infrastructure.
 
-## 🚀 Project Status
-The infrastructure is in its **Final Implementation (Fully Functional)**. It features **High-Performance Orchestration** for rapid deployment during the evaluation.
+## Services Provided
+The infrastructure provisions a secure, fully-functional WordPress environment. The stack consists of three core components:
+- **NGINX:** Acts as the secure gateway (Reverse Proxy). It ensures that all incoming connections are encrypted via HTTPS (TLSv1.2/TLSv1.3).
+- **WordPress:** The Content Management System (CMS) that provides the user-facing website and administration interface, processing dynamic requests via PHP-FPM.
+- **MariaDB:** The backend database storing all website data, including posts, users, and configuration settings.
 
----
+## Start and Stop the Project
+The entire infrastructure is managed via a `Makefile` located in the root of the project directory.
 
-## 🛠️ Provided Services
-The stack provides a secure, containerized web environment consisting of:
-- **NGINX:** The secure entry point (HTTPS) with TLS 1.2/1.3.
-- **WordPress:** The CMS powered by PHP-FPM 8.2.
-- **MariaDB:** The database engine v10.11+.
+- **To Start:** Open a terminal in the project directory and execute:
+  ```bash
+  make up
+  ```
+  This command will build the necessary images and launch all containers in the background.
 
----
+- **To Stop:** To safely halt the infrastructure, execute:
+  ```bash
+  make down
+  ```
+  This command gracefully stops and removes the active containers while preserving your persistent data.
 
-## 🕹️ Managing the Project
-All management is done through the `Makefile` in the `intra/` directory.
+## Accessing the Website and Administration Panel
+Ensure the services are running before attempting access.
 
-- **To Start:** Run `make up-alpine`. Starts the services using Alpine Linux 3.22 (High-speed build).
-- **To Stop:** Run `make down`.
-- **Live Logs:** Run `make logs` to monitor the initialization and server activity.
-- **Full Reset:** Run `make re`.
+- **Main Website:** Open your web browser and navigate to `https://serjimen.42.fr`. 
+- **Administration Panel:** Navigate to `https://serjimen.42.fr/wp-admin` to access the WordPress backend dashboard.
 
----
+*Note: Since the server utilizes self-signed SSL certificates for local testing, your browser may display a security warning. You must acknowledge the risk and proceed to the site.*
 
-## 🏗️ Performance Boosts
-This project has been optimized for the evaluation:
-- **Parallel Deployment:** Services launch simultaneously.
-- **BuildKit Engine:** High-speed image processing with Buildx/Bake.
-- **Smart Filtering:** Only essential files are used to reduce build context size.
+## Locating and Managing Credentials
+Administrative and system credentials are provisioned securely. As an administrator, you can locate and manage configuration details across two distinct locations:
+1. **`.env` File:** Located in the `srcs/` directory. This file contains non-sensitive configuration parameters, such as domain names, database names, and standard usernames.
+2. **`secrets/` Directory:** Located in the root project directory. This directory contains discrete text files for sensitive passwords (e.g., `db_password.txt`, `wp_admin_password.txt`). These files are injected securely into the containers at runtime and are strictly ignored by version control systems to prevent unauthorized access.
 
----
+If you need to update a password, modify the respective file within the `secrets/` directory prior to launching the stack.
 
-## 🌐 Accessing the Website
-Once the services are running:
-1.  **Main Site:** [https://serjimen.42.fr](https://serjimen.42.fr).
-2.  **Admin Panel:** [https://serjimen.42.fr/wp-admin](https://serjimen.42.fr/wp-admin).
-
-*Note: Due to self-signed SSL certificates, you must bypass the browser security warning.*
-
----
-
-## ✅ Checking System Health
-To verify that everything is running correctly:
-- **Service Status:** Run `make ps`. All containers (**mariadb, wordpress, nginx**) should show a status of `Up`.
-- **Persistence:** Verify that `/home/${LOGIN}/data` contains the database and WordPress files.
-- **Connectivity:** Ensure you can ping `serjimen.42.fr` from your host machine.
+## Checking System Health
+To verify that all services are executing correctly:
+1. Open a terminal in the project directory.
+2. Execute the following command:
+   ```bash
+   make ps
+   ```
+3. The output will list all managed containers (`nginx`, `wordpress`, `mariadb`). Verify that the **STATUS** column for all services indicates `Up`.
