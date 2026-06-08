@@ -52,7 +52,7 @@ services:
   # ── REDIS (Cache Service Bonus) ──────────────────────────────
   redis:
     build:
-      context: ../srcs/requirements/bonus/redis
+      context: ./requirements/bonus/redis
       dockerfile: Dockerfile
     container_name: redis
     networks:
