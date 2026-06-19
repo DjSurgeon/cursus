@@ -1,6 +1,7 @@
 services:
   # ── MARIADB (Database Service) ──────────────────────────────
   mariadb:
+    image: mariadb:alpine3.22
     build:
       context: ./requirements/mariadb
       dockerfile: Dockerfile
@@ -17,6 +18,7 @@ services:
 
   # ── WORDPRESS + PHP-FPM (To be implemented) ──────────────────
   wordpress:
+    image: wordpress:alpine3.22
     build:
       context: ./requirements/wordpress
       dockerfile: Dockerfile
@@ -35,6 +37,7 @@ services:
 
   # ── NGINX (Reverse Proxy) (To be implemented) ───────────────
   nginx:
+    image: nginx:alpine3.22
     build:
       context: ./requirements/nginx
       dockerfile: Dockerfile
@@ -51,6 +54,7 @@ services:
 
   # ── REDIS (Cache Service Bonus) ──────────────────────────────
   redis:
+    image: redis:alpine3.22
     profiles:
       - bonus
     build:
