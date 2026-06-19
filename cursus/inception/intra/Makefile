@@ -27,9 +27,18 @@ up:
 	@$(D_COMPOSE) up -d --build
 	@echo -e "$(GREEN)Infrastructure deployed successfully!$(NC)"
 
+bonus:
+	@echo -e "$(BLUE)Creating data volumes at $(DATA_PATH)...$(NC)"
+	@sudo mkdir -p $(DATA_PATH)/mariadb
+	@sudo mkdir -p $(DATA_PATH)/wordpress
+	@sudo chown -R $(LOGIN):$(LOGIN) $(DATA_PATH)
+	@echo -e "$(BLUE)Building and starting containers (MANDATORY + BONUS) using $(COMPOSE_FILE)...$(NC)"
+	@$(D_COMPOSE) --profile bonus up -d --build
+	@echo -e "$(GREEN)Infrastructure with bonus deployed successfully!$(NC)"
+
 down:
 	@echo -e "$(YELLOW)Stopping containers...$(NC)"
-	@$(D_COMPOSE) down
+	@$(D_COMPOSE) --profile bonus down
 
 restart:
 	@echo -e "$(BLUE)Restarting containers...$(NC)"
@@ -45,7 +54,7 @@ logs:
 # Cleanup
 clean:
 	@echo -e "$(YELLOW)Cleaning up Docker resources...$(NC)"
-	@$(D_COMPOSE) down --rmi all --volumes --remove-orphans
+	@$(D_COMPOSE) --profile bonus down --rmi all --volumes --remove-orphans
 
 fclean: clean
 	@echo -e "$(RED)Removing host data directories...$(NC)"
@@ -54,4 +63,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all up down restart ps logs clean fclean re
+.PHONY: all up bonus down restart ps logs clean fclean re
