@@ -97,8 +97,6 @@ services:
       context: ./requirements/bonus/static
       dockerfile: Dockerfile
     container_name: static
-    ports:
-      - "1337:1337"
     networks:
       - inception
     restart: always
