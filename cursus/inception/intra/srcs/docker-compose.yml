@@ -101,6 +101,21 @@ services:
       - inception
     restart: always
 
+  # ── ADMINER (Bonus) ──────────────────────────────────────────
+  adminer:
+    image: adminer:alpine3.22
+    profiles:
+      - bonus
+    build:
+      context: ./requirements/bonus/adminer
+      dockerfile: Dockerfile
+    container_name: adminer
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - mariadb
+
 # Mapped to RAM files in /run/secrets/ inside containers
 secrets:
   db_password:
