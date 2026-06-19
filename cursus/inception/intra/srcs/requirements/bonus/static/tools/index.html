@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inception | Docker Cheatsheet</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="terminal-header">
+                <div class="buttons">
+                    <span class="close"></span>
+                    <span class="minimize"></span>
+                    <span class="maximize"></span>
+                </div>
+                <div class="title">serjimen@inception: ~</div>
+            </div>
+            <div class="terminal-body">
+                <p><span class="prompt">$</span> ./inception_v5.3.sh</p>
+                <h1>Welcome to Inception</h1>
+                <p class="subtitle">A System Administration Project by Sergio</p>
+                <div class="tech-stack">
+                    <span class="tag">Docker</span>
+                    <span class="tag">Nginx</span>
+                    <span class="tag">MariaDB</span>
+                    <span class="tag">WordPress</span>
+                    <span class="tag">Redis</span>
+                    <span class="tag">FTP</span>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="cheatsheet">
+                <h2>Docker Cheatsheet</h2>
+                <div class="grid">
+                    
+                    <div class="card">
+                        <h3>Containers Lifecycle</h3>
+                        <ul>
+                            <li>
+                                <code>docker ps -a</code>
+                                <span>List all containers (running & stopped)</span>
+                            </li>
+                            <li>
+                                <code>docker exec -it &lt;name&gt; sh</code>
+                                <span>Access a running container</span>
+                            </li>
+                            <li>
+                                <code>docker logs -f &lt;name&gt;</code>
+                                <span>Follow container logs in real-time</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <h3>Compose Commands</h3>
+                        <ul>
+                            <li>
+                                <code>docker compose up -d --build</code>
+                                <span>Build and run in detached mode</span>
+                            </li>
+                            <li>
+                                <code>docker compose down -v</code>
+                                <span>Stop and remove containers + volumes</span>
+                            </li>
+                            <li>
+                                <code>docker compose --profile bonus up</code>
+                                <span>Run specific profiled services</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card full-width">
+                        <h3>Cleanup & Maintenance</h3>
+                        <ul>
+                            <li>
+                                <code>docker system prune -a --volumes</code>
+                                <span>Remove all unused containers, networks, images, and volumes (Use with caution)</span>
+                            </li>
+                            <li>
+                                <code>docker volume ls</code>
+                                <span>List all local volumes</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; 2026 - 42 Inception Project - Designed entirely without PHP.</p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -88,6 +88,21 @@ services:
     depends_on:
       - wordpress
 
+  # ── STATIC WEBSITE (Bonus) ───────────────────────────────────
+  static:
+    image: static:alpine3.22
+    profiles:
+      - bonus
+    build:
+      context: ./requirements/bonus/static
+      dockerfile: Dockerfile
+    container_name: static
+    ports:
+      - "1337:1337"
+    networks:
+      - inception
+    restart: always
+
 # Mapped to RAM files in /run/secrets/ inside containers
 secrets:
   db_password:
