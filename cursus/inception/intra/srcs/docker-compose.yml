@@ -67,6 +67,27 @@ services:
     depends_on:
       - wordpress
 
+  # ── FTP SERVER (Bonus) ───────────────────────────────────────
+  ftp:
+    image: ftp:alpine3.22
+    profiles:
+      - bonus
+    build:
+      context: ./requirements/bonus/ftp
+      dockerfile: Dockerfile
+    container_name: ftp
+    env_file: .env
+    ports:
+      - "21:21"
+      - "21100-21110:21100-21110"
+    volumes:
+      - wp_data:/var/www/html
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - wordpress
+
 # Mapped to RAM files in /run/secrets/ inside containers
 secrets:
   db_password:
