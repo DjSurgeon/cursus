@@ -149,6 +149,23 @@ services:
     depends_on:
       - mariadb-exporter
 
+  # ── GRAFANA (Bonus) ──────────────────────────────────────────
+  grafana:
+    image: grafana:alpine3.22
+    profiles:
+      - bonus
+    build:
+      context: ./requirements/bonus/grafana
+      dockerfile: Dockerfile
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - prometheus
+
 # Mapped to RAM files in /run/secrets/ inside containers
 secrets:
   db_password:
