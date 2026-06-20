@@ -117,6 +117,38 @@ services:
     depends_on:
       - mariadb
 
+  # ── MARIADB EXPORTER (Bonus) ─────────────────────────────────
+  mariadb-exporter:
+    image: mariadb-exporter:alpine3.22
+    profiles:
+      - bonus
+    build:
+      context: ./requirements/bonus/mariadb-exporter
+      dockerfile: Dockerfile
+    container_name: mariadb-exporter
+    secrets:
+      - mariadb_exporter_pwd
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - mariadb
+
+  # ── PROMETHEUS (Bonus) ───────────────────────────────────────
+  prometheus:
+    image: prometheus:alpine3.22
+    profiles:
+      - bonus
+    build:
+      context: ./requirements/bonus/prometheus
+      dockerfile: Dockerfile
+    container_name: prometheus
+    networks:
+      - inception
+    restart: always
+    depends_on:
+      - mariadb-exporter
+
 # Mapped to RAM files in /run/secrets/ inside containers
 secrets:
   db_password:
