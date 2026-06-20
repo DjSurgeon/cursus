@@ -1,0 +1,79 @@
+# Roadmap: Monitoreo Avanzado (Prometheus + Grafana)
+
+Esta propuesta es brillante y te sitúa a nivel de DevOps Senior. Es el puente perfecto hacia `cloud-1`. Sin embargo, para que **pase estrictamente la evaluación de Inception sin penalizaciones**, he ajustado algunos detalles críticos de tu propuesta (especialmente el manejo de contraseñas y volúmenes, que Inception vigila con lupa).
+
+## Fase 1: Arquitectura de Directorios (Ajustada a Inception)
+Para mantener la coherencia con los demás bonus (`ftp`, `redis`, etc.), aplanaremos ligeramente tu estructura de directorios, manteniéndolos como servicios de primer nivel dentro de `bonus/`:
+
+```text
+srcs/requirements/bonus/
+├── prometheus/
+│   ├── Dockerfile
+│   └── conf/prometheus.yml
+├── grafana/
+│   ├── Dockerfile
+│   └── conf/
+│       ├── provisioning/
+│       │   ├── datasources/datasource.yml
+│       │   └── dashboards/dashboards.yml
+│       └── dashboards/mariadb-dashboard.json
+└── mariadb-exporter/
+    └── Dockerfile
+```
+
+## Fase 2: Configuración de Servicios y Secretos (Normativa 42)
+
+> [!WARNING]
+> **REGLA DE ORO DE INCEPTION**: Prohibido usar contraseñas en variables de entorno (como `${MYSQL_EXPORTER_PASSWORD}`). 
+
+1. **El Traductor (MariaDB Exporter)**:
+   - Modificaremos tu script `db-setup.sh` (en el contenedor de MariaDB) para que cree un usuario `exporter` con permiso `PROCESS, REPLICATION CLIENT, SELECT` leyendo la clave desde los secretos.
+   - En el contenedor del exportador, inyectaremos la conexión a través de un archivo de configuración secreto o construyendo la variable localmente en un script `entrypoint.sh` leyendo el secreto, para que no aparezca en texto plano en el `docker-compose.yml`.
+
+2. **Prometheus**:
+   - `scrape_interval: 10s` apuntando a `mariadb-exporter:9104` internamente.
+   - Usaremos la imagen pura de `alpine:3.22` instalando el paquete `prometheus`.
+
+3. **Grafana (Auto-Provisioning)**:
+   - Instalaremos `grafana` en Alpine.
+   - Copiaremos los YAML de aprovisionamiento para que el evaluador no tenga que hacer clics manuales. ¡Grafana se abrirá directamente con los gráficos de MariaDB cargados!
+
+## Fase 3: Orquestación y Volúmenes Bind (Normativa 42)
+
+En lugar de volúmenes de Docker estándar (que proponías), usaremos **Bind Mounts** apuntando a `/home/serjimen/data/` para cumplir el Subject.
+
+#### [MODIFY] [docker-compose.yml](file:///home/sergio/vscode/cursus/cursus/inception/intra/srcs/docker-compose.yml)
+Añadiremos los 3 servicios bajo el perfil `bonus`:
+- **`mariadb-exporter`**: Sin puertos expuestos.
+- **`prometheus`**: Sin puertos expuestos.
+- **`grafana`**: Expondrá el puerto `3000:3000`. (Opcionalmente, podríamos enrutarlo por NGINX en `https://serjimen.42.fr/grafana`, pero dejar el 3000 es perfectamente legal en los bonus y nos ahorra conflictos de rutas relativas con Grafana).
+
+Añadiremos los nuevos volúmenes Bind:
+```yaml
+  prometheus_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/serjimen/data/prometheus
+  grafana_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/serjimen/data/grafana
+```
+
+#### [MODIFY] [Makefile](file:///home/sergio/vscode/cursus/cursus/inception/intra/Makefile)
+Añadiremos la creación de los directorios `/home/serjimen/data/prometheus` y `/home/serjimen/data/grafana` en los comandos `up` y `bonus`.
+
+## Open Questions
+> [!IMPORTANT]
+> 1. Para las contraseñas, ¿quieres que cree un nuevo archivo en tu carpeta `secrets/` llamado `db_exporter_password.txt`?
+> 2. Respecto al dashboard de Grafana, utilizaré el dashboard oficial de la comunidad (ID: 14057 o similar) para MariaDB. ¿Estás de acuerdo?
+
+## Verification Plan
+1. `make fclean` -> `make bonus`.
+2. Verificar que los 10 contenedores suben correctamente (7 de antes + 3 nuevos).
+3. Entrar a `http://localhost:3000` (Grafana), iniciar sesión con admin/admin (o lo que configuremos).
+4. Visualizar los gráficos en tiempo real reaccionando a las queries de WordPress.
