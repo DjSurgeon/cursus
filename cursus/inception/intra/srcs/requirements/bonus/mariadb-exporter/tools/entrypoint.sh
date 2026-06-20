@@ -14,10 +14,16 @@ else
     exit 1
 fi
 
-# Export connection string locally, so it is never exposed in docker-compose.yml
-export DATA_SOURCE_NAME="exporter:${EXPORTER_PASSWORD}@(mariadb:3306)/"
+# Create .my.cnf file for mysqld_exporter (v0.15.1+ requires this instead of DATA_SOURCE_NAME)
+cat << EOF > /.my.cnf
+[client]
+user=exporter
+password=${EXPORTER_PASSWORD}
+host=mariadb
+port=3306
+EOF
 
 echo "Starting mysqld_exporter..."
 
 # Execute mysqld_exporter as PID 1
-exec /usr/local/bin/mysqld_exporter
+exec /usr/local/bin/mysqld_exporter --config.my-cnf="/.my.cnf"
