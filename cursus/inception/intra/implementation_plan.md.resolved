@@ -27,8 +27,30 @@ srcs/requirements/bonus/
 > **REGLA DE ORO DE INCEPTION**: Prohibido usar contraseñas en variables de entorno (como `${MYSQL_EXPORTER_PASSWORD}`). 
 
 1. **El Traductor (MariaDB Exporter)**:
-   - Modificaremos tu script `db-setup.sh` (en el contenedor de MariaDB) para que cree un usuario `exporter` con permiso `PROCESS, REPLICATION CLIENT, SELECT` leyendo la clave desde los secretos.
-   - En el contenedor del exportador, inyectaremos la conexión a través de un archivo de configuración secreto o construyendo la variable localmente en un script `entrypoint.sh` leyendo el secreto, para que no aparezca en texto plano en el `docker-compose.yml`.
+
+   #### [MODIFY] `srcs/requirements/mariadb/tools/db-setup.sh`
+   - **Objetivo**: Crear el usuario `exporter` con permisos restringidos, leyendo la contraseña del nuevo secreto `mariadb_exporter_pwd`.
+   - **Cambios exactos**:
+     - En la validación inicial de secretos, añadiremos `[ -f /run/secrets/mariadb_exporter_pwd ]`.
+     - Dentro de la inicialización de la DB, agregaremos:
+       ```sql
+       CREATE USER IF NOT EXISTS 'exporter'@'%' IDENTIFIED BY '${EXPORTER_PASSWORD}';
+       GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'%';
+       ```
+
+   #### [NEW] `srcs/requirements/bonus/mariadb-exporter/Dockerfile`
+   - **Objetivo**: Crear la imagen del exportador basada en Alpine 3.22.
+   - **Contenido**:
+     - Descargará el binario `mysqld_exporter` oficial de Prometheus (Release de GitHub) usando `wget`.
+     - Copiará y definirá como ENTRYPOINT el nuevo script `entrypoint.sh`.
+
+   #### [NEW] `srcs/requirements/bonus/mariadb-exporter/tools/entrypoint.sh`
+   - **Objetivo**: Construir la cadena de conexión de forma local, evitando variables de entorno públicas.
+   - **Contenido**:
+     - Leerá el archivo `/run/secrets/mariadb_exporter_pwd`.
+     - Exportará localmente la variable requerida:
+       `export DATA_SOURCE_NAME="exporter:${EXPORTER_PASSWORD}@(mariadb:3306)/"`
+     - Invocará el proceso principal con PID 1: `exec mysqld_exporter`
 
 2. **Prometheus**:
    - `scrape_interval: 10s` apuntando a `mariadb-exporter:9104` internamente.

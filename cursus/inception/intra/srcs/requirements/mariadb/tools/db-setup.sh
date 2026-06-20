@@ -23,9 +23,10 @@ chown mysql:mysql /run/mysqld
 # THE EVALUATOR WILL ASK: Why not use normal environment variables (.env)?
 # ANSWER: Because the subject requires security. Environment variables are visible
 # if someone runs 'docker inspect'. Secrets are actual files securely mounted.
-if [ -f /run/secrets/db_password ] && [ -f /run/secrets/db_root_password ]; then
+if [ -f /run/secrets/db_password ] && [ -f /run/secrets/db_root_password ] && [ -f /run/secrets/mariadb_exporter_pwd ]; then
     DB_PASSWORD=$(cat /run/secrets/db_password)
     DB_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
+    EXPORTER_PASSWORD=$(cat /run/secrets/mariadb_exporter_pwd)
 else
     echo -e "${RED}Error: Secrets files not found in /run/secrets/${NC}"
     exit 1
@@ -49,6 +50,8 @@ ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';
 CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;
 CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
 GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO '${MYSQL_USER}'@'%';
+CREATE USER IF NOT EXISTS 'exporter'@'%' IDENTIFIED BY '${EXPORTER_PASSWORD}';
+GRANT PROCESS, REPLICATION CLIENT, SELECT ON *.* TO 'exporter'@'%';
 FLUSH PRIVILEGES;
 EOF
 
