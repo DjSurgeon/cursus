@@ -10,6 +10,7 @@ services:
     secrets:
       - db_password
       - db_root_password
+      - mariadb_exporter_pwd
     volumes:
       - db_data:/var/lib/mysql
     networks:
@@ -124,6 +125,8 @@ secrets:
     file: ~/secrets/db_root_password.txt
   credentials:
     file: ~/secrets/credentials.txt
+  mariadb_exporter_pwd:
+    file: ~/secrets/mariadb_exporter_pwd.txt
 
 # Persistent storage on the host machine
 volumes:
