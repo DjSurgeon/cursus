@@ -1,66 +1,63 @@
-# 📖 User Documentation - Inception
+# 🧭 User Operations Guide - Inception
 
-This document is intended for end users and administrators who need to understand, start, stop, and manage the Inception web infrastructure.
+Welcome to the operations manual for the Inception infrastructure. This document provides a quick-reference guide for accessing and utilizing the deployed services without needing to dive into the source code.
 
-## Services Provided
-The infrastructure provisions a secure, fully-functional WordPress environment along with several advanced administrative utilities. The stack consists of:
+## 🗺️ Endpoints Map (Where to Access What)
 
-**Core Services:**
-- **NGINX:** Acts as the secure gateway (Reverse Proxy). It ensures that all incoming connections are encrypted via HTTPS (TLSv1.2/TLSv1.3).
-- **WordPress:** The Content Management System (CMS) that provides the user-facing website and administration interface, processing dynamic requests via PHP-FPM.
-- **MariaDB:** The backend database storing all website data, including posts, users, and configuration settings.
+Once the infrastructure is deployed (`make bonus`), you can interact with the various services via the following entry points.
 
-**Bonus Services:**
-- **Redis:** An internal caching layer that significantly speeds up WordPress load times.
-- **FTP Server:** A vsftpd server allowing direct file uploads to the WordPress directory.
-- **Static Website:** A portfolio/cheatsheet built in pure HTML/CSS.
-- **Adminer:** A web-based database management interface.
+| Service | Access URL / Endpoint | Protocol | Description |
+| :--- | :--- | :--- | :--- |
+| **WordPress** | `https://serjimen.42.fr` | HTTPS | The main application layer. Access the public-facing blog or the admin panel (`/wp-admin`). |
+| **Adminer** | `https://serjimen.42.fr/adminer/` | HTTPS | Web-based database management tool. Allows you to view and edit MariaDB tables directly. |
+| **Static Site** | `https://serjimen.42.fr/cheatsheet/` | HTTPS | A lightweight, responsive static HTML page providing a quick cheatsheet for developers. |
+| **Grafana** | `http://localhost:3000` | HTTP | The central observability dashboard. Visualizes real-time metrics scraped from MariaDB. |
+| **FTP Server** | `ftp://localhost` | FTP | Secure file transfer endpoint. Allows uploading plugins or themes directly to the WordPress volume. |
 
-## Start and Stop the Project
-The entire infrastructure is managed via a `Makefile` located in the root of the project directory.
+> [!NOTE]
+> If you are accessing the infrastructure from a host machine instead of a local VM, replace `localhost` with the VM's IP address (e.g., `http://<VM_IP>:3000`).
 
-- **To Start Core Infrastructure:** Open a terminal in the project directory and execute:
-  ```bash
-  make up
-  ```
-- **To Start Full Infrastructure (with Bonuses):** 
-  ```bash
-  make bonus
-  ```
-  This command will build the necessary images and launch all 7 containers in the background.
+## 🔑 Credentials Cheat Sheet
 
-- **To Stop:** To safely halt the infrastructure, execute:
-  ```bash
-  make down
-  ```
-  This command gracefully stops and removes the active containers while preserving your persistent data.
+To log into the various services, you will need the credentials defined in your `.env` and `secrets/` files. Below is a map of which credentials are required for which service.
 
-## Accessing the Websites and Interfaces
-Ensure the services are running (`make bonus`) before attempting access.
+### WordPress Administration
+- **URL**: `https://serjimen.42.fr/wp-admin`
+- **Username**: Defined in `.env` as `WP_ADMIN_USER` (e.g., `wpadmin_inception`)
+- **Password**: Found inside `secrets/credentials.txt`
+- **Use Case**: Installing themes, managing users, writing blog posts.
 
-- **Main Website:** Open your web browser and navigate to `https://serjimen.42.fr`. 
-- **WordPress Admin Panel:** Navigate to `https://serjimen.42.fr/wp-admin/` to access the CMS dashboard.
-- **Adminer (Database Manager):** Navigate to `https://serjimen.42.fr/adminer/` to securely manage MariaDB. Log in using `MySQL`, server: `mariadb`, and your credentials from `.env`.
-- **Static Website (Cheatsheet):** Navigate to `https://serjimen.42.fr/cheatsheet/`.
-- **FTP Access:** Use an FTP client (like FileZilla or `ftp` CLI) to connect to `serjimen.42.fr` on port `21`.
+### Database Management (Adminer)
+- **URL**: `https://serjimen.42.fr/adminer/`
+- **System**: Select `MySQL` (or MariaDB)
+- **Server**: Type `mariadb` (This is the internal Docker DNS name)
+- **Username**: Defined in `.env` as `MYSQL_USER` (e.g., `wpuser`)
+- **Password**: Found inside `secrets/db_password.txt`
+- **Use Case**: Executing raw SQL queries, backing up tables, debugging WordPress data.
 
-> **⚠️ Important Routing Note (Trailing Slashes):**
-> When accessing directories or reverse-proxied services like `/wp-admin`, `/adminer`, or `/cheatsheet`, NGINX requires a trailing slash `/` at the end of the URL. If you omit it, NGINX will automatically issue a `301 Moved Permanently` redirect to append it. This is normal and expected behavior for secure web routing.
+### FTP Server
+- **Client**: Any FTP client (e.g., FileZilla) or command-line `ftp`
+- **Host**: `localhost` (Port 21)
+- **Username**: Defined in `.env` as `FTP_USER` (e.g., `ftpuser`)
+- **Password**: Defined in `.env` as `FTP_PASS` (e.g., `ftppassword`)
+- **Use Case**: Directly modifying WordPress files (`wp-config.php`, uploading custom plugins) securely inside the chroot environment.
 
-*Note: Since the server utilizes self-signed SSL certificates for local testing, your browser may display a security warning. You must acknowledge the risk and proceed to the site.*
+### Grafana Dashboards
+- **URL**: `http://localhost:3000`
+- **Username**: `admin` (Default Grafana admin user)
+- **Password**: `admin` (Default Grafana password, you will be prompted to change it on first login).
+- **Use Case**: Monitoring the health of the database. Navigate to `Dashboards > MariaDB Health Overview` to see real-time Uptime and Thread connections. No configuration is required thanks to Auto-Provisioning.
 
-## Locating and Managing Credentials
-Administrative and system credentials are provisioned securely. As an administrator, you can locate and manage configuration details across two distinct locations:
-1. **`.env` File:** Located in the `srcs/` directory. This file contains non-sensitive configuration parameters, such as domain names, database names, standard usernames, and FTP credentials (`FTP_USER`, `FTP_PASS`).
-2. **`secrets/` Directory:** Located in the root project directory. This directory contains discrete text files for sensitive passwords (e.g., `db_password.txt`, `wp_admin_password.txt`). These files are injected securely into the containers at runtime and are strictly ignored by version control systems to prevent unauthorized access.
+## 🛠️ Common Operations
 
-If you need to update a password, modify the respective file within the `secrets/` directory prior to launching the stack.
+### Uploading a WordPress Theme via FTP
+1. Open your terminal: `ftp localhost`
+2. Authenticate using `FTP_USER` and `FTP_PASS`.
+3. Navigate to the themes directory: `cd wp-content/themes`
+4. Use the `put` command to upload your files. The changes will instantly reflect on the live website because the FTP container shares a Bind Mount with the WordPress container.
 
-## Checking System Health
-To verify that all services are executing correctly:
-1. Open a terminal in the project directory.
-2. Execute the following command:
-   ```bash
-   make ps
-   ```
-3. The output will list all managed containers. Verify that the **STATUS** column for all services indicates `Up`.
+### Monitoring Database Health
+If the website feels slow, you can use the Observability Stack to diagnose the issue:
+1. Open Grafana at `http://localhost:3000`.
+2. Open the **MariaDB Health Overview** dashboard.
+3. Check the "Threads Connected" graph. A massive spike could indicate an unoptimized WordPress plugin or a sudden surge in traffic.
