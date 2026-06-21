@@ -1,29 +1,33 @@
 #!/bin/sh
+
+# Stop script execution immediately if any command fails.
 set -e
 
-# 1. Leer secretos
+# --- Credential Loading ---
+# Read database credentials securely from Docker secrets.
 DB_PASSWORD=$(cat /run/secrets/db_password)
-# Suponiendo que en credentials.txt tienes "ADMIN_PASS=tuclave" y "WP_USER_PASS=otra"
 ADMIN_PASSWORD=$(grep ADMIN_PASS /run/secrets/credentials | cut -d '=' -f2)
 USER_PASSWORD=$(grep WP_USER_PASS /run/secrets/credentials | cut -d '=' -f2)
 
-# 2. Bucle de espera: WordPress no puede instalarse si la base de datos no está lista
-echo "Esperando a que MariaDB esté lista..."
+# --- Database Connection Wait ---
+# WordPress requires the database to be ready before installation.
+# This loop checks the connection to MariaDB continuously.
+echo "Waiting for MariaDB to be ready..."
 while ! mariadb -h mariadb -u ${MYSQL_USER} -p${DB_PASSWORD} ${MYSQL_DATABASE} -e "SELECT 1;" >/dev/null 2>&1; do
     sleep 8
-    echo "Reintentando conexión a MariaDB..."
+    echo "Retrying connection to MariaDB..."
 done
-echo "¡MariaDB está lista!"
+echo "MariaDB is ready."
 
-# 3. Instalación de WordPress usando WP-CLI
-# Si wp-config.php no existe, significa que el volumen está vacío y hay que instalar
+# --- WordPress Installation ---
+# Check if wp-config.php exists. If not, the volume is empty and requires installation.
 if [ ! -f /var/www/html/wp-config.php ]; then
-    echo "Descargando e instalando WordPress..."
+    echo "Downloading and installing WordPress..."
     
-    # Descargar archivos base de WordPress
+    # Download WordPress core files.
     php -d memory_limit=512M /usr/local/bin/wp core download --allow-root
 
-    # Crear el archivo de configuración con los datos de MariaDB
+    # Create the configuration file with MariaDB credentials.
     wp config create \
         --dbname=${MYSQL_DATABASE} \
         --dbuser=${MYSQL_USER} \
@@ -31,8 +35,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
         --dbhost=mariadb \
         --allow-root
 
-    # Instalar WordPress (crea las tablas en la base de datos)
-    # NOTA: Asegúrate de que $DOMAIN_NAME, $WP_ADMIN_USER, etc., estén en tu .env
+    # Execute WordPress core installation to initialize database tables.
     wp core install \
         --url=https://${DOMAIN_NAME} \
         --title="Inception 42" \
@@ -41,31 +44,32 @@ if [ ! -f /var/www/html/wp-config.php ]; then
         --admin_email=${WP_ADMIN_EMAIL} \
         --allow-root
 
-    # Crear el segundo usuario (Requisito estricto del subject)
+    # Create the second user (strict requirement from the subject).
     wp user create \
         ${WP_USER} ${WP_USER_EMAIL} \
         --role=author \
         --user_pass=${USER_PASSWORD} \
         --allow-root
 
-    # --- BONUS: REDIS CACHE SETUP ---
-    echo "Configurando Redis Object Cache..."
+    # --- Redis Cache Setup (Bonus) ---
+    echo "Configuring Redis Object Cache..."
     
-    # Añadir constantes al wp-config.php
+    # Append Redis connection constants to wp-config.php.
     wp config set WP_REDIS_HOST redis --allow-root
     wp config set WP_REDIS_PORT 6379 --raw --allow-root
 
-    # Instalar y activar el plugin
+    # Install and activate the Redis cache plugin.
     wp plugin install redis-cache --activate --allow-root
     
-    # Habilitar el Object Cache
+    # Enable the Object Cache functionality.
     wp redis enable --allow-root
 
-    echo "WordPress instalado y configurado con éxito."
+    echo "WordPress installed and configured successfully."
 else
-    echo "WordPress ya está instalado."
+    echo "WordPress is already installed."
 fi
 
-# 4. Arrancar PHP-FPM en primer plano (FOREGROUND) para que sea el PID 1
-# El flag -F es obligatorio. Si no lo pones, PHP se va a background y el contenedor muere.
+# --- Start Main Process ---
+# Execute PHP-FPM in the foreground to make it PID 1.
+# The -F flag is mandatory; otherwise, PHP goes to the background and the container exits.
 exec php-fpm82 -F

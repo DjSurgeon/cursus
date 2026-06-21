@@ -2,7 +2,14 @@
 
 # Default credentials if not provided
 FTP_USER=${FTP_USER:-ftpuser}
-FTP_PASS=${FTP_PASS:-ftppassword}
+
+# Read FTP password from secrets for maximum security
+if [ -f /run/secrets/credentials ]; then
+    FTP_PASS=$(grep FTP_PASS /run/secrets/credentials | cut -d '=' -f2)
+else
+    echo "Error: Credentials secret not found!"
+    exit 1
+fi
 
 # Check if user already exists
 if ! id "$FTP_USER" >/dev/null 2>&1; then

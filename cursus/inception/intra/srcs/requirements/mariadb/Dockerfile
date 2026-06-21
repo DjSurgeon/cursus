@@ -1,22 +1,22 @@
-# Base image (Penultimate stable version as per roadmap)
+# Base image: Uses the penultimate stable version of Alpine Linux.
 FROM alpine:3.22
 
-# Dependencies
-# Using --no-cache avoids storing the index and keeps the image small
+# Install required dependencies.
+# The --no-cache flag prevents storing the package index, keeping the image size minimal.
 RUN apk add --no-cache mariadb mariadb-client
 
-# Configuration files & scripts
-# Custom configuration to allow connections from the WordPress container
+# Copy custom configuration file to allow remote connections.
 COPY conf/my.cnf /etc/my.cnf.d/mariadb-server.cnf
-# Initialization script to setup DB, users and root password
+
+# Copy the initialization script.
 COPY tools/db-setup.sh /usr/local/bin/db-setup.sh
 
-# Execute permission
+# Grant execution permissions to the script.
 RUN chmod +x /usr/local/bin/db-setup.sh
 
-# Listen port (MySQL standard)
+# Expose the standard MariaDB port.
 EXPOSE 3306
 
-# Run container as PID 1
-# ENTRYPOINT handles signals and lifecycle management correctly
+# Define the entrypoint to handle container lifecycle.
+# The script will eventually execute MariaDB as PID 1.
 ENTRYPOINT ["/usr/local/bin/db-setup.sh"]

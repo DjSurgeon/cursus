@@ -1,7 +1,8 @@
-# 1. Imagen base
+# Base image: Uses the penultimate stable version of Alpine Linux.
 FROM alpine:3.22
 
-# 2. Instalación de dependencias (PHP 8.2 y extensiones para WordPress)
+# Install required dependencies.
+# The --no-cache flag prevents storing the package index, keeping the image size minimal.
 RUN apk update && apk add --no-cache \
     php82 \
     php82-fpm \
@@ -19,24 +20,28 @@ RUN apk update && apk add --no-cache \
     wget \
     mariadb-client
 
+# Create a symbolic link for PHP to allow using 'php' instead of 'php82'.
 RUN ln -s /usr/bin/php82 /usr/bin/php
 
-# 3. Instalación de WP-CLI (Herramienta oficial para instalar WP desde terminal)
+# Install WP-CLI (Official tool to manage WordPress from the command line).
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp
 
-# 4. Copiar configuraciones y script de arranque
+# Copy PHP-FPM configuration and the setup script.
 COPY conf/www.conf /etc/php82/php-fpm.d/www.conf
 COPY tools/wp-setup.sh /usr/local/bin/wp-setup.sh
+
+# Grant execution permissions to the script.
 RUN chmod +x /usr/local/bin/wp-setup.sh
 
-# 5. Crear la carpeta donde vivirán los archivos web
+# Create the web root directory and set it as the working directory.
 RUN mkdir -p /var/www/html
 WORKDIR /var/www/html
 
-# 6. Exponer el puerto por donde PHP-FPM escuchará a NGINX
+# Expose the port where PHP-FPM will listen for NGINX requests.
 EXPOSE 9000
 
-# 7. Ejecutar el script como PID 1
+# Define the entrypoint to handle container lifecycle.
+# The script will execute PHP-FPM as PID 1.
 ENTRYPOINT ["/usr/local/bin/wp-setup.sh"]

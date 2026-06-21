@@ -1,23 +1,24 @@
-# 1. Imagen base
+# Base image: Uses the penultimate stable version of Alpine Linux.
 FROM alpine:3.22
 
-# 2. Instalar NGINX y las herramientas para crear certificados de seguridad
+# Install NGINX and OpenSSL.
+# The --no-cache flag prevents storing the package index, keeping the image size minimal.
 RUN apk update && apk add --no-cache nginx openssl
 
-# 3. Crear el directorio donde guardaremos los certificados
+# Create the directory for storing SSL/TLS certificates.
 RUN mkdir -p /etc/nginx/ssl
 
-# 4. Generar el certificado SSL autofirmado (El candado del HTTPS)
+# Generate a self-signed SSL certificate for HTTPS encryption.
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -out /etc/nginx/ssl/inception.crt \
     -keyout /etc/nginx/ssl/inception.key \
     -subj "/C=ES/ST=Madrid/L=Madrid/O=42/OU=42/CN=serjimen.42.fr"
 
-# 5. Copiar nuestro archivo de configuración personalizado
+# Copy the custom NGINX configuration file.
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 
-# 6. Exponer SOLAMENTE el puerto 443 
+# Expose ONLY port 443 as per the subject requirements.
 EXPOSE 443
 
-# 7. Arrancar NGINX en primer plano (PID 1)
+# Start NGINX in the foreground to run as PID 1.
 CMD ["nginx", "-g", "daemon off;"]
