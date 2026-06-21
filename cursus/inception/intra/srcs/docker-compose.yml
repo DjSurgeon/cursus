@@ -1,5 +1,6 @@
 services:
-  # ── MARIADB (Database Service) ──────────────────────────────
+  # --- MariaDB Service ---
+  # Database engine for WordPress, accessible only within the internal network.
   mariadb:
     image: mariadb:alpine3.22
     build:
@@ -17,7 +18,8 @@ services:
       - inception
     restart: always
 
-  # ── WORDPRESS + PHP-FPM (To be implemented) ──────────────────
+  # --- WordPress and PHP-FPM Service ---
+  # Processes PHP requests and manages the website content. Depends on MariaDB.
   wordpress:
     image: wordpress:alpine3.22
     build:
@@ -36,7 +38,8 @@ services:
     depends_on:
       - mariadb
 
-  # ── NGINX (Reverse Proxy) (To be implemented) ───────────────
+  # --- NGINX Reverse Proxy ---
+  # The only entry point to the infrastructure, strictly serving over HTTPS.
   nginx:
     image: nginx:alpine3.22
     build:
@@ -53,7 +56,8 @@ services:
     depends_on:
       - wordpress
 
-  # ── REDIS (Cache Service Bonus) ──────────────────────────────
+  # --- Redis Cache Service (Bonus) ---
+  # Provides object caching for WordPress to improve performance.
   redis:
     image: redis:alpine3.22
     profiles:
@@ -68,7 +72,8 @@ services:
     depends_on:
       - wordpress
 
-  # ── FTP SERVER (Bonus) ───────────────────────────────────────
+  # --- FTP Server (Bonus) ---
+  # Allows secure file transfers directly to the WordPress volume.
   ftp:
     image: ftp:alpine3.22
     profiles:
@@ -91,7 +96,8 @@ services:
     depends_on:
       - wordpress
 
-  # ── STATIC WEBSITE (Bonus) ───────────────────────────────────
+  # --- Static Website (Bonus) ---
+  # Serves a lightweight static HTML page without PHP processing.
   static:
     image: static:alpine3.22
     profiles:
@@ -104,7 +110,8 @@ services:
       - inception
     restart: always
 
-  # ── ADMINER (Bonus) ──────────────────────────────────────────
+  # --- Adminer (Bonus) ---
+  # Lightweight database management tool accessible via reverse proxy.
   adminer:
     image: adminer:alpine3.22
     profiles:
@@ -119,7 +126,8 @@ services:
     depends_on:
       - mariadb
 
-  # ── MARIADB EXPORTER (Bonus) ─────────────────────────────────
+  # --- MariaDB Exporter (Bonus) ---
+  # Extracts metrics from MariaDB for Prometheus scraping.
   mariadb-exporter:
     image: mariadb-exporter:alpine3.22
     profiles:
@@ -136,7 +144,8 @@ services:
     depends_on:
       - mariadb
 
-  # ── PROMETHEUS (Bonus) ───────────────────────────────────────
+  # --- Prometheus Monitoring (Bonus) ---
+  # Monitors system and service metrics across the infrastructure.
   prometheus:
     image: prometheus:alpine3.22
     profiles:
@@ -151,7 +160,8 @@ services:
     depends_on:
       - mariadb-exporter
 
-  # ── GRAFANA (Bonus) ──────────────────────────────────────────
+  # --- Grafana Dashboard (Bonus) ---
+  # Visualizes the metrics collected by Prometheus in a web interface.
   grafana:
     image: grafana:alpine3.22
     profiles:
@@ -168,7 +178,8 @@ services:
     depends_on:
       - prometheus
 
-# Mapped to RAM files in /run/secrets/ inside containers
+# --- Docker Secrets ---
+# Securely maps sensitive files from the host directly into container RAM (/run/secrets/).
 secrets:
   db_password:
     file: ~/secrets/db_password.txt
@@ -179,7 +190,8 @@ secrets:
   mariadb_exporter_pwd:
     file: ~/secrets/mariadb_exporter_pwd.txt
 
-# Persistent storage on the host machine
+# --- Named Volumes ---
+# Defines persistent storage using local bind mounts as required by the subject.
 volumes:
   db_data:
     driver: local
@@ -194,7 +206,8 @@ volumes:
       o: bind
       device: /home/serjimen/data/wordpress
 
-# Private virtual network for internal communication
+# --- Custom Bridge Network ---
+# Isolates all containers in a private virtual network for secure internal communication.
 networks:
   inception:
     driver: bridge
