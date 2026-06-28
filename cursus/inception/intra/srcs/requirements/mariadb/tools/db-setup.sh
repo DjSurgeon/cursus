@@ -19,8 +19,9 @@ NC='\033[0m'
 mkdir -p /run/mysqld
 chown mysql:mysql /run/mysqld
 
-# Ensure MariaDB owns its data directory
+# Ensure MariaDB owns its data directory and has correct permissions
 chown -R mysql:mysql /var/lib/mysql
+chmod -R 755 /var/lib/mysql
 
 # --- Credential Loading ---
 # Read database credentials securely from Docker secrets mounted in RAM.
