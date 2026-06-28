@@ -44,7 +44,7 @@ if [ ! -f /var/www/html/wp-config.php ]; then
         --admin_email=${WP_ADMIN_EMAIL} \
         --allow-root
 
-    # Create the second user (strict requirement from the subject).
+    # Create the second user.
     wp user create \
         ${WP_USER} ${WP_USER_EMAIL} \
         --role=author \
@@ -72,4 +72,7 @@ fi
 # --- Start Main Process ---
 # Execute PHP-FPM in the foreground to make it PID 1.
 # The -F flag is mandatory; otherwise, PHP goes to the background and the container exits.
+echo "Setting permissions for nobody user..."
+chown -R nobody:nobody /var/www/html
+
 exec php-fpm82 -F
