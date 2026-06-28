@@ -19,6 +19,9 @@ NC='\033[0m'
 mkdir -p /run/mysqld
 chown mysql:mysql /run/mysqld
 
+# Ensure MariaDB owns its data directory
+chown -R mysql:mysql /var/lib/mysql
+
 # --- Credential Loading ---
 # Read database credentials securely from Docker secrets mounted in RAM.
 if [ -f /run/secrets/db_password ] && [ -f /run/secrets/db_root_password ] && [ -f /run/secrets/mariadb_exporter_pwd ]; then
