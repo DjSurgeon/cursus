@@ -76,12 +76,12 @@ int	Form::getExecuteGrade() const
 
 const char* Form::GradeTooHighException::what() const throw()
 {
-	return "Grade is too high! Maximum is 1.";
+	return "Grade is too high!";
 }
 
 const char* Form::GradeTooLowException::what() const throw()
 {
-	return "Grade is too low! Minimum is 150.";
+	return "Grade is too low!";
 }
 
 void	Form::beSigned(const Bureaucrat& bureaucrat)
