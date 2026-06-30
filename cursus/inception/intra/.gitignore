@@ -1,5 +1,4 @@
 # Secrets — NEVER in the repository
-secrets/
 srcs/.env
 
 # Volume data
