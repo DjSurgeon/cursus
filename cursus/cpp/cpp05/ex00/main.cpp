@@ -16,13 +16,15 @@ int main()
 {
 	try
 	{
-		Bureaucrat bob("Bob", 2);
+		Bureaucrat bob("Bob", 3);
 		std::cout << bob << std::endl;
 
-		bob.incrementGrade();
-		std::cout << bob << std::endl;
+		// bob.incrementGrade();
+		// std::cout << bob << std::endl;
 
-		bob.incrementGrade(); // Error!
+		// bob.incrementGrade(); // Error!
+
+		std::cout << bob.getGrade() << std::endl;
 
 		bob.decrementGrade();
 		std::cout << bob << std::endl;

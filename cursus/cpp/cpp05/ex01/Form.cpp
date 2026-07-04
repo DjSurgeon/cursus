@@ -98,7 +98,10 @@ std::ostream& operator<<(std::ostream& output, const Form& form)
 {
 	output << form.getName() << " has sign grade: " << form.getSignGrade()
 	<< " and has execute grade: " << form.getExecuteGrade()
-	<< " and signed state is : " << form.getIsSigned()
-	<< std::endl;
+	<< " and signed state is : " ; 
+	if (form.getIsSigned() == true)
+		output << "Signed" << std::endl;
+	else
+		output << "Not Signed" << std::endl;
 	return output;
 }
