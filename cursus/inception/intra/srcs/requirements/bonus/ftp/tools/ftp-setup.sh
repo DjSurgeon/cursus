@@ -21,8 +21,7 @@ if ! id "$FTP_USER" >/dev/null 2>&1; then
 
     # Add user to www-data group to share permissions with nginx/php if needed
     # Usually in alpine www-data is 82, or we just chown
-    chown -R "$FTP_USER":"$FTP_USER" /var/www/html
-    
+    # chown is removed because we map the user to 'nobody' in vsftpd.conf    
     echo "FTP user '$FTP_USER' created and permissions granted."
 fi
 
