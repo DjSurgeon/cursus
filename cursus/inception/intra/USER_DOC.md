@@ -2,6 +2,22 @@
 
 Welcome to the operations manual for the Inception infrastructure. This document provides a quick-reference guide for accessing and utilizing the deployed services without needing to dive into the source code.
 
+## 🚀 Start and Stop the Stack
+
+To manage the lifecycle of the infrastructure, use the provided `Makefile` at the root of the project.
+
+- **Start the Core Infrastructure (Mandatory):**
+  Run `make up` to build and start the 3 core containers (NGINX, WordPress, MariaDB) in the background.
+
+- **Start the Full Infrastructure (Bonus):**
+  Run `make bonus` to build and start all 10 containers, including the observability stack, FTP, and caches.
+
+- **Stop the Infrastructure:**
+  Run `make down` to safely stop and remove the containers and networks. Your data (WordPress files and MariaDB databases) will remain intact on your host machine.
+
+- **Clean the Infrastructure:**
+  Run `make clean` to stop the containers and also delete the persistent data volumes on your host. Use this only if you want to start completely fresh.
+
 ## 🗺️ Endpoints Map (Where to Access What)
 
 Once the infrastructure is deployed (`make bonus`), you can interact with the various services via the following entry points.

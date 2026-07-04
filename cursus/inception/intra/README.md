@@ -120,3 +120,8 @@ The development of this project relied on official documentation and community s
 - NGINX Official Documentation: https://nginx.org/en/docs/
 - MariaDB Server Documentation: https://mariadb.com/kb/en/
 - Grafana Auto-Provisioning: https://grafana.com/docs/grafana/latest/administration/provisioning/
+
+### AI Usage Explanation
+*This project utilized Artificial Intelligence tools as follows:*
+- **Mandatory part:** AI was used to improve the stability of the setup scripts and attempt to optimize execution speed.
+- **Bonus part:** AI assisted with retrieving information and aided in the creation of the static website and the Grafana dashboard design.
