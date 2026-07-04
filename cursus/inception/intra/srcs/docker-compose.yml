@@ -46,6 +46,7 @@ services:
       context: ./requirements/nginx
       dockerfile: Dockerfile
     container_name: nginx
+    env_file: .env
     ports:
       - "443:443"
     volumes:
@@ -182,13 +183,13 @@ services:
 # Securely maps sensitive files from the host directly into container RAM (/run/secrets/).
 secrets:
   db_password:
-    file: ~/secrets/db_password.txt
+    file: ../secrets/db_password.txt
   db_root_password:
-    file: ~/secrets/db_root_password.txt
+    file: ../secrets/db_root_password.txt
   credentials:
-    file: ~/secrets/credentials.txt
+    file: ../secrets/credentials.txt
   mariadb_exporter_pwd:
-    file: ~/secrets/mariadb_exporter_pwd.txt
+    file: ../secrets/mariadb_exporter_pwd.txt
 
 # --- Named Volumes ---
 # Defines persistent storage using local bind mounts as required by the subject.
@@ -198,13 +199,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/serjimen/data/mariadb
+      device: /home/${LOGIN}/data/mariadb
   wp_data:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/serjimen/data/wordpress
+      device: /home/${LOGIN}/data/wordpress
 
 # --- Custom Bridge Network ---
 # Isolates all containers in a private virtual network for secure internal communication.
