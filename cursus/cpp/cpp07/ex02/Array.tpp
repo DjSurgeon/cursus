@@ -2,7 +2,7 @@
 #define ARRAY_TPP
 
 template <typename T>
-Array<T>::Array() : _elements(NULL), _size(0) {
+Array<T>::Array() : _elements(NULL), _size(0){
 }
 
 template <typename T>
