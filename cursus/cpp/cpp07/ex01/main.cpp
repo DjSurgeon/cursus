@@ -2,19 +2,22 @@
 #include <string>
 #include "iter.hpp"
 
-// Función normal para array mutable
-void increment(int& n) {
+// normal function for mutable array
+void increment(int& n)
+{
     n++;
 }
 
-// Plantilla de función para el subject ("instantiated function template")
+// function template for the subject ("instantiated function template")
 template <typename T>
-void printElement(const T& element) {
+void printElement(const T& element)
+{
     std::cout << element << " ";
 }
 
-int main(void) {
-    // Prueba 1: Array mutable de enteros
+int main(void)
+{
+    // Test 1: mutable array of integers
     int intArray[] = {1, 2, 3, 4, 5};
     size_t intLen = sizeof(intArray) / sizeof(intArray[0]);
 
@@ -28,7 +31,7 @@ int main(void) {
     ::iter(intArray, intLen, printElement<int>);
     std::cout << std::endl;
 
-    // Prueba 2: Array inmutable de strings (Demostrando Const Correctness)
+    // Test 2: immutable array of strings (Demonstrating Const Correctness)
     const std::string stringArray[] = {"Hello", "42", "World"};
     size_t stringLen = sizeof(stringArray) / sizeof(stringArray[0]);
 
