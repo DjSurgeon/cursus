@@ -13,7 +13,7 @@
 #include "easyfind.hpp"
 #include <algorithm>
 
-inline const char* NotFoundException::what() const throw() 
+const char* NotFoundException::what() const throw() 
 {
     return "Element not found in container";
 }
