@@ -24,12 +24,18 @@ const char* PmergeMe::ErrorException::what() const throw() {
 
 void PmergeMe::_printSequence(const std::string& prefix, const std::vector<int>& seq) const {
     std::cout << prefix;
-    for (size_t i = 0; i < seq.size(); ++i) {
-        if (i == 4 && seq.size() > 5) {
+    int count = 0;
+    std::vector<int>::const_iterator it;
+    for (it = seq.begin(); it != seq.end(); ++it) {
+        if (count > 0) std::cout << " ";
+
+        if (count == 7 && seq.size() > 7) {
             std::cout << "[...]";
             break;
         }
-        std::cout << seq[i] << (i < seq.size() - 1 ? " " : "");
+
+        std::cout << *it;
+        count++;
     }
     std::cout << std::endl;
 }
@@ -61,7 +67,8 @@ void PmergeMe::_sortVector(std::vector<int>& arr) {
     }
 
     std::vector< std::pair<int, int> > pairs;
-    for (std::vector<int>::iterator it = arr.begin(); it != arr.end(); it += 2) {
+    std::vector<int>::iterator it;
+    for (it = arr.begin(); it != arr.end(); it += 2) {
         int first = *it;
         int second = *(it + 1);
         if (first < second) {
@@ -71,21 +78,21 @@ void PmergeMe::_sortVector(std::vector<int>& arr) {
     }
 
     std::vector<int> mainChain;
-    std::vector<int> pend;
-    
-    for (size_t i = 1; i < pairs.size(); ++i) {
-        std::pair<int, int> temp = pairs[i];
-        int j = i - 1;
-        while (j >= 0 && pairs[j].first > temp.first) {
-            pairs[j + 1] = pairs[j];
-            j--;
-        }
-        pairs[j + 1] = temp;
-    }
-
     for (size_t i = 0; i < pairs.size(); ++i) {
         mainChain.push_back(pairs[i].first);
-        pend.push_back(pairs[i].second);
+    }
+
+    _sortVector(mainChain);
+
+    std::vector<int> pend;
+    for (size_t i = 0; i < mainChain.size(); ++i) {
+        for (std::vector< std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); ++it) {
+            if (it->first == mainChain[i]) {
+                pend.push_back(it->second);
+                pairs.erase(it);
+                break;
+            }
+        }
     }
 
     if (!pend.empty()) {
@@ -141,21 +148,21 @@ void PmergeMe::_sortDeque(std::deque<int>& arr) {
     }
 
     std::deque<int> mainChain;
-    std::deque<int> pend;
-
-    for (size_t i = 1; i < pairs.size(); ++i) {
-        std::pair<int, int> temp = pairs[i];
-        int j = i - 1;
-        while (j >= 0 && pairs[j].first > temp.first) {
-            pairs[j + 1] = pairs[j];
-            j--;
-        }
-        pairs[j + 1] = temp;
-    }
-
     for (size_t i = 0; i < pairs.size(); ++i) {
         mainChain.push_back(pairs[i].first);
-        pend.push_back(pairs[i].second);
+    }
+
+    _sortDeque(mainChain);
+
+    std::deque<int> pend;
+    for (size_t i = 0; i < mainChain.size(); ++i) {
+        for (std::deque< std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); ++it) {
+            if (it->first == mainChain[i]) {
+                pend.push_back(it->second);
+                pairs.erase(it);
+                break;
+            }
+        }
     }
 
     if (!pend.empty()) {
@@ -200,8 +207,15 @@ void PmergeMe::sort(int argc, char** argv) {
         long long val = std::atol(arg.c_str());
         if (val < 0 || val > 2147483647) throw ErrorException();
 
-        _vec.push_back(static_cast<int>(val));
-        _deq.push_back(static_cast<int>(val));
+        int final_val = static_cast<int>(val);
+
+        // Verificación estricta de duplicados
+        if (std::find(_vec.begin(), _vec.end(), final_val) != _vec.end()) {
+            throw ErrorException();
+        }
+
+        _vec.push_back(final_val);
+        _deq.push_back(final_val);
     }
 
     _printSequence("Before: ", _vec);
