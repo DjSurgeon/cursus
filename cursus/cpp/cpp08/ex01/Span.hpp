@@ -13,50 +13,46 @@
 #ifndef SPAN_HPP
 #define SPAN_HPP
 
-#include <vector>
 #include <exception>
 #include <iterator>
+#include <vector>
 
-class Span
-{
-    private:
-        unsigned int        _N;
-        std::vector<int>    _vec;
+class Span {
+ private:
+  unsigned int _N;
+  std::vector<int> _vec;
 
-    public:
-        // Canonical Orthodox Form
-        Span(); // Default constructor
-        Span(unsigned int N);
-        Span(const Span& other);
-        Span& operator=(const Span& other);
-        ~Span();
+ public:
+  // Canonical Orthodox Form
+  Span();
+  Span(unsigned int N);
+  Span(const Span& other);
+  Span& operator=(const Span& other);
+  ~Span();
 
-        // Methods
-        void    addNumber(int n);
-        int     shortestSpan() const;
-        int     longestSpan() const;
+  // Methods
+  void addNumber(int n);
+  int shortestSpan() const;
+  int longestSpan() const;
 
-        // Add Number by Range (Template)
-        template <typename Iterator>
-        void    addNumber(Iterator begin, Iterator end)
-        {
-            if (std::distance(begin, end) > static_cast<long>(_N - _vec.size()))
-                throw ContainerFullException();
-            _vec.insert(_vec.end(), begin, end);
-        }
+  // Add Number by Range (Template)
+  template <typename Iterator>
+  void addNumber(Iterator begin, Iterator end) {
+    if (std::distance(begin, end) > static_cast<long>(_N - _vec.size()))
+      throw ContainerFullException();
+    _vec.insert(_vec.end(), begin, end);
+  }
 
-        // Exceptions
-        class ContainerFullException : public std::exception
-        {
-            public:
-                virtual const char* what() const throw();
-        };
+  // Exceptions
+  class ContainerFullException : public std::exception {
+   public:
+    virtual const char* what() const throw();
+  };
 
-        class NotEnoughElementsException : public std::exception
-        {
-            public:
-                virtual const char* what() const throw();
-        };
+  class NotEnoughElementsException : public std::exception {
+   public:
+    virtual const char* what() const throw();
+  };
 };
 
 #endif

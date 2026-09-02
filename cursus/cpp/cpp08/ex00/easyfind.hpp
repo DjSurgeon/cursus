@@ -15,10 +15,9 @@
 
 #include <exception>
 
-class NotFoundException : public std::exception
-{
-    public:
-        virtual const char* what() const throw();
+class NotFoundException : public std::exception {
+ public:
+  virtual const char* what() const throw();
 };
 
 template <typename T>
