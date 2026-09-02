@@ -85,9 +85,11 @@ void PmergeMe::_sortVector(std::vector<int>& arr) {
     _sortVector(mainChain);
 
     std::vector<int> pend;
-    for (size_t i = 0; i < mainChain.size(); ++i) {
-        for (std::vector< std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); ++it) {
-            if (it->first == mainChain[i]) {
+    std::vector<int>::iterator mainIt;
+    for (mainIt = mainChain.begin(); mainIt != mainChain.end(); ++mainIt) {
+        std::vector< std::pair<int, int> >::iterator it;
+        for (it = pairs.begin(); it != pairs.end(); ++it) {
+            if (it->first == *mainIt) {
                 pend.push_back(it->second);
                 pairs.erase(it);
                 break;
@@ -102,8 +104,11 @@ void PmergeMe::_sortVector(std::vector<int>& arr) {
     std::vector<int> jacobSeq = _generateJacobsthal(pend.size());
     int last_inserted_idx = 1;
 
-    for (size_t i = 1; i < jacobSeq.size(); ++i) {
-        int current_jacob = jacobSeq[i];
+    std::vector<int>::iterator jacobIt = jacobSeq.begin();
+    if (jacobIt != jacobSeq.end()) ++jacobIt;
+
+    for (; jacobIt != jacobSeq.end(); ++jacobIt) {
+        int current_jacob = *jacobIt;
         if (current_jacob > (int)pend.size()) {
             current_jacob = pend.size();
         }
@@ -155,9 +160,10 @@ void PmergeMe::_sortDeque(std::deque<int>& arr) {
     _sortDeque(mainChain);
 
     std::deque<int> pend;
-    for (size_t i = 0; i < mainChain.size(); ++i) {
+    std::deque<int>::iterator mainIt;
+    for (mainIt = mainChain.begin(); mainIt != mainChain.end(); ++mainIt) {
         for (std::deque< std::pair<int, int> >::iterator it = pairs.begin(); it != pairs.end(); ++it) {
-            if (it->first == mainChain[i]) {
+            if (it->first == *mainIt) {
                 pend.push_back(it->second);
                 pairs.erase(it);
                 break;
@@ -172,8 +178,11 @@ void PmergeMe::_sortDeque(std::deque<int>& arr) {
     std::vector<int> jacobSeq = _generateJacobsthal(pend.size());
     int last_inserted_idx = 1;
 
-    for (size_t i = 1; i < jacobSeq.size(); ++i) {
-        int current_jacob = jacobSeq[i];
+    std::vector<int>::iterator jacobIt = jacobSeq.begin();
+    if (jacobIt != jacobSeq.end()) ++jacobIt;
+
+    for (; jacobIt != jacobSeq.end(); ++jacobIt) {
+        int current_jacob = *jacobIt;
         if (current_jacob > (int)pend.size()) {
             current_jacob = pend.size();
         }
@@ -209,7 +218,6 @@ void PmergeMe::sort(int argc, char** argv) {
 
         int final_val = static_cast<int>(val);
 
-        // Verificación estricta de duplicados
         if (std::find(_vec.begin(), _vec.end(), final_val) != _vec.end()) {
             throw ErrorException();
         }
